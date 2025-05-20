@@ -9,3 +9,7 @@ from django.shortcuts import render
 
 def navbar(request):
     return render(request, 'navbar.html',{})
+
+
+def admin_dashboard(request):
+    return render(request, 'admin_dashboard.html',{})
