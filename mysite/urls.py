@@ -18,13 +18,14 @@ from django.contrib import admin
 from django.urls import path
 
 from personal.views import (
-    home_screen_view, navbar, admin_dashboard,
+    home_screen_view, navbar, admin_dashboard, adminbase,
 )
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_screen_view),
-    path('', navbar),
+    path('navbar/', navbar),
     path('admin_dashboard/', admin_dashboard),
-    
+    path('adminbase/', adminbase),
+
 ]
