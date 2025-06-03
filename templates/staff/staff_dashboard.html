@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{% static 'mysite/css/style.css' %}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.css">
+    {% include 'manager/navbar.html' %}
 
     <style>
         
@@ -235,7 +236,7 @@ background-color: #3c80e7; /* Hover effect with red background */
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/logout" style="color: red; padding-right: 20px; font-weight: bold; transition: all 0.3s ease;">
+                    <a class="nav-link" href="/manager/logout" style="color: red; padding-right: 20px; font-weight: bold; transition: all 0.3s ease;">
                         Logout &nbsp; <i class="fas fa-power-off"></i>
                     </a>
                 </li>

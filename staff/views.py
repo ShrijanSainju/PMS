@@ -8,14 +8,6 @@ from .forms import StaffRegisterForm
 from django.contrib.auth.views import LoginView
 
 
-class StaffLoginView(LoginView):
-    template_name = 'staff_login.html'  # Create this template
-
-
-
-def staff_logout_view(request):
-    logout(request)
-    return redirect('staff_login')
 
 
 def staff_login_view(request):
@@ -47,7 +39,7 @@ def staff_dashboard(request):
 
 def staff_logout_view(request):
     logout(request)
-    return redirect('staff_login')
+    return redirect('/staff/login')
 
 def staff_register_view(request):
     if request.method == 'POST':

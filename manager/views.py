@@ -20,7 +20,7 @@ def admin_login_view(request):
         if user is not None:
             if user.is_staff:
                 login(request, user)
-                return redirect('admin_dashboard')
+                return redirect('adminbase')
             else:
                 messages.error(request, 'Access denied. You are not a staff member.')
         else:
@@ -36,10 +36,10 @@ def is_admin_user(user):
 @login_required
 @user_passes_test(is_admin_user)
 def admin_dashboard(request):
-    return render(request, 'manager/admin_dashboard.html')
-
+    return render(request, 'manager/adminbase.html')
 
 def admin_logout_view(request):
-    logout(request)
-    return redirect('login')
+    return render(request, 'manager/logout.html')
+
+
 

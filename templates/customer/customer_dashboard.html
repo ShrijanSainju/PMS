@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ADMIN</title>
-
+    <title>Staff</title>
     <link rel="stylesheet" href="{% static 'mysite/css/style.css' %}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.css">
+    {% include 'manager/navbar.html' %}
 
     <style>
         
@@ -26,7 +26,7 @@ background-color: #f9f9f9;
 }
 
 .bg-danger {
-background-color: #151872 !important; 
+background-color: #151872 !important; /* Blood Red */
 }
 
 .wrapper {
@@ -37,7 +37,7 @@ position: relative;
 .wrapper .sidebar {
 width: 220px;
 height: 70%;   
-background: rgb(85, 125, 235); 
+background: rgb(85, 125, 235); /* Darker Red with 80% opacity */
 padding: 100px 0px;
 position: fixed;
 border-radius: 10 px;
@@ -68,7 +68,7 @@ width: 25px;
 }
 
 .wrapper .sidebar ul li:hover {
-background-color: rgb(85, 98, 246); /* Light blue */
+background-color: rgb(85, 98, 246); /* Light Red */
 }
 
 .wrapper .sidebar ul li:hover a {
@@ -101,6 +101,7 @@ margin-bottom: 20px;
 }
 
 /* Updated navbar styling */
+
 .navbar {
 background-color: white !important;
 }
@@ -167,7 +168,10 @@ border: none;
 background-color: #1d1753;
 }
 
-
+/* Blood drop icon red */
+.fa-tint {
+color: #1d1753 !important; /* Red color for the blood drop icon */
+}
 
 /* Social media links at the bottom */
 .wrapper .sidebar .social_media {
@@ -192,7 +196,7 @@ transition: all 0.3s ease-in-out;
 }
 
 .wrapper .sidebar .social_media a:hover {
-background-color: #1a0454; /* Darker blue on hover */
+background-color: #1a0454; /* Darker Red on hover */
 color: white;
 }
 
@@ -202,10 +206,10 @@ font-size: 2ex;
 }
 
 /* Make the "Blood Stock" link white */
-.wrapper .sidebar ul li a[href='/admin-blood'] {
+.wrapper .sidebar ul li a[href=''] {
 color: white !important;
 }
-.wrapper .sidebar ul li a[href='/admin-blood']:hover {
+.wrapper .sidebar ul li a[href='']:hover {
 background-color: #3c80e7; /* Hover effect with red background */
 }
 
@@ -215,21 +219,17 @@ background-color: #3c80e7; /* Hover effect with red background */
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+
+
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
         <a href="/" class="navbar-brand">
-            <img src="{% static 'images/logo.jpg' %}" alt="Logo" style="height: 30px;"> <!-- Logo Image -->
+            <img src="{% static 'images/logo.jpg' %}" alt=" Logo"> <!-- Logo Image -->
             PMS
-        </a>
+          </a>
     
-        <!-- Toggler button for mobile -->
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent"
-            aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    
-        <!-- Collapsible content -->
-        <div class="collapse navbar-collapse" id="navbarContent">
-            <ul class="navbar-nav ml-auto d-flex align-items-center">
+        <!-- Navbar links aligned to the right, always visible -->
+        <div class="ml-auto">
+            <ul class="navbar-nav d-flex flex-row align-items-center">
                 <li class="nav-item">
                     <a class="nav-link" href="/" style="color: black; font-weight: bold;">
                         <i class="fas fa-home"></i> Home
@@ -240,10 +240,11 @@ background-color: #3c80e7; /* Hover effect with red background */
                         Logout &nbsp; <i class="fas fa-power-off"></i>
                     </a>
                 </li>
+               
             </ul>
         </div>
+        
     </nav>
-    
     
     <!-- Additional CSS -->
     <style>
@@ -268,20 +269,20 @@ background-color: #3c80e7; /* Hover effect with red background */
         <div class="main_content">
             {% block content %}
             <div class="container">
-                <h2 class="text-primary mt-4">Welcome to the Admin Dashboard</h2>
+                <h2 class="text-primary mt-4">Welcome to the user Dashboard</h2>
                 <p class="text-muted">
-                    This is the admin dashboard.
+                    This is the user dashboard.
                 </p>
         </div>
             {% endblock content %}
         </div>
     </div>
-
+   
     <!-- Optional JavaScript -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    
+
   
 </body>
 

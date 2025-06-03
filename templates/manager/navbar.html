@@ -1,5 +1,5 @@
-
-  <!-- Navbar -->{% load static %}
+<!-- Navbar -->
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,9 +10,6 @@
   <!-- Link to Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.css">
-
-  
-  
 </head>
 
 <body>
@@ -25,54 +22,49 @@
 
     <!-- Hamburger icon for smaller screens -->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="custom-toggler-icon"></span>
-  </button>
-  
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="custom-toggler-icon"></span>
+    </button>
 
-    <!-- Navbar links (hidden on smaller screens) -->
+    <!-- Navbar links -->
     <div class="collapse navbar-collapse" id="navbarNav">
-      <!-- Home, Login, and Register together on the right -->
       <ul class="navbar-nav ml-auto">
-        <!-- Home button -->
+        <!-- Home -->
         <li class="nav-item">
           <a class="nav-link" href="/"><i class="fas fa-home"></i>&nbsp; Home</a>
         </li>
 
-        <!-- Login dropdown -->
+        <!-- Login Dropdown -->
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+             aria-haspopup="true" aria-expanded="false">
             <i class="fas fa-chevron-right"></i>&nbsp; Login
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="manager/login"><i class="fas fa-user-shield"></i>&nbsp; Admin </a>
-            <a class="dropdown-item" href="staff/login"><i class="fas fa-user"></i>&nbsp; Staff</a>
-            <a class="dropdown-item" href=" "><i class="fas fa-user-shield"></i>&nbsp; user3</a>
+            <a class="dropdown-item" href="/manager/login/"><i class="fas fa-user-shield"></i>&nbsp; Admin</a>
+            <a class="dropdown-item" href="/staff/login/"><i class="fas fa-user"></i>&nbsp; Staff</a>
+            <a class="dropdown-item" href="/customer/login/"><i class="fas fa-car-side"></i>&nbsp; Customer</a>
           </div>
         </li>
 
-        <!-- Register button -->
+        <!-- Register Dropdown -->
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="registerDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" href="#" id="registerDropdown" role="button" data-toggle="dropdown"
+             aria-haspopup="true" aria-expanded="false">
             <i class="fas fa-user-plus"></i>&nbsp; Register
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="registerDropdown">
-            <a class="dropdown-item" href="staff/register"><i class="fas fa-user"></i>&nbsp; Staff</a>
-            <a class="dropdown-item" href=" "><i class="fas fa-procedures"></i>&nbsp; user2</a>
+            <a class="dropdown-item" href="/staff/register/"><i class="fas fa-user"></i>&nbsp; Staff</a>
+            <a class="dropdown-item" href="/customer/register/"><i class="fas fa-car-side"></i>&nbsp; Customer</a>
           </div>
         </li>
       </ul>
     </div>
   </nav>
 
-
-  <!-- Bootstrap JS Scripts (necessary for dropdown to function) -->
+  <!-- Bootstrap JS -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
-  
-
-   
 </body>
 </html>

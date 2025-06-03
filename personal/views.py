@@ -1,5 +1,5 @@
 
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login,logout
 from django.shortcuts import render, redirect
 from django.contrib import messages
 
@@ -50,10 +50,25 @@ def admin_login_view(request):
 
 def login_redirect_view(request):
     if request.user.is_superuser:
-        return redirect('/admin_dashboard/')
+        return redirect('/adminbase/')
     elif request.user.groups.filter(name='Staff').exists():
         return redirect('/staff/dashboard/')
     elif request.user.groups.filter(name='Security').exists():
         return redirect('/security/dashboard/')
     else:
         return redirect('/home/')
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+def admin_logout_view(request):
+    logout(request)
+    return redirect('manager/logout')
+

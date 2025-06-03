@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path,include
 
 from personal.views import (
-    home_screen_view, navbar, admin_dashboard, adminbase,
+    home_screen_view, navbar, admin_dashboard, adminbase, admin_logout_view
 )
 
 urlpatterns = [
@@ -29,5 +29,8 @@ urlpatterns = [
     path('adminbase/', adminbase),
     path('staff/', include('staff.urls')),
     path('manager/', include('manager.urls')),
+    path('logout/',admin_logout_view, name='logout'),
+    path('customer/', include('customer.urls')),
+
 
 ]
