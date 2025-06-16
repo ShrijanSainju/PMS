@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Parking Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f9f9f9;
+            text-align: center;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+            margin: 30px;
+        }
+        .slot {
+            padding: 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+        }
+        .occupied {
+            background-color: #d9534f;
+        }
+        .vacant {
+            background-color: #5cb85c;
+        }
+        .video-container {
+            margin: 30px auto;
+            max-width: 800px;
+        }
+        video, img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+        .small-video {
+            width: 320px;
+            height: auto; /* keeps aspect ratio */
+            border: 1px solid #333;
+            border-radius: 5px;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Live Parking Slot Status</h1>
+
+
+
+
+
+
+
+
+
+<div class="grid">
+    {% for slot in slots %}
+        <div class="slot {% if slot.is_occupied %}occupied{% else %}vacant{% endif %}">
+            {{ slot.slot_id }}<br>
+            {% if slot.is_occupied %}Occupied{% else %}Vacant{% endif %}
+        </div>
+    {% endfor %}
+</div>
+
+<div class="video-container">
+    <h3>Live Camera Feed</h3>
+    <button onclick="toggleFeed()">Show Feed</button>
+    <div id="videoArea" style="display:none; margin-top: 20px;">
+<img id="liveFeed" src="{% url 'video_feed' %}" class="small-video" />
+    </div>
+</div>
+
+<script>
+    function toggleFeed() {
+        const videoArea = document.getElementById('videoArea');
+        const button = document.querySelector('button');
+        if (videoArea.style.display === 'none') {
+            videoArea.style.display = 'block';
+            button.innerText = 'Hide Feed';
+        } else {
+            videoArea.style.display = 'none';
+            button.innerText = 'Show Feed';
+        }
+    }
+</script>
+
+
+
+
+
+
+
+
+<h1>Parking Slot Dashboard</h1>
+
+
+    <div class="grid" id="slotGrid"></div>
+
+    <script>
+        function fetchSlots() {
+            fetch('/api/slot-status/')
+                .then(response => response.json())
+                .then(data => {
+                    const grid = document.getElementById('slotGrid');
+                    grid.innerHTML = '';
+
+                    data.forEach(slot => {
+                        const div = document.createElement('div');
+                        div.classList.add('slot');
+                        div.classList.add(slot.is_occupied ? 'occupied' : 'vacant');
+                        div.innerText = `${slot.slot_id}\n${slot.is_occupied ? 'Occupied' : 'Vacant'}`;
+                        grid.appendChild(div);
+                    });
+                });
+        }
+
+        fetchSlots();
+        setInterval(fetchSlots, 3000);
+    </script>
+</body>
+</html>
