@@ -1,0 +1,13 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# SQLite database
+db.sqlite3
+
+# # VS Code settings (optional)
+# .vscode/
+
+# # Environment files (optional)
+# .env
+# *.env
