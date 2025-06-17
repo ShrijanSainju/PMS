@@ -266,8 +266,17 @@ def update_slot(request):
         return Response({"error": "Missing data"}, status=400)
 
     slot, created = ParkingSlot.objects.get_or_create(slot_id=slot_id)
+
+    # Ignore sensor vacancy if a slot is reserved (car might be on its way)
+    if slot.is_reserved and not is_occupied:
+        return Response({"message": f"Slot {slot_id} is reserved; ignoring vacancy signal."})
+
+    # Otherwise, update and clear reservation if car has arrived
     slot.is_occupied = is_occupied
+    if is_occupied:
+        slot.is_reserved = False
     slot.save()
+
     return Response({"message": f"Updated slot {slot_id} to {'Occupied' if is_occupied else 'Vacant'}"})
 
 class ParkingSlotViewSet(viewsets.ModelViewSet):
@@ -283,6 +292,7 @@ def slot_status_api(request):
         {
             'slot_id': slot.slot_id,
             'is_occupied': slot.is_occupied,
+            'is_reserved': slot.is_reserved,
             'timestamp': slot.timestamp,
         }
         for slot in slots
@@ -339,7 +349,7 @@ def video_feed(request):
 
 
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from .models import ParkingSlot, ParkingSession
 from .forms import VehicleEntryForm
 
@@ -349,22 +359,23 @@ def assign_slot(request):
         if form.is_valid():
             vehicle_number = form.cleaned_data['vehicle_number']
 
-            # Find first available slot
-            available_slot = ParkingSlot.objects.filter(is_occupied=False).order_by('slot_id').first()
+            # Find first slot that is not reserved and not occupied
+            available_slot = ParkingSlot.objects.filter(is_reserved=False, is_occupied=False).order_by('slot_id').first()
             if not available_slot:
                 return render(request, 'staff/assign_slot.html', {
                     'form': form,
                     'error': "No available slots at the moment."
                 })
 
-            # Create parking session
+            # Create session with 'pending' status
             session = ParkingSession.objects.create(
                 vehicle_number=vehicle_number,
-                slot=available_slot
+                slot=available_slot,
+                status='pending'
             )
 
-            # Mark slot as occupied
-            available_slot.is_occupied = True
+            # Reserve the slot (do not mark occupied yet)
+            available_slot.is_reserved = True
             available_slot.save()
 
             return render(request, 'staff/success.html', {'session': session})
