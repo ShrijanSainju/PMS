@@ -1,0 +1,5 @@
+<h2>Parking Slot Assigned Successfully</h2>
+<p>Vehicle: {{ session.vehicle_number }}</p>
+<p>Slot: {{ session.slot.slot_id }}</p>
+<p>Time: {{ session.start_time }}</p>
+<a href="{% url 'assign-slot' %}">Assign Another</a>

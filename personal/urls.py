@@ -3,6 +3,8 @@ from rest_framework.routers import DefaultRouter
 from .views import ParkingSlotViewSet, update_slot
 from . import views
 
+from .views import assign_slot
+
 router = DefaultRouter()
 router.register(r'slots', ParkingSlotViewSet)
 
@@ -13,5 +15,7 @@ urlpatterns = [
     path('api/slot-status/', views.slot_status_api, name='slot_status_api'),
     path('video-feed/', views.video_feed, name='video_feed'),
     path('video-feed/', views.video_feed, name='video_feed'),
+
+    path('staff/assign/', assign_slot, name='assign-slot'),
 
 ]

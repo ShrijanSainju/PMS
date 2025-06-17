@@ -336,3 +336,40 @@ def gen_frames():
 
 def video_feed(request):
     return StreamingHttpResponse(gen_frames(), content_type='multipart/x-mixed-replace; boundary=frame')
+
+
+
+from django.shortcuts import render, redirect
+from .models import ParkingSlot, ParkingSession
+from .forms import VehicleEntryForm
+
+def assign_slot(request):
+    if request.method == 'POST':
+        form = VehicleEntryForm(request.POST)
+        if form.is_valid():
+            vehicle_number = form.cleaned_data['vehicle_number']
+
+            # Find first available slot
+            available_slot = ParkingSlot.objects.filter(is_occupied=False).order_by('slot_id').first()
+            if not available_slot:
+                return render(request, 'staff/assign_slot.html', {
+                    'form': form,
+                    'error': "No available slots at the moment."
+                })
+
+            # Create parking session
+            session = ParkingSession.objects.create(
+                vehicle_number=vehicle_number,
+                slot=available_slot
+            )
+
+            # Mark slot as occupied
+            available_slot.is_occupied = True
+            available_slot.save()
+
+            return render(request, 'staff/success.html', {'session': session})
+
+    else:
+        form = VehicleEntryForm()
+    
+    return render(request, 'staff/assign_slot.html', {'form': form})
