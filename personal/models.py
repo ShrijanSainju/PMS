@@ -16,6 +16,9 @@ from django.utils.timezone import now
 from django.db import models
 import uuid
 
+from django.utils.timezone import now
+from django.db import models
+
 class ParkingSession(models.Model):
     SESSION_STATUS = [
         ('pending', 'Pending'),
@@ -24,11 +27,10 @@ class ParkingSession(models.Model):
         ('cancelled', 'Cancelled'),
     ]
 
-
-    session_id = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
+    session_id = models.CharField(max_length=30, unique=True, blank=True, null=True, editable=False)
 
     vehicle_number = models.CharField(max_length=20)
-    slot = models.ForeignKey(ParkingSlot, on_delete=models.CASCADE)
+    slot = models.ForeignKey('ParkingSlot', on_delete=models.CASCADE)
 
     start_time = models.DateTimeField(null=True, blank=True)
     end_time = models.DateTimeField(null=True, blank=True)
@@ -42,8 +44,12 @@ class ParkingSession(models.Model):
     def save(self, *args, **kwargs):
         if not self.session_id:
             prefix = "SESS"
-            count = ParkingSession.objects.count() + 1
-            self.session_id = f"{prefix}-{now().strftime('%Y%m%d')}-{count:04d}"
+            date_str = now().strftime('%Y%m%d')
+            # Get the count of sessions created today to generate unique number suffix
+            today_count = ParkingSession.objects.filter(
+                session_id__startswith=f"{prefix}-{date_str}"
+            ).count() + 1
+            self.session_id = f"{prefix}-{date_str}-{today_count:04d}"
         super().save(*args, **kwargs)
 
     def calculate_fee(self):
@@ -51,5 +57,4 @@ class ParkingSession(models.Model):
         duration = end_time - self.start_time
         self.duration = duration
         minutes = int(duration.total_seconds() // 60)
-        return minutes * 2  # Assuming Rs. 2 per minute
-
+        return minutes * 2  # Rs. 2 per minute

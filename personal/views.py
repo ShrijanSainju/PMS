@@ -402,11 +402,25 @@ from django.shortcuts import render
 from .models import ParkingSlot, ParkingSession
 from .forms import VehicleEntryForm
 
+from django.utils import timezone
+
 def assign_slot(request):
     if request.method == 'POST':
         form = VehicleEntryForm(request.POST)
         if form.is_valid():
             vehicle_number = form.cleaned_data['vehicle_number']
+
+            # Check if vehicle already has a pending or active session
+            existing_session = ParkingSession.objects.filter(
+                vehicle_number=vehicle_number,
+                status__in=['pending', 'active']
+            ).first()
+
+            if existing_session:
+                return render(request, 'staff/assign_slot.html', {
+                    'form': form,
+                    'error': f"Vehicle {vehicle_number} already has an ongoing session (Slot {existing_session.slot.slot_id})."
+                })
 
             # Find first slot that is not reserved and not occupied
             available_slot = ParkingSlot.objects.filter(is_reserved=False, is_occupied=False).order_by('slot_id').first()
@@ -433,6 +447,7 @@ def assign_slot(request):
         form = VehicleEntryForm()
     
     return render(request, 'staff/assign_slot.html', {'form': form})
+
 
 
 
