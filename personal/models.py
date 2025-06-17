@@ -12,6 +12,10 @@ class ParkingSlot(models.Model):
         return f"{self.slot_id} - {status}"
 
 
+from django.utils.timezone import now
+from django.db import models
+import uuid
+
 class ParkingSession(models.Model):
     SESSION_STATUS = [
         ('pending', 'Pending'),
@@ -20,19 +24,32 @@ class ParkingSession(models.Model):
         ('cancelled', 'Cancelled'),
     ]
 
+
+    session_id = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
+
     vehicle_number = models.CharField(max_length=20)
     slot = models.ForeignKey(ParkingSlot, on_delete=models.CASCADE)
-    start_time = models.DateTimeField(auto_now_add=True)
+
+    start_time = models.DateTimeField(null=True, blank=True)
     end_time = models.DateTimeField(null=True, blank=True)
     status = models.CharField(max_length=10, choices=SESSION_STATUS, default='pending')
     fee = models.FloatField(null=True, blank=True)
+    duration = models.DurationField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.vehicle_number} - {self.slot.slot_id} ({self.status})"
 
+    def save(self, *args, **kwargs):
+        if not self.session_id:
+            prefix = "SESS"
+            count = ParkingSession.objects.count() + 1
+            self.session_id = f"{prefix}-{now().strftime('%Y%m%d')}-{count:04d}"
+        super().save(*args, **kwargs)
+
     def calculate_fee(self):
-        if self.end_time and self.start_time:
-            duration_hours = (self.end_time - self.start_time).total_seconds() / 3600
-            rate_per_hour = 20  # You can customize this rate
-            return round(duration_hours * rate_per_hour, 2)
-        return 0
+        end_time = self.end_time or now()
+        duration = end_time - self.start_time
+        self.duration = duration
+        minutes = int(duration.total_seconds() // 60)
+        return minutes * 2  # Assuming Rs. 2 per minute
+

@@ -257,6 +257,42 @@ def login_redirect_view(request):
 
 # --- API and Dashboard Views ---
 
+# @api_view(['POST'])
+# def update_slot(request):
+#     slot_id = request.data.get('slot_id')
+#     is_occupied = request.data.get('is_occupied')
+
+#     if slot_id is None or is_occupied is None:
+#         return Response({"error": "Missing data"}, status=400)
+
+#     # Convert to boolean in case it's sent as string
+#     is_occupied = str(is_occupied).lower() in ['true', '1']
+
+#     slot, created = ParkingSlot.objects.get_or_create(slot_id=slot_id)
+
+#     if slot.is_reserved and not is_occupied:
+#         return Response({"message": f"Slot {slot_id} is reserved; ignoring vacancy signal."})
+
+#     # Activate session if car has arrived and slot was reserved
+#     if slot.is_reserved and is_occupied:
+#         session = ParkingSession.objects.filter(slot=slot, status='pending').last()
+#         if session:
+#             session.status = 'active'
+#             session.save()
+#         slot.is_reserved = False  # Clear reservation
+
+#     # Update occupancy
+#     slot.is_occupied = is_occupied
+#     slot.save()
+
+#     return Response({"message": f"Updated slot {slot_id} to {'Occupied' if is_occupied else 'Vacant'}"})
+
+
+from django.utils import timezone
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .models import ParkingSlot, ParkingSession
+
 @api_view(['POST'])
 def update_slot(request):
     slot_id = request.data.get('slot_id')
@@ -278,6 +314,8 @@ def update_slot(request):
         session = ParkingSession.objects.filter(slot=slot, status='pending').last()
         if session:
             session.status = 'active'
+            if session.start_time is None:
+                session.start_time = timezone.now()
             session.save()
         slot.is_reserved = False  # Clear reservation
 
@@ -286,6 +324,9 @@ def update_slot(request):
     slot.save()
 
     return Response({"message": f"Updated slot {slot_id} to {'Occupied' if is_occupied else 'Vacant'}"})
+
+
+
 
 class ParkingSlotViewSet(viewsets.ModelViewSet):
     queryset = ParkingSlot.objects.all()
@@ -424,7 +465,7 @@ def history_log(request):
 
 
 from django.utils.timezone import now
-from datetime import timedelta
+from django.db.models import Case, When, Value, IntegerField
 
 def lookup_session(request):
     session = None
@@ -436,10 +477,24 @@ def lookup_session(request):
         form = LookupForm(request.POST)
         if form.is_valid():
             vehicle_number = form.cleaned_data['vehicle_number']
-            session = ParkingSession.objects.filter(vehicle_number=vehicle_number).order_by('-start_time').first()
 
-            if session:
-                # Calculate live duration and price only if session is not completed/cancelled
+            session = (
+                ParkingSession.objects
+                .filter(vehicle_number=vehicle_number)
+                .annotate(
+                    status_priority=Case(
+                        When(status='active', then=Value(1)),
+                        When(status='pending', then=Value(2)),
+                        When(status='completed', then=Value(3)),
+                        default=Value(4),
+                        output_field=IntegerField()
+                    )
+                )
+                .order_by('status_priority', '-start_time')
+                .first()
+            )
+
+            if session and session.start_time:
                 if session.status in ['pending', 'active']:
                     end = now()
                 else:
@@ -457,5 +512,40 @@ def lookup_session(request):
         'session': session,
         'elapsed_time': elapsed_time,
         'price': price,
+    })
+
+
+from django.shortcuts import render
+from django.utils import timezone
+from .models import ParkingSlot, ParkingSession
+
+def end_session_by_vehicle(request):
+    message = ''
+    selected_session = None
+    active_sessions = ParkingSession.objects.filter(status='active')
+
+    if request.method == 'POST':
+        vehicle_number = request.POST.get('vehicle_number')
+        session = active_sessions.filter(vehicle_number=vehicle_number).last()
+
+        if session:
+            now_time = timezone.now()  # Use a single consistent timestamp
+            session.end_time = now_time
+            session.status = 'completed'
+            session.fee = session.calculate_fee()
+            session.save()
+
+            # Update slot to vacant
+            session.slot.is_occupied = False
+            session.slot.save()
+
+            selected_session = session
+        else:
+            message = "No active session found for this vehicle."
+
+    return render(request, 'staff/end_session_by_vehicle.html', {
+        'active_sessions': active_sessions,
+        'selected_session': selected_session,
+        'message': message,
     })
 

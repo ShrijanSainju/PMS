@@ -21,6 +21,9 @@ urlpatterns = [
     path('staff/end/<str:slot_id>/', views.end_session, name='end-session'),
     path('history/', views.history_log, name='history-log'),
     path('customer/lookup/', views.lookup_session, name='lookup-session'),
+
+    path('staff/end-by-vehicle/', views.end_session_by_vehicle, name='end_session_by_vehicle'),
+
     
 
 ]
