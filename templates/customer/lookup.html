@@ -1,0 +1,23 @@
+<h2>Lookup Parking Session</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Search</button>
+</form>
+
+{% if session %}
+  <h3>Session Details</h3>
+  <p><strong>Slot:</strong> {{ session.slot.slot_id }}</p>
+  <p><strong>Status:</strong> {{ session.status }}</p>
+  <p><strong>Start Time:</strong> {{ session.start_time }}</p>
+
+  {% if session.status != 'completed' and session.status != 'cancelled' %}
+    <p><strong>Elapsed Time:</strong> {{ elapsed_time }}</p>
+    <p><strong>Live Price (NPR):</strong> {{ price }}</p>
+  {% else %}
+    <p><strong>End Time:</strong> {{ session.end_time }}</p>
+    <p><strong>Total Time:</strong> {{ elapsed_time }}</p>
+    <p><strong>Total Price (NPR):</strong> {{ price }}</p>
+  {% endif %}
+{% endif %}
+

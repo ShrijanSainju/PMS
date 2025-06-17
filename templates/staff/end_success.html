@@ -1,0 +1,11 @@
+<h2>Session Ended</h2>
+{% if session %}
+<p>Vehicle: {{ session.vehicle_number }}</p>
+<p>Slot: {{ session.slot.slot_id }}</p>
+<p>Start Time: {{ session.start_time }}</p>
+<p>End Time: {{ session.end_time }}</p>
+<p>Status: {{ session.status }}</p>
+<p>Total Fee: Rs. {{ session.fee }}</p>
+{% else %}
+<p style="color:red">{{ error }}</p>
+{% endif %}

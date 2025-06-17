@@ -1,0 +1,16 @@
+<h2>Parking Session History</h2>
+<table>
+    <tr>
+        <th>Vehicle</th><th>Slot</th><th>Status</th><th>Start</th><th>End</th><th>Fee</th>
+    </tr>
+    {% for s in sessions %}
+    <tr>
+        <td>{{ s.vehicle_number }}</td>
+        <td>{{ s.slot.slot_id }}</td>
+        <td>{{ s.status }}</td>
+        <td>{{ s.start_time }}</td>
+        <td>{{ s.end_time }}</td>
+        <td>Rs. {{ s.fee }}</td>
+    </tr>
+    {% endfor %}
+</table>

@@ -50,7 +50,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from personal.views import (
-    home_screen_view, navbar, admin_dashboard, adminbase, admin_logout_view, update_slot
+    home_screen_view, navbar, admin_dashboard, adminbase, admin_logout_view, update_slot, history_log
 )
 
 urlpatterns = [
@@ -67,4 +67,6 @@ urlpatterns = [
     path('api/update-slot/', update_slot, name='update-slot'),
     path('api/', include('personal.urls')),
     path('', include('personal.urls')),
+
+    path('history/', history_log, name='history-log'),
 ]

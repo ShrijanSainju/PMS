@@ -195,7 +195,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import viewsets
 
-from .models import ParkingSlot
+from .models import ParkingSlot, ParkingSession
 from .serializers import ParkingSlotSerializer
 import cv2
 import time
@@ -265,16 +265,24 @@ def update_slot(request):
     if slot_id is None or is_occupied is None:
         return Response({"error": "Missing data"}, status=400)
 
+    # Convert to boolean in case it's sent as string
+    is_occupied = str(is_occupied).lower() in ['true', '1']
+
     slot, created = ParkingSlot.objects.get_or_create(slot_id=slot_id)
 
-    # Ignore sensor vacancy if a slot is reserved (car might be on its way)
     if slot.is_reserved and not is_occupied:
         return Response({"message": f"Slot {slot_id} is reserved; ignoring vacancy signal."})
 
-    # Otherwise, update and clear reservation if car has arrived
+    # Activate session if car has arrived and slot was reserved
+    if slot.is_reserved and is_occupied:
+        session = ParkingSession.objects.filter(slot=slot, status='pending').last()
+        if session:
+            session.status = 'active'
+            session.save()
+        slot.is_reserved = False  # Clear reservation
+
+    # Update occupancy
     slot.is_occupied = is_occupied
-    if is_occupied:
-        slot.is_reserved = False
     slot.save()
 
     return Response({"message": f"Updated slot {slot_id} to {'Occupied' if is_occupied else 'Vacant'}"})
@@ -384,3 +392,70 @@ def assign_slot(request):
         form = VehicleEntryForm()
     
     return render(request, 'staff/assign_slot.html', {'form': form})
+
+
+
+from django.shortcuts import render, redirect, get_object_or_404
+from django.utils import timezone
+from .models import ParkingSlot, ParkingSession
+from .forms import VehicleEntryForm, LookupForm
+
+def end_session(request, slot_id):
+    slot = get_object_or_404(ParkingSlot, slot_id=slot_id)
+    session = ParkingSession.objects.filter(slot=slot, status='active').last()
+
+    if session:
+        session.end_time = timezone.now()
+        session.status = 'completed'
+        session.fee = session.calculate_fee()
+        session.save()
+
+        slot.is_occupied = False
+        slot.save()
+
+        return render(request, 'staff/end_success.html', {'session': session})
+    else:
+        return render(request, 'staff/end_success.html', {'error': 'No active session found.'})
+
+
+def history_log(request):
+    sessions = ParkingSession.objects.all().order_by('-start_time')
+    return render(request, 'admin/history.html', {'sessions': sessions})
+
+
+from django.utils.timezone import now
+from datetime import timedelta
+
+def lookup_session(request):
+    session = None
+    elapsed_time = None
+    price = None
+    price_per_minute = 2  # Change this to match your pricing logic
+
+    if request.method == 'POST':
+        form = LookupForm(request.POST)
+        if form.is_valid():
+            vehicle_number = form.cleaned_data['vehicle_number']
+            session = ParkingSession.objects.filter(vehicle_number=vehicle_number).order_by('-start_time').first()
+
+            if session:
+                # Calculate live duration and price only if session is not completed/cancelled
+                if session.status in ['pending', 'active']:
+                    end = now()
+                else:
+                    end = session.end_time or now()
+
+                elapsed = end - session.start_time
+                elapsed_minutes = int(elapsed.total_seconds() // 60)
+                elapsed_time = str(elapsed).split('.')[0]  # Format HH:MM:SS
+                price = elapsed_minutes * price_per_minute
+    else:
+        form = LookupForm()
+
+    return render(request, 'customer/lookup.html', {
+        'form': form,
+        'session': session,
+        'elapsed_time': elapsed_time,
+        'price': price,
+    })
+
