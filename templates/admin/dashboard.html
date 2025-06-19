@@ -21,10 +21,13 @@
             font-weight: bold;
         }
         .occupied {
-            background-color: #d9534f;
+            background-color: #d9534f; /* red */
         }
         .vacant {
-            background-color: #5cb85c;
+            background-color: #5cb85c; /* green */
+        }
+        .pending {
+            background-color: #f0ad4e; /* orange-yellow for reserved/pending */
         }
         .video-container {
             margin: 30px auto;
@@ -37,68 +40,38 @@
         }
         .small-video {
             width: 320px;
-            height: auto; /* keeps aspect ratio */
+            height: auto;
             border: 1px solid #333;
             border-radius: 5px;
         }
-
     </style>
 </head>
 <body>
     <h1>Live Parking Slot Status</h1>
 
-
-
-
-
-
-
-
-
-<div class="grid">
-    {% for slot in slots %}
-        <div class="slot {% if slot.is_occupied %}occupied{% else %}vacant{% endif %}">
-            {{ slot.slot_id }}<br>
-            {% if slot.is_occupied %}Occupied{% else %}Vacant{% endif %}
-        </div>
-    {% endfor %}
-</div>
-
-<div class="video-container">
-    <h3>Live Camera Feed</h3>
-    <button onclick="toggleFeed()">Show Feed</button>
-    <div id="videoArea" style="display:none; margin-top: 20px;">
-<img id="liveFeed" src="{% url 'video_feed' %}" class="small-video" />
-    </div>
-</div>
-
-<script>
-    function toggleFeed() {
-        const videoArea = document.getElementById('videoArea');
-        const button = document.querySelector('button');
-        if (videoArea.style.display === 'none') {
-            videoArea.style.display = 'block';
-            button.innerText = 'Hide Feed';
-        } else {
-            videoArea.style.display = 'none';
-            button.innerText = 'Show Feed';
-        }
-    }
-</script>
-
-
-
-
-
-
-
-
-<h1>Parking Slot Dashboard</h1>
-
-
     <div class="grid" id="slotGrid"></div>
 
+    <div class="video-container">
+        <h3>Live Camera Feed</h3>
+        <button onclick="toggleFeed()">Show Feed</button>
+        <div id="videoArea" style="display:none; margin-top: 20px;">
+            <img id="liveFeed" src="{% url 'video_feed' %}" class="small-video" />
+        </div>
+    </div>
+
     <script>
+        function toggleFeed() {
+            const videoArea = document.getElementById('videoArea');
+            const button = document.querySelector('button');
+            if (videoArea.style.display === 'none') {
+                videoArea.style.display = 'block';
+                button.innerText = 'Hide Feed';
+            } else {
+                videoArea.style.display = 'none';
+                button.innerText = 'Show Feed';
+            }
+        }
+
         function fetchSlots() {
             fetch('/api/slot-status/')
                 .then(response => response.json())
@@ -109,8 +82,18 @@
                     data.forEach(slot => {
                         const div = document.createElement('div');
                         div.classList.add('slot');
-                        div.classList.add(slot.is_occupied ? 'occupied' : 'vacant');
-                        div.innerText = `${slot.slot_id}\n${slot.is_occupied ? 'Occupied' : 'Vacant'}`;
+
+                        if (slot.session_status === 'pending') {
+                            div.classList.add('pending');
+                            div.innerText = `${slot.slot_id}\nReserved`;
+                        } else if (slot.is_occupied) {
+                            div.classList.add('occupied');
+                            div.innerText = `${slot.slot_id}\nOccupied`;
+                        } else {
+                            div.classList.add('vacant');
+                            div.innerText = `${slot.slot_id}\nVacant`;
+                        }
+
                         grid.appendChild(div);
                     });
                 });

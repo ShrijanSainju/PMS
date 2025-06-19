@@ -337,15 +337,21 @@ def dashboard_view(request):
 
 def slot_status_api(request):
     slots = ParkingSlot.objects.all().order_by('slot_id')
-    data = [
-        {
+    data = []
+
+    for slot in slots:
+        # Check for pending/active session for this slot
+        session = ParkingSession.objects.filter(slot=slot, status__in=['pending', 'active']).last()
+        session_status = session.status if session else None
+
+        data.append({
             'slot_id': slot.slot_id,
             'is_occupied': slot.is_occupied,
             'is_reserved': slot.is_reserved,
+            'session_status': session_status,  # New field
             'timestamp': slot.timestamp,
-        }
-        for slot in slots
-    ]
+        })
+
     return JsonResponse(data, safe=False)
 
 # --- Video Streaming Logic ---
