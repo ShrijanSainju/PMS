@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parking Management Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <div class="logo">
+                <div class="logo-circle">P</div>
+            </div>
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active">
+                    <i class="fas fa-th-large"></i>
+                    Dashboard
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-parking"></i>
+                    Parking
+                    <i class="fas fa-chevron-down"></i>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-chart-line"></i>
+                    Revenue Analytics
+                    <i class="fas fa-chevron-down"></i>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-history"></i>
+                    History
+                    <i class="fas fa-chevron-down"></i>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    Settings
+                    <i class="fas fa-chevron-down"></i>
+                </a>
+            </nav>
+        </div>
+        <div class="header-right">
+            <div class="user-profile">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-info">
+                    <span class="user-name">Rahul</span>
+                    <span class="user-role">Parking Manager</span>
+                </div>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="dashboard-header">
+                <h2>Dashboard</h2>
+                <p>Here you will find a general overview of important actions/data in your system</p>
+            </div>
+
+            <!-- Check In/Out Section -->
+            <div class="checkin-section">
+                <div class="toggle-buttons">
+                    <button class="toggle-btn active" id="checkin-btn">Check In</button>
+                    <button class="toggle-btn" id="checkout-btn">Checkout</button>
+                </div>
+
+                <div class="vehicle-type">
+                    <label class="radio-option">
+                        <input type="radio" name="vehicle" value="two-wheeler">
+                        <span class="radio-custom"></span>
+                        Two Wheeler
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="vehicle" value="four-wheeler" checked>
+                        <span class="radio-custom"></span>
+                        Four Wheeler
+                    </label>
+                </div>
+
+                <div class="form-inputs">
+                    <input type="text" placeholder="Vehicle No" class="input-field">
+                    <input type="text" placeholder="Phone No" class="input-field">
+                </div>
+
+                <button class="register-btn">Register</button>
+            </div>
+
+            <!-- Revenue Chart -->
+            <div class="revenue-section">
+                <div class="revenue-header">
+                    <h3>Revenue</h3>
+                    <div class="time-tabs">
+                        <button class="time-tab">Monthly</button>
+                        <button class="time-tab">Weekly</button>
+                        <button class="time-tab active">Daily</button>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="revenueChart"></canvas>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Search Bar -->
+            <div class="search-section">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search Vehicle id/phone number">
+                </div>
+            </div>
+
+            <!-- Parking Stats -->
+            <div class="parking-stats">
+                <div class="stat-card">
+                    <h3>2 Wheeler Parking</h3>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 50%"></div>
+                    </div>
+                    <span class="stat-number">50/100</span>
+                </div>
+
+                <div class="stat-card">
+                    <h3>4 Wheeler Parking</h3>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 33%"></div>
+                    </div>
+                    <span class="stat-number">100/300</span>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Vacant Parking Zone</h3>
+                    <div class="filter-btn">
+                        <i class="fas fa-filter"></i>
+                        4 Wheeler
+                    </div>
+                    <div class="zone-stats">
+                        <div class="zone-item">
+                            <span>Lower Ground</span>
+                            <div class="progress-bar small">
+                                <div class="progress-fill" style="width: 30%"></div>
+                            </div>
+                            <span>30/100</span>
+                        </div>
+                        <div class="zone-item">
+                            <span>Basement 1</span>
+                            <div class="progress-bar small">
+                                <div class="progress-fill" style="width: 76%"></div>
+                            </div>
+                            <span>76/100</span>
+                        </div>
+                        <div class="zone-item">
+                            <span>Basement 2</span>
+                            <div class="progress-bar small">
+                                <div class="progress-fill" style="width: 26%"></div>
+                            </div>
+                            <span>26/100</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Latest Booking Details -->
+            <div class="booking-section">
+                <div class="booking-header">
+                    <h3>Latest Booking Details</h3>
+                    <div class="booking-tabs">
+                        <button class="booking-tab active">All</button>
+                        <button class="booking-tab">2 Wheeler</button>
+                        <button class="booking-tab">4 Wheeler</button>
+                    </div>
+                </div>
+
+                <div class="booking-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Vehicle Id</th>
+                                <th>Vehicle Type</th>
+                                <th>Slot</th>
+                                <th>Check In</th>
+                                <th>Check Out</th>
+                                <th>Amount</th>
+                                <th>Payment</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bookingTableBody">
+                            <!-- Table rows will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
