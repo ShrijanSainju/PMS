@@ -134,6 +134,167 @@
         margin-bottom: 1rem;
         display: block;
     }
+
+    /* Live Parking Slots Styles - Original Design */
+    .parking-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 15px;
+        padding: 2rem;
+        background: #fff;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .parking-slot {
+        aspect-ratio: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-align: center;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .parking-slot::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        transition: left 0.5s ease;
+    }
+
+    .parking-slot:hover::before {
+        left: 100%;
+    }
+
+    .parking-slot.vacant {
+        background: linear-gradient(135deg, #56ab2f 0%, #a8e6cf 100%);
+        color: #fff;
+        box-shadow: 0 4px 15px rgba(86, 171, 47, 0.3);
+    }
+
+    .parking-slot.occupied {
+        background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+        color: #fff;
+        box-shadow: 0 4px 15px rgba(255, 65, 108, 0.3);
+    }
+
+    .parking-slot.reserved {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: #fff;
+        box-shadow: 0 4px 15px rgba(240, 147, 251, 0.3);
+    }
+
+    .parking-slot:hover {
+        transform: translateY(-3px) scale(1.05);
+    }
+
+    .slot-id {
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-bottom: 0.25rem;
+    }
+
+    .slot-status {
+        font-size: 0.8rem;
+        opacity: 0.9;
+    }
+
+    /* Video Feed Styles */
+    .video-container {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        margin-top: 2rem;
+    }
+
+    .video-controls {
+        margin-bottom: 1rem;
+    }
+
+    .video-feed {
+        width: 100%;
+        max-width: 800px;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .loading {
+        text-align: center;
+        padding: 2rem;
+    }
+
+    .spinner {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #007bff;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    /* Enhanced Stats Cards */
+    .enhanced-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .enhanced-stats .stats-card {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .enhanced-stats .stats-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s ease;
+    }
+
+    .enhanced-stats .stats-card:hover::before {
+        left: 100%;
+    }
+
+    .trend-indicator {
+        font-size: 0.8rem;
+        margin-top: 0.5rem;
+    }
+
+    .trend-up {
+        color: #28a745;
+    }
+
+    .trend-down {
+        color: #dc3545;
+    }
+
+    .trend-neutral {
+        color: #6c757d;
+    }
 </style>
 {% endblock %}
 
@@ -154,38 +315,43 @@
         </div>
     </div>
 
-    <!-- Statistics Grid -->
-    <div class="stats-grid">
-        <div class="stat-card">
-            <div class="stat-icon text-primary">
-                <i class="fas fa-users"></i>
+    <!-- Enhanced Stats Cards -->
+    <div class="enhanced-stats">
+        <div class="stats-card success">
+            <h3 id="availableCount">{{ available_slots|default:0 }}</h3>
+            <p><i class="fas fa-parking"></i> Available Slots</p>
+            <div class="trend-indicator" id="availableTrend">
+                <i class="fas fa-minus"></i> No change
             </div>
-            <div class="stat-number text-primary">{{ total_users }}</div>
-            <div class="stat-label">Total Users</div>
         </div>
-        
-        <div class="stat-card">
-            <div class="stat-icon text-warning">
-                <i class="fas fa-clock"></i>
+        <div class="stats-card danger">
+            <h3 id="occupiedCount">{{ occupied_slots|default:0 }}</h3>
+            <p><i class="fas fa-car"></i> Occupied Slots</p>
+            <div class="trend-indicator" id="occupiedTrend">
+                <i class="fas fa-minus"></i> No change
             </div>
-            <div class="stat-number text-warning">{{ pending_approvals_count }}</div>
-            <div class="stat-label">Pending Approvals</div>
         </div>
-        
-        <div class="stat-card">
-            <div class="stat-icon text-success">
-                <i class="fas fa-parking"></i>
+        <div class="stats-card warning">
+            <h3 id="reservedCount">{{ reserved_slots|default:0 }}</h3>
+            <p><i class="fas fa-clock"></i> Reserved Slots</p>
+            <div class="trend-indicator" id="reservedTrend">
+                <i class="fas fa-minus"></i> No change
             </div>
-            <div class="stat-number text-success">{{ available_slots }}</div>
-            <div class="stat-label">Available Slots</div>
         </div>
-        
-        <div class="stat-card">
-            <div class="stat-icon text-info">
-                <i class="fas fa-car"></i>
+
+        <div class="stats-card">
+            <h3 id="todayRevenue">₹{{ today_revenue|default:0 }}</h3>
+            <p><i class="fas fa-rupee-sign"></i> Today's Revenue</p>
+            <div class="trend-indicator" id="revenueTrend">
+                <i class="fas fa-minus"></i> No change
             </div>
-            <div class="stat-number text-info">{{ active_sessions }}</div>
-            <div class="stat-label">Active Sessions</div>
+        </div>
+        <div class="stats-card">
+            <h3 id="pendingApprovalsCount">{{ pending_approvals_count|default:0 }}</h3>
+            <p><i class="fas fa-user-clock"></i> Pending Approvals</p>
+            <div class="trend-indicator" id="approvalsTrend">
+                <i class="fas fa-minus"></i> No change
+            </div>
         </div>
     </div>
 
@@ -270,9 +436,29 @@
             <p>View and manage all users</p>
         </a>
         <a href="{% url 'manager_create_staff' %}" class="quick-action">
+            <i class="fas fa-user-tie"></i>
+            <h5>Add Staff</h5>
+            <p>Create new staff member</p>
+        </a>
+        <a href="{% url 'manager_create_customer' %}" class="quick-action">
             <i class="fas fa-user-plus"></i>
-            <h5>Create Staff</h5>
-            <p>Add new staff members</p>
+            <h5>Add Customer</h5>
+            <p>Register new customer</p>
+        </a>
+        <a href="{% url 'manager_assign_slot' %}" class="quick-action">
+            <i class="fas fa-parking"></i>
+            <h5>Assign Slot</h5>
+            <p>Assign parking slot</p>
+        </a>
+        <a href="{% url 'end_session_by_vehicle' %}" class="quick-action">
+            <i class="fas fa-sign-out-alt"></i>
+            <h5>End Session</h5>
+            <p>End parking session</p>
+        </a>
+        <a href="{% url 'lookup-session' %}" class="quick-action">
+            <i class="fas fa-search"></i>
+            <h5>Lookup Vehicle</h5>
+            <p>Search vehicle info</p>
         </a>
         <a href="{% url 'manager_system_settings' %}" class="quick-action">
             <i class="fas fa-cogs"></i>
@@ -284,21 +470,181 @@
             <h5>System Logs</h5>
             <p>View system activity logs</p>
         </a>
-        <a href="{% url 'security_dashboard' %}" class="quick-action">
-            <i class="fas fa-shield-alt"></i>
-            <h5>Security</h5>
-            <p>Monitor security events</p>
-        </a>
         <a href="/admin/" class="quick-action">
             <i class="fas fa-database"></i>
             <h5>Django Admin</h5>
             <p>Advanced system management</p>
         </a>
     </div>
+
+    <!-- Live Parking Slots Section -->
+    <div class="card mt-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <div>
+                <i class="fas fa-th-large"></i> Live Parking Slot Status
+                <span class="badge bg-success ms-2" id="autoRefreshBadge">Auto-refresh ON</span>
+            </div>
+            <div>
+                <button class="btn btn-sm btn-outline-primary me-2" onclick="toggleAutoRefresh()">
+                    <i class="fas fa-pause" id="autoRefreshIcon"></i> <span id="autoRefreshText">Pause</span>
+                </button>
+                <button class="btn btn-sm btn-light" onclick="fetchSlots()">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="parking-grid" id="slotGrid">
+                <div class="loading">
+                    <div class="spinner"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Feed Section -->
+    <div class="video-container">
+        <h3><i class="fas fa-video"></i> Live Camera Feed</h3>
+        <div class="video-controls">
+            <button class="btn btn-primary" onclick="toggleFeed()">
+                <i class="fas fa-play"></i> Show Feed
+            </button>
+            <button class="btn btn-secondary" onclick="refreshFeed()" style="display:none;" id="refreshBtn">
+                <i class="fas fa-sync-alt"></i> Refresh
+            </button>
+        </div>
+        <div id="videoArea" style="display:none; margin-top: 20px;">
+            <img id="liveFeed" src="{% url 'video_feed' %}" class="video-feed" />
+        </div>
+    </div>
 </div>
 {% endblock %}
 
 {% block extra_scripts %}
+// Global variables for live features
+let autoRefreshEnabled = true;
+let refreshInterval;
+
+// Initialize dashboard
+document.addEventListener('DOMContentLoaded', function() {
+    initializeDashboard();
+    startAutoRefresh();
+    // Auto-start video feed for detection
+    toggleFeed();
+});
+
+function initializeDashboard() {
+    fetchSlots();
+}
+
+function startAutoRefresh() {
+    if (refreshInterval) clearInterval(refreshInterval);
+
+    refreshInterval = setInterval(() => {
+        if (autoRefreshEnabled) {
+            fetchSlots();
+        }
+    }, 3000); // Refresh every 3 seconds
+}
+
+function toggleAutoRefresh() {
+    autoRefreshEnabled = !autoRefreshEnabled;
+    const badge = document.getElementById('autoRefreshBadge');
+    const icon = document.getElementById('autoRefreshIcon');
+    const text = document.getElementById('autoRefreshText');
+
+    if (autoRefreshEnabled) {
+        badge.textContent = 'Auto-refresh ON';
+        badge.className = 'badge bg-success ms-2';
+        icon.className = 'fas fa-pause';
+        text.textContent = 'Pause';
+    } else {
+        badge.textContent = 'Auto-refresh OFF';
+        badge.className = 'badge bg-danger ms-2';
+        icon.className = 'fas fa-play';
+        text.textContent = 'Resume';
+    }
+}
+
+function fetchSlots() {
+    fetch('/api/slot-status/')
+        .then(response => response.json())
+        .then(data => {
+            const grid = document.getElementById('slotGrid');
+            grid.innerHTML = '';
+
+            data.forEach(slot => {
+                const div = document.createElement('div');
+                div.classList.add('parking-slot');
+
+                let status, statusClass, tooltip = '';
+                if (slot.session_status === 'pending' || slot.is_reserved) {
+                    status = 'Reserved';
+                    statusClass = 'reserved';
+                    if (slot.vehicle_number) {
+                        tooltip = `Vehicle: ${slot.vehicle_number}`;
+                    }
+                } else if (slot.is_occupied) {
+                    status = 'Occupied';
+                    statusClass = 'occupied';
+                    if (slot.vehicle_number) {
+                        tooltip = `Vehicle: ${slot.vehicle_number}`;
+                        if (slot.session_start) {
+                            const startTime = new Date(slot.session_start);
+                            const duration = Math.floor((new Date() - startTime) / (1000 * 60));
+                            tooltip += `\nDuration: ${duration} min`;
+                        }
+                    }
+                } else {
+                    status = 'Available';
+                    statusClass = 'vacant';
+                    tooltip = 'Available for assignment';
+                }
+
+                div.classList.add(statusClass);
+                div.title = tooltip;
+                div.innerHTML = `
+                    <div class="slot-id">${slot.slot_id}</div>
+                    <div class="slot-status">${status}</div>
+                `;
+
+                grid.appendChild(div);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching slots:', error);
+            const grid = document.getElementById('slotGrid');
+            grid.innerHTML = '<div class="alert alert-danger">Error loading slot data</div>';
+        });
+}
+
+function toggleFeed() {
+    const videoArea = document.getElementById('videoArea');
+    const refreshBtn = document.getElementById('refreshBtn');
+    const toggleBtn = event.target;
+
+    if (videoArea.style.display === 'none') {
+        videoArea.style.display = 'block';
+        refreshBtn.style.display = 'inline-block';
+        toggleBtn.innerHTML = '<i class="fas fa-pause"></i> Hide Feed';
+        toggleBtn.className = 'btn btn-danger';
+    } else {
+        videoArea.style.display = 'none';
+        refreshBtn.style.display = 'none';
+        toggleBtn.innerHTML = '<i class="fas fa-play"></i> Show Feed';
+        toggleBtn.className = 'btn btn-primary';
+    }
+}
+
+function refreshFeed() {
+    const liveFeed = document.getElementById('liveFeed');
+    const currentSrc = liveFeed.src;
+    liveFeed.src = '';
+    setTimeout(() => {
+        liveFeed.src = currentSrc + '?t=' + new Date().getTime();
+    }, 100);
+}
+
 // User approval functions
 function approveUser(userId) {
     if (confirm('Are you sure you want to approve this user?')) {

@@ -42,7 +42,6 @@ def customer_dashboard(request):
         'user_type': 'customer',
         'available_slots': ParkingSlot.objects.filter(is_occupied=False, is_reserved=False).count(),
         'total_slots': ParkingSlot.objects.count(),
-        'my_active_sessions': current_sessions.count(),
         'my_total_sessions': customer_sessions.count(),
         'total_spent': customer_sessions.aggregate(total=Sum('fee'))['total'] or 0,
         'current_sessions': current_sessions,
@@ -67,7 +66,6 @@ def staff_dashboard(request):
         'occupied_slots': ParkingSlot.objects.filter(is_occupied=True).count(),
         'available_slots': ParkingSlot.objects.filter(is_occupied=False, is_reserved=False).count(),
         'reserved_slots': ParkingSlot.objects.filter(is_reserved=True).count(),
-        'active_sessions': ParkingSession.objects.filter(status='active').count(),
         'pending_sessions': ParkingSession.objects.filter(status='pending').count(),
         'customer_count': UserProfile.objects.filter(user_type='customer', approval_status='approved').count(),
         'pending_customers_count': pending_customers.count(),
@@ -91,12 +89,11 @@ def manager_dashboard(request):
     ).select_related('user')
 
     context = {
-        'user_type': 'admin',
+        'user_type': 'manager',
         'total_slots': ParkingSlot.objects.count(),
         'occupied_slots': ParkingSlot.objects.filter(is_occupied=True).count(),
         'available_slots': ParkingSlot.objects.filter(is_occupied=False, is_reserved=False).count(),
         'reserved_slots': ParkingSlot.objects.filter(is_reserved=True).count(),
-        'active_sessions': ParkingSession.objects.filter(status='active').count(),
         'total_users': UserProfile.objects.count(),
         'customer_count': UserProfile.objects.filter(user_type='customer', approval_status='approved').count(),
         'staff_count': UserProfile.objects.filter(user_type='staff', approval_status='approved').count(),
@@ -109,7 +106,6 @@ def manager_dashboard(request):
     today = timezone.now().date()
     context.update({
         'today_sessions': ParkingSession.objects.filter(start_time__date=today).count(),
-        'active_sessions': ParkingSession.objects.filter(status='active').count(),
         'completed_sessions': ParkingSession.objects.filter(status='completed').count(),
         'total_revenue': sum([
             session.fee for session in ParkingSession.objects.filter(
@@ -192,10 +188,9 @@ def dashboard_analytics_api(request):
     # Session statistics
     today = timezone.now().date()
     session_stats = {
-        'active': ParkingSession.objects.filter(status='active').count(),
         'today_total': ParkingSession.objects.filter(start_time__date=today).count(),
         'completed_today': ParkingSession.objects.filter(
-            status='completed', 
+            status='completed',
             end_time__date=today
         ).count(),
     }
@@ -232,7 +227,6 @@ def live_stats_api(request):
     stats = {
         'available_slots': ParkingSlot.objects.filter(is_occupied=False, is_reserved=False).count(),
         'occupied_slots': ParkingSlot.objects.filter(is_occupied=True).count(),
-        'active_sessions': ParkingSession.objects.filter(status='active').count(),
         'timestamp': timezone.now().isoformat(),
     }
     

@@ -45,13 +45,33 @@ class ParkingSession(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.session_id:
-            prefix = "SESS"
-            date_str = now().strftime('%Y%m%d')
-            # Get the count of sessions created today to generate unique number suffix
-            today_count = ParkingSession.objects.filter(
-                session_id__startswith=f"{prefix}-{date_str}"
-            ).count() + 1
-            self.session_id = f"{prefix}-{date_str}-{today_count:04d}"
+            import uuid
+            from django.db import transaction
+
+            # Use atomic transaction to prevent race conditions
+            with transaction.atomic():
+                prefix = "SESS"
+                date_str = now().strftime('%Y%m%d')
+
+                # Try to generate unique session ID with retry logic
+                max_attempts = 10
+                for attempt in range(max_attempts):
+                    # Get the count of sessions created today
+                    today_count = ParkingSession.objects.filter(
+                        session_id__startswith=f"{prefix}-{date_str}"
+                    ).count() + 1 + attempt  # Add attempt to avoid duplicates
+
+                    potential_session_id = f"{prefix}-{date_str}-{today_count:04d}"
+
+                    # Check if this ID already exists
+                    if not ParkingSession.objects.filter(session_id=potential_session_id).exists():
+                        self.session_id = potential_session_id
+                        break
+                else:
+                    # Fallback to UUID if all attempts fail
+                    unique_suffix = str(uuid.uuid4())[:8].upper()
+                    self.session_id = f"{prefix}-{date_str}-{unique_suffix}"
+
         super().save(*args, **kwargs)
 
     def calculate_fee(self):

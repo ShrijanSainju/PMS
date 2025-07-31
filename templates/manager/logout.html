@@ -17,11 +17,15 @@
     <div class="main_content">
         {% block content %}
         <div class="container">
-            <h2 class="text-primary mt-4">Welcome to the Staff Dashboard</h2>
+            <h2 class="text-primary mt-4">Manager Logout</h2>
             <p class="text-muted">
-                you have logged out.
-                This is the staff dashboard.
+                You have been successfully logged out from the Manager Dashboard.
+                Thank you for using the Parking Management System.
             </p>
+            <div class="mt-4">
+                <a href="/auth/login/" class="btn btn-primary">Login Again</a>
+                <a href="/" class="btn btn-outline-secondary">Go to Home</a>
+            </div>
     </div>
         {% endblock content %}
     </div>

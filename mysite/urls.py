@@ -62,16 +62,11 @@ urlpatterns = [
     path('admin_dashboard/', manager_dashboard),
     path('adminbase/', adminbase),
 
-    # Legacy app routes - now handled by consolidated pms app
-    path('staff/', include('pms.urls')),  # Staff routes now in pms.urls
-    path('manager/', include('pms.urls')),  # Manager routes now in pms.urls
-    path('customer/', include('pms.urls')),  # Customer routes now in pms.urls
+    # Include PMS app URLs (this handles all role-based routes)
+    path('', include('pms.urls')),
 
     path('logout/', manager_logout_view, name='logout'),
-
     path('api/update-slot/', update_slot, name='update-slot'),
-    path('api/', include('pms.urls')),
-    path('', include('pms.urls')),
 
     path('history/', history_log, name='history-log'),
 

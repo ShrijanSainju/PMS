@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ADMIN</title>
+    <title>MANAGER</title>
 
     <link rel="stylesheet" href="{% static 'mysite/css/style.css' %}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -201,12 +201,12 @@ color: white;
 font-size: 2ex;
 }
 
-/* Make the "Blood Stock" link white */
-.wrapper .sidebar ul li a[href='/admin-blood'] {
+/* Make the dashboard link highlighted */
+.wrapper .sidebar ul li a[href='/manager/dashboard/'] {
 color: white !important;
 }
-.wrapper .sidebar ul li a[href='/admin-blood']:hover {
-background-color: #3c80e7; /* Hover effect with red background */
+.wrapper .sidebar ul li a[href='/manager/dashboard/']:hover {
+background-color: #3c80e7; /* Hover effect with blue background */
 }
 
 
@@ -257,18 +257,18 @@ background-color: #3c80e7; /* Hover effect with red background */
         <div class="sidebar">
             <ul>
                 <li><a href="/"><i class="fas fa-arrow-right"></i> Feature1</a></li>
-                <li><a href="/admin-donor"><i class="fas fa-user"></i> Feature2</a></li>
-                <li><a href="/admin-patient"><i class="fas fa-user"></i> Feature3</a></li>
-                <li><a href="/admin-donation"><i class="fas fa-user"></i> Feature4</a></li>
-                <li><a href="/admin-request"><i class="fas fa-user"></i> Feature5</a></li>
-                <li><a href="/admin-request-history"><i class="fas fa-user"></i> Feature6</a></li>
-                <li><a href="/admin-blood"><i class="fas fa-user"></i> Feature7</a></li>
+                <li><a href="/manager/user-management/"><i class="fas fa-users"></i> User Management</a></li>
+                <li><a href="/manager/create-staff/"><i class="fas fa-user-plus"></i> Create Staff</a></li>
+                <li><a href="/manager/system-settings/"><i class="fas fa-cogs"></i> System Settings</a></li>
+                <li><a href="/security/"><i class="fas fa-shield-alt"></i> Security Dashboard</a></li>
+                <li><a href="/history/"><i class="fas fa-history"></i> System Logs</a></li>
+                <li><a href="/manager/dashboard/"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
             </ul>
         </div>
         <div class="main_content">
             {% block content %}
             <div class="container">
-                <h2 class="text-primary mt-4">Welcome to the Admin Dashboard</h2>
+                <h2 class="text-primary mt-4">Welcome to the Manager Dashboard</h2>
                 <p class="text-muted">
                     This is the admin dashboard.
                 </p>

@@ -320,14 +320,9 @@ def update_slot(request):
                 slot.is_reserved = False
                 logger.info(f"Activated pending session for {pending_session.vehicle_number} in slot {slot_id}")
             else:
-                # Create a new session for unknown vehicle
-                unknown_session = ParkingSession.objects.create(
-                    vehicle_number=f"UNKNOWN-{slot_id}-{int(timezone.now().timestamp())}",
-                    slot=slot,
-                    status='active',
-                    start_time=timezone.now()
-                )
-                logger.info(f"Created new session for unknown vehicle in slot {slot_id}")
+                # Skip creating session for unknown vehicles to avoid ID conflicts
+                # Sessions should be created manually through the dashboard
+                logger.info(f"Vehicle detected in slot {slot_id} but no pending session found - skipping session creation")
 
         # Handle vehicle exit (occupied -> vacant)
         elif previous_state and not is_occupied:
@@ -544,7 +539,9 @@ class ParkingSlotViewSet(viewsets.ModelViewSet):
     serializer_class = ParkingSlotSerializer
 
 def dashboard_view(request):
-    return render(request, 'admin/dashboard.html')
+    """Redirect to role-based dashboard - this should use the one from dashboard_views.py"""
+    from .dashboard_views import dashboard_view as role_based_dashboard
+    return role_based_dashboard(request)
 
 @require_approved_user
 def slot_status_api(request):
@@ -731,6 +728,11 @@ from django.utils import timezone
 
 @require_staff_or_manager
 def assign_slot(request):
+    # Determine template based on user role
+    user_profile = getattr(request.user, 'userprofile', None)
+    is_manager = user_profile and user_profile.user_type == 'manager'
+    template_prefix = 'manager' if is_manager else 'staff'
+
     if request.method == 'POST':
         form = VehicleEntryForm(request.POST)
         if form.is_valid():
@@ -744,7 +746,7 @@ def assign_slot(request):
             ).first()
 
             if existing_session:
-                return render(request, 'staff/assign_slot.html', {
+                return render(request, f'{template_prefix}/assign_slot.html', {
                     'form': form,
                     'error': f"Vehicle {vehicle_number} already has an ongoing session (Slot {existing_session.slot.slot_id}).",
                     'available_slots': [],
@@ -769,7 +771,7 @@ def assign_slot(request):
                     session = ParkingSession.objects.get(id=session_id)
                     slot = session.slot
 
-                    return render(request, 'staff/assign_success.html', {
+                    return render(request, f'{template_prefix}/assign_success.html', {
                         'session': session,
                         'slot': slot,
                         'auto_assigned': True,
@@ -797,7 +799,7 @@ def assign_slot(request):
                     available_slots = zone_slots
 
             if not available_slots:
-                return render(request, 'staff/assign_slot.html', {
+                return render(request, f'{template_prefix}/assign_slot.html', {
                     'form': form,
                     'error': error_message if 'error_message' in locals() else 'No available slots at the moment.',
                     'available_slots': [],
@@ -820,7 +822,7 @@ def assign_slot(request):
 
             logger.info(f"Manually assigned slot {available_slot.slot_id} to vehicle {vehicle_number}")
 
-            return render(request, 'staff/assign_success.html', {
+            return render(request, f'{template_prefix}/assign_success.html', {
                 'session': session,
                 'slot': available_slot,
                 'auto_assigned': False,
@@ -849,7 +851,7 @@ def assign_slot(request):
             available_slots = []
             zones = []
 
-    return render(request, 'staff/assign_slot.html', {
+    return render(request, f'{template_prefix}/assign_slot.html', {
         'form': form,
         'available_slots': available_slots,
         'zones': zones

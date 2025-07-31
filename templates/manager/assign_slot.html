@@ -1,0 +1,298 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Assign Parking Slot - Manager{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+<style>
+    .assign-slot {
+        padding: 2rem 0;
+    }
+    
+    .form-container {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .form-header {
+        text-align: center;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #e9ecef;
+    }
+    
+    .form-header i {
+        font-size: 3rem;
+        color: #667eea;
+        margin-bottom: 1rem;
+    }
+    
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    
+    .form-group label {
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+    }
+    
+    .form-control {
+        border-radius: 8px;
+        border: 2px solid #e9ecef;
+        padding: 0.75rem;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    }
+    
+    .btn-assign {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        color: white;
+        padding: 0.75rem 2rem;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        width: 100%;
+    }
+    
+    .btn-assign:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        color: white;
+    }
+    
+    .btn-back {
+        background: #6c757d;
+        border: none;
+        color: white;
+        padding: 0.5rem 1.5rem;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-back:hover {
+        background: #5a6268;
+        color: white;
+        text-decoration: none;
+    }
+    
+    .zone-selector {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .zone-option {
+        text-align: center;
+        padding: 1rem;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .zone-option:hover {
+        border-color: #667eea;
+        background-color: #f8f9ff;
+    }
+    
+    .zone-option.selected {
+        border-color: #667eea;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+    
+    .parking-slot.small {
+        min-height: 60px;
+        font-size: 0.8rem;
+    }
+    
+    .spinner {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #667eea;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto;
+    }
+    
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container assign-slot">
+    <div class="form-container">
+        <div class="form-header">
+            <i class="fas fa-plus-circle"></i>
+            <h2>Assign Parking Slot</h2>
+            <p class="text-muted">Assign a parking slot to a vehicle</p>
+        </div>
+
+        {% if error %}
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-triangle"></i> {{ error }}
+            </div>
+        {% endif %}
+
+        <form method="post" class="needs-validation" novalidate>
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="{{ form.vehicle_number.id_for_label }}" class="form-label">
+                    <i class="fas fa-car"></i> Vehicle Number
+                </label>
+                {{ form.vehicle_number }}
+                <div class="invalid-feedback">
+                    Please provide a valid vehicle number.
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-map-marker-alt"></i> Zone Preference
+                </label>
+                <div class="zone-selector">
+                    {% for zone in zones %}
+                        <div class="zone-option" data-zone="{{ zone }}">
+                            <strong>Zone {{ zone }}</strong>
+                            <div class="text-muted">{{ zone|add:"1-"|add:zone|add:"14" }}</div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <input type="hidden" name="zone_preference" id="zone_preference" value="A">
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-assign">
+                    <i class="fas fa-plus-circle"></i> Assign Slot
+                </button>
+            </div>
+
+            <div class="text-center">
+                <a href="{% url 'manager_dashboard' %}" class="btn-back">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+            </div>
+        </form>
+
+        <!-- Available Slots Info -->
+        <div class="card mt-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5><i class="fas fa-info-circle"></i> Available Slots</h5>
+                <button class="btn btn-sm btn-outline-primary" onclick="refreshAvailableSlots()">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+            <div class="card-body">
+                <div class="row" id="availableSlots">
+                    {% if available_slots %}
+                        {% for slot in available_slots %}
+                            <div class="col-md-2 col-sm-3 col-4 mb-2">
+                                <div class="parking-slot vacant small">
+                                    <div class="slot-id">{{ slot.slot_id }}</div>
+                                    <div class="slot-status">Zone {{ slot.zone }}</div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="col-12 text-center">
+                            <div class="spinner"></div>
+                            <p>Loading available slots...</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+// Zone selection
+document.addEventListener('DOMContentLoaded', function() {
+    const zoneOptions = document.querySelectorAll('.zone-option');
+    const zoneInput = document.getElementById('zone_preference');
+    
+    // Set default selection
+    if (zoneOptions.length > 0) {
+        zoneOptions[0].classList.add('selected');
+    }
+    
+    zoneOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            // Remove selected class from all options
+            zoneOptions.forEach(opt => opt.classList.remove('selected'));
+            
+            // Add selected class to clicked option
+            this.classList.add('selected');
+            
+            // Update hidden input
+            zoneInput.value = this.dataset.zone;
+        });
+    });
+
+    // Auto-uppercase vehicle number input
+    const vehicleInput = document.querySelector('input[name="vehicle_number"]');
+    if (vehicleInput) {
+        vehicleInput.addEventListener('input', function() {
+            this.value = this.value.toUpperCase();
+        });
+        vehicleInput.focus();
+    }
+
+    // Only load if slots aren't already loaded from server
+    if (!document.querySelector('.parking-slot')) {
+        loadAvailableSlots();
+    }
+
+    // Auto-refresh every 10 seconds
+    setInterval(loadAvailableSlots, 10000);
+});
+
+function loadAvailableSlots() {
+    fetch('/api/slot-status/')
+        .then(response => response.json())
+        .then(data => {
+            const availableSlots = data.filter(slot => !slot.is_occupied && !slot.is_reserved);
+            const container = document.getElementById('availableSlots');
+
+            container.innerHTML = '';
+            availableSlots.forEach(slot => {
+                const slotDiv = document.createElement('div');
+                slotDiv.className = 'col-md-2 col-sm-3 col-4 mb-2';
+                slotDiv.innerHTML = `
+                    <div class="parking-slot vacant small">
+                        <div class="slot-id">${slot.slot_id}</div>
+                        <div class="slot-status">Available</div>
+                    </div>
+                `;
+                container.appendChild(slotDiv);
+            });
+        })
+        .catch(error => {
+            console.error('Error loading slots:', error);
+            document.getElementById('availableSlots').innerHTML =
+                '<div class="col-12"><div class="alert alert-danger">Error loading slot information</div></div>';
+        });
+}
+
+function refreshAvailableSlots() {
+    loadAvailableSlots();
+}
+{% endblock %}

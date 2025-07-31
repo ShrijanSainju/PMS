@@ -209,23 +209,49 @@ def staff_create_customer(request):
         form = EnhancedUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            
+
             # Set as customer and approved (staff can directly approve customers)
             profile = user.userprofile
             profile.user_type = 'customer'
             profile.approval_status = 'approved'
             profile.approved_by = request.user
             profile.save()
-            
+
             user.is_active = True
             user.save()
-            
+
             messages.success(request, f'Customer {user.username} created successfully!')
             return redirect('staff_customer_management')
     else:
         form = EnhancedUserCreationForm()
-    
+
     return render(request, 'staff/create_customer.html', {'form': form})
+
+
+@require_manager
+def manager_create_customer(request):
+    """Manager view to create new customers"""
+    if request.method == 'POST':
+        form = EnhancedUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+
+            # Set as customer and approved (managers can directly approve customers)
+            profile = user.userprofile
+            profile.user_type = 'customer'
+            profile.approval_status = 'approved'
+            profile.approved_by = request.user
+            profile.save()
+
+            user.is_active = True
+            user.save()
+
+            messages.success(request, f'Customer {user.username} created successfully!')
+            return redirect('manager_user_management')
+    else:
+        form = EnhancedUserCreationForm()
+
+    return render(request, 'manager/create_customer.html', {'form': form})
 
 
 @require_manager
@@ -235,7 +261,6 @@ def manager_system_settings(request):
         'total_users': UserProfile.objects.count(),
         'pending_approvals': UserProfile.objects.filter(approval_status='pending').count(),
         'total_sessions': ParkingSession.objects.count(),
-        'active_sessions': ParkingSession.objects.filter(status='active').count(),
     }
     
     return render(request, 'manager/system_settings.html', context)

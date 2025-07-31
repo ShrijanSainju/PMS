@@ -482,7 +482,7 @@ def manager_login_view(request):
                     user.is_staff = True
                     user.save()
 
-                return redirect('adminbase')
+                return redirect('manager_dashboard')
             else:
                 log_login_attempt(username, ip_address, False, user_agent)
                 messages.error(request, 'Access denied. You are not authorized.')

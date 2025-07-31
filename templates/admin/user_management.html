@@ -205,7 +205,7 @@
 {% block extra_scripts %}
 function approveUser(userId) {
     if (confirm('Are you sure you want to approve this user?')) {
-        fetch(`/admin/approve-user/${userId}/`, {
+        fetch(`/manager/approve-user/${userId}/`, {
             method: 'POST',
             headers: {
                 'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
@@ -230,7 +230,7 @@ function approveUser(userId) {
 function rejectUser(userId) {
     const reason = prompt('Please provide a reason for rejection (optional):');
     if (reason !== null) {
-        fetch(`/admin/reject-user/${userId}/`, {
+        fetch(`/manager/reject-user/${userId}/`, {
             method: 'POST',
             headers: {
                 'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,

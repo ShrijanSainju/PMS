@@ -4,50 +4,170 @@
 {% block title %}Customer Dashboard - PMS{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/dashboard.css' %}
-
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
 <style>
     .customer-dashboard {
         padding: 2rem 0;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        min-height: 100vh;
     }
 
     .dashboard-header {
-        background: linear-gradient(135deg, #17a2b8 0%, #20c997 100%);
+        background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%);
         color: white;
         padding: 2rem;
         border-radius: 15px;
         margin-bottom: 2rem;
+        box-shadow: 0 8px 25px rgba(32, 201, 151, 0.3);
+        position: relative;
+        overflow: hidden;
     }
 
-    .stats-grid {
+    .dashboard-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s ease;
+    }
+
+    .dashboard-header:hover::before {
+        left: 100%;
+    }
+
+    .dashboard-header h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    .dashboard-header p {
+        font-size: 1.1rem;
+        opacity: 0.9;
+    }
+
+    /* Enhanced Stats Cards */
+    .enhanced-stats {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1.5rem;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
         margin-bottom: 2rem;
     }
 
-    .stat-card {
-        background: white;
-        padding: 1.5rem;
-        border-radius: 10px;
+    .enhanced-stats .stats-card {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .enhanced-stats .stats-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s ease;
+    }
+
+    .enhanced-stats .stats-card:hover::before {
+        left: 100%;
+    }
+
+    .trend-indicator {
+        font-size: 0.8rem;
+        margin-top: 0.5rem;
+    }
+
+    .trend-up {
+        color: #28a745;
+    }
+
+    .trend-down {
+        color: #dc3545;
+    }
+
+    .trend-neutral {
+        color: #6c757d;
+    }
+    }
+
+    /* Live Parking Slots Styles - Original Design */
+    .parking-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 15px;
+        padding: 2rem;
+        background: #fff;
+        border-radius: 15px;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .parking-slot {
+        aspect-ratio: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 0.9rem;
         text-align: center;
-        transition: transform 0.3s ease;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
     }
 
-    .stat-card:hover {
-        transform: translateY(-5px);
+    .parking-slot::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        transition: left 0.5s ease;
     }
 
-    .stat-icon {
-        font-size: 2rem;
-        margin-bottom: 1rem;
+    .parking-slot:hover::before {
+        left: 100%;
     }
 
-    .stat-number {
-        font-size: 1.8rem;
-        font-weight: bold;
-        margin-bottom: 0.5rem;
+    .parking-slot.vacant {
+        background: linear-gradient(135deg, #56ab2f 0%, #a8e6cf 100%);
+        color: #fff;
+        box-shadow: 0 4px 15px rgba(86, 171, 47, 0.3);
+    }
+
+    .parking-slot.occupied {
+        background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+        color: #fff;
+        box-shadow: 0 4px 15px rgba(255, 65, 108, 0.3);
+    }
+
+    .parking-slot.reserved {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: #fff;
+        box-shadow: 0 4px 15px rgba(240, 147, 251, 0.3);
+    }
+
+    .parking-slot:hover {
+        transform: translateY(-3px) scale(1.05);
+    }
+
+    .slot-id {
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-bottom: 0.25rem;
+    }
+
+    .slot-status {
+        font-size: 0.8rem;
+        opacity: 0.9;
     }
 
     .info-section {
@@ -56,17 +176,50 @@
         padding: 2rem;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         margin-bottom: 2rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .info-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%);
+    }
 
     .session-card {
-        border: 1px solid #e9ecef;
-        border-radius: 8px;
+        background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+        border: 2px solid #e9ecef;
+        border-radius: 12px;
         padding: 1.5rem;
         margin-bottom: 1rem;
         transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .session-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(32, 201, 151, 0.1), transparent);
+        transition: left 0.5s ease;
+    }
+
+    .session-card:hover::before {
+        left: 100%;
     }
 
     .session-card:hover {
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        border-color: #20c997;
     }
 
     .session-header {
@@ -79,6 +232,7 @@
     .session-details h6 {
         margin-bottom: 0.25rem;
         color: #2c3e50;
+        font-weight: 700;
     }
 
     .session-details small {
@@ -86,25 +240,30 @@
     }
 
     .status-badge {
-        padding: 0.25rem 0.75rem;
-        border-radius: 20px;
+        padding: 0.5rem 1rem;
+        border-radius: 25px;
         font-size: 0.875rem;
-        font-weight: 500;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
 
     .status-active {
-        background: #d4edda;
-        color: #155724;
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        color: white;
+        box-shadow: 0 2px 10px rgba(40, 167, 69, 0.3);
     }
 
     .status-pending {
-        background: #fff3cd;
-        color: #856404;
+        background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+        color: white;
+        box-shadow: 0 2px 10px rgba(255, 193, 7, 0.3);
     }
 
     .status-completed {
-        background: #d1ecf1;
-        color: #0c5460;
+        background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%);
+        color: white;
+        box-shadow: 0 2px 10px rgba(23, 162, 184, 0.3);
     }
 
     .quick-actions {
@@ -115,27 +274,80 @@
     }
 
     .quick-action {
-        background: white;
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
         border: 2px solid #e9ecef;
-        border-radius: 10px;
+        border-radius: 12px;
         padding: 1.5rem;
         text-align: center;
         text-decoration: none;
         color: #2c3e50;
         transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .quick-action::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(32, 201, 151, 0.1), transparent);
+        transition: left 0.5s ease;
+    }
+
+    .quick-action:hover::before {
+        left: 100%;
     }
 
     .quick-action:hover {
-        border-color: #17a2b8;
-        color: #17a2b8;
+        border-color: #20c997;
+        color: #20c997;
         text-decoration: none;
-        transform: translateY(-2px);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(32, 201, 151, 0.2);
     }
 
     .quick-action i {
-        font-size: 2rem;
+        font-size: 2.5rem;
         margin-bottom: 1rem;
         display: block;
+        background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .quick-action h5 {
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    .quick-action p {
+        margin: 0;
+        font-size: 0.9rem;
+        color: #6c757d;
+    }
+
+    .loading {
+        text-align: center;
+        padding: 2rem;
+    }
+
+    .spinner {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #20c997;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
     }
 
 </style>
@@ -147,49 +359,65 @@
     <div class="dashboard-header">
         <div class="row align-items-center">
             <div class="col-md-8">
-                <h1><i class="fas fa-user"></i> Customer Dashboard</h1>
+                <h1><i class="fas fa-user-circle"></i> Customer Dashboard</h1>
                 <p class="mb-0">Welcome back, {{ user.get_full_name|default:user.username }}! Manage your parking sessions and bookings.</p>
             </div>
             <div class="col-md-4 text-md-end">
                 <div class="text-white-50">
-                    <small>Last login: {{ user.last_login|date:"M d, Y H:i" }}</small>
+                    <small><i class="fas fa-clock"></i> Last login: {{ user.last_login|date:"M d, Y H:i" }}</small>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Statistics Grid -->
-    <div class="stats-grid">
-        <div class="stat-card">
-            <div class="stat-icon text-success">
-                <i class="fas fa-parking"></i>
+    <!-- Enhanced Stats Cards -->
+    <div class="enhanced-stats">
+        <div class="stats-card success">
+            <h3 id="availableCount">{{ available_slots|default:0 }}</h3>
+            <p><i class="fas fa-parking"></i> Available Slots</p>
+            <div class="trend-indicator" id="availableTrend">
+                <i class="fas fa-arrow-up"></i> Real-time
             </div>
-            <div class="stat-number text-success">{{ available_slots }}</div>
-            <div class="stat-label">Available Slots</div>
         </div>
 
-        <div class="stat-card">
-            <div class="stat-icon text-info">
-                <i class="fas fa-car"></i>
+        <div class="stats-card primary">
+            <h3 id="totalSessionsCount">{{ my_total_sessions|default:0 }}</h3>
+            <p><i class="fas fa-history"></i> Total Sessions</p>
+            <div class="trend-indicator" id="totalTrend">
+                <i class="fas fa-chart-line"></i> All time
             </div>
-            <div class="stat-number text-info">{{ my_active_sessions }}</div>
-            <div class="stat-label">My Active Sessions</div>
         </div>
-
-        <div class="stat-card">
-            <div class="stat-icon text-primary">
-                <i class="fas fa-history"></i>
+        <div class="stats-card warning">
+            <h3 id="totalSpentCount">₹{{ total_spent|default:0 }}</h3>
+            <p><i class="fas fa-rupee-sign"></i> Total Spent</p>
+            <div class="trend-indicator" id="spentTrend">
+                <i class="fas fa-wallet"></i> Lifetime
             </div>
-            <div class="stat-number text-primary">{{ my_total_sessions }}</div>
-            <div class="stat-label">Total Sessions</div>
         </div>
+    </div>
 
-        <div class="stat-card">
-            <div class="stat-icon text-warning">
-                <i class="fas fa-rupee-sign"></i>
+    <!-- Live Parking Slots Section -->
+    <div class="card mt-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <div>
+                <i class="fas fa-th-large"></i> Live Parking Slot Status
+                <span class="badge bg-success ms-2" id="autoRefreshBadge">Auto-refresh ON</span>
             </div>
-            <div class="stat-number text-warning">₹{{ total_spent }}</div>
-            <div class="stat-label">Total Spent</div>
+            <div>
+                <button class="btn btn-sm btn-outline-primary me-2" onclick="toggleAutoRefresh()">
+                    <i class="fas fa-pause" id="autoRefreshIcon"></i> <span id="autoRefreshText">Pause</span>
+                </button>
+                <button class="btn btn-sm btn-light" onclick="fetchSlots()">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="parking-grid" id="slotGrid">
+                <div class="loading">
+                    <div class="spinner"></div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -291,12 +519,12 @@
             <h5>Lookup Vehicle</h5>
             <p>Check vehicle status</p>
         </a>
-        <a href="{% url 'auth:profile' %}" class="quick-action">
+        <a href="{% url 'profile' %}" class="quick-action">
             <i class="fas fa-user-edit"></i>
             <h5>Edit Profile</h5>
             <p>Update your information</p>
         </a>
-        <a href="{% url 'auth:change_password' %}" class="quick-action">
+        <a href="{% url 'change_password' %}" class="quick-action">
             <i class="fas fa-key"></i>
             <h5>Change Password</h5>
             <p>Update your password</p>
@@ -311,6 +539,111 @@
 {% endblock %}
 
 {% block extra_scripts %}
+// Global variables for live features
+let autoRefreshEnabled = true;
+let refreshInterval;
+
+// Initialize dashboard
+document.addEventListener('DOMContentLoaded', function() {
+    initializeDashboard();
+    startAutoRefresh();
+    updateActiveSessions(); // Initial call for active sessions
+});
+
+function initializeDashboard() {
+    fetchSlots();
+}
+
+function startAutoRefresh() {
+    if (refreshInterval) clearInterval(refreshInterval);
+
+    refreshInterval = setInterval(() => {
+        if (autoRefreshEnabled) {
+            fetchSlots();
+            updateActiveSessions();
+        }
+    }, 5000); // Refresh every 5 seconds
+}
+
+function toggleAutoRefresh() {
+    autoRefreshEnabled = !autoRefreshEnabled;
+    const badge = document.getElementById('autoRefreshBadge');
+    const icon = document.getElementById('autoRefreshIcon');
+    const text = document.getElementById('autoRefreshText');
+
+    if (autoRefreshEnabled) {
+        badge.textContent = 'Auto-refresh ON';
+        badge.className = 'badge bg-success ms-2';
+        icon.className = 'fas fa-pause';
+        text.textContent = 'Pause';
+    } else {
+        badge.textContent = 'Auto-refresh OFF';
+        badge.className = 'badge bg-danger ms-2';
+        icon.className = 'fas fa-play';
+        text.textContent = 'Resume';
+    }
+}
+
+function fetchSlots() {
+    fetch('/api/slot-status/')
+        .then(response => response.json())
+        .then(data => {
+            const grid = document.getElementById('slotGrid');
+            grid.innerHTML = '';
+
+            // Update stats
+            const availableSlots = data.filter(slot => !slot.is_occupied && !slot.is_reserved);
+            const occupiedSlots = data.filter(slot => slot.is_occupied);
+            const reservedSlots = data.filter(slot => slot.is_reserved);
+
+            // Update stats cards
+            document.getElementById('availableCount').textContent = availableSlots.length;
+
+            data.forEach(slot => {
+                const div = document.createElement('div');
+                div.classList.add('parking-slot');
+
+                let status, statusClass, tooltip = '';
+                if (slot.session_status === 'pending' || slot.is_reserved) {
+                    status = 'Reserved';
+                    statusClass = 'reserved';
+                    if (slot.vehicle_number) {
+                        tooltip = `Vehicle: ${slot.vehicle_number}`;
+                    }
+                } else if (slot.is_occupied) {
+                    status = 'Occupied';
+                    statusClass = 'occupied';
+                    if (slot.vehicle_number) {
+                        tooltip = `Vehicle: ${slot.vehicle_number}`;
+                        if (slot.session_start) {
+                            const startTime = new Date(slot.session_start);
+                            const duration = Math.floor((new Date() - startTime) / (1000 * 60));
+                            tooltip += `\nDuration: ${duration} min`;
+                        }
+                    }
+                } else {
+                    status = 'Available';
+                    statusClass = 'vacant';
+                    tooltip = 'Available for booking';
+                }
+
+                div.classList.add(statusClass);
+                div.title = tooltip;
+                div.innerHTML = `
+                    <div class="slot-id">${slot.slot_id}</div>
+                    <div class="slot-status">${status}</div>
+                `;
+
+                grid.appendChild(div);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching slots:', error);
+            const grid = document.getElementById('slotGrid');
+            grid.innerHTML = '<div class="alert alert-danger">Error loading slot data</div>';
+        });
+}
+
 // Update duration and fee for active sessions
 function updateActiveSessions() {
     {% for session in current_sessions %}
@@ -336,7 +669,10 @@ function updateActiveSessions() {
     {% endfor %}
 }
 
-// Update every minute
-setInterval(updateActiveSessions, 60000);
-updateActiveSessions(); // Initial call
+// Smooth scroll to sections
+function scrollToSection(sectionId) {
+    document.getElementById(sectionId).scrollIntoView({
+        behavior: 'smooth'
+    });
+}
 {% endblock %}
