@@ -11,3 +11,6 @@ db.sqlite3
 # # Environment files (optional)
 # .env
 # *.env
+
+# Ignore the PMS folder
+pms.log/
