@@ -15895,3 +15895,847 @@ INFO 2025-07-31 17:44:07,154 basehttp 29632 37852 "GET /staff/dashboard/ HTTP/1.
 INFO 2025-07-31 17:44:07,321 basehttp 29632 37852 "GET /auth/logout/ HTTP/1.1" 302 0
 INFO 2025-07-31 17:44:07,337 basehttp 29632 37852 "GET /auth/login/ HTTP/1.1" 200 8725
 INFO 2025-07-31 17:44:10,985 basehttp 29632 37852 "GET / HTTP/1.1" 200 11480
+INFO 2025-07-31 18:13:41,777 autoreload 12900 8420 Watching for file changes with StatReloader
+INFO 2025-07-31 18:35:31,717 autoreload 17212 11520 Watching for file changes with StatReloader
+INFO 2025-07-31 18:36:14,365 autoreload 17216 15300 Watching for file changes with StatReloader
+ERROR 2025-07-31 18:36:23,930 log 17216 6364 Internal Server Error: /
+Traceback (most recent call last):
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\contrib\sessions\backends\base.py", line 244, in _get_session
+    return self._session_cache
+           ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'SessionStore' object has no attribute '_session_cache'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: django_session
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\pms\dashboard_views.py", line 165, in home_screen_view
+    if request.user.is_authenticated:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\utils\functional.py", line 251, in inner
+    self._setup()
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\utils\functional.py", line 404, in _setup
+    self._wrapped = self._setupfunc()
+                    ^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\contrib\auth\middleware.py", line 39, in <lambda>
+    request.user = SimpleLazyObject(lambda: get_user(request))
+                                            ^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\contrib\auth\middleware.py", line 19, in get_user
+    request._cached_user = auth.get_user(request)
+                           ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\contrib\auth\__init__.py", line 304, in get_user
+    user_id = _get_user_session_key(request)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\contrib\auth\__init__.py", line 95, in _get_user_session_key
+    return get_user_model()._meta.pk.to_python(request.session[SESSION_KEY])
+                                               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\contrib\sessions\backends\base.py", line 55, in __getitem__
+    return self._session[key]
+           ^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\contrib\sessions\backends\base.py", line 249, in _get_session
+    self._session_cache = self.load()
+                          ^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\contrib\sessions\backends\db.py", line 55, in load
+    s = self._get_session_from_db()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\contrib\sessions\backends\db.py", line 34, in _get_session_from_db
+    return self.model.objects.get(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\models\query.py", line 629, in get
+    num = len(clone)
+          ^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\models\query.py", line 366, in __len__
+    self._fetch_all()
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\models\query.py", line 1945, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: django_session
+ERROR 2025-07-31 18:36:24,200 log 17216 6364 Internal Server Error: /
+Traceback (most recent call last):
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\contrib\sessions\backends\base.py", line 244, in _get_session
+    return self._session_cache
+           ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'SessionStore' object has no attribute '_session_cache'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: django_session
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\utils\deprecation.py", line 122, in __call__
+    response = self.process_response(request, response)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\contrib\sessions\middleware.py", line 48, in process_response
+    if request.session.get_expire_at_browser_close():
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\contrib\sessions\backends\base.py", line 403, in get_expire_at_browser_close
+    if (expiry := self.get("_session_expiry")) is None:
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\contrib\sessions\backends\base.py", line 74, in get
+    return self._session.get(key, default)
+           ^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\contrib\sessions\backends\base.py", line 249, in _get_session
+    self._session_cache = self.load()
+                          ^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\contrib\sessions\backends\db.py", line 55, in load
+    s = self._get_session_from_db()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\contrib\sessions\backends\db.py", line 34, in _get_session_from_db
+    return self.model.objects.get(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\models\query.py", line 629, in get
+    num = len(clone)
+          ^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\models\query.py", line 366, in __len__
+    self._fetch_all()
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\models\query.py", line 1945, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: django_session
+ERROR 2025-07-31 18:36:24,502 basehttp 17216 6364 "GET / HTTP/1.1" 500 167790
+ERROR 2025-07-31 18:36:25,366 log 17216 16620 Internal Server Error: /favicon.ico
+Traceback (most recent call last):
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\contrib\sessions\backends\base.py", line 244, in _get_session
+    return self._session_cache
+           ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'SessionStore' object has no attribute '_session_cache'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: django_session
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\utils\deprecation.py", line 122, in __call__
+    response = self.process_response(request, response)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\contrib\sessions\middleware.py", line 48, in process_response
+    if request.session.get_expire_at_browser_close():
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\contrib\sessions\backends\base.py", line 403, in get_expire_at_browser_close
+    if (expiry := self.get("_session_expiry")) is None:
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\contrib\sessions\backends\base.py", line 74, in get
+    return self._session.get(key, default)
+           ^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\contrib\sessions\backends\base.py", line 249, in _get_session
+    self._session_cache = self.load()
+                          ^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\contrib\sessions\backends\db.py", line 55, in load
+    s = self._get_session_from_db()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\contrib\sessions\backends\db.py", line 34, in _get_session_from_db
+    return self.model.objects.get(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\models\query.py", line 629, in get
+    num = len(clone)
+          ^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\models\query.py", line 366, in __len__
+    self._fetch_all()
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\models\query.py", line 1945, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mid_def_5th\PMS\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: django_session
+ERROR 2025-07-31 18:36:25,433 basehttp 17216 16620 "GET /favicon.ico HTTP/1.1" 500 167607
+INFO 2025-07-31 18:37:57,486 autoreload 13032 17468 Watching for file changes with StatReloader
+INFO 2025-07-31 18:38:03,590 basehttp 13032 18368 "GET / HTTP/1.1" 200 11155
+INFO 2025-07-31 18:38:04,074 basehttp 13032 18368 "GET /static/css/base.css HTTP/1.1" 200 6068
+INFO 2025-07-31 18:38:04,166 basehttp 13032 7376 "GET /static/js/notifications.js HTTP/1.1" 200 9355
+INFO 2025-07-31 18:38:04,320 basehttp 13032 2172 "GET /static/images/img1.png HTTP/1.1" 200 493359
+INFO 2025-07-31 18:38:04,357 basehttp 13032 4888 "GET /static/images/logo.jpg HTTP/1.1" 200 5730
+INFO 2025-07-31 18:38:04,449 basehttp 13032 11668 "GET /static/images/img2.jpg HTTP/1.1" 200 246224
+INFO 2025-07-31 18:38:04,488 basehttp 13032 12136 "GET /static/images/img3.jpg HTTP/1.1" 200 30608
+WARNING 2025-07-31 18:38:04,692 log 13032 12136 Not Found: /favicon.ico
+WARNING 2025-07-31 18:38:04,697 basehttp 13032 12136 "GET /favicon.ico HTTP/1.1" 404 18215
+INFO 2025-07-31 18:38:47,975 basehttp 13032 12136 "GET /auth/login/ HTTP/1.1" 200 8339
+INFO 2025-07-31 18:38:55,471 basehttp 13032 12136 "GET /auth/login/ HTTP/1.1" 200 8339
+INFO 2025-07-31 18:41:16,745 autoreload 6056 15156 Watching for file changes with StatReloader
+INFO 2025-07-31 18:41:20,994 basehttp 6056 7664 "GET / HTTP/1.1" 200 11155
+INFO 2025-07-31 18:41:30,418 basehttp 6056 7664 "GET /auth/login/ HTTP/1.1" 200 8339
+INFO 2025-07-31 18:41:37,697 basehttp 6056 7664 "POST /auth/login/ HTTP/1.1" 200 8352
+INFO 2025-07-31 18:41:49,364 basehttp 6056 7664 "POST /auth/login/ HTTP/1.1" 200 8773
+INFO 2025-07-31 18:42:08,007 basehttp 6056 7664 "GET /admin HTTP/1.1" 301 0
+INFO 2025-07-31 18:42:08,067 basehttp 6056 6040 "GET /admin/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:42:08,281 basehttp 6056 6040 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 3058
+INFO 2025-07-31 18:42:08,856 basehttp 6056 8620 "GET /static/jazzmin/css/main.css HTTP/1.1" 200 16969
+INFO 2025-07-31 18:42:08,907 basehttp 6056 4732 "GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1" 200 1382975
+INFO 2025-07-31 18:42:08,910 basehttp 6056 6040 "GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1" 200 103009
+INFO 2025-07-31 18:42:09,156 basehttp 6056 8620 "GET /static/vendor/adminlte/js/adminlte.min.js HTTP/1.1" 200 44244
+INFO 2025-07-31 18:42:09,307 basehttp 6056 15876 "GET /static/vendor/adminlte/img/AdminLTELogo.png HTTP/1.1" 200 2637
+INFO 2025-07-31 18:42:09,324 basehttp 6056 17060 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+INFO 2025-07-31 18:42:09,389 basehttp 6056 10896 "GET /static/vendor/bootstrap/js/bootstrap.min.js HTTP/1.1" 200 62440
+INFO 2025-07-31 18:42:09,530 basehttp 6056 17060 "GET /static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 200 156400
+WARNING 2025-07-31 18:42:09,642 basehttp 6056 17060 "GET /static/images/favicon.png HTTP/1.1" 404 1868
+INFO 2025-07-31 18:42:18,260 basehttp 6056 10896 "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:42:18,587 basehttp 6056 10896 "GET /admin/ HTTP/1.1" 200 21039
+INFO 2025-07-31 18:42:18,737 basehttp 6056 4732 "GET /static/vendor/fontawesome-free/webfonts/fa-regular-400.woff2 HTTP/1.1" 200 25392
+INFO 2025-07-31 18:42:18,825 basehttp 6056 10896 "GET /static/jazzmin/js/main.js HTTP/1.1" 200 2391
+INFO 2025-07-31 18:42:24,384 basehttp 6056 10896 "GET /admin/auth/user/ HTTP/1.1" 200 21394
+INFO 2025-07-31 18:42:24,477 basehttp 6056 10896 "GET /static/vendor/select2/css/select2.min.css HTTP/1.1" 200 16264
+INFO 2025-07-31 18:42:24,479 basehttp 6056 15876 "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+INFO 2025-07-31 18:42:24,507 basehttp 6056 8620 "GET /static/admin/js/core.js HTTP/1.1" 200 6208
+INFO 2025-07-31 18:42:24,543 basehttp 6056 6040 "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9777
+INFO 2025-07-31 18:42:24,605 basehttp 6056 15876 "GET /static/admin/js/urlify.js HTTP/1.1" 200 7887
+INFO 2025-07-31 18:42:24,639 basehttp 6056 18060 "GET /static/admin/js/actions.js HTTP/1.1" 200 8076
+INFO 2025-07-31 18:42:24,677 basehttp 6056 10896 "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+INFO 2025-07-31 18:42:24,685 basehttp 6056 18060 "GET /static/admin/img/icon-yes.svg HTTP/1.1" 200 436
+INFO 2025-07-31 18:42:24,807 basehttp 6056 15876 "GET /static/vendor/select2/js/select2.min.js HTTP/1.1" 200 73170
+INFO 2025-07-31 18:42:24,829 basehttp 6056 4732 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-31 18:42:24,867 basehttp 6056 18060 "GET /static/jazzmin/js/change_list.js HTTP/1.1" 200 2252
+INFO 2025-07-31 18:42:24,918 basehttp 6056 8620 "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 200 325171
+INFO 2025-07-31 18:42:28,778 basehttp 6056 8620 "GET /admin/auth/user/1/change/ HTTP/1.1" 200 35315
+INFO 2025-07-31 18:42:28,908 basehttp 6056 8620 "GET /static/admin/js/calendar.js HTTP/1.1" 200 9141
+INFO 2025-07-31 18:42:28,910 basehttp 6056 10896 "GET /static/admin/js/change_form.js HTTP/1.1" 200 606
+INFO 2025-07-31 18:42:28,911 basehttp 6056 18060 "GET /static/admin/js/SelectBox.js HTTP/1.1" 200 4530
+INFO 2025-07-31 18:42:28,911 basehttp 6056 4732 "GET /static/admin/js/SelectFilter2.js HTTP/1.1" 200 15709
+INFO 2025-07-31 18:42:28,912 basehttp 6056 15876 "GET /static/admin/js/admin/DateTimeShortcuts.js HTTP/1.1" 200 19319
+INFO 2025-07-31 18:42:28,981 basehttp 6056 8620 "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 200 586
+INFO 2025-07-31 18:42:28,996 basehttp 6056 6040 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-31 18:42:29,061 basehttp 6056 15876 "GET /static/jazzmin/js/change_form.js HTTP/1.1" 200 6052
+INFO 2025-07-31 18:42:29,119 basehttp 6056 6040 "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 331
+INFO 2025-07-31 18:42:36,390 basehttp 6056 6040 "GET /admin/auth/user/ HTTP/1.1" 200 21394
+INFO 2025-07-31 18:42:36,572 basehttp 6056 6040 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-31 18:42:38,104 basehttp 6056 6040 "GET /admin/auth/user/1/change/ HTTP/1.1" 200 35315
+INFO 2025-07-31 18:42:38,313 basehttp 6056 6040 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-31 18:42:45,991 basehttp 6056 6040 "GET /admin/pms/userprofile/ HTTP/1.1" 200 21677
+INFO 2025-07-31 18:42:46,071 basehttp 6056 6040 "GET /static/admin/img/icon-no.svg HTTP/1.1" 200 560
+INFO 2025-07-31 18:42:46,168 basehttp 6056 15876 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-31 18:42:47,872 basehttp 6056 15876 "GET /admin/pms/userprofile/1/change/ HTTP/1.1" 200 33788
+INFO 2025-07-31 18:42:47,983 basehttp 6056 15876 "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 380
+INFO 2025-07-31 18:42:48,029 basehttp 6056 15876 "GET /static/admin/img/icon-viewlink.svg HTTP/1.1" 200 581
+INFO 2025-07-31 18:42:48,084 basehttp 6056 15876 "GET /static/admin/img/icon-deletelink.svg HTTP/1.1" 200 392
+INFO 2025-07-31 18:42:48,100 basehttp 6056 6040 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-31 18:43:08,182 basehttp 6056 6040 "POST /admin/pms/userprofile/1/change/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:43:08,345 basehttp 6056 6040 "GET /admin/pms/userprofile/ HTTP/1.1" 200 22265
+INFO 2025-07-31 18:43:08,432 basehttp 6056 6040 "GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1" 304 0
+INFO 2025-07-31 18:43:08,432 basehttp 6056 18060 "GET /static/vendor/select2/css/select2.min.css HTTP/1.1" 304 0
+INFO 2025-07-31 18:43:08,433 basehttp 6056 4732 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 304 0
+INFO 2025-07-31 18:43:08,433 basehttp 6056 8620 "GET /static/jazzmin/css/main.css HTTP/1.1" 304 0
+INFO 2025-07-31 18:43:08,466 basehttp 6056 15876 "GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1" 304 0
+INFO 2025-07-31 18:43:08,502 basehttp 6056 4732 "GET /static/vendor/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 0
+INFO 2025-07-31 18:43:08,516 basehttp 6056 8620 "GET /static/vendor/adminlte/img/AdminLTELogo.png HTTP/1.1" 304 0
+INFO 2025-07-31 18:43:08,550 basehttp 6056 4732 "GET /static/vendor/adminlte/js/adminlte.min.js HTTP/1.1" 304 0
+INFO 2025-07-31 18:43:08,562 basehttp 6056 8620 "GET /static/jazzmin/js/main.js HTTP/1.1" 304 0
+INFO 2025-07-31 18:43:08,614 basehttp 6056 4732 "GET /static/jazzmin/js/change_list.js HTTP/1.1" 304 0
+INFO 2025-07-31 18:43:08,619 basehttp 6056 10896 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-31 18:43:08,688 basehttp 6056 8620 "GET /static/vendor/select2/js/select2.min.js HTTP/1.1" 304 0
+INFO 2025-07-31 18:43:14,358 basehttp 6056 8620 "GET /admin/ HTTP/1.1" 200 22741
+INFO 2025-07-31 18:43:19,588 basehttp 6056 8620 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:43:19,778 basehttp 6056 8620 "GET /manager/dashboard/ HTTP/1.1" 200 23793
+INFO 2025-07-31 18:43:19,838 basehttp 6056 4732 "GET /static/css/base.css HTTP/1.1" 304 0
+INFO 2025-07-31 18:43:19,840 basehttp 6056 8620 "GET /static/css/dashboard.css HTTP/1.1" 200 6852
+INFO 2025-07-31 18:43:19,845 basehttp 6056 15876 "GET /static/images/logo.jpg HTTP/1.1" 304 0
+INFO 2025-07-31 18:43:19,845 basehttp 6056 18060 "GET /static/js/notifications.js HTTP/1.1" 304 0
+INFO 2025-07-31 18:43:20,123 basehttp 6056 18060 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 18:43:23,061 basehttp 6056 18060 "GET /api/slot-status/ HTTP/1.1" 200 2549
+INFO 2025-07-31 18:43:26,001 basehttp 6056 18060 "GET /api/slot-status/ HTTP/1.1" 200 2549
+INFO 2025-07-31 18:43:29,107 basehttp 6056 18060 "GET /api/slot-status/ HTTP/1.1" 200 2549
+INFO 2025-07-31 18:43:29,294 basehttp 6056 2472 "POST /api/update-slot/ HTTP/1.1" 200 153
+INFO 2025-07-31 18:43:30,050 basehttp 6056 18060 "GET /api/dashboard-analytics/ HTTP/1.1" 200 211
+INFO 2025-07-31 18:43:32,081 basehttp 6056 18060 "GET /api/slot-status/ HTTP/1.1" 200 2550
+INFO 2025-07-31 18:43:35,039 basehttp 6056 18060 "GET /api/slot-status/ HTTP/1.1" 200 2550
+INFO 2025-07-31 18:43:38,083 basehttp 6056 18060 "GET /api/slot-status/ HTTP/1.1" 200 2550
+INFO 2025-07-31 18:43:39,737 basehttp 6056 18060 "GET /manager/dashboard/ HTTP/1.1" 200 23796
+INFO 2025-07-31 18:43:40,198 basehttp 6056 8620 "GET /api/slot-status/ HTTP/1.1" 200 2550
+INFO 2025-07-31 18:43:40,390 basehttp 6056 17104 "POST /api/update-slot/ HTTP/1.1" 200 155
+INFO 2025-07-31 18:43:43,010 basehttp 6056 8620 "GET /api/slot-status/ HTTP/1.1" 200 2549
+INFO 2025-07-31 18:43:46,007 basehttp 6056 8620 "GET /api/slot-status/ HTTP/1.1" 200 2549
+INFO 2025-07-31 18:43:47,080 basehttp 6056 16728 "POST /api/update-slot/ HTTP/1.1" 200 153
+INFO 2025-07-31 18:43:48,237 basehttp 6056 8620 "GET /manager/dashboard/ HTTP/1.1" 200 23796
+INFO 2025-07-31 18:43:48,652 basehttp 6056 15876 "GET /api/slot-status/ HTTP/1.1" 200 2550
+INFO 2025-07-31 18:43:48,869 basehttp 6056 16376 "POST /api/update-slot/ HTTP/1.1" 200 155
+INFO 2025-07-31 18:43:51,531 basehttp 6056 15876 "GET /api/slot-status/ HTTP/1.1" 200 2549
+INFO 2025-07-31 18:43:54,507 basehttp 6056 15876 "GET /api/slot-status/ HTTP/1.1" 200 2549
+INFO 2025-07-31 18:43:55,772 basehttp 6056 9952 "POST /api/update-slot/ HTTP/1.1" 200 153
+INFO 2025-07-31 18:43:57,490 basehttp 6056 15876 "GET /api/slot-status/ HTTP/1.1" 200 2550
+INFO 2025-07-31 18:43:58,498 basehttp 6056 15876 "GET /api/dashboard-analytics/ HTTP/1.1" 200 211
+INFO 2025-07-31 18:44:00,470 basehttp 6056 15876 "GET /api/slot-status/ HTTP/1.1" 200 2550
+INFO 2025-07-31 18:44:03,448 basehttp 6056 15876 "GET /api/slot-status/ HTTP/1.1" 200 2550
+INFO 2025-07-31 18:44:06,520 basehttp 6056 15876 "GET /api/slot-status/ HTTP/1.1" 200 2550
+INFO 2025-07-31 18:44:08,440 basehttp 6056 15876 "GET /api/dashboard-analytics/ HTTP/1.1" 200 211
+INFO 2025-07-31 18:44:09,517 basehttp 6056 15876 "GET /api/slot-status/ HTTP/1.1" 200 2550
+INFO 2025-07-31 18:44:12,489 basehttp 6056 15876 "GET /api/slot-status/ HTTP/1.1" 200 2550
+INFO 2025-07-31 18:44:15,497 basehttp 6056 15876 "GET /api/slot-status/ HTTP/1.1" 200 2550
+INFO 2025-07-31 18:44:16,999 basehttp 6056 8360 "POST /api/update-slot/ HTTP/1.1" 200 153
+INFO 2025-07-31 18:44:18,471 basehttp 6056 15876 "GET /api/pending-approvals-count/ HTTP/1.1" 200 12
+INFO 2025-07-31 18:44:18,660 basehttp 6056 6040 "GET /api/slot-status/ HTTP/1.1" 200 2551
+INFO 2025-07-31 18:44:18,778 basehttp 6056 4732 "GET /api/dashboard-analytics/ HTTP/1.1" 200 211
+INFO 2025-07-31 18:44:19,980 basehttp 6056 4732 "GET /auth/logout/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:44:20,023 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 200 8725
+INFO 2025-07-31 18:44:23,730 basehttp 6056 4732 "GET /staff/login/ HTTP/1.1" 200 6297
+INFO 2025-07-31 18:44:38,052 basehttp 6056 4732 "GET /staff/register/ HTTP/1.1" 200 9929
+INFO 2025-07-31 18:45:17,093 basehttp 6056 4732 "GET / HTTP/1.1" 200 11155
+INFO 2025-07-31 18:45:17,193 basehttp 6056 15876 "GET /static/images/img3.jpg HTTP/1.1" 304 0
+INFO 2025-07-31 18:45:17,197 basehttp 6056 6040 "GET /static/images/img2.jpg HTTP/1.1" 304 0
+INFO 2025-07-31 18:45:17,198 basehttp 6056 4732 "GET /static/images/img1.png HTTP/1.1" 304 0
+INFO 2025-07-31 18:45:19,976 basehttp 6056 4732 "GET /customer/register/ HTTP/1.1" 200 9508
+INFO 2025-07-31 18:45:31,085 basehttp 6056 4732 "GET /customer/register/ HTTP/1.1" 200 9508
+INFO 2025-07-31 18:45:35,661 basehttp 6056 4732 "GET /staff/register/ HTTP/1.1" 200 9929
+INFO 2025-07-31 18:47:01,220 basehttp 6056 4732 "POST /staff/register/ HTTP/1.1" 200 10184
+INFO 2025-07-31 18:47:24,317 basehttp 6056 4732 "POST /staff/register/ HTTP/1.1" 200 10168
+INFO 2025-07-31 18:47:54,042 basehttp 6056 4732 "POST /staff/register/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:47:54,283 basehttp 6056 4732 "GET /staff/dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:47:54,523 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:47:54,676 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:47:54,881 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:47:55,045 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:47:55,205 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:47:55,393 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:47:55,560 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:47:55,742 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:47:55,925 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:47:56,255 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:47:56,511 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:47:56,684 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:47:56,870 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:47:56,991 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:47:57,142 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:47:57,330 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:47:57,462 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:47:57,711 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:47:59,048 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:47:59,163 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:47:59,291 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:47:59,417 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:47:59,582 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:47:59,926 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:00,056 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:00,196 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:00,378 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:00,504 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:00,634 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:00,770 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:00,925 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:01,074 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:01,208 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:01,354 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:01,492 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:02,031 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:02,508 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:02,719 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:04,704 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:04,982 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:05,118 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:05,270 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:05,407 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:05,537 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:05,663 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:05,807 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:05,948 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:06,062 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:06,195 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:06,318 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:06,476 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:06,613 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:06,750 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:06,881 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:07,006 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:07,150 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:07,278 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:07,438 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:32,825 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:32,966 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:33,090 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:33,270 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:33,409 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:33,537 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:33,679 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:33,809 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:33,955 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:34,075 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:34,200 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:34,412 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:34,622 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:34,740 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:34,855 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:34,986 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:35,099 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:35,239 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:35,343 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:35,461 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:36,675 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:36,793 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:36,897 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:37,039 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:37,268 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:37,575 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:37,806 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:37,957 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:38,087 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:38,224 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:38,363 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:38,490 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:38,618 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:38,873 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:39,023 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:39,149 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:39,289 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:39,416 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:39,549 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:39,682 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:39,916 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:40,050 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:40,166 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:40,271 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:40,399 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:40,514 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:40,643 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:40,758 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:40,880 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:41,021 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:41,208 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:41,348 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:41,478 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:41,631 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:41,736 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:41,878 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:42,008 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:42,177 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:42,368 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:42,488 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:43,731 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:43,876 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:44,028 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:44,176 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:44,330 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:44,482 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:44,672 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:44,815 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:45,075 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:45,209 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:45,388 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:45,550 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:45,695 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:45,837 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:45,961 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:46,090 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:46,217 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:46,335 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:46,557 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:46,676 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:51,865 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:52,015 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:52,181 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:52,410 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:52,527 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:52,658 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:52,809 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:52,959 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:53,081 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:53,184 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:53,291 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:53,396 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:53,514 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:53,617 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:53,725 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:53,953 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:54,161 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:54,279 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:54,520 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:54,875 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:57,512 basehttp 6056 4732 "GET / HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:57,718 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:57,852 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:57,990 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:58,119 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:58,257 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:58,385 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:58,511 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:58,657 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:58,809 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:58,967 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:59,095 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:59,221 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:59,350 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:59,477 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:59,617 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:59,730 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:59,863 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:48:59,988 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:49:00,125 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:49:01,350 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:49:01,481 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:49:01,647 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:49:01,783 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:49:01,916 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:49:02,074 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:49:02,217 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:49:02,351 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:49:02,510 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:49:02,704 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:49:02,884 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:49:03,078 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:49:03,205 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:49:03,327 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:49:03,470 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:49:03,601 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:49:03,744 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:49:03,857 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:49:03,977 basehttp 6056 4732 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:49:04,114 basehttp 6056 4732 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:49:48,470 basehttp 6056 20236 "GET / HTTP/1.1" 200 11155
+INFO 2025-07-31 18:49:48,555 basehttp 6056 20236 "GET /static/css/base.css HTTP/1.1" 200 6068
+INFO 2025-07-31 18:49:48,564 basehttp 6056 20240 "GET /static/images/logo.jpg HTTP/1.1" 200 5730
+INFO 2025-07-31 18:49:48,572 basehttp 6056 20244 "GET /static/images/img1.png HTTP/1.1" 200 493359
+INFO 2025-07-31 18:49:48,600 basehttp 6056 20248 "GET /static/images/img2.jpg HTTP/1.1" 200 246224
+INFO 2025-07-31 18:49:48,652 basehttp 6056 20252 "GET /static/images/img3.jpg HTTP/1.1" 200 30608
+INFO 2025-07-31 18:49:48,663 basehttp 6056 20256 "GET /static/js/notifications.js HTTP/1.1" 200 9355
+WARNING 2025-07-31 18:49:49,140 log 6056 20256 Not Found: /favicon.ico
+WARNING 2025-07-31 18:49:49,168 basehttp 6056 20256 "GET /favicon.ico HTTP/1.1" 404 18215
+INFO 2025-07-31 18:49:56,312 basehttp 6056 19772 "GET /manager/login/ HTTP/1.1" 200 6114
+INFO 2025-07-31 18:50:04,759 basehttp 6056 19508 "POST /manager/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:50:04,961 basehttp 6056 19508 "GET /manager/dashboard/ HTTP/1.1" 200 24834
+INFO 2025-07-31 18:50:05,055 basehttp 6056 19508 "GET /static/css/dashboard.css HTTP/1.1" 200 6852
+INFO 2025-07-31 18:50:05,471 basehttp 6056 19508 "GET /api/slot-status/ HTTP/1.1" 200 2551
+INFO 2025-07-31 18:50:05,673 basehttp 6056 20256 "POST /api/update-slot/ HTTP/1.1" 200 155
+INFO 2025-07-31 18:50:05,789 basehttp 6056 19088 "POST /api/update-slot/ HTTP/1.1" 200 155
+INFO 2025-07-31 18:50:08,400 basehttp 6056 19508 "GET /api/slot-status/ HTTP/1.1" 200 2549
+INFO 2025-07-31 18:50:11,356 basehttp 6056 16456 "GET /api/slot-status/ HTTP/1.1" 200 2549
+INFO 2025-07-31 18:50:12,958 basehttp 6056 19844 "POST /api/update-slot/ HTTP/1.1" 200 153
+INFO 2025-07-31 18:50:14,413 basehttp 6056 16456 "POST /manager/approve-user/2/ HTTP/1.1" 200 58
+INFO 2025-07-31 18:50:14,646 basehttp 6056 16456 "GET /manager/dashboard/ HTTP/1.1" 200 23796
+INFO 2025-07-31 18:50:14,822 basehttp 6056 16592 - Broken pipe from ('127.0.0.1', 56559)
+INFO 2025-07-31 18:50:15,201 basehttp 6056 19332 "GET /api/slot-status/ HTTP/1.1" 200 2550
+INFO 2025-07-31 18:50:15,416 basehttp 6056 5304 "POST /api/update-slot/ HTTP/1.1" 200 155
+INFO 2025-07-31 18:50:15,580 basehttp 6056 16484 "POST /api/update-slot/ HTTP/1.1" 200 153
+INFO 2025-07-31 18:50:16,236 basehttp 6056 13452 "POST /api/update-slot/ HTTP/1.1" 200 155
+INFO 2025-07-31 18:50:17,856 basehttp 6056 19332 "GET /api/slot-status/ HTTP/1.1" 200 2549
+INFO 2025-07-31 18:50:18,188 basehttp 6056 19332 "GET /auth/logout/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:50:18,224 basehttp 6056 19332 "GET /auth/login/ HTTP/1.1" 200 8725
+INFO 2025-07-31 18:50:20,821 basehttp 6056 14812 "GET /staff/login/ HTTP/1.1" 200 6297
+INFO 2025-07-31 18:50:56,710 basehttp 6056 20324 "POST /staff/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:50:56,927 basehttp 6056 20324 "GET /staff/dashboard/ HTTP/1.1" 200 22106
+INFO 2025-07-31 18:50:57,514 basehttp 6056 18396 "GET /api/slot-status/ HTTP/1.1" 200 2549
+INFO 2025-07-31 18:51:00,193 basehttp 6056 18396 "GET /api/slot-status/ HTTP/1.1" 200 2549
+INFO 2025-07-31 18:51:03,210 basehttp 6056 19452 "GET /api/slot-status/ HTTP/1.1" 200 2549
+INFO 2025-07-31 18:51:04,277 basehttp 6056 19944 "POST /api/update-slot/ HTTP/1.1" 200 153
+INFO 2025-07-31 18:51:06,235 basehttp 6056 19452 "GET /api/slot-status/ HTTP/1.1" 200 2550
+INFO 2025-07-31 18:51:07,196 basehttp 6056 19452 "GET /api/dashboard-analytics/ HTTP/1.1" 200 211
+INFO 2025-07-31 18:51:09,229 basehttp 6056 19452 "GET /api/slot-status/ HTTP/1.1" 200 2550
+INFO 2025-07-31 18:51:12,177 basehttp 6056 18608 "GET /api/slot-status/ HTTP/1.1" 200 2550
+INFO 2025-07-31 18:51:15,156 basehttp 6056 18608 "GET /api/slot-status/ HTTP/1.1" 200 2550
+INFO 2025-07-31 18:51:17,234 basehttp 6056 18608 "GET /api/dashboard-analytics/ HTTP/1.1" 200 211
+INFO 2025-07-31 18:51:18,178 basehttp 6056 18608 "GET /api/slot-status/ HTTP/1.1" 200 2550
+INFO 2025-07-31 18:51:21,196 basehttp 6056 19732 "GET /api/slot-status/ HTTP/1.1" 200 2550
+INFO 2025-07-31 18:51:24,180 basehttp 6056 19732 "GET /api/slot-status/ HTTP/1.1" 200 2550
+INFO 2025-07-31 18:51:26,112 basehttp 6056 20364 "POST /api/update-slot/ HTTP/1.1" 200 153
+INFO 2025-07-31 18:51:27,138 basehttp 6056 19732 "GET /api/staff-stats/ HTTP/1.1" 200 52
+INFO 2025-07-31 18:51:27,298 basehttp 6056 19808 "GET /api/dashboard-analytics/ HTTP/1.1" 200 211
+INFO 2025-07-31 18:51:27,454 basehttp 6056 18940 "GET /api/slot-status/ HTTP/1.1" 200 2551
+INFO 2025-07-31 18:51:30,248 basehttp 6056 18940 "GET /api/slot-status/ HTTP/1.1" 200 2551
+INFO 2025-07-31 18:51:33,156 basehttp 6056 19708 "GET /api/slot-status/ HTTP/1.1" 200 2551
+INFO 2025-07-31 18:51:36,241 basehttp 6056 19708 "GET /api/slot-status/ HTTP/1.1" 200 2551
+INFO 2025-07-31 18:51:36,289 basehttp 6056 18588 "GET /api/available-slots/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:51:36,302 basehttp 6056 18588 "GET /auth/login/ HTTP/1.1" 200 8339
+INFO 2025-07-31 18:51:36,418 basehttp 6056 16848 "GET /staff/assign/ HTTP/1.1" 200 9941
+INFO 2025-07-31 18:51:36,865 basehttp 6056 16848 "GET /api/slot-status/ HTTP/1.1" 200 2551
+INFO 2025-07-31 18:51:45,478 basehttp 6056 11724 "POST /api/auto-assign/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:51:45,503 basehttp 6056 11724 "GET /auth/login/ HTTP/1.1" 200 8339
+INFO 2025-07-31 18:51:45,889 basehttp 6056 15908 "POST /staff/assign/ HTTP/1.1" 200 10974
+INFO 2025-07-31 18:52:06,509 basehttp 6056 19308 "GET / HTTP/1.1" 302 0
+INFO 2025-07-31 18:52:06,660 basehttp 6056 19308 "GET /staff/dashboard/ HTTP/1.1" 200 22106
+INFO 2025-07-31 18:52:07,127 basehttp 6056 18500 "GET /api/slot-status/ HTTP/1.1" 200 2556
+INFO 2025-07-31 18:52:07,331 basehttp 6056 17964 "POST /api/update-slot/ HTTP/1.1" 200 155
+INFO 2025-07-31 18:52:07,480 basehttp 6056 18408 "POST /api/update-slot/ HTTP/1.1" 200 155
+INFO 2025-07-31 18:52:09,905 basehttp 6056 18500 "GET /api/slot-status/ HTTP/1.1" 200 2554
+INFO 2025-07-31 18:52:12,968 basehttp 6056 17320 "GET /api/slot-status/ HTTP/1.1" 200 2554
+INFO 2025-07-31 18:52:14,753 basehttp 6056 18812 "POST /api/update-slot/ HTTP/1.1" 200 153
+INFO 2025-07-31 18:52:15,938 basehttp 6056 17320 "GET /api/slot-status/ HTTP/1.1" 200 2555
+INFO 2025-07-31 18:52:16,882 basehttp 6056 17320 "GET /api/dashboard-analytics/ HTTP/1.1" 200 211
+INFO 2025-07-31 18:52:18,925 basehttp 6056 17320 "GET /api/slot-status/ HTTP/1.1" 200 2555
+INFO 2025-07-31 18:52:21,920 basehttp 6056 19936 "GET /api/slot-status/ HTTP/1.1" 200 2555
+INFO 2025-07-31 18:52:23,303 basehttp 6056 18632 "GET /api/available-slots/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:52:23,313 basehttp 6056 18632 "GET /auth/login/ HTTP/1.1" 200 8339
+INFO 2025-07-31 18:52:23,475 basehttp 6056 19936 "GET /staff/assign/ HTTP/1.1" 200 9941
+INFO 2025-07-31 18:52:23,771 basehttp 6056 19936 "GET /api/slot-status/ HTTP/1.1" 200 2555
+INFO 2025-07-31 18:52:29,822 basehttp 6056 16240 "POST /api/auto-assign/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:52:29,831 basehttp 6056 16240 "GET /auth/login/ HTTP/1.1" 200 8339
+INFO 2025-07-31 18:52:30,226 basehttp 6056 19936 "POST /staff/assign/ HTTP/1.1" 200 10977
+INFO 2025-07-31 18:52:46,288 basehttp 6056 9148 "GET / HTTP/1.1" 302 0
+INFO 2025-07-31 18:52:46,451 basehttp 6056 9148 "GET /staff/dashboard/ HTTP/1.1" 200 22106
+INFO 2025-07-31 18:52:46,954 basehttp 6056 17008 "GET /api/slot-status/ HTTP/1.1" 200 2561
+INFO 2025-07-31 18:52:49,692 basehttp 6056 17008 "GET /api/slot-status/ HTTP/1.1" 200 2561
+INFO 2025-07-31 18:52:52,686 basehttp 6056 12736 "GET /api/slot-status/ HTTP/1.1" 200 2561
+INFO 2025-07-31 18:52:55,717 basehttp 6056 12736 "GET /api/slot-status/ HTTP/1.1" 200 2561
+INFO 2025-07-31 18:52:56,692 basehttp 6056 12736 "GET /api/dashboard-analytics/ HTTP/1.1" 200 211
+INFO 2025-07-31 18:52:58,677 basehttp 6056 12736 "GET /api/slot-status/ HTTP/1.1" 200 2561
+INFO 2025-07-31 18:53:01,718 basehttp 6056 19104 "GET /api/slot-status/ HTTP/1.1" 200 2561
+INFO 2025-07-31 18:53:04,480 basehttp 6056 19104 "GET /api/slot-status/ HTTP/1.1" 200 2561
+INFO 2025-07-31 18:53:04,690 basehttp 6056 19104 "GET /api/slot-status/ HTTP/1.1" 200 2561
+INFO 2025-07-31 18:53:06,680 basehttp 6056 19104 "GET /api/dashboard-analytics/ HTTP/1.1" 200 211
+INFO 2025-07-31 18:53:07,669 basehttp 6056 19104 "GET /api/slot-status/ HTTP/1.1" 200 2561
+INFO 2025-07-31 18:53:09,180 basehttp 6056 19104 "GET /api/slot-status/ HTTP/1.1" 200 2561
+INFO 2025-07-31 18:53:10,606 basehttp 6056 19104 "GET /api/slot-status/ HTTP/1.1" 200 2561
+INFO 2025-07-31 18:53:10,934 basehttp 6056 19104 "GET /api/slot-status/ HTTP/1.1" 200 2561
+INFO 2025-07-31 18:53:11,830 basehttp 6056 19104 "GET /staff/dashboard/ HTTP/1.1" 200 22106
+INFO 2025-07-31 18:53:12,327 basehttp 6056 19468 "GET /api/slot-status/ HTTP/1.1" 200 2561
+INFO 2025-07-31 18:53:15,162 basehttp 6056 19468 "GET /api/slot-status/ HTTP/1.1" 200 2561
+INFO 2025-07-31 18:53:18,146 basehttp 6056 19468 "GET /api/slot-status/ HTTP/1.1" 200 2561
+INFO 2025-07-31 18:53:20,004 basehttp 6056 19468 "GET /auth/logout/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:53:20,021 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 200 8725
+INFO 2025-07-31 18:53:25,604 basehttp 6056 19468 "GET /customer/login/ HTTP/1.1" 200 6300
+INFO 2025-07-31 18:53:28,538 basehttp 6056 19468 "GET /customer/register/ HTTP/1.1" 200 9508
+INFO 2025-07-31 18:54:11,848 basehttp 6056 19468 "POST /customer/register/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:11,863 basehttp 6056 19468 "GET /customer/login/ HTTP/1.1" 200 6677
+INFO 2025-07-31 18:54:20,160 basehttp 6056 19468 "POST /customer/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:20,289 basehttp 6056 19468 "GET /customer/dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:20,416 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:20,545 basehttp 6056 19468 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:20,671 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:20,837 basehttp 6056 19468 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:20,978 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:21,107 basehttp 6056 19468 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:21,249 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:21,392 basehttp 6056 19468 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:21,521 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:21,636 basehttp 6056 19468 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:21,755 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:21,847 basehttp 6056 19468 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:21,977 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:22,079 basehttp 6056 19468 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:22,226 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:22,601 basehttp 6056 19468 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:22,867 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:22,990 basehttp 6056 19468 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:24,239 basehttp 6056 19468 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:24,388 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:24,521 basehttp 6056 19468 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:24,673 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:24,809 basehttp 6056 19468 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:24,983 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:25,110 basehttp 6056 19468 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:25,239 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:25,468 basehttp 6056 19468 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:25,594 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:25,719 basehttp 6056 19468 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:25,838 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:25,941 basehttp 6056 19468 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:26,059 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:26,181 basehttp 6056 19468 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:26,308 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:26,448 basehttp 6056 19468 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:26,567 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:26,718 basehttp 6056 19468 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:26,841 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:29,028 basehttp 6056 19468 "GET /customer/register/ HTTP/1.1" 200 16293
+INFO 2025-07-31 18:54:37,238 basehttp 6056 19468 "GET / HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:37,378 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:37,501 basehttp 6056 19468 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:37,632 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:37,758 basehttp 6056 19468 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:37,890 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:38,022 basehttp 6056 19468 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:38,123 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:38,242 basehttp 6056 19468 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:38,335 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:38,468 basehttp 6056 19468 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:38,579 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:38,707 basehttp 6056 19468 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:38,833 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:38,952 basehttp 6056 19468 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:39,066 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:39,229 basehttp 6056 19468 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:39,489 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:39,618 basehttp 6056 19468 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:39,762 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:41,018 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:41,184 basehttp 6056 19468 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:41,658 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:41,773 basehttp 6056 19468 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:41,874 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:41,981 basehttp 6056 19468 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:42,192 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:42,318 basehttp 6056 19468 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:42,436 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:42,551 basehttp 6056 19468 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:42,668 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:42,787 basehttp 6056 19468 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:42,948 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:43,061 basehttp 6056 19468 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:43,191 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:43,338 basehttp 6056 19468 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:43,469 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:43,585 basehttp 6056 19468 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:43,724 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:54:43,838 basehttp 6056 19468 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:55:54,441 basehttp 6056 19468 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:55:54,461 basehttp 6056 19468 "GET /auth/login/ HTTP/1.1" 200 8339
+INFO 2025-07-31 18:56:00,883 basehttp 6056 19468 "GET /staff/login/ HTTP/1.1" 200 6297
+INFO 2025-07-31 18:56:00,943 basehttp 6056 19468 "GET /static/css/base.css HTTP/1.1" 304 0
+INFO 2025-07-31 18:56:00,956 basehttp 6056 15876 "GET /static/js/notifications.js HTTP/1.1" 304 0
+INFO 2025-07-31 18:56:06,618 basehttp 6056 15876 "POST /staff/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 18:56:06,788 basehttp 6056 15876 "GET /staff/dashboard/ HTTP/1.1" 200 23131
+INFO 2025-07-31 18:56:07,030 basehttp 6056 19468 "GET /static/css/dashboard.css HTTP/1.1" 304 0
+INFO 2025-07-31 18:56:07,044 basehttp 6056 17076 "GET /static/images/logo.jpg HTTP/1.1" 304 0
+INFO 2025-07-31 18:56:07,439 basehttp 6056 19468 "GET /api/slot-status/ HTTP/1.1" 200 2561
+INFO 2025-07-31 18:56:10,713 basehttp 6056 19468 "POST /staff/approve-customer/3/ HTTP/1.1" 200 62
+INFO 2025-07-31 18:56:10,900 basehttp 6056 19468 "GET /staff/dashboard/ HTTP/1.1" 200 22106
+INFO 2025-07-31 18:56:11,101 basehttp 6056 17076 - Broken pipe from ('127.0.0.1', 57079)
+INFO 2025-07-31 18:56:11,457 basehttp 6056 9548 "GET /api/slot-status/ HTTP/1.1" 200 2561
+INFO 2025-07-31 18:56:14,185 basehttp 6056 9548 "GET /api/slot-status/ HTTP/1.1" 200 2561
+INFO 2025-07-31 18:56:15,558 basehttp 6056 9548 "GET /customer/lookup/ HTTP/1.1" 200 7524
+INFO 2025-07-31 18:56:20,410 basehttp 6056 9548 "POST /customer/lookup/ HTTP/1.1" 200 9942
+INFO 2025-07-31 18:56:34,855 basehttp 6056 9548 "GET /customer/lookup/ HTTP/1.1" 200 7524
+INFO 2025-07-31 18:56:39,470 basehttp 6056 20348 "GET /api/slot-status/ HTTP/1.1" 200 2561
+INFO 2025-07-31 18:56:39,658 basehttp 6056 20348 "GET /staff/end-by-vehicle/ HTTP/1.1" 200 460
+INFO 2025-07-31 18:56:57,599 basehttp 6056 12532 "GET /api/slot-status/ HTTP/1.1" 200 2561
+INFO 2025-07-31 18:57:00,528 basehttp 6056 12532 "GET /api/slot-status/ HTTP/1.1" 200 2561
+INFO 2025-07-31 18:57:03,580 basehttp 6056 12532 "GET /api/slot-status/ HTTP/1.1" 200 2561
+INFO 2025-07-31 18:57:04,545 basehttp 6056 12532 "GET /api/dashboard-analytics/ HTTP/1.1" 200 211
+INFO 2025-07-31 18:57:06,567 basehttp 6056 12532 "GET /api/slot-status/ HTTP/1.1" 200 2561
+INFO 2025-07-31 18:57:09,587 basehttp 6056 12532 "GET /api/slot-status/ HTTP/1.1" 200 2561
+INFO 2025-07-31 18:57:12,579 basehttp 6056 12532 "GET /api/slot-status/ HTTP/1.1" 200 2561
+INFO 2025-07-31 18:57:15,098 basehttp 6056 12532 "GET /api/dashboard-analytics/ HTTP/1.1" 200 211
+INFO 2025-07-31 18:57:16,164 basehttp 6056 12532 "GET /api/slot-status/ HTTP/1.1" 200 2561
+INFO 2025-07-31 18:57:19,158 basehttp 6056 12532 "GET /api/slot-status/ HTTP/1.1" 200 2561
+INFO 2025-07-31 18:57:21,566 basehttp 6056 12532 "GET /api/slot-status/ HTTP/1.1" 200 2561
+INFO 2025-07-31 18:57:24,409 basehttp 6056 17076 "POST /api/update-slot/ HTTP/1.1" 200 153
+INFO 2025-07-31 18:57:25,137 basehttp 6056 12532 "GET /api/dashboard-analytics/ HTTP/1.1" 200 211
+INFO 2025-07-31 18:57:25,326 basehttp 6056 13060 "GET /api/staff-stats/ HTTP/1.1" 200 52
+INFO 2025-07-31 18:57:25,516 basehttp 6056 19472 "GET /api/slot-status/ HTTP/1.1" 200 2562
+INFO 2025-07-31 18:57:28,324 basehttp 6056 19472 "GET /api/slot-status/ HTTP/1.1" 200 2562
+INFO 2025-07-31 18:57:31,084 basehttp 6056 19472 "GET /api/slot-status/ HTTP/1.1" 200 2562
+INFO 2025-07-31 18:57:34,147 basehttp 6056 19472 "GET /api/slot-status/ HTTP/1.1" 200 2562
+INFO 2025-07-31 18:57:35,112 basehttp 6056 19472 "GET /api/dashboard-analytics/ HTTP/1.1" 200 211
+INFO 2025-07-31 18:57:37,043 basehttp 6056 19472 "GET /api/slot-status/ HTTP/1.1" 200 2562
+INFO 2025-07-31 18:57:40,149 basehttp 6056 19472 "GET /api/slot-status/ HTTP/1.1" 200 2562
+INFO 2025-07-31 18:57:43,142 basehttp 6056 19472 "GET /api/slot-status/ HTTP/1.1" 200 2562
+INFO 2025-07-31 18:57:45,120 basehttp 6056 19472 "GET /api/dashboard-analytics/ HTTP/1.1" 200 211
+INFO 2025-07-31 18:57:46,153 basehttp 6056 19472 "GET /api/slot-status/ HTTP/1.1" 200 2562
+INFO 2025-07-31 18:57:49,148 basehttp 6056 19472 "GET /api/slot-status/ HTTP/1.1" 200 2562
+INFO 2025-07-31 18:57:52,134 basehttp 6056 19472 "GET /api/slot-status/ HTTP/1.1" 200 2562
+INFO 2025-07-31 18:57:55,140 basehttp 6056 13060 "GET /api/staff-stats/ HTTP/1.1" 200 52
+INFO 2025-07-31 18:57:55,317 basehttp 6056 19472 "GET /api/dashboard-analytics/ HTTP/1.1" 200 211
+INFO 2025-07-31 18:57:55,486 basehttp 6056 12532 "GET /api/slot-status/ HTTP/1.1" 200 2562
+INFO 2025-07-31 18:57:58,165 basehttp 6056 12532 "GET /api/slot-status/ HTTP/1.1" 200 2562
+INFO 2025-07-31 18:57:59,454 basehttp 6056 20348 "GET /video-feed/ HTTP/1.1" 200 59537048
+INFO 2025-07-31 18:58:01,141 basehttp 6056 12532 "GET /api/slot-status/ HTTP/1.1" 200 2562
+INFO 2025-07-31 18:58:04,159 basehttp 6056 12532 "GET /api/slot-status/ HTTP/1.1" 200 2562
+INFO 2025-07-31 18:58:05,037 basehttp 6056 12532 "GET /api/dashboard-analytics/ HTTP/1.1" 200 211
+INFO 2025-07-31 18:58:07,090 basehttp 6056 12532 "GET /api/slot-status/ HTTP/1.1" 200 2562
+INFO 2025-07-31 18:58:10,091 basehttp 6056 12532 "GET /api/slot-status/ HTTP/1.1" 200 2562
+INFO 2025-07-31 18:58:13,498 basehttp 6056 12532 "GET /api/slot-status/ HTTP/1.1" 200 2562
+INFO 2025-07-31 18:58:15,453 basehttp 6056 12532 "GET /api/dashboard-analytics/ HTTP/1.1" 200 211
+INFO 2025-07-31 18:58:16,169 basehttp 6056 12532 "GET /api/slot-status/ HTTP/1.1" 200 2562
+INFO 2025-07-31 18:58:20,270 basehttp 6056 12532 "GET /api/slot-status/ HTTP/1.1" 200 2562
+INFO 2025-07-31 18:58:22,035 basehttp 6056 12532 "GET /api/slot-status/ HTTP/1.1" 200 2562

@@ -11,3 +11,4 @@ db.sqlite3
 # # Environment files (optional)
 # .env
 # *.env
+venv
