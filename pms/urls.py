@@ -4,6 +4,7 @@ from .views import ParkingSlotViewSet, update_slot
 from . import views
 from . import auth_views
 from . import dashboard_views
+from . import user_management_views
 
 from .views import assign_slot
 
@@ -16,7 +17,9 @@ urlpatterns = [
     path('dashboard/', views.dashboard_view, name='dashboard'),
 
     # API endpoints
+    path('api/update-slot/', update_slot, name='api_update_slot'),
     path('api/slot-status/', views.slot_status_api, name='slot_status_api'),
+    path('api/slot-status-sync/', views.slot_status_sync_api, name='slot_status_sync_api'),
     path('api/dashboard-analytics/', views.dashboard_analytics_api, name='dashboard_analytics_api'),
     path('api/live-stats/', views.live_stats_api, name='live_stats_api'),
     path('api/auto-assign/', views.auto_assign_slot, name='auto_assign_slot'),
@@ -51,8 +54,30 @@ urlpatterns = [
     path('staff/dashboard/', dashboard_views.staff_dashboard, name='staff_dashboard'),
     path('staff/logout/', auth_views.staff_logout_view, name='staff_logout'),
 
-    # Legacy manager/admin routes for backward compatibility
-    path('manager/login/', auth_views.admin_login_view, name='manager_login'),
-    path('manager/dashboard/', dashboard_views.admin_dashboard, name='adminbase'),
-    path('manager/logout/', auth_views.admin_logout_view, name='logout'),
+    # Legacy manager routes for backward compatibility
+    path('manager/login/', auth_views.manager_login_view, name='manager_login'),
+    path('manager/dashboard/', dashboard_views.manager_dashboard, name='adminbase'),
+    path('manager/logout/', auth_views.manager_logout_view, name='logout'),
+
+    # Role-based dashboard routes
+    path('manager/dashboard/', dashboard_views.manager_dashboard, name='manager_dashboard'),
+    path('staff/dashboard/', dashboard_views.staff_dashboard, name='staff_dashboard'),
+    path('customer/dashboard/', dashboard_views.customer_dashboard, name='customer_dashboard'),
+
+    # User management routes
+    path('manager/users/', user_management_views.manager_user_management, name='manager_user_management'),
+    path('manager/create-staff/', user_management_views.manager_create_staff, name='manager_create_staff'),
+    path('manager/approve-user/<int:user_id>/', user_management_views.approve_user, name='manager_approve_user'),
+    path('manager/reject-user/<int:user_id>/', user_management_views.reject_user, name='manager_reject_user'),
+    path('manager/settings/', user_management_views.manager_system_settings, name='manager_system_settings'),
+
+    # Staff management routes
+    path('staff/customers/', user_management_views.staff_customer_management, name='staff_customer_management'),
+    path('staff/create-customer/', user_management_views.staff_create_customer, name='staff_create_customer'),
+    path('staff/approve-customer/<int:user_id>/', user_management_views.approve_customer, name='staff_approve_customer'),
+    path('staff/reject-customer/<int:user_id>/', user_management_views.reject_customer, name='staff_reject_customer'),
+
+    # API endpoints for role-based features
+    path('api/pending-approvals-count/', user_management_views.pending_approvals_count_api, name='pending_approvals_count_api'),
+    path('api/staff-stats/', user_management_views.staff_stats_api, name='staff_stats_api'),
 ]

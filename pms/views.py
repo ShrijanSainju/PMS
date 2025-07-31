@@ -1,10 +1,10 @@
 
 # Import consolidated views from modular structure
 from .dashboard_views import (
-    home_screen_view, navbar, admin_dashboard, adminbase,
+    home_screen_view, navbar, manager_dashboard, adminbase,
     dashboard_view, dashboard_analytics_api, live_stats_api
 )
-from .auth_views import admin_logout_view
+from .auth_views import manager_logout_view
 
 # def login_redirect_view(request):
 #     if request.user.is_superuser:
@@ -15,16 +15,6 @@ from .auth_views import admin_logout_view
 #         return redirect('/security/dashboard/')
 #     else:
 #         return redirect('/home/')
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
 # def admin_logout_view(request):
 #     logout(request)
@@ -252,9 +242,12 @@ def login_redirect_view(request):
 
 
 from django.utils import timezone
+from datetime import timedelta
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import ParkingSlot, ParkingSession
+from .permissions import require_approved_user, require_staff_or_manager
+import json
 
 @api_view(['POST'])
 @csrf_exempt  # Allow OpenCV detector to call this endpoint
@@ -264,8 +257,9 @@ def update_slot(request):
         require_api_key, log_security_event
     )
 
-    # Apply rate limiting
-    if request.path.startswith('/api/'):
+    # Apply rate limiting (skip for video feed detector)
+    detector_id = request.data.get('detector_id', '')
+    if request.path.startswith('/api/') and detector_id != 'video_feed':
         from .security import is_rate_limited
         if is_rate_limited(request, 'slot_updates'):
             return Response({"error": "Rate limit exceeded"}, status=429)
@@ -369,7 +363,7 @@ def update_slot(request):
 
 
 @api_view(['POST'])
-@login_required
+@require_staff_or_manager
 def auto_assign_slot(request):
     """Automatically assign the best available slot to a vehicle"""
     from .security import validate_vehicle_number, log_security_event, is_rate_limited
@@ -452,6 +446,7 @@ def auto_assign_slot(request):
 
 
 @api_view(['GET'])
+@require_approved_user
 def get_available_slots(request):
     """Get list of available slots with zone information"""
     zone = request.GET.get('zone')
@@ -479,22 +474,17 @@ def get_available_slots(request):
     })
 
 
-@login_required
+@require_staff_or_manager
 def security_dashboard(request):
     """Security monitoring dashboard for administrators"""
-    if not request.user.is_staff:
-        messages.error(request, "Access denied. Administrator privileges required.")
-        return redirect('dashboard')
 
     return render(request, 'admin/security_dashboard.html')
 
 
 @api_view(['GET'])
-@login_required
+@require_staff_or_manager
 def security_events_api(request):
     """API endpoint for security events"""
-    if not request.user.is_staff:
-        return Response({"error": "Access denied"}, status=403)
 
     from .security import get_client_ip
     from django.core.cache import cache
@@ -518,11 +508,9 @@ def security_events_api(request):
 
 
 @api_view(['POST'])
-@login_required
+@require_staff_or_manager
 def security_action_api(request):
     """API endpoint for security actions"""
-    if not request.user.is_staff:
-        return Response({"error": "Access denied"}, status=403)
 
     action = request.data.get('action')
 
@@ -558,6 +546,7 @@ class ParkingSlotViewSet(viewsets.ModelViewSet):
 def dashboard_view(request):
     return render(request, 'admin/dashboard.html')
 
+@require_approved_user
 def slot_status_api(request):
     slots = ParkingSlot.objects.all().order_by('slot_id')
     data = []
@@ -582,91 +571,57 @@ def slot_status_api(request):
     return JsonResponse(data, safe=False)
 
 
-def dashboard_analytics_api(request):
-    """Enhanced analytics API for dashboard"""
+@require_approved_user
+def slot_status_sync_api(request):
+    """API to check for mismatches between detection and database"""
+    slots = ParkingSlot.objects.all().order_by('slot_id')
 
-    # Get current stats
-    total_slots = ParkingSlot.objects.count()
-    occupied_slots = ParkingSlot.objects.filter(is_occupied=True).count()
-    reserved_slots = ParkingSlot.objects.filter(is_reserved=True).count()
-    available_slots = total_slots - occupied_slots - reserved_slots
+    # Get detection results from the latest frame (if available)
+    detection_results = request.GET.get('detection_data')
 
-    # Get today's sessions
-    today = timezone.now().date()
-    today_sessions = ParkingSession.objects.filter(
-        start_time__date=today
-    )
+    sync_data = []
+    total_mismatches = 0
 
-    # Calculate today's revenue
-    today_revenue = sum([
-        session.fee for session in today_sessions.filter(status='completed')
-        if session.fee
-    ])
-
-    # Get active sessions
-    active_sessions = ParkingSession.objects.filter(status='active').count()
-
-
-
-    # Get recent activity (last 10 sessions)
-    recent_sessions = ParkingSession.objects.select_related('slot').order_by('-start_time')[:10]
-    recent_activity = []
-
-    for session in recent_sessions:
-        activity = {
-            'id': session.id,
-            'vehicle_number': session.vehicle_number,
-            'slot_id': session.slot.slot_id,
-            'status': session.status,
-            'start_time': session.start_time.isoformat() if session.start_time else None,
-            'end_time': session.end_time.isoformat() if session.end_time else None,
-            'fee': session.fee
+    for slot in slots:
+        slot_data = {
+            'slot_id': slot.slot_id,
+            'db_status': slot.is_occupied,
+            'db_reserved': slot.is_reserved,
+            'last_updated': slot.timestamp.isoformat(),
+            'mismatch': False,
+            'detection_status': None
         }
-        recent_activity.append(activity)
 
+        # If detection data is provided, compare with database
+        if detection_results:
+            try:
+                detection_data = json.loads(detection_results)
+                for detection in detection_data:
+                    if detection['slot_id'] == slot.slot_id:
+                        slot_data['detection_status'] = detection['is_occupied']
+                        slot_data['mismatch'] = detection['is_occupied'] != slot.is_occupied
+                        if slot_data['mismatch']:
+                            total_mismatches += 1
+                        break
+            except (json.JSONDecodeError, KeyError):
+                pass
 
+        sync_data.append(slot_data)
 
     return JsonResponse({
-        'stats': {
-            'total_slots': total_slots,
-            'occupied_slots': occupied_slots,
-            'reserved_slots': reserved_slots,
-            'available_slots': available_slots,
-            'active_sessions': active_sessions,
-            'today_revenue': today_revenue,
-            'today_sessions': today_sessions.count()
-        },
-        'recent_activity': recent_activity,
-        'last_updated': timezone.now().isoformat()
+        'slots': sync_data,
+        'total_mismatches': total_mismatches,
+        'sync_timestamp': timezone.now().isoformat()
     })
 
 
-def live_stats_api(request):
-    """Lightweight API for live stats updates"""
-    total_slots = ParkingSlot.objects.count()
-    occupied_slots = ParkingSlot.objects.filter(is_occupied=True).count()
-    reserved_slots = ParkingSlot.objects.filter(is_reserved=True).count()
-    available_slots = total_slots - occupied_slots - reserved_slots
+# dashboard_analytics_api is imported from dashboard_views.py
 
-    # Get today's revenue
-    today = timezone.now().date()
-    today_sessions = ParkingSession.objects.filter(
-        start_time__date=today,
-        status='completed'
-    )
-    today_revenue = sum([session.fee for session in today_sessions if session.fee])
 
-    return JsonResponse({
-        'total_slots': total_slots,
-        'occupied_slots': occupied_slots,
-        'reserved_slots': reserved_slots,
-        'available_slots': available_slots,
-        'today_revenue': today_revenue,
-        'active_sessions': ParkingSession.objects.filter(status='active').count(),
-        'timestamp': timezone.now().isoformat()
-    })
+# live_stats_api is imported from dashboard_views.py
 
 # --- Video Streaming Logic ---
+from django.http import StreamingHttpResponse
 
 def gen_frames():
     cap = cv2.VideoCapture('parking_lot.mp4')  # Change to 0 for webcam
@@ -680,11 +635,14 @@ def gen_frames():
     ]
 
     occupancy_threshold = 0.1
+    last_update = {}  # Track last update time for each slot to avoid too frequent updates
 
     while True:
         success, frame = cap.read()
         if not success:
             break
+
+        current_time = timezone.now()
 
         for idx, (x, y, w, h) in enumerate(parking_slots):
             row = 'A' if idx < 7 else 'B'
@@ -698,11 +656,60 @@ def gen_frames():
             total_pixels = w * h
             is_occupied = non_zero > total_pixels * occupancy_threshold
 
-            color = (0, 0, 255) if is_occupied else (0, 255, 0)
-            label = "Occupied" if is_occupied else "Vacant"
+            # Get or create database slot
+            try:
+                db_slot, created = ParkingSlot.objects.get_or_create(
+                    slot_id=slot_id,
+                    defaults={'is_occupied': is_occupied, 'is_reserved': False}
+                )
+
+                # Update database if detection differs and enough time has passed
+                time_since_last_update = (current_time - last_update.get(slot_id, current_time - timedelta(seconds=10))).total_seconds()
+
+                if db_slot.is_occupied != is_occupied and time_since_last_update > 1:  # Update every 1 second max
+                    # Only update if slot is not reserved (reserved slots shouldn't be auto-updated)
+                    if not db_slot.is_reserved:
+                        # Call the API endpoint instead of directly updating database
+                        try:
+                            import requests
+                            api_url = 'http://127.0.0.1:8000/api/update-slot/'
+                            data = {
+                                'slot_id': slot_id,
+                                'is_occupied': is_occupied,
+                                'detector_id': 'video_feed'
+                            }
+                            response = requests.post(api_url, json=data, timeout=1)
+                            if response.status_code == 200:
+                                last_update[slot_id] = current_time
+                                print(f"[VIDEO FEED] API Updated {slot_id}: {'Occupied' if is_occupied else 'Vacant'}")
+                            else:
+                                print(f"[VIDEO FEED] API Error {slot_id}: {response.status_code}")
+                        except Exception as api_error:
+                            # Fallback to direct database update if API fails
+                            db_slot.is_occupied = is_occupied
+                            db_slot.save()
+                            last_update[slot_id] = current_time
+                            print(f"[VIDEO FEED] Direct DB Updated {slot_id}: {'Occupied' if is_occupied else 'Vacant'} (API failed: {api_error})")
+
+                # Use current database status for display
+                db_status = db_slot.is_occupied
+                color = (0, 0, 255) if db_status else (0, 255, 0)
+                label = f"{slot_id}: {'Occupied' if db_status else 'Vacant'}"
+
+                # Show detection vs database mismatch
+                if is_occupied != db_status:
+                    color = (0, 255, 255)  # Yellow for mismatch
+                    label += " (MISMATCH)"
+
+            except Exception as e:
+                # Fallback to detection if there's any database error
+                color = (0, 0, 255) if is_occupied else (0, 255, 0)
+                label = f"{slot_id}: {'Occupied' if is_occupied else 'Vacant'} (DB ERROR)"
+                print(f"[VIDEO FEED] Database error for {slot_id}: {e}")
+
             cv2.rectangle(frame, (x, y), (x+w, y+h), color, 2)
             cv2.putText(frame, label, (x, y - 5),
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 1)
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.4, color, 1)
 
         ret, buffer = cv2.imencode('.jpg', frame)
         frame = buffer.tobytes()
@@ -722,6 +729,7 @@ from .forms import VehicleEntryForm
 
 from django.utils import timezone
 
+@require_staff_or_manager
 def assign_slot(request):
     if request.method == 'POST':
         form = VehicleEntryForm(request.POST)
@@ -855,6 +863,7 @@ from django.utils import timezone
 from .models import ParkingSlot, ParkingSession
 from .forms import VehicleEntryForm, LookupForm
 
+@require_staff_or_manager
 def end_session(request, slot_id):
     slot = get_object_or_404(ParkingSlot, slot_id=slot_id)
     session = ParkingSession.objects.filter(slot=slot, status='active').last()
@@ -873,6 +882,7 @@ def end_session(request, slot_id):
         return render(request, 'staff/end_success.html', {'error': 'No active session found.'})
 
 
+@require_approved_user
 def history_log(request):
     sessions = ParkingSession.objects.all().order_by('-start_time')
     return render(request, 'admin/history.html', {'sessions': sessions})
@@ -881,6 +891,7 @@ def history_log(request):
 from django.utils.timezone import now
 from django.db.models import Case, When, Value, IntegerField
 
+@require_approved_user
 def lookup_session(request):
     session = None
     elapsed_time = None
@@ -933,6 +944,7 @@ from django.shortcuts import render
 from django.utils import timezone
 from .models import ParkingSlot, ParkingSession
 
+@require_staff_or_manager
 def end_session_by_vehicle(request):
     message = ''
     selected_session = None

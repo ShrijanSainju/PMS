@@ -66,11 +66,21 @@ class UserProfile(models.Model):
         ('customer', 'Customer'),
         ('staff', 'Staff'),
         ('manager', 'Manager'),
-        ('admin', 'Admin'),
+    ]
+
+    APPROVAL_STATUS = [
+        ('pending', 'Pending Approval'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+        ('suspended', 'Suspended'),
     ]
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     user_type = models.CharField(max_length=20, choices=USER_TYPES, default='customer')
+    approval_status = models.CharField(max_length=20, choices=APPROVAL_STATUS, default='pending')
+    approved_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='approved_users')
+    approved_at = models.DateTimeField(null=True, blank=True)
+    rejection_reason = models.TextField(blank=True, null=True)
     phone_number = models.CharField(max_length=15, blank=True, null=True)
     address = models.TextField(blank=True, null=True)
     date_of_birth = models.DateField(blank=True, null=True)
@@ -84,11 +94,47 @@ class UserProfile(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.user.username} - {self.user_type}"
+        return f"{self.user.username} - {self.user_type} ({self.approval_status})"
 
     @property
     def full_name(self):
         return f"{self.user.first_name} {self.user.last_name}".strip()
+
+    @property
+    def is_approved(self):
+        return self.approval_status == 'approved'
+
+    @property
+    def is_pending(self):
+        return self.approval_status == 'pending'
+
+    @property
+    def can_login(self):
+        """Check if user can login based on approval status"""
+        return self.approval_status == 'approved' and self.user.is_active
+
+    def approve(self, approved_by_user):
+        """Approve the user"""
+        from django.utils import timezone
+        self.approval_status = 'approved'
+        self.approved_by = approved_by_user
+        self.approved_at = timezone.now()
+        self.rejection_reason = None
+        self.save()
+
+    def reject(self, rejected_by_user, reason=None):
+        """Reject the user"""
+        self.approval_status = 'rejected'
+        self.approved_by = rejected_by_user
+        self.rejection_reason = reason
+        self.save()
+
+    def suspend(self, suspended_by_user, reason=None):
+        """Suspend the user"""
+        self.approval_status = 'suspended'
+        self.approved_by = suspended_by_user
+        self.rejection_reason = reason
+        self.save()
 
 
 @receiver(post_save, sender=User)

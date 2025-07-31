@@ -50,16 +50,16 @@ from django.contrib import admin
 from django.urls import path, include
 
 from pms.dashboard_views import (
-    home_screen_view, navbar, admin_dashboard, adminbase
+    home_screen_view, navbar, manager_dashboard, adminbase
 )
-from pms.auth_views import admin_logout_view
+from pms.auth_views import manager_logout_view
 from pms.views import update_slot, history_log
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_screen_view),
     path('navbar/', navbar),
-    path('admin_dashboard/', admin_dashboard),
+    path('admin_dashboard/', manager_dashboard),
     path('adminbase/', adminbase),
 
     # Legacy app routes - now handled by consolidated pms app
@@ -67,7 +67,7 @@ urlpatterns = [
     path('manager/', include('pms.urls')),  # Manager routes now in pms.urls
     path('customer/', include('pms.urls')),  # Customer routes now in pms.urls
 
-    path('logout/', admin_logout_view, name='logout'),
+    path('logout/', manager_logout_view, name='logout'),
 
     path('api/update-slot/', update_slot, name='update-slot'),
     path('api/', include('pms.urls')),

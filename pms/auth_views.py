@@ -68,29 +68,42 @@ def enhanced_login_view(request):
             
             if user is not None:
                 if user.is_active:
+                    # Check if user is approved
+                    if hasattr(user, 'userprofile') and not user.userprofile.can_login:
+                        log_login_attempt(username, ip_address, False, user_agent)
+                        if user.userprofile.approval_status == 'pending':
+                            messages.warning(request, 'Your account is pending approval. Please wait for administrator approval.')
+                        elif user.userprofile.approval_status == 'rejected':
+                            messages.error(request, f'Your account has been rejected. Reason: {user.userprofile.rejection_reason or "Not specified"}')
+                        elif user.userprofile.approval_status == 'suspended':
+                            messages.error(request, f'Your account has been suspended. Reason: {user.userprofile.rejection_reason or "Not specified"}')
+                        else:
+                            messages.error(request, 'Your account is not active. Please contact administrator.')
+                        return render(request, 'auth/login.html', {'form': form})
+
                     login(request, user)
-                    
+
                     # Set session expiry based on remember me
                     if not remember_me:
                         request.session.set_expiry(0)  # Session expires when browser closes
                     else:
                         request.session.set_expiry(1209600)  # 2 weeks
-                    
+
                     # Update user profile with login info
                     if hasattr(user, 'userprofile'):
                         user.userprofile.last_login_ip = ip_address
                         user.userprofile.save()
-                    
+
                     # Log successful login
                     log_login_attempt(username, ip_address, True, user_agent)
-                    
+
                     # Redirect based on user type
                     if hasattr(user, 'userprofile'):
                         user_type = user.userprofile.user_type
                         if user_type == 'staff':
                             return redirect('staff_dashboard')
-                        elif user_type == 'manager' or user_type == 'admin':
-                            return redirect('admin_dashboard')
+                        elif user_type == 'manager':
+                            return redirect('manager_dashboard')
                         else:
                             return redirect('customer_dashboard')
                     
@@ -108,23 +121,32 @@ def enhanced_login_view(request):
 
 
 def enhanced_register_view(request):
-    """Enhanced registration view"""
+    """Enhanced registration view - users require approval"""
     if request.user.is_authenticated:
         return redirect('dashboard')
-    
+
     form = EnhancedUserCreationForm()
-    
+
     if request.method == 'POST':
         form = EnhancedUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            
+
+            # Set user as inactive until approved
+            user.is_active = False
+            user.save()
+
+            # Ensure user profile is set to pending approval
+            if hasattr(user, 'userprofile'):
+                user.userprofile.approval_status = 'pending'
+                user.userprofile.save()
+
             # Send email verification
             send_verification_email(user)
-            
-            messages.success(request, 'Account created successfully! Please check your email to verify your account.')
+
+            messages.success(request, 'Account created successfully! Your account is pending approval. You will be notified once approved.')
             return redirect('login')
-    
+
     return render(request, 'auth/register.html', {'form': form})
 
 
@@ -431,8 +453,8 @@ def staff_logout_view(request):
     return redirect('staff_login')
 
 
-def admin_login_view(request):
-    """Legacy admin/manager login view"""
+def manager_login_view(request):
+    """Manager login view"""
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -442,19 +464,18 @@ def admin_login_view(request):
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
-            # Check if user should have admin/manager access
-            if user.is_staff or user.is_superuser or (hasattr(user, 'userprofile') and user.userprofile.user_type in ['manager', 'admin']):
+            # Check if user should have manager access
+            if user.is_staff or user.is_superuser or (hasattr(user, 'userprofile') and user.userprofile.user_type == 'manager'):
                 login(request, user)
                 log_login_attempt(username, ip_address, True, user_agent)
 
                 # Ensure user has appropriate profile
                 if hasattr(user, 'userprofile'):
                     if user.userprofile.user_type in ['customer', 'staff']:
-                        user.userprofile.user_type = 'manager' if not user.is_superuser else 'admin'
+                        user.userprofile.user_type = 'manager'
                         user.userprofile.save()
                 else:
-                    user_type = 'admin' if user.is_superuser else 'manager'
-                    UserProfile.objects.create(user=user, user_type=user_type)
+                    UserProfile.objects.create(user=user, user_type='manager')
 
                 # Set is_staff if not already set
                 if not user.is_staff:
@@ -472,8 +493,8 @@ def admin_login_view(request):
     return render(request, 'manager/login.html')
 
 
-def admin_logout_view(request):
-    """Legacy admin logout view"""
+def manager_logout_view(request):
+    """Manager logout view"""
     logout(request)
     return render(request, 'manager/logout.html')
 

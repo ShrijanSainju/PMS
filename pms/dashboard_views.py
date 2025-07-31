@@ -3,8 +3,9 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.http import JsonResponse
 from django.utils import timezone
-from django.db.models import Count, Q
+from django.db.models import Count, Q, Sum
 from .models import ParkingSlot, ParkingSession, UserProfile, LoginAttempt
+from .permissions import require_manager, require_staff_or_manager, require_customer, require_approved_user
 import json
 
 
@@ -23,33 +24,43 @@ def is_manager_user(user):
     return hasattr(user, 'userprofile') and user.userprofile.user_type == 'manager'
 
 
-def is_admin_user(user):
-    """Check if user is admin"""
-    return user.is_superuser or (hasattr(user, 'userprofile') and user.userprofile.user_type == 'admin')
+# is_admin_user function removed - using is_manager_user instead
 
 
-@login_required
+@require_customer
 def customer_dashboard(request):
-    """Customer dashboard view"""
+    """Customer dashboard view - limited access for customers only"""
+    # Get customer's own sessions
+    customer_sessions = ParkingSession.objects.filter(
+        vehicle_number__icontains=request.user.username  # This might need adjustment based on how you link vehicles to users
+    )
+
+    current_sessions = customer_sessions.filter(status__in=['active', 'pending'])
+    recent_sessions = customer_sessions.filter(status='completed').order_by('-end_time')[:5]
+
     context = {
         'user_type': 'customer',
         'available_slots': ParkingSlot.objects.filter(is_occupied=False, is_reserved=False).count(),
         'total_slots': ParkingSlot.objects.count(),
+        'my_active_sessions': current_sessions.count(),
+        'my_total_sessions': customer_sessions.count(),
+        'total_spent': customer_sessions.aggregate(total=Sum('fee'))['total'] or 0,
+        'current_sessions': current_sessions,
+        'recent_sessions': recent_sessions,
     }
-    
-    # Get user's active sessions
-    if hasattr(request.user, 'userprofile'):
-        context['active_sessions'] = ParkingSession.objects.filter(
-            status='active'
-        ).count()
-    
+
     return render(request, 'customer/customer_dashboard.html', context)
 
 
-@login_required
-@user_passes_test(is_staff_user)
+@require_staff_or_manager
 def staff_dashboard(request):
-    """Staff dashboard view"""
+    """Staff dashboard view - can manage customers and approve registrations"""
+    # Get pending customer approvals
+    pending_customers = UserProfile.objects.filter(
+        user_type='customer',
+        approval_status='pending'
+    ).select_related('user')
+
     context = {
         'user_type': 'staff',
         'total_slots': ParkingSlot.objects.count(),
@@ -58,30 +69,40 @@ def staff_dashboard(request):
         'reserved_slots': ParkingSlot.objects.filter(is_reserved=True).count(),
         'active_sessions': ParkingSession.objects.filter(status='active').count(),
         'pending_sessions': ParkingSession.objects.filter(status='pending').count(),
+        'customer_count': UserProfile.objects.filter(user_type='customer', approval_status='approved').count(),
+        'pending_customers_count': pending_customers.count(),
+        'pending_customers': pending_customers[:5],  # Show first 5 pending customers
     }
-    
+
     # Recent sessions for staff to manage
     context['recent_sessions'] = ParkingSession.objects.filter(
         status__in=['active', 'pending']
     ).order_by('-start_time')[:10]
-    
+
     return render(request, 'staff/staff_dashboard.html', context)
 
 
-@login_required
-@user_passes_test(is_admin_user)
-def admin_dashboard(request):
-    """Admin dashboard view - enhanced version"""
+@require_manager
+def manager_dashboard(request):
+    """Manager dashboard view - full system management access"""
+    # Get pending approvals for all user types
+    pending_approvals = UserProfile.objects.filter(
+        approval_status='pending'
+    ).select_related('user')
+
     context = {
         'user_type': 'admin',
         'total_slots': ParkingSlot.objects.count(),
         'occupied_slots': ParkingSlot.objects.filter(is_occupied=True).count(),
         'available_slots': ParkingSlot.objects.filter(is_occupied=False, is_reserved=False).count(),
         'reserved_slots': ParkingSlot.objects.filter(is_reserved=True).count(),
+        'active_sessions': ParkingSession.objects.filter(status='active').count(),
         'total_users': UserProfile.objects.count(),
-        'customer_count': UserProfile.objects.filter(user_type='customer').count(),
-        'staff_count': UserProfile.objects.filter(user_type='staff').count(),
-        'manager_count': UserProfile.objects.filter(user_type='manager').count(),
+        'customer_count': UserProfile.objects.filter(user_type='customer', approval_status='approved').count(),
+        'staff_count': UserProfile.objects.filter(user_type='staff', approval_status='approved').count(),
+        'manager_count': UserProfile.objects.filter(user_type='manager', approval_status='approved').count(),
+        'pending_approvals_count': pending_approvals.count(),
+        'pending_approvals': pending_approvals[:10],  # Show first 10 pending approvals
     }
     
     # Session statistics
@@ -101,41 +122,46 @@ def admin_dashboard(request):
     context['recent_login_attempts'] = LoginAttempt.objects.filter(
         success=False
     ).order_by('-timestamp')[:5]
-    
-    return render(request, 'manager/adminbase.html', context)
+
+    return render(request, 'manager/manager_dashboard.html', context)
 
 
-@login_required
+@require_approved_user
 def dashboard_view(request):
-    """Universal dashboard that redirects based on user type"""
+    """Universal dashboard that redirects based on user type and approval status"""
     if not hasattr(request.user, 'userprofile'):
         # Create profile if it doesn't exist
         UserProfile.objects.create(user=request.user, user_type='customer')
-    
-    user_type = request.user.userprofile.user_type
-    
+
+    profile = request.user.userprofile
+
+    # Check if user is approved
+    if not profile.can_login:
+        messages.error(request, "Your account is not approved. Please contact administrator.")
+        return redirect('login')
+
+    user_type = profile.user_type
+
     if user_type == 'customer':
-        return customer_dashboard(request)
+        return redirect('customer_dashboard')
     elif user_type == 'staff':
-        return staff_dashboard(request)
-    elif user_type == 'manager':
-        return admin_dashboard(request)
-    elif user_type == 'admin':
-        return admin_dashboard(request)
+        return redirect('staff_dashboard')
+    elif user_type in ['manager', 'admin']:
+        return redirect('manager_dashboard')
     else:
         # Default to customer dashboard
-        return customer_dashboard(request)
+        return redirect('customer_dashboard')
 
 
 # Legacy views for backward compatibility
 def adminbase(request):
     """Legacy admin base view"""
-    return admin_dashboard(request)
+    return manager_dashboard(request)
 
 
 def admin_dashboard_legacy(request):
-    """Legacy admin dashboard view"""
-    return admin_dashboard(request)
+    """Legacy admin dashboard view - redirects to manager dashboard"""
+    return manager_dashboard(request)
 
 
 def home_screen_view(request):
@@ -151,11 +177,9 @@ def navbar(request):
 
 
 # API endpoints for dashboard analytics
-@login_required
+@require_approved_user
 def dashboard_analytics_api(request):
     """API endpoint for dashboard analytics"""
-    if not (is_staff_user(request.user) or is_admin_user(request.user)):
-        return JsonResponse({'error': 'Unauthorized'}, status=403)
     
     # Slot statistics
     slot_stats = {
@@ -201,11 +225,9 @@ def dashboard_analytics_api(request):
     })
 
 
-@login_required
+@require_approved_user
 def live_stats_api(request):
     """API endpoint for live statistics"""
-    if not (is_staff_user(request.user) or is_admin_user(request.user)):
-        return JsonResponse({'error': 'Unauthorized'}, status=403)
     
     stats = {
         'available_slots': ParkingSlot.objects.filter(is_occupied=False, is_reserved=False).count(),

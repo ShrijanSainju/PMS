@@ -312,6 +312,8 @@ let previousStats = {};
 document.addEventListener('DOMContentLoaded', function() {
     initializeDashboard();
     startAutoRefresh();
+    // Auto-start video feed for detection
+    toggleFeed();
 });
 
 function initializeDashboard() {

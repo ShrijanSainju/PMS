@@ -1,0 +1,226 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}System Settings - Manager{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+<style>
+    .settings-dashboard {
+        padding: 2rem 0;
+    }
+    
+    .settings-section {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        margin-bottom: 2rem;
+    }
+    
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+    
+    .stat-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    
+    .stat-icon {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+    
+    .stat-number {
+        font-size: 1.8rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container settings-dashboard">
+    <h1><i class="fas fa-cogs"></i> System Settings</h1>
+    <p class="text-muted mb-4">Manage system configuration and monitor system health.</p>
+
+    <!-- System Statistics -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon text-primary">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="stat-number text-primary">{{ total_users }}</div>
+            <div class="stat-label">Total Users</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon text-warning">
+                <i class="fas fa-clock"></i>
+            </div>
+            <div class="stat-number text-warning">{{ pending_approvals }}</div>
+            <div class="stat-label">Pending Approvals</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon text-info">
+                <i class="fas fa-car"></i>
+            </div>
+            <div class="stat-number text-info">{{ total_sessions }}</div>
+            <div class="stat-label">Total Sessions</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon text-success">
+                <i class="fas fa-play"></i>
+            </div>
+            <div class="stat-number text-success">{{ active_sessions }}</div>
+            <div class="stat-label">Active Sessions</div>
+        </div>
+    </div>
+
+    <!-- User Management Settings -->
+    <div class="settings-section">
+        <h3><i class="fas fa-users-cog"></i> User Management</h3>
+        <div class="row">
+            <div class="col-md-6">
+                <h5>Registration Settings</h5>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="requireApproval" checked disabled>
+                    <label class="form-check-label" for="requireApproval">
+                        Require manager approval for new registrations
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="emailVerification" checked disabled>
+                    <label class="form-check-label" for="emailVerification">
+                        Require email verification
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h5>Access Control</h5>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="staffCanApproveCustomers" checked disabled>
+                    <label class="form-check-label" for="staffCanApproveCustomers">
+                        Staff can approve customer registrations
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="roleBasedDashboards" checked disabled>
+                    <label class="form-check-label" for="roleBasedDashboards">
+                        Role-based dashboard access
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- System Configuration -->
+    <div class="settings-section">
+        <h3><i class="fas fa-server"></i> System Configuration</h3>
+        <div class="row">
+            <div class="col-md-6">
+                <h5>Parking Settings</h5>
+                <div class="mb-3">
+                    <label for="parkingRate" class="form-label">Parking Rate (₹ per minute)</label>
+                    <input type="number" class="form-control" id="parkingRate" value="2" disabled>
+                </div>
+                <div class="mb-3">
+                    <label for="maxParkingTime" class="form-label">Maximum Parking Time (hours)</label>
+                    <input type="number" class="form-control" id="maxParkingTime" value="24" disabled>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h5>Security Settings</h5>
+                <div class="mb-3">
+                    <label for="sessionTimeout" class="form-label">Session Timeout (minutes)</label>
+                    <input type="number" class="form-control" id="sessionTimeout" value="30" disabled>
+                </div>
+                <div class="mb-3">
+                    <label for="maxLoginAttempts" class="form-label">Max Login Attempts</label>
+                    <input type="number" class="form-control" id="maxLoginAttempts" value="5" disabled>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="settings-section">
+        <h3><i class="fas fa-tools"></i> System Actions</h3>
+        <div class="row">
+            <div class="col-md-3">
+                <a href="{% url 'manager_user_management' %}" class="btn btn-primary w-100 mb-2">
+                    <i class="fas fa-users"></i><br>Manage Users
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a href="/admin/" class="btn btn-secondary w-100 mb-2">
+                    <i class="fas fa-database"></i><br>Django Admin
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a href="{% url 'security_dashboard' %}" class="btn btn-warning w-100 mb-2">
+                    <i class="fas fa-shield-alt"></i><br>Security Monitor
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a href="{% url 'history-log' %}" class="btn btn-info w-100 mb-2">
+                    <i class="fas fa-history"></i><br>System Logs
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- System Information -->
+    <div class="settings-section">
+        <h3><i class="fas fa-info-circle"></i> System Information</h3>
+        <div class="row">
+            <div class="col-md-6">
+                <table class="table table-borderless">
+                    <tr>
+                        <td><strong>System Version:</strong></td>
+                        <td>PMS v1.0.0</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Django Version:</strong></td>
+                        <td>5.2.1</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Database:</strong></td>
+                        <td>SQLite</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <table class="table table-borderless">
+                    <tr>
+                        <td><strong>Last Backup:</strong></td>
+                        <td>Not configured</td>
+                    </tr>
+                    <tr>
+                        <td><strong>System Status:</strong></td>
+                        <td><span class="badge bg-success">Operational</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Uptime:</strong></td>
+                        <td>{{ uptime|default:"Unknown" }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+// System settings functionality can be added here
+console.log('System settings loaded');
+{% endblock %}

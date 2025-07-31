@@ -22,6 +22,7 @@
     </style>
 </head>
 <body data-authenticated="{% if user.is_authenticated %}true{% else %}false{% endif %}">
+    {% csrf_token %}
     <!-- Navigation -->
     {% block navbar %}
     <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
