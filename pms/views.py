@@ -1,4 +1,23 @@
 
+import cv2
+import requests
+import time
+import logging
+from datetime import timedelta
+from django.shortcuts import render, redirect
+from django.http import JsonResponse, StreamingHttpResponse
+from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import viewsets
+from .models import ParkingSlot, ParkingSession
+from .serializers import ParkingSlotSerializer
+from .decorators import require_staff_or_manager, require_approved_user
+
+# Configure logging
+logger = logging.getLogger(__name__)
+
 # Import consolidated views from modular structure
 from .dashboard_views import (
     home_screen_view, navbar, manager_dashboard, adminbase,
@@ -210,151 +229,38 @@ def login_redirect_view(request):
 
 # --- API and Dashboard Views ---
 
-# @api_view(['POST'])
-# def update_slot(request):
-#     slot_id = request.data.get('slot_id')
-#     is_occupied = request.data.get('is_occupied')
-
-#     if slot_id is None or is_occupied is None:
-#         return Response({"error": "Missing data"}, status=400)
-
-#     # Convert to boolean in case it's sent as string
-#     is_occupied = str(is_occupied).lower() in ['true', '1']
-
-#     slot, created = ParkingSlot.objects.get_or_create(slot_id=slot_id)
-
-#     if slot.is_reserved and not is_occupied:
-#         return Response({"message": f"Slot {slot_id} is reserved; ignoring vacancy signal."})
-
-#     # Activate session if car has arrived and slot was reserved
-#     if slot.is_reserved and is_occupied:
-#         session = ParkingSession.objects.filter(slot=slot, status='pending').last()
-#         if session:
-#             session.status = 'active'
-#             session.save()
-#         slot.is_reserved = False  # Clear reservation
-
-#     # Update occupancy
-#     slot.is_occupied = is_occupied
-#     slot.save()
-
-#     return Response({"message": f"Updated slot {slot_id} to {'Occupied' if is_occupied else 'Vacant'}"})
-
-
-from django.utils import timezone
-from datetime import timedelta
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from .models import ParkingSlot, ParkingSession
-from .permissions import require_approved_user, require_staff_or_manager
-import json
-
 @api_view(['POST'])
 @csrf_exempt  # Allow OpenCV detector to call this endpoint
 def update_slot(request):
-    from .security import (
-        rate_limit, validate_session_data, secure_headers,
-        require_api_key, log_security_event
-    )
+    slot_id = request.data.get('slot_id')
+    is_occupied = request.data.get('is_occupied')
 
-    # Apply rate limiting (skip for video feed detector)
-    detector_id = request.data.get('detector_id', '')
-    if request.path.startswith('/api/') and detector_id != 'video_feed':
-        from .security import is_rate_limited
-        if is_rate_limited(request, 'slot_updates'):
-            return Response({"error": "Rate limit exceeded"}, status=429)
+    if slot_id is None or is_occupied is None:
+        return Response({"error": "Missing data"}, status=400)
 
-    # Validate API key for external requests
-    api_key = request.headers.get('X-API-Key') or request.data.get('api_key')
-    if api_key:
-        from .security import require_api_key
-        # This is an external request, validate API key
-        valid_keys = getattr(settings, 'API_KEYS', [])
-        if api_key not in valid_keys:
-            log_security_event(request, 'invalid_api_key', {'provided_key': api_key[:10] + '...'})
-            return Response({"error": "Invalid API key"}, status=401)
+    # Convert to boolean in case it's sent as string
+    is_occupied = str(is_occupied).lower() in ['true', '1']
 
-    # Get and validate input data
-    data = {
-        'slot_id': request.data.get('slot_id'),
-        'is_occupied': request.data.get('is_occupied'),
-        'detector_id': request.data.get('detector_id', 'unknown'),
-        'timestamp': request.data.get('timestamp')
-    }
+    slot, created = ParkingSlot.objects.get_or_create(slot_id=slot_id)
 
-    # Validate required fields
-    if data['slot_id'] is None or data['is_occupied'] is None:
-        log_security_event(request, 'invalid_slot_update', {'missing_fields': True})
-        return Response({"error": "Missing required fields: slot_id, is_occupied"}, status=400)
+    if slot.is_reserved and not is_occupied:
+        return Response({"message": f"Slot {slot_id} is reserved; ignoring vacancy signal."})
 
-    # Validate and sanitize data
-    valid, errors, clean_data = validate_session_data(data)
-    if not valid:
-        log_security_event(request, 'invalid_slot_update', {'validation_errors': errors})
-        return Response({"error": "Validation failed", "details": errors}, status=400)
+    # Activate session if car has arrived and slot was reserved
+    if slot.is_reserved and is_occupied:
+        session = ParkingSession.objects.filter(slot=slot, status='pending').last()
+        if session:
+            session.status = 'active'
+            if session.start_time is None:
+                session.start_time = timezone.now()
+            session.save()
+        slot.is_reserved = False  # Clear reservation
 
-    slot_id = clean_data['slot_id']
-    is_occupied = clean_data['is_occupied']
-    detector_id = clean_data['detector_id']
+    # Update occupancy
+    slot.is_occupied = is_occupied
+    slot.save()
 
-    try:
-        slot, created = ParkingSlot.objects.get_or_create(slot_id=slot_id)
-
-        # Store previous state for change detection
-        previous_state = slot.is_occupied
-
-        if slot.is_reserved and not is_occupied:
-            return Response({"message": f"Slot {slot_id} is reserved; ignoring vacancy signal."})
-
-        # Handle vehicle entry (vacant -> occupied)
-        if not previous_state and is_occupied:
-            # Check if there's a pending session for this slot
-            pending_session = ParkingSession.objects.filter(slot=slot, status='pending').last()
-
-            if pending_session:
-                # Activate the pending session
-                pending_session.status = 'active'
-                if pending_session.start_time is None:
-                    pending_session.start_time = timezone.now()
-                pending_session.save()
-                slot.is_reserved = False
-                logger.info(f"Activated pending session for {pending_session.vehicle_number} in slot {slot_id}")
-            else:
-                # Skip creating session for unknown vehicles to avoid ID conflicts
-                # Sessions should be created manually through the dashboard
-                logger.info(f"Vehicle detected in slot {slot_id} but no pending session found - skipping session creation")
-
-        # Handle vehicle exit (occupied -> vacant)
-        elif previous_state and not is_occupied:
-            # End any active session for this slot
-            active_session = ParkingSession.objects.filter(slot=slot, status='active').last()
-
-            if active_session:
-                active_session.end_time = timezone.now()
-                active_session.status = 'completed'
-                active_session.fee = active_session.calculate_fee()
-                active_session.save()
-                logger.info(f"Completed session for {active_session.vehicle_number} in slot {slot_id}, fee: ₹{active_session.fee}")
-
-        # Update occupancy
-        slot.is_occupied = is_occupied
-        slot.save()
-
-        # Log the update
-        logger.info(f"Slot {slot_id} updated to {'Occupied' if is_occupied else 'Vacant'} by {detector_id}")
-
-        return Response({
-            "message": f"Updated slot {slot_id} to {'Occupied' if is_occupied else 'Vacant'}",
-            "previous_state": previous_state,
-            "new_state": is_occupied,
-            "detector_id": detector_id,
-            "timestamp": timezone.now().isoformat()
-        })
-
-    except Exception as e:
-        logger.error(f"Error updating slot {slot_id}: {str(e)}")
-        log_security_event(request, 'slot_update_error', {'error': str(e), 'slot_id': slot_id})
-        return Response({"error": "Internal server error"}, status=500)
+    return Response({"message": f"Updated slot {slot_id} to {'Occupied' if is_occupied else 'Vacant'}"})
 
 
 @api_view(['POST'])
@@ -664,8 +570,8 @@ def gen_frames():
                 time_since_last_update = (current_time - last_update.get(slot_id, current_time - timedelta(seconds=10))).total_seconds()
 
                 if db_slot.is_occupied != is_occupied and time_since_last_update > 1:  # Update every 1 second max
-                    # Only update if slot is not reserved (reserved slots shouldn't be auto-updated)
-                    if not db_slot.is_reserved:
+                    # Don't update reserved slots to vacant (false vacancy signals)
+                    if not (db_slot.is_reserved and not is_occupied):
                         # Call the API endpoint instead of directly updating database
                         try:
                             import requests
@@ -687,16 +593,19 @@ def gen_frames():
                             db_slot.save()
                             last_update[slot_id] = current_time
                             print(f"[VIDEO FEED] Direct DB Updated {slot_id}: {'Occupied' if is_occupied else 'Vacant'} (API failed: {api_error})")
+                    else:
+                        print(f"[VIDEO FEED] Ignoring vacancy signal for reserved slot {slot_id}")
 
-                # Use current database status for display
-                db_status = db_slot.is_occupied
-                color = (0, 0, 255) if db_status else (0, 255, 0)
-                label = f"{slot_id}: {'Occupied' if db_status else 'Vacant'}"
-
-                # Show detection vs database mismatch
-                if is_occupied != db_status:
-                    color = (0, 255, 255)  # Yellow for mismatch
-                    label += " (MISMATCH)"
+                # Simple three-state color coding: Green=Vacant, Yellow=Reserved, Red=Occupied
+                if db_slot.is_reserved and not db_slot.is_occupied:
+                    color = (0, 255, 255)  # Yellow for reserved
+                    label = f"{slot_id}: Reserved"
+                elif db_slot.is_occupied:
+                    color = (0, 0, 255)  # Red for occupied
+                    label = f"{slot_id}: Occupied"
+                else:
+                    color = (0, 255, 0)  # Green for vacant
+                    label = f"{slot_id}: Vacant"
 
             except Exception as e:
                 # Fallback to detection if there's any database error
