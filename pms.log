@@ -761,3 +761,2225 @@ INFO 2025-07-31 09:22:06,990 basehttp 10688 20504 "GET /api/slot-status/ HTTP/1.
 INFO 2025-07-31 09:22:07,015 basehttp 10688 4104 "GET /api/live-stats/ HTTP/1.1" 200 173
 INFO 2025-07-31 09:22:07,033 basehttp 10688 14632 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
 INFO 2025-07-31 09:22:07,053 basehttp 10688 4104 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:27:19,957 autoreload 27224 14604 Watching for file changes with StatReloader
+INFO 2025-07-31 09:27:31,349 basehttp 27224 23696 "GET /admin/ HTTP/1.1" 200 23144
+INFO 2025-07-31 09:27:39,082 basehttp 27224 23696 "GET /dashboard/ HTTP/1.1" 200 22021
+INFO 2025-07-31 09:27:39,298 basehttp 27224 8720 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:27:39,322 basehttp 27224 9700 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:27:42,269 basehttp 27224 8720 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:27:42,295 basehttp 27224 9700 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:27:42,304 basehttp 27224 25648 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:27:43,986 basehttp 27224 25648 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:27:45,259 basehttp 27224 25648 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:27:45,269 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:27:45,285 basehttp 27224 9700 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:27:48,241 basehttp 27224 8720 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:27:48,261 basehttp 27224 9700 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:27:48,269 basehttp 27224 25648 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:27:49,183 basehttp 27224 25648 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:27:51,252 basehttp 27224 9700 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:27:51,269 basehttp 27224 25648 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:27:51,289 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:27:54,249 basehttp 27224 25648 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:27:54,266 basehttp 27224 8720 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:27:54,294 basehttp 27224 9700 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:27:57,248 basehttp 27224 25648 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:27:57,261 basehttp 27224 8720 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:27:57,283 basehttp 27224 7812 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:27:59,184 basehttp 27224 7812 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:28:00,238 basehttp 27224 8720 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:28:00,251 basehttp 27224 7812 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:28:00,257 basehttp 27224 25648 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:28:03,270 basehttp 27224 7812 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:28:03,279 basehttp 27224 25648 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:28:03,288 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:28:06,258 basehttp 27224 25648 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:28:06,281 basehttp 27224 8720 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:28:06,295 basehttp 27224 7812 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:28:06,981 basehttp 27224 8720 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:28:06,989 basehttp 27224 7812 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:28:07,011 basehttp 27224 25648 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:28:07,046 basehttp 27224 7812 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:28:09,987 basehttp 27224 8720 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:28:10,015 basehttp 27224 25648 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:28:10,034 basehttp 27224 7812 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:28:10,054 basehttp 27224 25648 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:28:12,987 basehttp 27224 7812 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:28:13,000 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:28:13,014 basehttp 27224 25648 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:28:15,974 basehttp 27224 8720 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:28:16,000 basehttp 27224 25648 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:28:16,021 basehttp 27224 7812 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:28:18,985 basehttp 27224 25648 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:28:18,997 basehttp 27224 7812 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:28:19,007 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:28:19,963 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:28:21,979 basehttp 27224 7812 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:28:21,987 basehttp 27224 8720 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:28:22,005 basehttp 27224 25648 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:28:24,970 basehttp 27224 8720 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:28:24,988 basehttp 27224 7812 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:28:24,997 basehttp 27224 25648 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:28:27,989 basehttp 27224 7812 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:28:28,025 basehttp 27224 25648 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:28:28,029 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:28:29,971 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:28:30,975 basehttp 27224 25648 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:28:31,000 basehttp 27224 7812 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:28:31,010 basehttp 27224 8720 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:28:31,448 basehttp 27224 9700 "GET /video-feed/?t=1753933375099 HTTP/1.1" 200 59368116
+INFO 2025-07-31 09:28:33,974 basehttp 27224 25648 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:28:33,979 basehttp 27224 7812 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:28:33,991 basehttp 27224 8720 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:28:36,970 basehttp 27224 8720 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:28:36,977 basehttp 27224 7812 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:28:36,993 basehttp 27224 25648 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:28:39,990 basehttp 27224 8720 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:28:40,010 basehttp 27224 7812 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:28:40,024 basehttp 27224 25648 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:28:40,037 basehttp 27224 7812 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:28:42,986 basehttp 27224 25648 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:28:43,007 basehttp 27224 7812 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:28:43,018 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:28:45,969 basehttp 27224 8720 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:28:46,002 basehttp 27224 7812 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:28:46,022 basehttp 27224 25648 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:28:48,990 basehttp 27224 7812 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:28:49,009 basehttp 27224 25648 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:28:49,023 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:28:49,965 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:28:51,977 basehttp 27224 25648 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:28:51,993 basehttp 27224 8720 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:28:52,007 basehttp 27224 7812 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:28:54,963 basehttp 27224 8720 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:28:54,985 basehttp 27224 7812 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:28:55,006 basehttp 27224 25648 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:28:57,985 basehttp 27224 7812 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:28:58,004 basehttp 27224 25648 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:28:58,018 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:28:59,968 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:29:01,018 basehttp 27224 25648 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:29:01,035 basehttp 27224 7812 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:29:01,048 basehttp 27224 8720 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:29:03,961 basehttp 27224 7812 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:29:03,970 basehttp 27224 8720 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:29:03,994 basehttp 27224 25648 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+WARNING 2025-07-31 09:29:06,979 log 27224 8720 Too Many Requests: /api/slot-status/
+WARNING 2025-07-31 09:29:06,979 basehttp 27224 8720 "GET /api/slot-status/ HTTP/1.1" 429 55
+WARNING 2025-07-31 09:29:06,985 log 27224 7812 Too Many Requests: /api/dashboard-analytics/
+WARNING 2025-07-31 09:29:06,986 basehttp 27224 7812 "GET /api/dashboard-analytics/ HTTP/1.1" 429 55
+WARNING 2025-07-31 09:29:07,000 log 27224 8720 Too Many Requests: /api/slot-status/
+WARNING 2025-07-31 09:29:07,002 basehttp 27224 8720 "GET /api/slot-status/ HTTP/1.1" 429 55
+WARNING 2025-07-31 09:29:07,022 log 27224 29224 Too Many Requests: /api/dashboard-analytics/
+WARNING 2025-07-31 09:29:07,024 basehttp 27224 29224 "GET /api/dashboard-analytics/ HTTP/1.1" 429 55
+INFO 2025-07-31 09:29:07,034 basehttp 27224 25648 "GET /api/live-stats/ HTTP/1.1" 200 173
+WARNING 2025-07-31 09:29:07,051 log 27224 29224 Too Many Requests: /api/live-stats/
+WARNING 2025-07-31 09:29:07,052 basehttp 27224 29224 "GET /api/live-stats/ HTTP/1.1" 429 55
+WARNING 2025-07-31 09:29:07,057 log 27224 8720 Too Many Requests: /api/dashboard-analytics/
+WARNING 2025-07-31 09:29:07,059 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 429 55
+WARNING 2025-07-31 09:29:47,734 log 27224 29224 Too Many Requests: /api/live-stats/
+WARNING 2025-07-31 09:29:47,735 basehttp 27224 29224 "GET /api/live-stats/ HTTP/1.1" 429 55
+WARNING 2025-07-31 09:29:47,751 log 27224 8720 Too Many Requests: /api/dashboard-analytics/
+WARNING 2025-07-31 09:29:47,752 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 429 55
+WARNING 2025-07-31 09:29:47,761 log 27224 29224 Too Many Requests: /api/dashboard-analytics/
+WARNING 2025-07-31 09:29:47,762 basehttp 27224 29224 "GET /api/dashboard-analytics/ HTTP/1.1" 429 55
+WARNING 2025-07-31 09:29:47,767 log 27224 25648 Too Many Requests: /api/slot-status/
+WARNING 2025-07-31 09:29:47,768 basehttp 27224 25648 "GET /api/slot-status/ HTTP/1.1" 429 55
+WARNING 2025-07-31 09:29:48,253 log 27224 25648 Too Many Requests: /api/live-stats/
+WARNING 2025-07-31 09:29:48,254 basehttp 27224 25648 "GET /api/live-stats/ HTTP/1.1" 429 55
+WARNING 2025-07-31 09:29:48,269 log 27224 29224 Too Many Requests: /api/slot-status/
+WARNING 2025-07-31 09:29:48,271 basehttp 27224 29224 "GET /api/slot-status/ HTTP/1.1" 429 55
+WARNING 2025-07-31 09:29:48,286 log 27224 8720 Too Many Requests: /api/dashboard-analytics/
+WARNING 2025-07-31 09:29:48,287 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 429 55
+WARNING 2025-07-31 09:29:49,182 log 27224 8720 Too Many Requests: /api/dashboard-analytics/
+WARNING 2025-07-31 09:29:49,182 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 429 55
+WARNING 2025-07-31 09:29:51,229 log 27224 8720 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:29:51,230 basehttp 27224 8720 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:29:51,238 log 27224 29224 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:29:51,240 basehttp 27224 29224 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:29:51,245 log 27224 25648 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:29:51,247 basehttp 27224 25648 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:29:54,240 log 27224 29224 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:29:54,241 basehttp 27224 29224 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:29:54,246 log 27224 25648 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:29:54,248 basehttp 27224 25648 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:29:54,262 log 27224 8720 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:29:54,264 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:29:57,986 log 27224 25648 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:29:57,988 basehttp 27224 25648 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:29:58,003 log 27224 8720 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:29:58,004 basehttp 27224 8720 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:29:58,019 log 27224 29224 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:29:58,021 basehttp 27224 29224 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:29:59,951 log 27224 29224 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:29:59,951 basehttp 27224 29224 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:00,953 log 27224 8720 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:30:00,953 basehttp 27224 8720 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:00,962 log 27224 29224 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:30:00,962 basehttp 27224 29224 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:00,977 log 27224 25648 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:30:00,977 basehttp 27224 25648 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:03,979 log 27224 8720 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:30:03,979 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:03,984 log 27224 25648 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:30:03,985 basehttp 27224 25648 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:03,995 log 27224 29224 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:30:03,996 basehttp 27224 29224 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:06,975 log 27224 8720 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:30:06,976 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:07,002 log 27224 25648 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:30:07,004 basehttp 27224 25648 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:07,029 log 27224 29224 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:30:07,030 basehttp 27224 29224 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:07,044 log 27224 25648 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:30:07,046 basehttp 27224 25648 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:07,049 log 27224 7812 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:30:07,050 basehttp 27224 7812 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:07,061 log 27224 25648 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:30:07,062 basehttp 27224 25648 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:07,081 log 27224 8720 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:30:07,082 basehttp 27224 8720 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:09,978 log 27224 8720 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:30:09,979 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:09,997 log 27224 7812 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:30:09,998 basehttp 27224 7812 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:10,005 log 27224 25648 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:30:10,007 basehttp 27224 25648 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:10,020 log 27224 29224 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:30:10,021 basehttp 27224 29224 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:12,974 log 27224 25648 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:30:12,974 basehttp 27224 25648 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:12,976 log 27224 7812 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:30:12,977 basehttp 27224 7812 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:12,984 log 27224 29224 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:30:12,985 basehttp 27224 29224 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:15,960 log 27224 29224 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:30:15,960 basehttp 27224 29224 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:15,974 log 27224 7812 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:30:15,974 basehttp 27224 7812 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:15,987 log 27224 25648 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:30:15,988 basehttp 27224 25648 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:18,963 log 27224 29224 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:30:18,963 basehttp 27224 29224 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:18,969 log 27224 25648 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:30:18,970 basehttp 27224 25648 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:18,977 log 27224 7812 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:30:18,978 basehttp 27224 7812 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:19,967 log 27224 7812 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:30:19,967 basehttp 27224 7812 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:21,953 log 27224 25648 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:30:21,954 basehttp 27224 25648 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:21,972 log 27224 29224 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:30:21,973 basehttp 27224 29224 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:21,982 log 27224 7812 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:30:21,982 basehttp 27224 7812 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:24,965 log 27224 7812 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:30:24,966 basehttp 27224 7812 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:24,984 log 27224 25648 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:30:24,984 basehttp 27224 25648 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:24,999 log 27224 29224 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:30:25,000 basehttp 27224 29224 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:27,980 log 27224 25648 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:30:27,984 basehttp 27224 25648 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:27,987 log 27224 29224 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:30:27,988 basehttp 27224 29224 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:28,005 log 27224 7812 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:30:28,006 basehttp 27224 7812 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:29,967 log 27224 7812 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:30:29,968 basehttp 27224 7812 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:30,964 log 27224 29224 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:30:30,965 basehttp 27224 29224 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:30,981 log 27224 25648 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:30:30,982 basehttp 27224 25648 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:30,997 log 27224 7812 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:30:30,998 basehttp 27224 7812 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:33,958 log 27224 25648 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:30:33,959 basehttp 27224 25648 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:33,965 log 27224 7812 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:30:33,966 basehttp 27224 7812 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:33,981 log 27224 29224 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:30:33,982 basehttp 27224 29224 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:36,972 log 27224 7812 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:30:36,974 basehttp 27224 7812 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:36,990 log 27224 25648 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:30:36,991 basehttp 27224 25648 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:37,007 log 27224 29224 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:30:37,009 basehttp 27224 29224 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:39,180 log 27224 29224 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:30:39,181 basehttp 27224 29224 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:39,221 log 27224 25648 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:30:39,222 basehttp 27224 25648 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:39,237 log 27224 29224 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:30:39,238 basehttp 27224 29224 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:39,252 log 27224 7812 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:30:39,253 basehttp 27224 7812 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:42,231 log 27224 7812 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:30:42,231 basehttp 27224 7812 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:42,239 log 27224 25648 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:30:42,240 basehttp 27224 25648 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:42,255 log 27224 29224 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:30:42,256 basehttp 27224 29224 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:45,961 log 27224 25648 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:30:45,961 basehttp 27224 25648 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:45,966 log 27224 29224 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:30:45,967 basehttp 27224 29224 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:45,975 log 27224 7812 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:30:45,976 basehttp 27224 7812 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:48,959 log 27224 25648 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:30:48,959 basehttp 27224 25648 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:48,965 log 27224 29224 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:30:48,966 basehttp 27224 29224 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:48,980 log 27224 7812 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:30:48,981 basehttp 27224 7812 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:49,965 log 27224 7812 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:30:49,966 basehttp 27224 7812 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:51,961 log 27224 7812 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:30:51,962 basehttp 27224 7812 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:51,972 log 27224 29224 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:30:51,973 basehttp 27224 29224 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:51,978 log 27224 25648 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:30:51,979 basehttp 27224 25648 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:54,952 log 27224 29224 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:30:54,953 basehttp 27224 29224 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:54,964 log 27224 25648 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:30:54,965 basehttp 27224 25648 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:54,979 log 27224 7812 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:30:54,980 basehttp 27224 7812 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:57,966 log 27224 25648 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:30:57,967 basehttp 27224 25648 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:57,975 log 27224 7812 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:30:57,976 basehttp 27224 7812 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:57,989 log 27224 29224 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:30:57,989 basehttp 27224 29224 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:30:59,966 log 27224 29224 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:30:59,967 basehttp 27224 29224 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:00,970 log 27224 29224 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:31:00,970 basehttp 27224 29224 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:00,974 log 27224 25648 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:31:00,974 basehttp 27224 25648 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:00,991 log 27224 7812 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:31:00,992 basehttp 27224 7812 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:03,983 log 27224 25648 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:31:03,984 basehttp 27224 25648 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:04,002 log 27224 7812 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:31:04,003 basehttp 27224 7812 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:04,016 log 27224 29224 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:31:04,016 basehttp 27224 29224 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:06,974 log 27224 29224 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:31:06,975 basehttp 27224 29224 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:06,985 log 27224 8720 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:31:06,986 basehttp 27224 8720 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:06,989 log 27224 25648 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:31:06,989 basehttp 27224 25648 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:07,003 log 27224 7812 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:31:07,004 basehttp 27224 7812 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:07,012 log 27224 25648 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:31:07,013 basehttp 27224 25648 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:07,019 log 27224 8720 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:31:07,019 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:07,027 log 27224 25648 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:31:07,028 basehttp 27224 25648 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:09,971 log 27224 25648 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:31:09,972 basehttp 27224 25648 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:09,977 log 27224 7812 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:31:09,978 basehttp 27224 7812 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:09,994 log 27224 8720 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:31:09,995 basehttp 27224 8720 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:10,008 log 27224 29224 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:31:10,008 basehttp 27224 29224 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:12,969 log 27224 8720 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:31:12,970 basehttp 27224 8720 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:12,977 log 27224 7812 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:31:12,977 basehttp 27224 7812 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:12,991 log 27224 29224 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:31:12,992 basehttp 27224 29224 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:15,969 log 27224 8720 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:31:15,970 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:15,980 log 27224 7812 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:31:15,981 basehttp 27224 7812 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:15,996 log 27224 29224 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:31:15,996 basehttp 27224 29224 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:18,980 log 27224 29224 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:31:18,981 basehttp 27224 29224 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:18,998 log 27224 7812 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:31:18,999 basehttp 27224 7812 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:19,017 log 27224 8720 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:31:19,018 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:19,953 log 27224 8720 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:31:19,954 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:21,960 log 27224 7812 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:31:21,960 basehttp 27224 7812 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:21,974 log 27224 29224 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:31:21,974 basehttp 27224 29224 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:21,984 log 27224 8720 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:31:21,984 basehttp 27224 8720 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:24,974 log 27224 8720 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:31:24,975 basehttp 27224 8720 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:24,984 log 27224 29224 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:31:24,984 basehttp 27224 29224 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:25,000 log 27224 7812 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:31:25,001 basehttp 27224 7812 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:27,981 log 27224 7812 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:31:27,982 basehttp 27224 7812 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:27,996 log 27224 29224 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:31:27,998 basehttp 27224 29224 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:28,012 log 27224 8720 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:31:28,013 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:29,971 log 27224 8720 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:31:29,972 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:30,982 log 27224 29224 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:31:30,983 basehttp 27224 29224 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:30,998 log 27224 8720 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:31:30,999 basehttp 27224 8720 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:31,015 log 27224 7812 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:31:31,016 basehttp 27224 7812 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:33,957 log 27224 7812 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:31:33,957 basehttp 27224 7812 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:33,966 log 27224 29224 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:31:33,966 basehttp 27224 29224 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:33,970 log 27224 8720 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:31:33,972 basehttp 27224 8720 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:36,966 log 27224 8720 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:31:36,966 basehttp 27224 8720 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:36,975 log 27224 29224 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:31:36,976 basehttp 27224 29224 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:36,986 log 27224 7812 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:31:36,987 basehttp 27224 7812 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:39,186 log 27224 7812 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:31:39,186 basehttp 27224 7812 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:39,239 log 27224 29224 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:31:39,239 basehttp 27224 29224 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:39,256 log 27224 8720 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:31:39,256 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:39,271 log 27224 7812 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:31:39,272 basehttp 27224 7812 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:41,922 log 27224 7812 Forbidden: /video-feed/
+WARNING 2025-07-31 09:31:41,923 basehttp 27224 7812 "GET /video-feed/?t=1753933375099?t=1753933601912 HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:42,236 log 27224 8720 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:31:42,237 basehttp 27224 8720 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:42,255 log 27224 29224 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:31:42,255 basehttp 27224 29224 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:42,269 log 27224 7812 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:31:42,269 basehttp 27224 7812 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:43,556 log 27224 7812 Forbidden: /video-feed/
+WARNING 2025-07-31 09:31:43,558 basehttp 27224 7812 "GET /video-feed/?t=1753933375099?t=1753933601912?t=1753933603529 HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:45,236 log 27224 29224 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:31:45,238 basehttp 27224 29224 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:45,268 log 27224 8720 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:31:45,269 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:45,284 log 27224 7812 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:31:45,285 basehttp 27224 7812 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:48,990 log 27224 29224 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:31:48,991 basehttp 27224 29224 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:48,999 log 27224 7812 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:31:49,000 basehttp 27224 7812 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:49,022 log 27224 8720 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:31:49,023 basehttp 27224 8720 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:49,961 log 27224 8720 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:31:49,962 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:51,968 log 27224 29224 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:31:51,970 basehttp 27224 29224 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:51,974 log 27224 8720 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:31:51,976 basehttp 27224 8720 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:51,989 log 27224 7812 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:31:51,990 basehttp 27224 7812 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:54,982 log 27224 8720 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:31:54,983 basehttp 27224 8720 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:54,986 log 27224 7812 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:31:54,987 basehttp 27224 7812 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:55,003 log 27224 29224 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:31:55,004 basehttp 27224 29224 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:57,979 log 27224 29224 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:31:57,986 basehttp 27224 29224 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:57,989 log 27224 8720 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:31:57,993 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:58,010 log 27224 7812 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:31:58,012 basehttp 27224 7812 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:31:59,965 log 27224 7812 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:31:59,967 basehttp 27224 7812 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:00,980 log 27224 7812 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:32:00,982 basehttp 27224 7812 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:00,987 log 27224 8720 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:32:00,989 basehttp 27224 8720 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:01,004 log 27224 29224 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:32:01,005 basehttp 27224 29224 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:03,971 log 27224 8720 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:32:03,972 basehttp 27224 8720 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:03,976 log 27224 29224 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:32:03,978 basehttp 27224 29224 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:03,995 log 27224 7812 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:32:03,996 basehttp 27224 7812 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:06,992 log 27224 7812 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:32:06,996 basehttp 27224 7812 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:07,004 log 27224 29224 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:32:07,006 basehttp 27224 29224 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:07,013 log 27224 8720 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:32:07,014 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:07,044 log 27224 29224 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:32:07,045 basehttp 27224 29224 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:07,063 log 27224 25648 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:32:07,064 basehttp 27224 25648 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:07,075 log 27224 7812 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:32:07,078 basehttp 27224 7812 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:07,099 log 27224 8720 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:32:07,104 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:09,980 log 27224 25648 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:32:09,981 basehttp 27224 25648 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:09,996 log 27224 7812 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:32:09,997 basehttp 27224 7812 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:10,014 log 27224 8720 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:32:10,015 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:10,028 log 27224 7812 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:32:10,029 basehttp 27224 7812 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:12,980 log 27224 25648 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:32:12,981 basehttp 27224 25648 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:12,997 log 27224 7812 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:32:12,998 basehttp 27224 7812 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:13,013 log 27224 8720 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:32:13,014 basehttp 27224 8720 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:16,032 log 27224 8720 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:32:16,037 basehttp 27224 8720 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:16,046 log 27224 7812 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:32:16,047 basehttp 27224 7812 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:16,061 log 27224 25648 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:32:16,063 basehttp 27224 25648 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:18,982 log 27224 7812 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:32:18,985 basehttp 27224 7812 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:18,992 log 27224 25648 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:32:18,993 basehttp 27224 25648 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:19,003 log 27224 8720 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:32:19,004 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:19,974 log 27224 8720 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:32:19,975 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:21,988 log 27224 8720 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:32:21,990 basehttp 27224 8720 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:21,996 log 27224 25648 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:32:21,997 basehttp 27224 25648 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:22,005 log 27224 7812 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:32:22,006 basehttp 27224 7812 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:24,982 log 27224 8720 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:32:24,985 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:24,988 log 27224 7812 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:32:24,992 basehttp 27224 7812 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:25,001 log 27224 25648 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:32:25,003 basehttp 27224 25648 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:27,971 log 27224 8720 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:32:27,972 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:27,975 log 27224 7812 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:32:27,976 basehttp 27224 7812 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:27,996 log 27224 25648 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:32:27,998 basehttp 27224 25648 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:30,005 log 27224 25648 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:32:30,008 basehttp 27224 25648 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:30,965 log 27224 25648 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:32:30,967 basehttp 27224 25648 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:30,973 log 27224 7812 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:32:30,974 basehttp 27224 7812 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:30,990 log 27224 8720 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:32:30,991 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:33,974 log 27224 8720 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:32:33,976 basehttp 27224 8720 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:33,983 log 27224 25648 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:32:33,984 basehttp 27224 25648 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:33,997 log 27224 7812 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:32:33,999 basehttp 27224 7812 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:36,974 log 27224 7812 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:32:36,975 basehttp 27224 7812 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:36,987 log 27224 8720 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:32:36,989 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:36,993 log 27224 25648 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:32:36,994 basehttp 27224 25648 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:39,975 log 27224 8720 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:32:39,977 basehttp 27224 8720 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:40,000 log 27224 25648 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:32:40,001 basehttp 27224 25648 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:40,005 log 27224 7812 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:32:40,005 basehttp 27224 7812 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:40,015 log 27224 8720 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:32:40,017 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:42,971 log 27224 8720 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:32:42,976 basehttp 27224 8720 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:42,978 log 27224 7812 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:32:42,979 basehttp 27224 7812 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:42,994 log 27224 25648 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:32:42,996 basehttp 27224 25648 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:45,966 log 27224 8720 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:32:45,968 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:45,976 log 27224 7812 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:32:45,977 basehttp 27224 7812 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:32:45,989 log 27224 25648 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:32:45,990 basehttp 27224 25648 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:33:06,983 log 27224 7812 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:33:06,984 basehttp 27224 7812 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:33:07,001 log 27224 8720 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:33:07,002 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:33:07,005 log 27224 25648 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:33:07,006 basehttp 27224 25648 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:33:07,022 log 27224 29224 Forbidden: /api/slot-status/
+WARNING 2025-07-31 09:33:07,023 basehttp 27224 29224 "GET /api/slot-status/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:33:07,046 log 27224 7812 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:33:07,047 basehttp 27224 7812 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:33:07,051 log 27224 8720 Forbidden: /api/live-stats/
+WARNING 2025-07-31 09:33:07,052 basehttp 27224 8720 "GET /api/live-stats/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:33:07,059 log 27224 29224 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:33:07,059 basehttp 27224 29224 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+WARNING 2025-07-31 09:33:07,072 log 27224 8720 Forbidden: /api/dashboard-analytics/
+WARNING 2025-07-31 09:33:07,072 basehttp 27224 8720 "GET /api/dashboard-analytics/ HTTP/1.1" 403 66
+INFO 2025-07-31 09:36:16,696 autoreload 11596 23632 Watching for file changes with StatReloader
+INFO 2025-07-31 09:36:20,160 basehttp 11596 11492 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:36:24,343 basehttp 11596 11492 "GET /dashboard/ HTTP/1.1" 200 22021
+INFO 2025-07-31 09:36:24,464 basehttp 11596 24224 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:36:24,485 basehttp 11596 29064 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:36:27,453 basehttp 11596 24224 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:36:27,471 basehttp 11596 29064 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:36:27,500 basehttp 11596 28540 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:36:30,458 basehttp 11596 29064 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:36:30,475 basehttp 11596 28540 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:36:30,502 basehttp 11596 24224 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:36:33,475 basehttp 11596 28540 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:36:33,488 basehttp 11596 29064 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:36:33,516 basehttp 11596 24224 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:36:34,437 basehttp 11596 24224 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:36:34,899 basehttp 11596 24224 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:36:36,458 basehttp 11596 29064 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:36:36,471 basehttp 11596 24224 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:36:36,489 basehttp 11596 28540 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:36:39,458 basehttp 11596 24224 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:36:39,474 basehttp 11596 28540 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:36:39,483 basehttp 11596 29064 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:36:42,467 basehttp 11596 28540 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:36:42,494 basehttp 11596 29064 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:36:42,511 basehttp 11596 24224 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:36:44,438 basehttp 11596 24224 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:36:45,450 basehttp 11596 29064 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:36:45,469 basehttp 11596 24224 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:36:45,486 basehttp 11596 28540 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:36:48,996 basehttp 11596 24224 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:36:49,010 basehttp 11596 29064 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:36:49,018 basehttp 11596 28540 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:36:51,987 basehttp 11596 29064 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:36:52,016 basehttp 11596 24224 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:36:52,021 basehttp 11596 28540 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:36:54,974 basehttp 11596 29064 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:36:54,989 basehttp 11596 28540 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:36:55,004 basehttp 11596 24224 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:36:55,019 basehttp 11596 29064 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:39:14,927 autoreload 16292 28868 Watching for file changes with StatReloader
+INFO 2025-07-31 09:39:17,951 basehttp 16292 584 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:39:17,970 basehttp 16292 23964 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:39:17,982 basehttp 16292 584 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:39:17,999 basehttp 16292 2352 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:39:18,443 basehttp 16292 584 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:39:18,455 basehttp 16292 2352 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:39:18,471 basehttp 16292 23964 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:39:18,910 basehttp 16292 23964 "GET /dashboard/ HTTP/1.1" 200 22021
+INFO 2025-07-31 09:39:18,962 basehttp 16292 584 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:39:18,975 basehttp 16292 2352 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:39:21,327 basehttp 16292 2352 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:39:21,983 basehttp 16292 25444 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:39:22,005 basehttp 16292 584 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:39:22,013 basehttp 16292 2352 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:39:24,997 basehttp 16292 584 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:39:25,031 basehttp 16292 2352 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:39:25,048 basehttp 16292 25444 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:39:28,010 basehttp 16292 2352 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:39:28,028 basehttp 16292 584 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:39:28,043 basehttp 16292 25444 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:39:28,976 basehttp 16292 25444 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:39:30,990 basehttp 16292 584 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:39:31,013 basehttp 16292 25444 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:39:31,039 basehttp 16292 2352 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:39:33,987 basehttp 16292 25444 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:39:34,011 basehttp 16292 2352 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:39:34,019 basehttp 16292 584 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:39:36,990 basehttp 16292 2352 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:39:37,016 basehttp 16292 584 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:39:37,037 basehttp 16292 25444 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:39:38,984 basehttp 16292 25444 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:39:40,001 basehttp 16292 584 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:39:40,024 basehttp 16292 2352 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:39:40,035 basehttp 16292 25444 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:39:43,999 basehttp 16292 2352 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:39:44,025 basehttp 16292 584 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:39:44,052 basehttp 16292 25444 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:42:49,091 autoreload 30392 11056 Watching for file changes with StatReloader
+INFO 2025-07-31 09:42:49,987 basehttp 30392 29156 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:42:52,362 basehttp 30392 29156 "GET /dashboard/ HTTP/1.1" 200 22021
+INFO 2025-07-31 09:42:52,416 basehttp 30392 30492 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:42:52,427 basehttp 30392 26760 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:42:55,444 basehttp 30392 26760 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:42:55,479 basehttp 30392 30492 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:42:55,496 basehttp 30392 27584 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:42:58,453 basehttp 30392 27584 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:42:58,484 basehttp 30392 30492 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:42:58,503 basehttp 30392 26760 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:43:01,437 basehttp 30392 30492 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:43:01,467 basehttp 30392 26760 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:43:01,488 basehttp 30392 27584 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:43:02,427 basehttp 30392 27584 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:43:04,448 basehttp 30392 26760 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:43:04,456 basehttp 30392 27584 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:43:04,463 basehttp 30392 30492 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:43:06,997 basehttp 30392 27584 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:43:07,025 basehttp 30392 30492 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:43:07,044 basehttp 30392 26760 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:43:07,071 basehttp 30392 30492 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:43:07,454 basehttp 30392 26760 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:43:07,481 basehttp 30392 27584 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:43:07,488 basehttp 30392 30492 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:43:10,455 basehttp 30392 27584 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:43:10,476 basehttp 30392 30492 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:43:10,503 basehttp 30392 26760 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:43:12,394 basehttp 30392 3752 "GET /api/available-slots/ HTTP/1.1" 200 49
+INFO 2025-07-31 09:43:12,426 basehttp 30392 30492 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:43:12,459 basehttp 30392 26760 "GET /staff/assign/ HTTP/1.1" 200 9814
+INFO 2025-07-31 09:43:12,552 basehttp 30392 26760 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:43:17,276 basehttp 30392 26760 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:43:25,313 basehttp 30392 27584 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:43:25,327 basehttp 30392 30492 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:43:25,335 basehttp 30392 27860 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:43:28,318 basehttp 30392 30492 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:43:28,343 basehttp 30392 27860 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:43:28,363 basehttp 30392 27584 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:43:30,449 basehttp 30392 27584 "GET / HTTP/1.1" 200 9713
+WARNING 2025-07-31 09:43:30,535 basehttp 30392 27584 "GET /static/mysite/css/style.css HTTP/1.1" 404 1874
+INFO 2025-07-31 09:43:40,963 basehttp 30392 30492 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:43:41,556 basehttp 30392 30492 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:43:41,572 basehttp 30392 27220 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:43:41,591 basehttp 30392 28760 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:43:44,546 basehttp 30392 27220 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:43:44,574 basehttp 30392 28760 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:43:44,594 basehttp 30392 30492 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:43:47,544 basehttp 30392 28760 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:43:47,554 basehttp 30392 30492 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:43:47,568 basehttp 30392 27220 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:43:48,512 basehttp 30392 27220 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:43:50,560 basehttp 30392 30492 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:43:50,581 basehttp 30392 28760 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:43:50,587 basehttp 30392 27220 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:43:53,976 basehttp 30392 28760 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:43:54,004 basehttp 30392 27220 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:43:54,013 basehttp 30392 30492 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:43:56,968 basehttp 30392 27220 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:43:56,988 basehttp 30392 28760 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:43:56,999 basehttp 30392 30492 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:43:58,975 basehttp 30392 30492 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:44:15,229 autoreload 9300 24896 Watching for file changes with StatReloader
+INFO 2025-07-31 09:44:16,033 basehttp 9300 26684 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 09:44:16,041 basehttp 9300 29080 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 09:44:16,051 basehttp 9300 14224 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:44:16,063 basehttp 9300 29080 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 09:44:34,209 autoreload 11468 28024 Watching for file changes with StatReloader
+INFO 2025-07-31 09:44:38,145 basehttp 11468 4792 "GET /dashboard/ HTTP/1.1" 200 22021
+INFO 2025-07-31 09:44:38,231 basehttp 11468 30580 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 09:44:38,250 basehttp 11468 27744 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 09:44:41,216 basehttp 11468 27744 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 09:44:41,233 basehttp 11468 15476 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 09:44:41,273 basehttp 11468 30580 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 09:44:44,237 basehttp 11468 30580 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 09:44:44,271 basehttp 11468 27744 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 09:44:44,305 basehttp 11468 15476 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 09:44:47,262 basehttp 11468 30580 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 09:44:47,281 basehttp 11468 15476 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 09:44:47,352 basehttp 11468 27744 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 09:44:48,196 basehttp 11468 27744 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 09:44:50,232 basehttp 11468 27744 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 09:44:50,253 basehttp 11468 30580 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 09:44:50,333 basehttp 11468 15476 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 09:44:55,605 basehttp 11468 15476 "GET /auth/logout/ HTTP/1.1" 302 0
+INFO 2025-07-31 09:44:55,719 basehttp 11468 15476 "GET /auth/login/ HTTP/1.1" 200 8599
+INFO 2025-07-31 09:44:58,326 basehttp 11468 15476 "GET /dashboard/ HTTP/1.1" 200 21806
+INFO 2025-07-31 09:44:58,379 basehttp 11468 30580 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 09:44:58,445 basehttp 11468 27744 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 09:45:03,638 basehttp 11468 30580 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 09:45:03,642 basehttp 11468 27104 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 09:45:03,687 basehttp 11468 25764 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 09:45:06,613 basehttp 11468 30580 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 09:45:06,618 basehttp 11468 25764 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 09:45:06,678 basehttp 11468 27104 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 09:45:06,976 basehttp 11468 27104 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 09:45:06,984 basehttp 11468 30580 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 09:45:07,019 basehttp 11468 27104 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 09:45:07,061 basehttp 11468 25764 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 09:45:09,621 basehttp 11468 25764 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 09:45:09,625 basehttp 11468 30580 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 09:45:09,679 basehttp 11468 27104 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 09:45:10,593 basehttp 11468 27104 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 09:45:12,982 basehttp 11468 27104 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 09:45:12,990 basehttp 11468 25764 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 09:45:13,036 basehttp 11468 30580 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:00:21,730 autoreload 31912 28232 Watching for file changes with StatReloader
+INFO 2025-07-31 11:00:22,345 basehttp 31912 31576 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:00:25,455 basehttp 31912 31576 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:00:25,456 basehttp 31912 21992 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:00:25,469 basehttp 31912 31576 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:00:25,483 basehttp 31912 25928 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:00:25,636 basehttp 31912 25928 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:00:25,641 basehttp 31912 21992 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:00:25,671 basehttp 31912 31576 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:00:27,267 basehttp 31912 31576 "GET /dashboard/ HTTP/1.1" 200 21806
+INFO 2025-07-31 11:00:27,305 basehttp 31912 31576 "GET /static/css/base.css HTTP/1.1" 304 0
+INFO 2025-07-31 11:00:27,305 basehttp 31912 25928 "GET /static/css/dashboard.css HTTP/1.1" 304 0
+INFO 2025-07-31 11:00:27,307 basehttp 31912 3540 "GET /static/js/notifications.js HTTP/1.1" 304 0
+INFO 2025-07-31 11:00:27,357 basehttp 31912 3540 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:00:27,377 basehttp 31912 25928 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:00:30,379 basehttp 31912 25928 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:00:30,393 basehttp 31912 31576 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:00:30,439 basehttp 31912 3540 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:00:30,818 basehttp 31912 3540 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:00:31,968 basehttp 31912 3540 "GET / HTTP/1.1" 200 11295
+INFO 2025-07-31 11:00:40,812 basehttp 31912 3540 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:00:42,290 basehttp 31912 3540 "GET / HTTP/1.1" 200 11295
+INFO 2025-07-31 11:00:50,803 basehttp 31912 3540 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:00:51,496 basehttp 31912 3540 "GET / HTTP/1.1" 200 11295
+INFO 2025-07-31 11:01:00,804 basehttp 31912 3540 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:01:34,837 basehttp 31912 3540 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:01:40,448 basehttp 31912 3540 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:01:50,438 basehttp 31912 3540 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:02:00,448 basehttp 31912 3540 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:02:10,439 basehttp 31912 3540 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:06:45,851 autoreload 15944 9276 Watching for file changes with StatReloader
+INFO 2025-07-31 11:06:48,193 basehttp 15944 5024 "GET / HTTP/1.1" 200 11346
+INFO 2025-07-31 11:06:48,494 basehttp 15944 27956 "GET / HTTP/1.1" 200 11346
+INFO 2025-07-31 11:06:48,741 basehttp 15944 20736 "GET /static/js/notifications.js HTTP/1.1" 200 9065
+INFO 2025-07-31 11:06:48,750 basehttp 15944 27956 "GET /static/css/base.css HTTP/1.1" 200 5752
+INFO 2025-07-31 11:06:48,753 basehttp 15944 12492 "GET /static/images/logo.jpg HTTP/1.1" 200 5730
+INFO 2025-07-31 11:06:48,756 basehttp 15944 3540 "GET /static/images/img3.jpg HTTP/1.1" 200 30608
+INFO 2025-07-31 11:06:48,759 basehttp 15944 1708 "GET /static/images/img2.jpg HTTP/1.1" 200 246224
+INFO 2025-07-31 11:06:48,764 basehttp 15944 7840 "GET /static/images/img1.png HTTP/1.1" 200 493359
+INFO 2025-07-31 11:07:02,908 basehttp 15944 7840 "GET /admin/ HTTP/1.1" 302 0
+INFO 2025-07-31 11:07:02,966 basehttp 15944 7840 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 3058
+INFO 2025-07-31 11:07:03,006 basehttp 15944 12492 "GET /static/vendor/adminlte/img/AdminLTELogo.png HTTP/1.1" 200 2637
+INFO 2025-07-31 11:07:03,010 basehttp 15944 7840 "GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1" 200 59344
+INFO 2025-07-31 11:07:03,010 basehttp 15944 3540 "GET /static/jazzmin/css/main.css HTTP/1.1" 200 16969
+INFO 2025-07-31 11:07:03,028 basehttp 15944 1708 "GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1" 200 1382975
+INFO 2025-07-31 11:07:03,035 basehttp 15944 20736 "GET /static/vendor/bootstrap/js/bootstrap.min.js HTTP/1.1" 200 62440
+INFO 2025-07-31 11:07:03,041 basehttp 15944 12492 "GET /static/vendor/adminlte/js/adminlte.min.js HTTP/1.1" 200 44244
+INFO 2025-07-31 11:07:03,055 basehttp 15944 27956 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+INFO 2025-07-31 11:07:03,076 basehttp 15944 27956 "GET /static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 200 78196
+INFO 2025-07-31 11:07:05,254 basehttp 15944 27956 "GET /staff/login/ HTTP/1.1" 200 6171
+INFO 2025-07-31 11:07:06,812 basehttp 15944 5024 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:07:07,071 basehttp 15944 27956 "GET /customer/login/ HTTP/1.1" 200 6174
+INFO 2025-07-31 11:07:10,260 basehttp 15944 27956 "GET /customer/register/ HTTP/1.1" 200 1816
+INFO 2025-07-31 11:07:18,359 basehttp 15944 27956 "GET /staff/login/ HTTP/1.1" 200 6171
+INFO 2025-07-31 11:07:20,095 basehttp 15944 27956 "GET /dashboard/ HTTP/1.1" 200 22781
+INFO 2025-07-31 11:07:20,132 basehttp 15944 27956 "GET /static/css/dashboard.css HTTP/1.1" 200 6510
+INFO 2025-07-31 11:07:20,221 basehttp 15944 27956 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:07:20,284 basehttp 15944 20736 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:07:23,215 basehttp 15944 20736 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:07:23,222 basehttp 15944 1708 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:07:23,263 basehttp 15944 27956 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:07:26,222 basehttp 15944 20736 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:07:26,242 basehttp 15944 27956 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:07:26,278 basehttp 15944 1708 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:07:31,770 basehttp 15944 1708 "GET /customer/login/ HTTP/1.1" 200 6174
+INFO 2025-07-31 11:07:32,897 basehttp 15944 1708 "GET /customer/register/ HTTP/1.1" 200 1816
+INFO 2025-07-31 11:08:06,800 basehttp 15944 5024 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:09:06,816 basehttp 15944 5024 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:09:53,073 basehttp 15944 5024 "GET /customer/register/ HTTP/1.1" 200 9382
+INFO 2025-07-31 11:09:58,549 basehttp 15944 5024 "GET /staff/register/ HTTP/1.1" 200 9803
+INFO 2025-07-31 11:10:06,816 basehttp 15944 5024 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:11:06,801 basehttp 15944 5024 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:12:06,799 basehttp 15944 5024 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:12:07,561 basehttp 15944 1708 "GET /customer/register/ HTTP/1.1" 200 9382
+ERROR 2025-07-31 11:12:31,679 log 15944 5024 Internal Server Error: /customer/lookup/
+Traceback (most recent call last):
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Study\jango\Project\PMS\pms\views.py", line 924, in lookup_session
+    return render(request, 'customer/lookup.html', {
+        'form': form,
+    ...<2 lines>...
+        'price': price,
+    })
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+        contents,
+    ...<2 lines>...
+        self.engine,
+    )
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loader_tags.py", line 228, in do_block
+    raise TemplateSyntaxError(
+        "'%s' tag with name '%s' appears more than once" % (bits[0], block_name)
+    )
+django.template.exceptions.TemplateSyntaxError: 'block' tag with name 'extra_css' appears more than once
+ERROR 2025-07-31 11:12:31,705 basehttp 15944 5024 "GET /customer/lookup/ HTTP/1.1" 500 176307
+INFO 2025-07-31 11:13:06,800 basehttp 15944 5024 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:13:22,882 basehttp 15944 5024 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:13:27,435 basehttp 15944 5024 "GET / HTTP/1.1" 200 11346
+INFO 2025-07-31 11:13:30,443 basehttp 15944 5024 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:13:32,776 basehttp 15944 5024 "GET /manager/login/ HTTP/1.1" 200 5988
+INFO 2025-07-31 11:13:40,444 basehttp 15944 5024 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:13:45,065 basehttp 15944 5024 "POST /manager/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 11:13:45,090 basehttp 15944 5024 "GET /manager/dashboard/ HTTP/1.1" 200 22021
+INFO 2025-07-31 11:13:45,237 basehttp 15944 30996 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:13:45,275 basehttp 15944 9492 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:13:48,237 basehttp 15944 9492 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:13:48,253 basehttp 15944 30304 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:13:48,334 basehttp 15944 30996 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:13:50,465 basehttp 15944 30996 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:13:51,220 basehttp 15944 30996 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:13:51,240 basehttp 15944 9492 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:13:51,302 basehttp 15944 30304 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:13:54,232 basehttp 15944 9492 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:13:54,252 basehttp 15944 28916 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:13:54,315 basehttp 15944 30996 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:13:55,201 basehttp 15944 30996 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:13:58,091 basehttp 15944 30996 "GET / HTTP/1.1" 200 6885
+WARNING 2025-07-31 11:13:58,155 basehttp 15944 30996 "GET /static/mysite/css/style.css HTTP/1.1" 404 1874
+INFO 2025-07-31 11:14:00,455 basehttp 15944 28916 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:14:03,261 basehttp 15944 9492 "GET / HTTP/1.1" 200 6885
+WARNING 2025-07-31 11:14:03,338 basehttp 15944 9492 "GET /static/mysite/css/style.css HTTP/1.1" 404 1874
+INFO 2025-07-31 11:14:08,828 basehttp 15944 27016 "GET / HTTP/1.1" 200 6885
+WARNING 2025-07-31 11:14:08,895 basehttp 15944 27016 "GET /static/mysite/css/style.css HTTP/1.1" 404 1874
+INFO 2025-07-31 11:14:10,474 basehttp 15944 31028 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:14:13,252 basehttp 15944 31028 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:14:13,270 basehttp 15944 18648 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:14:13,323 basehttp 15944 20676 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:14:13,868 basehttp 15944 20676 "GET /auth/logout/ HTTP/1.1" 302 0
+INFO 2025-07-31 11:14:13,884 basehttp 15944 20676 "GET /auth/login/ HTTP/1.1" 200 8599
+INFO 2025-07-31 11:14:20,441 basehttp 15944 20676 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:14:30,446 basehttp 15944 20676 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:14:35,231 basehttp 15944 20676 "GET /dashboard/ HTTP/1.1" 200 22781
+INFO 2025-07-31 11:14:35,271 basehttp 15944 18648 "GET /static/css/base.css HTTP/1.1" 304 0
+INFO 2025-07-31 11:14:35,271 basehttp 15944 26980 "GET /static/js/notifications.js HTTP/1.1" 304 0
+INFO 2025-07-31 11:14:35,271 basehttp 15944 31028 "GET /static/css/dashboard.css HTTP/1.1" 304 0
+INFO 2025-07-31 11:14:35,334 basehttp 15944 26980 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:14:35,393 basehttp 15944 31028 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:14:38,354 basehttp 15944 31028 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:14:38,364 basehttp 15944 18648 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:14:38,439 basehttp 15944 26980 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:14:41,338 basehttp 15944 26980 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:14:41,346 basehttp 15944 31028 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:14:41,406 basehttp 15944 18648 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:14:43,390 basehttp 15944 18648 "GET / HTTP/1.1" 200 11346
+INFO 2025-07-31 11:14:47,581 basehttp 15944 18648 "GET /manager/login/ HTTP/1.1" 200 5988
+INFO 2025-07-31 11:14:55,639 basehttp 15944 18648 "GET /customer/login/ HTTP/1.1" 200 6174
+INFO 2025-07-31 11:14:58,454 basehttp 15944 18648 "GET /staff/login/ HTTP/1.1" 200 6171
+INFO 2025-07-31 11:15:13,331 basehttp 15944 18648 "GET /dashboard/ HTTP/1.1" 200 22781
+INFO 2025-07-31 11:15:13,392 basehttp 15944 31028 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:15:13,436 basehttp 15944 26980 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:15:16,401 basehttp 15944 26980 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:15:16,406 basehttp 15944 31316 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:15:16,474 basehttp 15944 31028 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:15:19,420 basehttp 15944 31028 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:15:19,424 basehttp 15944 26980 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:15:19,470 basehttp 15944 31316 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:15:26,350 basehttp 15944 31316 "GET /dashboard/ HTTP/1.1" 200 22781
+INFO 2025-07-31 11:15:26,418 basehttp 15944 26980 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:15:26,466 basehttp 15944 31028 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:15:29,425 basehttp 15944 31028 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:15:29,432 basehttp 15944 23300 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:15:29,488 basehttp 15944 26980 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:15:32,456 basehttp 15944 26980 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:15:32,460 basehttp 15944 31028 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:15:32,509 basehttp 15944 23300 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:15:35,439 basehttp 15944 23300 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:15:35,454 basehttp 15944 26980 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:15:35,495 basehttp 15944 31028 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:15:36,411 basehttp 15944 31028 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:15:37,171 basehttp 15944 31028 "GET /staff/register/ HTTP/1.1" 200 9803
+INFO 2025-07-31 11:15:45,751 basehttp 15944 26980 "GET /customer/register/ HTTP/1.1" 200 9382
+INFO 2025-07-31 11:15:51,334 basehttp 15944 23300 "GET / HTTP/1.1" 200 11346
+INFO 2025-07-31 11:15:52,177 basehttp 15944 23300 "GET / HTTP/1.1" 200 11346
+INFO 2025-07-31 11:15:52,750 basehttp 15944 23300 "GET / HTTP/1.1" 200 11346
+INFO 2025-07-31 11:15:54,565 basehttp 15944 23300 "GET /manager/login/ HTTP/1.1" 200 5988
+INFO 2025-07-31 11:15:58,073 basehttp 15944 23300 "GET /manager/login/ HTTP/1.1" 200 5988
+INFO 2025-07-31 11:16:03,679 basehttp 15944 31896 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:16:03,686 basehttp 15944 27212 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:16:03,769 basehttp 15944 22404 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:16:06,666 basehttp 15944 22404 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:16:06,672 basehttp 15944 31896 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:16:06,727 basehttp 15944 27212 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:16:09,852 basehttp 15944 27212 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:16:09,853 basehttp 15944 22404 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:16:09,906 basehttp 15944 31896 "GET /api/slot-status/ HTTP/1.1" 200 7360
+ERROR 2025-07-31 11:16:09,994 log 15944 31896 Internal Server Error: /customer/lookup/
+Traceback (most recent call last):
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Study\jango\Project\PMS\pms\views.py", line 924, in lookup_session
+    return render(request, 'customer/lookup.html', {
+        'form': form,
+    ...<2 lines>...
+        'price': price,
+    })
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+        contents,
+    ...<2 lines>...
+        self.engine,
+    )
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loader_tags.py", line 228, in do_block
+    raise TemplateSyntaxError(
+        "'%s' tag with name '%s' appears more than once" % (bits[0], block_name)
+    )
+django.template.exceptions.TemplateSyntaxError: 'block' tag with name 'extra_css' appears more than once
+ERROR 2025-07-31 11:16:10,004 basehttp 15944 31896 "GET /customer/lookup/ HTTP/1.1" 500 176444
+INFO 2025-07-31 11:16:10,807 basehttp 15944 31896 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+ERROR 2025-07-31 11:16:11,924 log 15944 31896 Internal Server Error: /customer/lookup/
+Traceback (most recent call last):
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Study\jango\Project\PMS\pms\views.py", line 924, in lookup_session
+    return render(request, 'customer/lookup.html', {
+        'form': form,
+    ...<2 lines>...
+        'price': price,
+    })
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+        contents,
+    ...<2 lines>...
+        self.engine,
+    )
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loader_tags.py", line 228, in do_block
+    raise TemplateSyntaxError(
+        "'%s' tag with name '%s' appears more than once" % (bits[0], block_name)
+    )
+django.template.exceptions.TemplateSyntaxError: 'block' tag with name 'extra_css' appears more than once
+ERROR 2025-07-31 11:16:11,933 basehttp 15944 31896 "GET /customer/lookup/ HTTP/1.1" 500 176444
+INFO 2025-07-31 11:16:12,811 basehttp 15944 31896 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:16:12,852 basehttp 15944 31896 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:16:12,872 basehttp 15944 22404 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:16:15,855 basehttp 15944 27212 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:16:15,860 basehttp 15944 22404 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:16:15,910 basehttp 15944 31896 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:16:18,822 basehttp 15944 31896 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:16:18,833 basehttp 15944 27212 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:16:18,888 basehttp 15944 22404 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:16:20,807 basehttp 15944 22404 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:16:21,808 basehttp 15944 22404 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:16:21,810 basehttp 15944 31896 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:16:21,830 basehttp 15944 27212 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:16:24,818 basehttp 15944 22404 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:16:24,821 basehttp 15944 27212 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:16:24,852 basehttp 15944 31896 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:19:07,614 autoreload 8876 13176 Watching for file changes with StatReloader
+INFO 2025-07-31 11:19:08,492 basehttp 8876 23684 "GET / HTTP/1.1" 200 11346
+INFO 2025-07-31 11:19:18,853 basehttp 8876 23684 "GET /dashboard/ HTTP/1.1" 200 22781
+INFO 2025-07-31 11:19:19,018 basehttp 8876 3340 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:19:19,041 basehttp 8876 6112 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:19:21,982 basehttp 8876 6112 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:19:21,995 basehttp 8876 25760 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:19:22,051 basehttp 8876 3340 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:19:24,963 basehttp 8876 3340 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:19:24,968 basehttp 8876 6112 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:19:25,031 basehttp 8876 25760 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:19:25,941 basehttp 8876 25760 "GET /customer/register/ HTTP/1.1" 200 9382
+INFO 2025-07-31 11:19:28,828 basehttp 8876 6112 "GET /staff/register/ HTTP/1.1" 200 9803
+INFO 2025-07-31 11:19:31,131 basehttp 8876 3340 "GET / HTTP/1.1" 200 11346
+INFO 2025-07-31 11:19:35,583 basehttp 8876 3340 "GET /dashboard/ HTTP/1.1" 200 22781
+INFO 2025-07-31 11:19:35,669 basehttp 8876 31708 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:19:35,707 basehttp 8876 7104 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:19:38,759 basehttp 8876 7104 "GET /customer/lookup/ HTTP/1.1" 200 8157
+INFO 2025-07-31 11:19:38,832 basehttp 8876 7104 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:19:38,843 basehttp 8876 26980 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:19:38,888 basehttp 8876 31708 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:19:41,828 basehttp 8876 31708 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:19:41,850 basehttp 8876 7104 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:19:41,894 basehttp 8876 26980 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:19:44,823 basehttp 8876 26980 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:19:44,845 basehttp 8876 31708 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:19:44,889 basehttp 8876 7104 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:19:45,831 basehttp 8876 7104 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:19:47,830 basehttp 8876 7104 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:19:47,832 basehttp 8876 26980 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:19:47,869 basehttp 8876 31708 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:19:47,896 basehttp 8876 31708 "GET / HTTP/1.1" 200 11346
+INFO 2025-07-31 11:19:50,849 basehttp 8876 31708 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:19:50,857 basehttp 8876 7104 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:19:50,899 basehttp 8876 26980 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:19:53,276 basehttp 8876 26980 "GET / HTTP/1.1" 200 11346
+INFO 2025-07-31 11:19:59,459 basehttp 8876 26980 "GET /admin/ HTTP/1.1" 302 0
+INFO 2025-07-31 11:19:59,480 basehttp 8876 26980 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 3058
+INFO 2025-07-31 11:20:09,851 basehttp 8876 26980 "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+INFO 2025-07-31 11:20:09,926 basehttp 8876 26980 "GET /admin/ HTTP/1.1" 200 23144
+INFO 2025-07-31 11:20:15,540 basehttp 8876 26980 "GET /admin/pms/loginattempt/ HTTP/1.1" 200 21444
+INFO 2025-07-31 11:20:15,655 basehttp 8876 26980 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-31 11:20:18,703 basehttp 8876 26980 "GET /admin/ HTTP/1.1" 200 23144
+INFO 2025-07-31 11:20:20,763 basehttp 8876 26980 "GET /admin/pms/loginattempt/ HTTP/1.1" 200 21444
+INFO 2025-07-31 11:20:20,826 basehttp 8876 26980 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-31 11:20:22,222 basehttp 8876 26980 "GET /admin/pms/parkingsession/ HTTP/1.1" 200 18902
+INFO 2025-07-31 11:20:22,275 basehttp 8876 26980 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-31 11:20:23,405 basehttp 8876 26980 "GET /admin/pms/parkingslot/ HTTP/1.1" 200 43926
+INFO 2025-07-31 11:20:23,452 basehttp 8876 26980 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-31 11:20:44,087 basehttp 8876 26980 "GET /admin/pms/passwordresetrequest/ HTTP/1.1" 200 17976
+INFO 2025-07-31 11:20:44,146 basehttp 8876 26980 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-31 11:20:45,708 basehttp 8876 26980 "GET /admin/pms/userprofile/ HTTP/1.1" 200 21821
+INFO 2025-07-31 11:20:45,788 basehttp 8876 26980 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-31 11:20:48,437 basehttp 8876 26980 "GET /admin/auth/user/ HTTP/1.1" 200 23098
+INFO 2025-07-31 11:20:48,519 basehttp 8876 26980 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-31 11:20:52,428 basehttp 8876 26980 "GET /admin/auth/group/ HTTP/1.1" 200 17435
+INFO 2025-07-31 11:20:52,482 basehttp 8876 26980 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-31 11:20:55,873 basehttp 8876 26980 "GET /admin/ HTTP/1.1" 200 23144
+INFO 2025-07-31 11:20:58,721 basehttp 8876 26980 "GET /admin/auth/group/ HTTP/1.1" 200 17435
+INFO 2025-07-31 11:20:58,783 basehttp 8876 26980 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+ERROR 2025-07-31 11:21:01,103 log 8876 26980 Internal Server Error: /admin/auth/group/1/change/
+Traceback (most recent call last):
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\smartif.py", line 180, in translate_token
+    op = OPERATORS[token]
+         ~~~~~~~~~^^^^^^^
+KeyError: "line.fields|length_is:'1'"
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loader_tags.py", line 210, in render
+    return template.render(context)
+           ~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 173, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\defaulttags.py", line 243, in render
+    nodelist.append(node.render_annotated(context))
+                    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\defaulttags.py", line 327, in render
+    return nodelist.render(context)
+           ~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loader_tags.py", line 199, in render
+    template = context.template.engine.select_template(template_name)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\engine.py", line 208, in select_template
+    return self.get_template(template_name)
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+        contents,
+    ...<2 lines>...
+        self.engine,
+    )
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\defaulttags.py", line 862, in do_for
+    nodelist_loop = parser.parse(
+        (
+    ...<2 lines>...
+        )
+    )
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\defaulttags.py", line 961, in do_if
+    condition = TemplateIfParser(parser, bits).parse()
+                ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\defaulttags.py", line 894, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\smartif.py", line 171, in __init__
+    mapped_tokens.append(self.translate_token(token))
+                         ~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\smartif.py", line 182, in translate_token
+    return self.create_var(token)
+           ~~~~~~~~~~~~~~~^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\defaulttags.py", line 897, in create_var
+    return TemplateLiteral(self.template_parser.compile_filter(value), value)
+                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 609, in compile_filter
+    return FilterExpression(token, self)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 705, in __init__
+    filter_func = parser.find_filter(filter_name)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 615, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'length_is'
+ERROR 2025-07-31 11:21:01,130 basehttp 8876 26980 "GET /admin/auth/group/1/change/ HTTP/1.1" 500 647711
+INFO 2025-07-31 11:21:05,659 basehttp 8876 26980 "GET /admin/auth/group/ HTTP/1.1" 200 17435
+INFO 2025-07-31 11:21:07,837 basehttp 8876 26980 "GET /admin/auth/ HTTP/1.1" 200 17006
+INFO 2025-07-31 11:21:09,060 basehttp 8876 26980 "GET /admin/ HTTP/1.1" 200 23144
+ERROR 2025-07-31 11:21:14,073 log 8876 26980 Internal Server Error: /admin/auth/user/1/change/
+Traceback (most recent call last):
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\smartif.py", line 180, in translate_token
+    op = OPERATORS[token]
+         ~~~~~~~~~^^^^^^^
+KeyError: "line.fields|length_is:'1'"
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loader_tags.py", line 210, in render
+    return template.render(context)
+           ~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 173, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\defaulttags.py", line 243, in render
+    nodelist.append(node.render_annotated(context))
+                    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\defaulttags.py", line 327, in render
+    return nodelist.render(context)
+           ~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loader_tags.py", line 199, in render
+    template = context.template.engine.select_template(template_name)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\engine.py", line 208, in select_template
+    return self.get_template(template_name)
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+        contents,
+    ...<2 lines>...
+        self.engine,
+    )
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\defaulttags.py", line 862, in do_for
+    nodelist_loop = parser.parse(
+        (
+    ...<2 lines>...
+        )
+    )
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\defaulttags.py", line 961, in do_if
+    condition = TemplateIfParser(parser, bits).parse()
+                ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\defaulttags.py", line 894, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\smartif.py", line 171, in __init__
+    mapped_tokens.append(self.translate_token(token))
+                         ~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\smartif.py", line 182, in translate_token
+    return self.create_var(token)
+           ~~~~~~~~~~~~~~~^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\defaulttags.py", line 897, in create_var
+    return TemplateLiteral(self.template_parser.compile_filter(value), value)
+                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 609, in compile_filter
+    return FilterExpression(token, self)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 705, in __init__
+    filter_func = parser.find_filter(filter_name)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 615, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'length_is'
+ERROR 2025-07-31 11:21:14,087 basehttp 8876 26980 "GET /admin/auth/user/1/change/ HTTP/1.1" 500 650963
+ERROR 2025-07-31 11:26:50,457 log 8876 15948 Internal Server Error: /admin/auth/user/1/change/
+Traceback (most recent call last):
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\smartif.py", line 180, in translate_token
+    op = OPERATORS[token]
+         ~~~~~~~~~^^^^^^^
+KeyError: "line.fields|length_is:'1'"
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loader_tags.py", line 210, in render
+    return template.render(context)
+           ~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 173, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\defaulttags.py", line 243, in render
+    nodelist.append(node.render_annotated(context))
+                    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\defaulttags.py", line 327, in render
+    return nodelist.render(context)
+           ~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loader_tags.py", line 199, in render
+    template = context.template.engine.select_template(template_name)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\engine.py", line 208, in select_template
+    return self.get_template(template_name)
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+        contents,
+    ...<2 lines>...
+        self.engine,
+    )
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\defaulttags.py", line 862, in do_for
+    nodelist_loop = parser.parse(
+        (
+    ...<2 lines>...
+        )
+    )
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\defaulttags.py", line 961, in do_if
+    condition = TemplateIfParser(parser, bits).parse()
+                ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\defaulttags.py", line 894, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\smartif.py", line 171, in __init__
+    mapped_tokens.append(self.translate_token(token))
+                         ~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\smartif.py", line 182, in translate_token
+    return self.create_var(token)
+           ~~~~~~~~~~~~~~~^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\defaulttags.py", line 897, in create_var
+    return TemplateLiteral(self.template_parser.compile_filter(value), value)
+                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 609, in compile_filter
+    return FilterExpression(token, self)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 705, in __init__
+    filter_func = parser.find_filter(filter_name)
+  File "D:\Study\jango\Project\test\Lib\site-packages\django\template\base.py", line 615, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'length_is'
+ERROR 2025-07-31 11:26:50,488 basehttp 8876 15948 "GET /admin/auth/user/1/change/ HTTP/1.1" 500 651100
+INFO 2025-07-31 11:28:09,297 autoreload 8876 13176 D:\Study\jango\Project\PMS\mysite\settings.py changed, reloading.
+INFO 2025-07-31 11:28:10,168 autoreload 15184 17472 Watching for file changes with StatReloader
+INFO 2025-07-31 11:29:46,716 basehttp 15184 22388 "GET /admin/ HTTP/1.1" 200 23144
+INFO 2025-07-31 11:29:49,723 basehttp 15184 22388 "GET /admin/ HTTP/1.1" 200 23144
+INFO 2025-07-31 11:30:01,038 basehttp 15184 22388 "GET /admin/ HTTP/1.1" 200 23144
+INFO 2025-07-31 11:30:05,234 basehttp 15184 22388 "GET / HTTP/1.1" 200 6885
+WARNING 2025-07-31 11:30:05,329 basehttp 15184 22388 "GET /static/mysite/css/style.css HTTP/1.1" 404 1874
+INFO 2025-07-31 11:30:09,178 basehttp 15184 24744 "GET / HTTP/1.1" 200 6885
+WARNING 2025-07-31 11:30:09,237 basehttp 15184 24744 "GET /static/mysite/css/style.css HTTP/1.1" 404 1874
+INFO 2025-07-31 11:30:10,533 basehttp 15184 26260 "GET / HTTP/1.1" 200 6885
+WARNING 2025-07-31 11:30:10,582 basehttp 15184 26260 "GET /static/mysite/css/style.css HTTP/1.1" 404 1874
+INFO 2025-07-31 11:30:11,417 basehttp 15184 27584 "GET /manager/logout HTTP/1.1" 301 0
+INFO 2025-07-31 11:30:11,443 basehttp 15184 21632 "GET /manager/logout/ HTTP/1.1" 200 3868
+WARNING 2025-07-31 11:30:11,485 basehttp 15184 21632 "GET /static/mysite/css/style.css HTTP/1.1" 404 1874
+INFO 2025-07-31 11:30:17,625 basehttp 15184 17920 "GET / HTTP/1.1" 200 11346
+INFO 2025-07-31 11:30:22,971 basehttp 15184 17920 "GET /manager/login/ HTTP/1.1" 200 5988
+INFO 2025-07-31 11:30:31,278 basehttp 15184 17920 "GET / HTTP/1.1" 200 11346
+INFO 2025-07-31 11:30:46,894 basehttp 15184 17920 "GET /dashboard/ HTTP/1.1" 200 22781
+INFO 2025-07-31 11:30:47,026 basehttp 15184 27504 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:30:47,067 basehttp 15184 32048 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:30:50,018 basehttp 15184 32048 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:30:50,020 basehttp 15184 30616 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:30:50,068 basehttp 15184 27504 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:30:53,017 basehttp 15184 27504 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:30:53,059 basehttp 15184 30616 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:30:53,068 basehttp 15184 27504 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:30:56,835 basehttp 15184 27504 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:30:56,838 basehttp 15184 32048 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:30:56,893 basehttp 15184 30616 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:30:57,825 basehttp 15184 30616 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:30:59,026 basehttp 15184 30616 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:30:59,030 basehttp 15184 27504 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:30:59,072 basehttp 15184 32048 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:31:01,263 basehttp 15184 32048 "GET /admin/ HTTP/1.1" 302 0
+INFO 2025-07-31 11:31:01,280 basehttp 15184 32048 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 3058
+INFO 2025-07-31 11:31:02,804 basehttp 15184 32048 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:31:02,814 basehttp 15184 27504 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:31:02,848 basehttp 15184 30616 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:31:05,827 basehttp 15184 30616 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:31:05,849 basehttp 15184 32048 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:31:05,900 basehttp 15184 27504 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:31:07,813 basehttp 15184 27504 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:31:08,826 basehttp 15184 27504 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:31:08,847 basehttp 15184 30616 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:31:08,886 basehttp 15184 32048 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:31:11,809 basehttp 15184 32048 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:31:11,818 basehttp 15184 27504 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:31:11,870 basehttp 15184 30616 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:31:14,843 basehttp 15184 30616 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:31:14,843 basehttp 15184 32048 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:31:14,887 basehttp 15184 27504 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:31:17,199 basehttp 15184 27504 "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+INFO 2025-07-31 11:31:17,239 basehttp 15184 27504 "GET /admin/ HTTP/1.1" 200 23144
+INFO 2025-07-31 11:31:17,814 basehttp 15184 32048 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:31:17,827 basehttp 15184 27504 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:31:17,853 basehttp 15184 32048 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:31:17,909 basehttp 15184 30616 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:31:20,856 basehttp 15184 30616 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:31:20,880 basehttp 15184 27504 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:31:20,926 basehttp 15184 32048 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:31:22,334 basehttp 15184 32048 "GET /admin/pms/loginattempt/ HTTP/1.1" 200 21444
+INFO 2025-07-31 11:31:22,399 basehttp 15184 32048 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-31 11:31:23,832 basehttp 15184 32048 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:31:23,874 basehttp 15184 30616 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:31:23,922 basehttp 15184 27504 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:31:24,911 basehttp 15184 17920 "GET /video-feed/ HTTP/1.1" 200 59368116
+INFO 2025-07-31 11:31:24,948 basehttp 15184 27504 "GET /admin/pms/parkingsession/ HTTP/1.1" 200 18902
+INFO 2025-07-31 11:31:25,004 basehttp 15184 27504 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-31 11:31:26,283 basehttp 15184 27504 "GET /admin/pms/parkingslot/ HTTP/1.1" 200 43926
+INFO 2025-07-31 11:31:26,346 basehttp 15184 27504 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-31 11:31:26,844 basehttp 15184 27504 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:31:26,875 basehttp 15184 32048 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:31:26,929 basehttp 15184 30616 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:31:27,819 basehttp 15184 30616 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:31:29,842 basehttp 15184 27504 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:31:29,859 basehttp 15184 30616 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:31:29,924 basehttp 15184 32048 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:31:32,853 basehttp 15184 27504 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:31:32,860 basehttp 15184 32048 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:31:32,916 basehttp 15184 30616 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:31:35,851 basehttp 15184 27504 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:31:35,860 basehttp 15184 30616 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:31:35,910 basehttp 15184 32048 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:31:37,836 basehttp 15184 32048 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:31:38,843 basehttp 15184 27504 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:31:38,863 basehttp 15184 32048 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:31:38,922 basehttp 15184 30616 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:31:40,591 basehttp 15184 30616 "POST /admin/pms/parkingslot/ HTTP/1.1" 200 22789
+INFO 2025-07-31 11:31:40,815 basehttp 15184 30616 "GET /static/admin/js/cancel.js HTTP/1.1" 200 564
+INFO 2025-07-31 11:31:41,854 basehttp 15184 30616 "GET /api/live-stats/ HTTP/1.1" 200 175
+INFO 2025-07-31 11:31:41,883 basehttp 15184 27504 "GET /api/dashboard-analytics/ HTTP/1.1" 200 233
+INFO 2025-07-31 11:31:41,925 basehttp 15184 32048 "GET /api/slot-status/ HTTP/1.1" 200 7360
+INFO 2025-07-31 11:31:43,031 basehttp 15184 32048 "POST /admin/pms/parkingslot/ HTTP/1.1" 302 0
+INFO 2025-07-31 11:31:43,079 basehttp 15184 32048 "GET /admin/pms/parkingslot/ HTTP/1.1" 200 16788
+INFO 2025-07-31 11:31:43,141 basehttp 15184 32048 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-31 11:31:44,830 basehttp 15184 32048 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:31:44,845 basehttp 15184 30616 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:31:44,864 basehttp 15184 27504 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:31:45,569 basehttp 15184 27504 "GET /admin/ HTTP/1.1" 200 25917
+INFO 2025-07-31 11:31:47,837 basehttp 15184 32048 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:31:47,861 basehttp 15184 30616 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:31:47,868 basehttp 15184 27504 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:31:47,888 basehttp 15184 30616 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:31:50,829 basehttp 15184 27504 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:31:50,847 basehttp 15184 30616 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:31:50,862 basehttp 15184 32048 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:31:50,978 basehttp 15184 32048 "GET /admin/ HTTP/1.1" 200 25917
+INFO 2025-07-31 11:31:52,769 basehttp 15184 32048 "GET /admin/auth/group/add/ HTTP/1.1" 200 21270
+INFO 2025-07-31 11:31:52,870 basehttp 15184 32048 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-31 11:31:52,876 basehttp 15184 26292 "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 200 586
+INFO 2025-07-31 11:31:52,883 basehttp 15184 27504 "GET /static/admin/js/SelectFilter2.js HTTP/1.1" 200 15709
+INFO 2025-07-31 11:31:52,885 basehttp 15184 14692 "GET /static/admin/js/change_form.js HTTP/1.1" 200 606
+INFO 2025-07-31 11:31:52,894 basehttp 15184 30616 "GET /static/admin/js/SelectBox.js HTTP/1.1" 200 4530
+INFO 2025-07-31 11:31:52,918 basehttp 15184 26292 "GET /static/jazzmin/js/change_form.js HTTP/1.1" 200 6052
+INFO 2025-07-31 11:31:52,947 basehttp 15184 26292 "GET /static/jazzmin/img/selector-icons.svg HTTP/1.1" 200 3291
+INFO 2025-07-31 11:31:53,829 basehttp 15184 30616 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:31:53,844 basehttp 15184 26292 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:31:53,864 basehttp 15184 14692 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:31:56,838 basehttp 15184 30616 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:31:56,872 basehttp 15184 26292 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:31:56,894 basehttp 15184 14692 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:31:57,816 basehttp 15184 14692 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:32:05,842 basehttp 15184 14692 "GET /admin/ HTTP/1.1" 200 25917
+INFO 2025-07-31 11:32:06,817 basehttp 15184 26292 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:32:06,836 basehttp 15184 14692 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:32:06,853 basehttp 15184 30616 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:32:07,489 basehttp 15184 30616 "GET /admin/auth/user/ HTTP/1.1" 200 23098
+INFO 2025-07-31 11:32:07,567 basehttp 15184 30616 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-31 11:32:12,965 basehttp 15184 30616 "GET /admin/auth/user/3/change/ HTTP/1.1" 200 35888
+INFO 2025-07-31 11:32:13,032 basehttp 15184 30616 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-31 11:32:13,050 basehttp 15184 14692 "GET /static/admin/js/calendar.js HTTP/1.1" 200 9141
+INFO 2025-07-31 11:32:13,052 basehttp 15184 26292 "GET /static/admin/js/admin/DateTimeShortcuts.js HTTP/1.1" 200 19319
+INFO 2025-07-31 11:32:13,084 basehttp 15184 26292 "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 331
+INFO 2025-07-31 11:32:25,466 basehttp 15184 26292 "GET /admin/auth/user/3/password/ HTTP/1.1" 200 15936
+INFO 2025-07-31 11:32:25,524 basehttp 15184 26292 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-31 11:32:33,254 basehttp 15184 26292 "POST /admin/auth/user/3/password/ HTTP/1.1" 200 16318
+INFO 2025-07-31 11:32:33,328 basehttp 15184 26292 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-31 11:32:47,833 basehttp 15184 26292 "GET /admin/auth/user/3/password/ HTTP/1.1" 200 15936
+INFO 2025-07-31 11:32:48,592 basehttp 15184 26292 "GET /admin/auth/user/3/change/ HTTP/1.1" 200 35888
+INFO 2025-07-31 11:32:55,405 basehttp 15184 26292 "GET /admin/pms/loginattempt/ HTTP/1.1" 200 21444
+INFO 2025-07-31 11:32:55,489 basehttp 15184 26292 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-31 11:32:56,182 basehttp 15184 26292 "GET /admin/pms/parkingsession/ HTTP/1.1" 200 18902
+INFO 2025-07-31 11:32:56,233 basehttp 15184 26292 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-31 11:32:57,168 basehttp 15184 26292 "GET /admin/pms/parkingslot/ HTTP/1.1" 200 16282
+INFO 2025-07-31 11:32:57,241 basehttp 15184 26292 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-31 11:32:57,778 basehttp 15184 26292 "GET /admin/pms/passwordresetrequest/ HTTP/1.1" 200 17976
+INFO 2025-07-31 11:32:57,843 basehttp 15184 26292 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-31 11:32:58,926 basehttp 15184 26292 "GET /admin/pms/userprofile/ HTTP/1.1" 200 21821
+INFO 2025-07-31 11:32:58,990 basehttp 15184 26292 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-31 11:33:04,206 basehttp 15184 26292 "GET /admin/ HTTP/1.1" 200 25911
+INFO 2025-07-31 11:33:04,866 basehttp 15184 26292 "GET /admin/auth/user/1/change/ HTTP/1.1" 200 35924
+INFO 2025-07-31 11:33:04,948 basehttp 15184 26292 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-31 11:33:06,225 basehttp 15184 30616 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:33:06,252 basehttp 15184 14692 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:33:06,264 basehttp 15184 26292 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:33:06,296 basehttp 15184 14692 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:33:07,001 basehttp 15184 14692 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:33:08,040 basehttp 15184 26292 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:33:08,067 basehttp 15184 14692 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:33:08,074 basehttp 15184 30616 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:36:17,215 basehttp 15184 30616 "GET / HTTP/1.1" 200 6885
+WARNING 2025-07-31 11:36:17,255 basehttp 15184 30616 "GET /static/mysite/css/style.css HTTP/1.1" 404 1874
+INFO 2025-07-31 11:36:22,122 basehttp 15184 14692 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:36:25,596 basehttp 15184 14692 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:36:26,987 basehttp 15184 14692 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:36:36,989 basehttp 15184 14692 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:36:46,994 basehttp 15184 14692 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:36:48,052 basehttp 15184 14692 "GET /customer/lookup/ HTTP/1.1" 200 7397
+INFO 2025-07-31 11:36:49,971 basehttp 15184 14692 "GET /staff/end-by-vehicle/ HTTP/1.1" 200 460
+INFO 2025-07-31 11:36:52,626 basehttp 15184 14692 "GET /history/ HTTP/1.1" 200 238
+INFO 2025-07-31 11:36:54,777 basehttp 15184 29080 "GET /api/available-slots/ HTTP/1.1" 200 49
+INFO 2025-07-31 11:36:54,787 basehttp 15184 14692 "GET /staff/assign/ HTTP/1.1" 200 9814
+INFO 2025-07-31 11:36:54,870 basehttp 15184 14692 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:36:58,228 basehttp 15184 14692 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:37:04,867 basehttp 15184 14692 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:37:14,859 basehttp 15184 14692 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:37:18,344 basehttp 15184 14692 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:37:26,977 basehttp 15184 14692 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:37:36,995 basehttp 15184 14692 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:37:46,996 basehttp 15184 14692 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:37:56,985 basehttp 15184 14692 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:38:06,997 basehttp 15184 14692 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:38:16,987 basehttp 15184 14692 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:38:26,992 basehttp 15184 14692 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:38:36,993 basehttp 15184 14692 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:38:46,986 basehttp 15184 14692 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:38:56,994 basehttp 15184 14692 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:39:06,989 basehttp 15184 14692 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:39:16,995 basehttp 15184 14692 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:39:27,001 basehttp 15184 14692 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:39:37,003 basehttp 15184 31128 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:39:46,992 basehttp 15184 31128 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:39:47,384 basehttp 15184 31128 "GET / HTTP/1.1" 200 6885
+WARNING 2025-07-31 11:39:47,458 basehttp 15184 31128 "GET /static/mysite/css/style.css HTTP/1.1" 404 1874
+INFO 2025-07-31 11:40:50,170 basehttp 15184 6956 "GET /manager/logout HTTP/1.1" 301 0
+INFO 2025-07-31 11:40:50,200 basehttp 15184 23288 "GET /manager/logout/ HTTP/1.1" 200 3868
+WARNING 2025-07-31 11:40:50,263 basehttp 15184 23288 "GET /static/mysite/css/style.css HTTP/1.1" 404 1874
+INFO 2025-07-31 11:40:53,416 basehttp 15184 16388 "GET / HTTP/1.1" 200 11346
+INFO 2025-07-31 11:42:59,957 autoreload 15664 29568 Watching for file changes with StatReloader
+INFO 2025-07-31 11:43:02,600 basehttp 15664 30532 "GET /dashboard/ HTTP/1.1" 200 22781
+INFO 2025-07-31 11:43:02,751 basehttp 15664 28000 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:43:02,760 basehttp 15664 15988 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:43:05,745 basehttp 15664 28000 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:43:05,750 basehttp 15664 15988 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:43:05,750 basehttp 15664 28232 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:43:08,752 basehttp 15664 15988 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:43:08,758 basehttp 15664 28000 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:43:08,772 basehttp 15664 28232 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:43:11,754 basehttp 15664 28000 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:43:11,759 basehttp 15664 15988 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:43:11,769 basehttp 15664 28232 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:43:12,754 basehttp 15664 28232 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:43:14,753 basehttp 15664 15988 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:43:14,757 basehttp 15664 28000 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:43:14,762 basehttp 15664 28232 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:43:17,805 basehttp 15664 28000 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:43:17,807 basehttp 15664 28232 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:43:17,813 basehttp 15664 15988 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:43:20,803 basehttp 15664 28232 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:43:20,808 basehttp 15664 15988 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:43:20,809 basehttp 15664 28000 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:43:22,809 basehttp 15664 28000 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:43:23,800 basehttp 15664 15988 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:43:23,803 basehttp 15664 28000 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:43:23,805 basehttp 15664 28232 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:43:26,803 basehttp 15664 28000 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:43:26,814 basehttp 15664 15988 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:43:26,815 basehttp 15664 28232 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:43:29,803 basehttp 15664 28232 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:43:29,804 basehttp 15664 15988 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:43:29,808 basehttp 15664 28000 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:43:32,807 basehttp 15664 28232 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:43:32,812 basehttp 15664 28000 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:43:32,812 basehttp 15664 15988 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:43:32,823 basehttp 15664 28232 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:43:35,807 basehttp 15664 15988 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:43:35,808 basehttp 15664 28232 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:43:35,809 basehttp 15664 28000 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:43:38,812 basehttp 15664 28232 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:43:38,813 basehttp 15664 28000 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:43:38,815 basehttp 15664 15988 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:43:39,161 basehttp 15664 30532 "GET /video-feed/ HTTP/1.1" 200 59368116
+INFO 2025-07-31 11:43:41,802 basehttp 15664 28000 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:43:41,803 basehttp 15664 15988 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:43:41,804 basehttp 15664 28232 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:43:42,806 basehttp 15664 28232 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:43:44,812 basehttp 15664 28232 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:43:44,814 basehttp 15664 15988 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:43:44,830 basehttp 15664 28000 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:43:47,806 basehttp 15664 15988 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:43:47,807 basehttp 15664 28000 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:43:47,828 basehttp 15664 28232 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:43:50,806 basehttp 15664 28000 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:43:50,808 basehttp 15664 28232 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:43:50,809 basehttp 15664 15988 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:43:52,807 basehttp 15664 15988 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:43:53,802 basehttp 15664 28232 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:43:53,806 basehttp 15664 28000 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:43:53,807 basehttp 15664 15988 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:43:56,799 basehttp 15664 28000 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:43:56,801 basehttp 15664 15988 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:43:56,821 basehttp 15664 28232 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:43:59,812 basehttp 15664 15988 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:43:59,814 basehttp 15664 28232 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:43:59,816 basehttp 15664 28000 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:44:02,806 basehttp 15664 15988 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:44:02,809 basehttp 15664 28232 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:44:02,809 basehttp 15664 28000 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:44:02,814 basehttp 15664 15988 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:44:05,806 basehttp 15664 28000 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:44:05,811 basehttp 15664 28232 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:44:05,811 basehttp 15664 15988 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:44:08,808 basehttp 15664 28232 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:44:08,811 basehttp 15664 15988 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:44:08,812 basehttp 15664 28000 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:44:11,805 basehttp 15664 15988 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:44:11,809 basehttp 15664 28000 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:44:11,811 basehttp 15664 28232 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:44:12,802 basehttp 15664 28232 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:44:14,803 basehttp 15664 28000 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:44:14,807 basehttp 15664 15988 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:44:14,809 basehttp 15664 28232 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:45:06,800 basehttp 15664 15988 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:45:06,801 basehttp 15664 28000 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:45:06,804 basehttp 15664 28232 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:45:06,807 basehttp 15664 15988 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:46:06,804 basehttp 15664 28232 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:46:06,809 basehttp 15664 15988 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:46:06,809 basehttp 15664 28000 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:46:06,814 basehttp 15664 28232 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:46:33,963 basehttp 15664 15988 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:46:33,969 basehttp 15664 28232 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:46:33,970 basehttp 15664 28000 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:46:33,976 basehttp 15664 15988 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:46:35,750 basehttp 15664 28000 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:46:35,755 basehttp 15664 15988 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:46:35,757 basehttp 15664 28232 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:46:38,757 basehttp 15664 15988 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:46:38,767 basehttp 15664 28232 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:46:38,767 basehttp 15664 28000 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+WARNING 2025-07-31 11:46:41,746 log 15664 28000 Too Many Requests: /api/slot-status/
+WARNING 2025-07-31 11:46:41,749 log 15664 15988 Too Many Requests: /api/dashboard-analytics/
+WARNING 2025-07-31 11:46:41,752 basehttp 15664 28000 "GET /api/slot-status/ HTTP/1.1" 429 55
+INFO 2025-07-31 11:46:41,757 basehttp 15664 28232 "GET /api/live-stats/ HTTP/1.1" 200 173
+WARNING 2025-07-31 11:46:41,757 basehttp 15664 15988 "GET /api/dashboard-analytics/ HTTP/1.1" 429 55
+WARNING 2025-07-31 11:46:42,746 log 15664 15988 Too Many Requests: /api/dashboard-analytics/
+WARNING 2025-07-31 11:46:42,747 basehttp 15664 15988 "GET /api/dashboard-analytics/ HTTP/1.1" 429 55
+WARNING 2025-07-31 11:46:44,745 log 15664 15988 Too Many Requests: /api/live-stats/
+WARNING 2025-07-31 11:46:44,746 log 15664 28000 Too Many Requests: /api/dashboard-analytics/
+WARNING 2025-07-31 11:46:44,747 basehttp 15664 28000 "GET /api/dashboard-analytics/ HTTP/1.1" 429 55
+WARNING 2025-07-31 11:46:44,749 log 15664 28232 Too Many Requests: /api/slot-status/
+WARNING 2025-07-31 11:46:44,752 basehttp 15664 15988 "GET /api/live-stats/ HTTP/1.1" 429 55
+WARNING 2025-07-31 11:46:44,754 basehttp 15664 28232 "GET /api/slot-status/ HTTP/1.1" 429 55
+WARNING 2025-07-31 11:46:47,755 log 15664 28232 Too Many Requests: /api/live-stats/
+WARNING 2025-07-31 11:46:47,755 log 15664 28000 Too Many Requests: /api/dashboard-analytics/
+WARNING 2025-07-31 11:46:47,756 log 15664 15988 Too Many Requests: /api/slot-status/
+WARNING 2025-07-31 11:46:47,757 basehttp 15664 28232 "GET /api/live-stats/ HTTP/1.1" 429 55
+WARNING 2025-07-31 11:46:47,759 basehttp 15664 28000 "GET /api/dashboard-analytics/ HTTP/1.1" 429 55
+WARNING 2025-07-31 11:46:47,764 basehttp 15664 15988 "GET /api/slot-status/ HTTP/1.1" 429 55
+WARNING 2025-07-31 11:46:50,742 log 15664 15988 Too Many Requests: /api/live-stats/
+WARNING 2025-07-31 11:46:50,743 log 15664 28232 Too Many Requests: /api/dashboard-analytics/
+WARNING 2025-07-31 11:46:50,744 log 15664 28000 Too Many Requests: /api/slot-status/
+WARNING 2025-07-31 11:46:50,746 basehttp 15664 15988 "GET /api/live-stats/ HTTP/1.1" 429 55
+WARNING 2025-07-31 11:46:50,746 basehttp 15664 28232 "GET /api/dashboard-analytics/ HTTP/1.1" 429 55
+WARNING 2025-07-31 11:46:50,747 basehttp 15664 28000 "GET /api/slot-status/ HTTP/1.1" 429 55
+WARNING 2025-07-31 11:46:52,738 log 15664 28000 Too Many Requests: /api/dashboard-analytics/
+WARNING 2025-07-31 11:46:52,739 basehttp 15664 28000 "GET /api/dashboard-analytics/ HTTP/1.1" 429 55
+WARNING 2025-07-31 11:46:53,143 log 15664 28000 Forbidden: /dashboard/
+WARNING 2025-07-31 11:46:53,144 basehttp 15664 28000 "GET /dashboard/ HTTP/1.1" 403 66
+WARNING 2025-07-31 11:46:57,402 log 15664 28000 Forbidden: /dashboard/
+WARNING 2025-07-31 11:46:57,403 basehttp 15664 28000 "GET /dashboard/ HTTP/1.1" 403 66
+WARNING 2025-07-31 11:47:14,132 log 15664 28000 Forbidden: /dashboard/
+WARNING 2025-07-31 11:47:14,133 basehttp 15664 28000 "GET /dashboard/ HTTP/1.1" 403 66
+INFO 2025-07-31 11:47:26,880 autoreload 8 31708 Watching for file changes with StatReloader
+INFO 2025-07-31 11:47:31,443 basehttp 8 30764 "GET / HTTP/1.1" 200 11346
+INFO 2025-07-31 11:47:34,023 basehttp 8 30764 "GET /dashboard/ HTTP/1.1" 200 22781
+INFO 2025-07-31 11:47:34,102 basehttp 8 25640 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:47:34,109 basehttp 8 29804 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:47:37,103 basehttp 8 25640 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:47:37,108 basehttp 8 29804 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:47:37,109 basehttp 8 21488 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:47:37,446 basehttp 8 21488 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:47:40,100 basehttp 8 29804 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:47:40,103 basehttp 8 21488 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:47:40,104 basehttp 8 25640 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:47:43,105 basehttp 8 21488 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:47:43,105 basehttp 8 25640 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:47:43,116 basehttp 8 29804 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:47:44,089 basehttp 8 29804 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:47:46,109 basehttp 8 25640 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:47:46,110 basehttp 8 29804 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:47:46,115 basehttp 8 21488 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:47:49,105 basehttp 8 29804 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:47:49,113 basehttp 8 25640 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:47:49,115 basehttp 8 21488 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:47:52,109 basehttp 8 25640 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:47:52,111 basehttp 8 21488 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:47:52,118 basehttp 8 29804 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:47:54,083 basehttp 8 29804 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:47:55,111 basehttp 8 29804 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:47:55,112 basehttp 8 25640 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:47:55,113 basehttp 8 21488 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:47:58,103 basehttp 8 29804 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:47:58,107 basehttp 8 19524 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:47:58,107 basehttp 8 25640 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:48:01,098 basehttp 8 19524 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:48:01,103 basehttp 8 25640 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:48:01,103 basehttp 8 29804 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:48:04,082 basehttp 8 29804 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:48:04,104 basehttp 8 25640 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:48:04,115 basehttp 8 19524 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:48:04,118 basehttp 8 29804 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:48:07,105 basehttp 8 19524 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:48:07,107 basehttp 8 25640 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:48:07,107 basehttp 8 29804 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:48:10,108 basehttp 8 29804 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:48:10,109 basehttp 8 25640 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:48:10,112 basehttp 8 19524 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:48:13,101 basehttp 8 29804 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:48:13,104 basehttp 8 19524 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:48:13,105 basehttp 8 25640 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:48:14,084 basehttp 8 25640 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:48:16,107 basehttp 8 29804 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:48:16,113 basehttp 8 19524 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:48:16,114 basehttp 8 17944 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:48:19,102 basehttp 8 19524 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:48:19,108 basehttp 8 29804 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:48:19,110 basehttp 8 17944 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:48:22,109 basehttp 8 29804 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:48:22,120 basehttp 8 17944 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:48:22,121 basehttp 8 19524 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:48:24,093 basehttp 8 19524 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:48:25,113 basehttp 8 17944 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:48:25,114 basehttp 8 19524 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:48:25,122 basehttp 8 29804 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:48:28,100 basehttp 8 19524 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:48:28,106 basehttp 8 29804 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:48:28,107 basehttp 8 17944 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:48:31,105 basehttp 8 29804 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:48:31,113 basehttp 8 19524 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:48:31,113 basehttp 8 17944 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:48:34,084 basehttp 8 19524 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:48:34,103 basehttp 8 17944 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:48:34,110 basehttp 8 19524 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:48:34,115 basehttp 8 29804 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:48:37,105 basehttp 8 19524 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:48:37,113 basehttp 8 29804 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:48:37,114 basehttp 8 17944 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:48:40,105 basehttp 8 29804 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 11:48:40,111 basehttp 8 17944 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 11:48:40,111 basehttp 8 19524 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 11:48:42,743 basehttp 8 19524 "GET /manager/login/ HTTP/1.1" 200 5988
+INFO 2025-07-31 11:49:03,420 basehttp 8 19524 "GET / HTTP/1.1" 200 11346
+INFO 2025-07-31 11:49:06,280 basehttp 8 19524 "GET /staff/login/ HTTP/1.1" 200 6171
+INFO 2025-07-31 11:49:08,733 basehttp 8 19524 "POST /staff/login/ HTTP/1.1" 200 6546
+INFO 2025-07-31 11:49:17,504 basehttp 8 19524 "POST /staff/login/ HTTP/1.1" 200 6546
+INFO 2025-07-31 11:49:38,811 basehttp 8 19524 "POST /staff/login/ HTTP/1.1" 200 6546
+INFO 2025-07-31 11:49:47,893 basehttp 8 19524 "POST /staff/login/ HTTP/1.1" 200 6546
+INFO 2025-07-31 11:53:18,610 basehttp 8 19524 "POST /staff/login/ HTTP/1.1" 200 6546
+INFO 2025-07-31 11:55:11,460 basehttp 8 19524 "POST /staff/login/ HTTP/1.1" 200 6546
+WARNING 2025-07-31 11:55:47,819 log 8 19524 Not Found: /accounts/signup/
+WARNING 2025-07-31 11:55:47,820 basehttp 8 19524 "GET /accounts/signup/ HTTP/1.1" 404 13684
+INFO 2025-07-31 11:56:44,113 autoreload 29716 3348 Watching for file changes with StatReloader
+INFO 2025-07-31 11:56:46,744 basehttp 29716 32576 "GET / HTTP/1.1" 200 11346
+INFO 2025-07-31 11:56:51,338 basehttp 29716 32576 "GET /staff/register/ HTTP/1.1" 200 9803
+INFO 2025-07-31 11:59:52,781 basehttp 29716 32576 "GET /admin/ HTTP/1.1" 302 0
+INFO 2025-07-31 11:59:52,812 basehttp 29716 32576 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 3058
+INFO 2025-07-31 12:00:04,829 basehttp 29716 32576 "GET /admin/ HTTP/1.1" 302 0
+INFO 2025-07-31 12:00:04,838 basehttp 29716 32576 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 3058
+INFO 2025-07-31 12:00:11,104 basehttp 29716 32576 "GET /manager/login/ HTTP/1.1" 200 5988
+INFO 2025-07-31 12:00:17,718 basehttp 29716 32576 "POST /manager/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 12:00:17,754 basehttp 29716 32576 "GET /manager/dashboard/ HTTP/1.1" 200 22021
+INFO 2025-07-31 12:00:17,923 basehttp 29716 26172 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 12:00:17,945 basehttp 29716 16880 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 12:00:20,935 basehttp 29716 26172 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 12:00:20,957 basehttp 29716 16880 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 12:00:20,968 basehttp 29716 30972 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 12:00:23,909 basehttp 29716 16880 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 12:00:23,942 basehttp 29716 30972 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 12:00:23,959 basehttp 29716 26172 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 12:00:27,266 basehttp 29716 26172 "GET / HTTP/1.1" 200 6885
+WARNING 2025-07-31 12:00:27,315 basehttp 29716 26172 "GET /static/mysite/css/style.css HTTP/1.1" 404 1874
+INFO 2025-07-31 12:00:28,971 basehttp 29716 30972 "GET / HTTP/1.1" 200 6885
+WARNING 2025-07-31 12:00:29,018 basehttp 29716 30972 "GET /static/mysite/css/style.css HTTP/1.1" 404 1874
+INFO 2025-07-31 12:00:30,408 basehttp 29716 16880 "GET /manager/logout HTTP/1.1" 301 0
+INFO 2025-07-31 12:00:30,448 basehttp 29716 31424 "GET /manager/logout/ HTTP/1.1" 200 3868
+WARNING 2025-07-31 12:00:30,504 basehttp 29716 31424 "GET /static/mysite/css/style.css HTTP/1.1" 404 1874
+INFO 2025-07-31 12:00:31,370 basehttp 29716 26168 "GET / HTTP/1.1" 200 11346
+INFO 2025-07-31 12:00:36,901 basehttp 29716 26168 "GET /staff/login/ HTTP/1.1" 200 6171
+INFO 2025-07-31 12:00:38,284 basehttp 29716 26168 "GET /staff/register/ HTTP/1.1" 200 9803
+INFO 2025-07-31 12:01:13,592 basehttp 29716 26168 "POST /staff/register/ HTTP/1.1" 200 10068
+INFO 2025-07-31 12:01:29,501 basehttp 29716 26168 "POST /staff/register/ HTTP/1.1" 302 0
+INFO 2025-07-31 12:01:29,531 basehttp 29716 26168 "GET /staff/dashboard/ HTTP/1.1" 200 22028
+INFO 2025-07-31 12:01:29,631 basehttp 29716 8528 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 12:01:29,656 basehttp 29716 20608 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 12:01:32,630 basehttp 29716 8528 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 12:01:32,645 basehttp 29716 22380 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 12:01:32,664 basehttp 29716 20608 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 12:01:35,642 basehttp 29716 22380 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 12:01:35,663 basehttp 29716 20608 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 12:01:35,673 basehttp 29716 8528 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 12:01:38,624 basehttp 29716 20608 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 12:01:38,645 basehttp 29716 8528 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 12:01:38,661 basehttp 29716 22380 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 12:01:39,605 basehttp 29716 22380 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 12:01:41,634 basehttp 29716 8528 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 12:01:41,666 basehttp 29716 22380 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 12:01:41,676 basehttp 29716 20608 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 12:01:44,626 basehttp 29716 22380 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 12:01:44,654 basehttp 29716 20608 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 12:01:44,674 basehttp 29716 8528 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 12:01:47,658 basehttp 29716 8528 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 12:01:47,675 basehttp 29716 22380 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 12:01:47,694 basehttp 29716 20608 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 12:01:49,150 basehttp 29716 20608 "GET / HTTP/1.1" 200 9713
+WARNING 2025-07-31 12:01:49,227 basehttp 29716 20608 "GET /static/mysite/css/style.css HTTP/1.1" 404 1874
+INFO 2025-07-31 12:01:56,342 basehttp 29716 6696 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 12:01:56,369 basehttp 29716 8528 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 12:01:56,387 basehttp 29716 23616 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 12:01:56,830 basehttp 29716 23616 "GET /history/ HTTP/1.1" 200 238
+INFO 2025-07-31 12:01:58,872 basehttp 29716 30904 "GET /api/available-slots/ HTTP/1.1" 200 49
+INFO 2025-07-31 12:01:58,883 basehttp 29716 8528 "GET /staff/assign/ HTTP/1.1" 200 9821
+INFO 2025-07-31 12:01:58,954 basehttp 29716 8528 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 12:02:01,524 basehttp 29716 6696 "GET /staff/end-by-vehicle/ HTTP/1.1" 200 460
+INFO 2025-07-31 12:02:03,420 basehttp 29716 29620 "GET /customer/lookup/ HTTP/1.1" 200 7404
+INFO 2025-07-31 12:02:07,410 basehttp 29716 23232 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 12:02:07,436 basehttp 29716 10212 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 12:02:07,442 basehttp 29716 8436 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 12:02:10,392 basehttp 29716 10212 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 12:02:10,415 basehttp 29716 23232 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 12:02:10,433 basehttp 29716 8436 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 12:02:11,266 basehttp 29716 8436 "GET /auth/logout/ HTTP/1.1" 302 0
+INFO 2025-07-31 12:02:11,284 basehttp 29716 8436 "GET /auth/login/ HTTP/1.1" 200 8599
+INFO 2025-07-31 12:02:22,193 basehttp 29716 8436 "GET /customer/login/ HTTP/1.1" 200 6174
+INFO 2025-07-31 12:02:24,129 basehttp 29716 8436 "GET /customer/register/ HTTP/1.1" 200 9382
+INFO 2025-07-31 12:02:51,608 basehttp 29716 8436 "POST /customer/register/ HTTP/1.1" 302 0
+INFO 2025-07-31 12:02:51,619 basehttp 29716 8436 "GET /customer/login/ HTTP/1.1" 200 6551
+INFO 2025-07-31 12:02:59,045 basehttp 29716 8436 "POST /customer/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 12:02:59,067 basehttp 29716 8436 "GET /customer/dashboard/ HTTP/1.1" 200 22027
+INFO 2025-07-31 12:02:59,136 basehttp 29716 10212 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 12:02:59,153 basehttp 29716 23232 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 12:03:02,152 basehttp 29716 10212 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 12:03:02,168 basehttp 29716 23232 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 12:03:02,178 basehttp 29716 3960 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 12:03:05,174 basehttp 29716 23232 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 12:03:05,204 basehttp 29716 3960 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 12:03:05,222 basehttp 29716 10212 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 12:03:08,158 basehttp 29716 3960 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 12:03:08,188 basehttp 29716 10212 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 12:03:08,199 basehttp 29716 23232 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 12:03:09,132 basehttp 29716 23232 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 12:03:11,164 basehttp 29716 10212 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 12:03:11,186 basehttp 29716 23232 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 12:03:11,196 basehttp 29716 3960 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 12:03:14,162 basehttp 29716 23232 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 12:03:14,192 basehttp 29716 3960 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 12:03:14,213 basehttp 29716 10212 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 12:03:17,158 basehttp 29716 3960 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 12:03:17,184 basehttp 29716 23232 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 12:03:17,196 basehttp 29716 10212 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 12:03:19,154 basehttp 29716 10212 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 12:03:20,159 basehttp 29716 23232 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 12:03:20,166 basehttp 29716 10212 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 12:03:20,183 basehttp 29716 3960 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 12:03:22,830 basehttp 29716 3960 "GET /auth/logout/ HTTP/1.1" 302 0
+INFO 2025-07-31 12:03:22,844 basehttp 29716 3960 "GET /auth/login/ HTTP/1.1" 200 8599
+INFO 2025-07-31 12:03:25,160 basehttp 29716 3960 "GET /staff/login/ HTTP/1.1" 200 6171
+INFO 2025-07-31 12:03:36,796 basehttp 29716 3960 "POST /staff/login/ HTTP/1.1" 302 0
+INFO 2025-07-31 12:03:36,817 basehttp 29716 3960 "GET /staff/dashboard/ HTTP/1.1" 200 22028
+INFO 2025-07-31 12:03:36,897 basehttp 29716 23232 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 12:03:36,922 basehttp 29716 10212 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 12:03:39,919 basehttp 29716 23232 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 12:03:39,936 basehttp 29716 10212 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 12:03:39,959 basehttp 29716 25724 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 12:03:42,910 basehttp 29716 10212 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 12:03:42,926 basehttp 29716 25724 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 12:03:42,936 basehttp 29716 23232 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 12:03:46,825 basehttp 29716 25724 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 12:03:46,847 basehttp 29716 23232 "GET /api/live-stats/ HTTP/1.1" 200 173
+INFO 2025-07-31 12:03:46,858 basehttp 29716 10212 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 12:03:47,829 basehttp 29716 10212 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 12:03:49,806 basehttp 29716 23232 "GET /api/slot-status/ HTTP/1.1" 200 2
+INFO 2025-07-31 12:03:49,818 basehttp 29716 25724 "GET /api/dashboard-analytics/ HTTP/1.1" 200 231
+INFO 2025-07-31 12:03:49,836 basehttp 29716 10212 "GET /api/live-stats/ HTTP/1.1" 200 173

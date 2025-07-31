@@ -18,16 +18,22 @@ parking_slots = [
 occupancy_threshold = 0.1
 
 def send_status(slot_number, status):
+    # Convert status to boolean and create proper slot_id
+    slot_id = f"P{slot_number:02d}"  # Format as P01, P02, etc.
+    is_occupied = (status == "occupied")
+
     data = {
-        "slot_number": slot_number,
-        "status": status
+        "slot_id": slot_id,
+        "is_occupied": is_occupied
     }
     try:
         response = requests.post(API_URL, json=data)
-        if response.status_code != 201:
-            print(f"[!] Failed to send Slot {slot_number}: {response.status_code}, {response.text}")
+        if response.status_code == 200:
+            print(f"[✓] Slot {slot_id}: {'Occupied' if is_occupied else 'Vacant'}")
+        else:
+            print(f"[!] Failed to send Slot {slot_id}: {response.status_code}, {response.text}")
     except Exception as e:
-        print(f"[!] Exception sending Slot {slot_number}: {e}")
+        print(f"[!] Exception sending Slot {slot_id}: {e}")
 
 # Load video
 cap = cv2.VideoCapture('parking_lot.mp4')

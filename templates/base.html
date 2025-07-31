@@ -55,15 +55,24 @@
                             </ul>
                         </li>
                     {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="/staff/login/">
-                                <i class="fas fa-sign-in-alt"></i> Staff Login
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="loginDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-sign-in-alt"></i> Login
                             </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/manager/login/"><i class="fas fa-user-shield"></i> Admin</a></li>
+                                <li><a class="dropdown-item" href="/staff/login/"><i class="fas fa-user-tie"></i> Staff</a></li>
+                                <li><a class="dropdown-item" href="/customer/login/"><i class="fas fa-user"></i> Customer</a></li>
+                            </ul>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/customer/login/">
-                                <i class="fas fa-user"></i> Customer Login
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="registerDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user-plus"></i> Register
                             </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/staff/register/"><i class="fas fa-user-tie"></i> Staff</a></li>
+                                <li><a class="dropdown-item" href="/customer/register/"><i class="fas fa-user"></i> Customer</a></li>
+                            </ul>
                         </li>
                     {% endif %}
                     {% endblock %}
