@@ -12,3 +12,8 @@ db.sqlite3
 # .env
 # *.env
 venv
+
+# Ignore the PMS folder
+pms/
+
+pms.log
