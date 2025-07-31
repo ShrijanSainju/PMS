@@ -1,0 +1,331 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Register - PMS{% endblock %}
+
+{% block extra_css %}
+<style>
+    body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+    }
+    
+    .register-container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 0;
+    }
+    
+    .register-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        padding: 3rem;
+        width: 100%;
+        max-width: 600px;
+        animation: slideUp 0.6s ease-out;
+    }
+    
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .register-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    
+    .register-header i {
+        font-size: 3rem;
+        color: #667eea;
+        margin-bottom: 1rem;
+    }
+    
+    .form-control {
+        border: 2px solid #e9ecef;
+        border-radius: 10px;
+        padding: 0.75rem 1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+    
+    .btn-register {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        border-radius: 10px;
+        padding: 0.75rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-register:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    }
+    
+    .availability-check {
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+    }
+    
+    .available {
+        color: #28a745;
+    }
+    
+    .unavailable {
+        color: #dc3545;
+    }
+    
+    .password-strength {
+        margin-top: 0.25rem;
+        font-size: 0.875rem;
+    }
+    
+    .strength-weak { color: #dc3545; }
+    .strength-medium { color: #ffc107; }
+    .strength-strong { color: #28a745; }
+</style>
+{% endblock %}
+
+{% block navbar %}{% endblock %}
+
+{% block content %}
+<div class="register-container">
+    <div class="register-card">
+        <div class="register-header">
+            <i class="fas fa-user-plus"></i>
+            <h2 class="fw-bold text-dark">Create Account</h2>
+            <p class="text-muted">Join our parking management system</p>
+        </div>
+
+        <form method="POST" class="needs-validation" novalidate id="registerForm">
+            {% csrf_token %}
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="{{ form.first_name.id_for_label }}" class="form-label">
+                            <i class="fas fa-user"></i> First Name
+                        </label>
+                        {{ form.first_name }}
+                        <div class="invalid-feedback">
+                            Please provide your first name.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="{{ form.last_name.id_for_label }}" class="form-label">
+                            <i class="fas fa-user"></i> Last Name
+                        </label>
+                        {{ form.last_name }}
+                        <div class="invalid-feedback">
+                            Please provide your last name.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="{{ form.username.id_for_label }}" class="form-label">
+                    <i class="fas fa-at"></i> Username
+                </label>
+                {{ form.username }}
+                <div class="availability-check" id="usernameCheck"></div>
+                <div class="invalid-feedback">
+                    Please choose a valid username.
+                </div>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="{{ form.email.id_for_label }}" class="form-label">
+                    <i class="fas fa-envelope"></i> Email Address
+                </label>
+                {{ form.email }}
+                <div class="availability-check" id="emailCheck"></div>
+                <div class="invalid-feedback">
+                    Please provide a valid email address.
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="{{ form.phone_number.id_for_label }}" class="form-label">
+                            <i class="fas fa-phone"></i> Phone Number
+                        </label>
+                        {{ form.phone_number }}
+                        <div class="invalid-feedback">
+                            Please provide a valid phone number.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="{{ form.user_type.id_for_label }}" class="form-label">
+                            <i class="fas fa-user-tag"></i> Account Type
+                        </label>
+                        {{ form.user_type }}
+                        <div class="invalid-feedback">
+                            Please select an account type.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="{{ form.password1.id_for_label }}" class="form-label">
+                    <i class="fas fa-lock"></i> Password
+                </label>
+                {{ form.password1 }}
+                <div class="password-strength" id="passwordStrength"></div>
+                <div class="invalid-feedback">
+                    Please provide a strong password.
+                </div>
+            </div>
+
+            <div class="form-group mb-4">
+                <label for="{{ form.password2.id_for_label }}" class="form-label">
+                    <i class="fas fa-lock"></i> Confirm Password
+                </label>
+                {{ form.password2 }}
+                <div class="invalid-feedback">
+                    Passwords must match.
+                </div>
+            </div>
+
+            <div class="d-grid mb-3">
+                <button type="submit" class="btn btn-primary btn-register">
+                    <i class="fas fa-user-plus"></i> Create Account
+                </button>
+            </div>
+        </form>
+
+        <div class="text-center">
+            <p class="text-muted">
+                <a href="/" class="text-decoration-none">
+                    <i class="fas fa-arrow-left"></i> Back to Home
+                </a>
+            </p>
+            <p class="text-muted">
+                Already have an account? 
+                <a href="{% url 'login' %}" class="text-decoration-none">Sign in here</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+// Form validation
+(function() {
+    'use strict';
+    window.addEventListener('load', function() {
+        var forms = document.getElementsByClassName('needs-validation');
+        var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    }, false);
+})();
+
+// Username availability check
+document.getElementById('{{ form.username.id_for_label }}').addEventListener('blur', function() {
+    const username = this.value;
+    if (username.length >= 3) {
+        fetch('/auth/check-username/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({username: username})
+        })
+        .then(response => response.json())
+        .then(data => {
+            const checkDiv = document.getElementById('usernameCheck');
+            checkDiv.textContent = data.message;
+            checkDiv.className = 'availability-check ' + (data.available ? 'available' : 'unavailable');
+        });
+    }
+});
+
+// Email availability check
+document.getElementById('{{ form.email.id_for_label }}').addEventListener('blur', function() {
+    const email = this.value;
+    if (email.includes('@')) {
+        fetch('/auth/check-email/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({email: email})
+        })
+        .then(response => response.json())
+        .then(data => {
+            const checkDiv = document.getElementById('emailCheck');
+            checkDiv.textContent = data.message;
+            checkDiv.className = 'availability-check ' + (data.available ? 'available' : 'unavailable');
+        });
+    }
+});
+
+// Password strength checker
+document.getElementById('{{ form.password1.id_for_label }}').addEventListener('input', function() {
+    const password = this.value;
+    const strengthDiv = document.getElementById('passwordStrength');
+    
+    let strength = 0;
+    let feedback = [];
+    
+    if (password.length >= 8) strength++;
+    else feedback.push('At least 8 characters');
+    
+    if (/[a-z]/.test(password)) strength++;
+    else feedback.push('lowercase letter');
+    
+    if (/[A-Z]/.test(password)) strength++;
+    else feedback.push('uppercase letter');
+    
+    if (/[0-9]/.test(password)) strength++;
+    else feedback.push('number');
+    
+    if (/[^A-Za-z0-9]/.test(password)) strength++;
+    else feedback.push('special character');
+    
+    let strengthText = '';
+    let strengthClass = '';
+    
+    if (strength < 3) {
+        strengthText = 'Weak password. Add: ' + feedback.join(', ');
+        strengthClass = 'strength-weak';
+    } else if (strength < 5) {
+        strengthText = 'Medium strength. Consider adding: ' + feedback.join(', ');
+        strengthClass = 'strength-medium';
+    } else {
+        strengthText = 'Strong password!';
+        strengthClass = 'strength-strong';
+    }
+    
+    strengthDiv.textContent = strengthText;
+    strengthDiv.className = 'password-strength ' + strengthClass;
+});
+{% endblock %}

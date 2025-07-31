@@ -1,0 +1,101 @@
+# Enhanced Parking Detector Configuration
+
+# API Configuration
+api:
+  base_url: "http://127.0.0.1:8000"
+  timeout: 5
+  retry_attempts: 3
+  retry_delay: 1
+
+# Detection Parameters
+detection:
+  method: "hybrid"  # Options: "edge", "background", "hybrid"
+  occupancy_threshold: 0.1
+  update_interval: 2  # seconds
+  var_threshold: 50
+  min_contour_area: 500
+
+# Video Configuration
+video:
+  source: "parking_lot.mp4"  # Use 0 for webcam, or path to video file
+  fps: 30
+  resize_width: 640
+  resize_height: 480
+
+# Parking Slots Configuration
+parking_slots:
+  # Zone A Slots
+  - id: "A1"
+    coords: [60, 0, 150, 57]
+    zone: "A"
+    priority: 1
+  - id: "A2"
+    coords: [60, 56, 150, 57]
+    zone: "A"
+    priority: 1
+  - id: "A3"
+    coords: [60, 115, 150, 59]
+    zone: "A"
+    priority: 1
+  - id: "A4"
+    coords: [60, 175, 150, 59]
+    zone: "A"
+    priority: 2
+  - id: "A5"
+    coords: [60, 235, 150, 59]
+    zone: "A"
+    priority: 2
+  - id: "A6"
+    coords: [60, 295, 150, 59]
+    zone: "A"
+    priority: 2
+  - id: "A7"
+    coords: [60, 355, 150, 59]
+    zone: "A"
+    priority: 3
+  
+  # Zone B Slots
+  - id: "B1"
+    coords: [212, 0, 150, 57]
+    zone: "B"
+    priority: 1
+  - id: "B2"
+    coords: [212, 56, 150, 57]
+    zone: "B"
+    priority: 1
+  - id: "B3"
+    coords: [212, 115, 150, 59]
+    zone: "B"
+    priority: 1
+  - id: "B4"
+    coords: [212, 175, 150, 59]
+    zone: "B"
+    priority: 2
+  - id: "B5"
+    coords: [212, 235, 150, 59]
+    zone: "B"
+    priority: 2
+  - id: "B6"
+    coords: [212, 295, 150, 59]
+    zone: "B"
+    priority: 2
+  - id: "B7"
+    coords: [212, 355, 150, 59]
+    zone: "B"
+    priority: 3
+
+# Logging Configuration
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  file: "parking_detector.log"
+  max_size_mb: 10
+  backup_count: 5
+
+# Advanced Features
+features:
+  auto_assignment: true
+  zone_preferences: ["A", "B"]  # Preferred zones in order
+  notification_webhook: null  # URL for notifications
+  analytics_enabled: true
+  save_snapshots: false
+  snapshot_interval: 300  # seconds

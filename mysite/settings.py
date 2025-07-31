@@ -31,11 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    
-    'jazzmin',
-    'personal',
-    'staff',
-    'customer',
+    'jazzmin',  # Must be before django.contrib.admin
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    
+    'pms',  # Consolidated parking management system app (renamed from personal)
 ]
 
 
@@ -55,6 +51,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'pms.middleware.SecurityMiddleware',
+    'pms.middleware.RequestLoggingMiddleware',
+    'pms.middleware.SessionSecurityMiddleware',
+    # 'pms.middleware.IPWhitelistMiddleware',  # Uncomment for IP whitelisting
 ]
 
 ROOT_URLCONF = 'mysite.urls'
@@ -89,10 +89,7 @@ DATABASES = {
 }
 
 
-# Password validation
-# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
-  
-AUTH_PASSWORD_VALIDATORS = []
+# Password validation moved to bottom of file
 
 
 # Internationalization
@@ -123,16 +120,174 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Authentication Settings
+LOGIN_URL = '/auth/login/'
+LOGIN_REDIRECT_URL = '/dashboard/'
+LOGOUT_REDIRECT_URL = '/'
+
+# Session Settings
+SESSION_COOKIE_AGE = 1209600  # 2 weeks
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+SESSION_SAVE_EVERY_REQUEST = True
+
+# Email Settings (for development - use console backend)
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = 'noreply@pms.com'
+SITE_URL = 'http://127.0.0.1:8000'
+
+# For production, use SMTP:
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'your-email@gmail.com'
+# EMAIL_HOST_PASSWORD = 'your-app-password'
+
+# Password validation
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 8,
+        }
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+]
+
+# Security Settings
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
+
+# Rate limiting (for production)
+# RATELIMIT_ENABLE = True
+
+# Security Settings (Enhanced)
+SECURE_SSL_REDIRECT = False  # Set to True in production with HTTPS
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
+
+# Session Security
+SESSION_COOKIE_SECURE = False  # Set to True in production with HTTPS
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SAMESITE = 'Lax'
+
+# CSRF Protection
+CSRF_COOKIE_SECURE = False  # Set to True in production with HTTPS
+CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SAMESITE = 'Lax'
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000', 'http://localhost:8000']
+
+# API Keys for OpenCV integration
+API_KEYS = [
+    'opencv_detector_key_2024',
+    'mobile_app_key_2024',
+    'dashboard_api_key_2024'
+]
+
+# Maximum request size (10MB)
+MAX_REQUEST_SIZE = 10 * 1024 * 1024
+
+# Admin IP Whitelist (uncomment and configure for production)
+# ADMIN_IP_WHITELIST = [
+#     '127.0.0.1',
+#     '192.168.1.100',
+# ]
+
+# Logging Configuration
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': 'pms.log',
+            'maxBytes': 1024*1024*10,  # 10MB
+            'backupCount': 5,
+            'formatter': 'verbose',
+        },
+        'security_file': {
+            'level': 'WARNING',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': 'security.log',
+            'maxBytes': 1024*1024*10,  # 10MB
+            'backupCount': 10,
+            'formatter': 'verbose',
+        },
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file', 'console'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'pms.security': {
+            'handlers': ['security_file', 'console'],
+            'level': 'WARNING',
+            'propagate': False,
+        },
+        'pms.middleware': {
+            'handlers': ['security_file', 'console'],
+            'level': 'WARNING',
+            'propagate': False,
+        },
+    },
+}
+
+# Data validation settings
+VEHICLE_NUMBER_MAX_LENGTH = 15
+SLOT_ID_MAX_LENGTH = 10
+
+# Cache settings for security features
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+        'TIMEOUT': 300,
+        'OPTIONS': {
+            'MAX_ENTRIES': 1000,
+        }
+    }
+}
+
 JAZZMIN_SETTINGS = {
-    "site_title": "your_site_name",
-    "site_header": "your_site_header",
-    "site_brand": "your_site_brand",
+    "site_title": "PMS Admin",
+    "site_header": "Parking Management System",
+    "site_brand": "PMS",
     "site_icon": "images/favicon.png",
     # Add your own branding here
     "site_logo": None,
-    "welcome_sign": "Welcome to the your_site_name",
+    "welcome_sign": "Welcome to the Parking Management System",
     # Copyright on the footer
-    "copyright": "your_site_name",
+    "copyright": "Parking Management System",
     "user_avatar": None,
     ############
     # Top Menu #
@@ -140,7 +295,9 @@ JAZZMIN_SETTINGS = {
     # Links to put along the top menu
     "topmenu_links": [
         # Url that gets reversed (Permissions can be added)
-        {"name": "your_site_name", "url": "home", "permissions": ["auth.view_user"]},
+        {"name": "Dashboard", "url": "dashboard", "permissions": ["auth.view_user"]},
+        {"name": "Parking Slots", "url": "admin:pms_parkingslot_changelist", "permissions": ["pms.view_parkingslot"]},
+        {"name": "Sessions", "url": "admin:pms_parkingsession_changelist", "permissions": ["pms.view_parkingsession"]},
         # model admin to link to (Permissions checked against model)
         {"model": "auth.User"},
     ],
@@ -159,6 +316,12 @@ JAZZMIN_SETTINGS = {
         "users.User": "fas fa-user",
         "auth.Group": "fas fa-users",
         "admin.LogEntry": "fas fa-file",
+        "pms": "fas fa-car",
+        "pms.ParkingSlot": "fas fa-parking",
+        "pms.ParkingSession": "fas fa-clock",
+        "pms.UserProfile": "fas fa-user-circle",
+        "pms.LoginAttempt": "fas fa-shield-alt",
+        "pms.PasswordResetRequest": "fas fa-key",
     },
     # # Icons that are used when one is not manually specified
     "default_icon_parents": "fas fa-chevron-circle-right",

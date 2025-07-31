@@ -3,11 +3,64 @@
 <!DOCTYPE html>
 <html  >
     <head>
-    <link rel="stylesheet" href="{% static 'mysite/css/style.css' %}">
-
-        <title>New project</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Parking Management System - Home</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <link rel="stylesheet" href="{% static 'css/base.css' %}">
         {% include 'manager/navbar.html' %}
+
+        <style>
+            .hero-content {
+                animation: fadeInUp 1s ease-out;
+            }
+
+            .feature-card {
+                background: white;
+                border-radius: 15px;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                height: 100%;
+            }
+
+            .feature-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            }
+
+            .hero-image {
+                animation: float 3s ease-in-out infinite;
+            }
+
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            @keyframes float {
+                0%, 100% {
+                    transform: translateY(0px);
+                }
+                50% {
+                    transform: translateY(-20px);
+                }
+            }
+
+            .btn {
+                transition: all 0.3s ease;
+            }
+
+            .btn:hover {
+                transform: translateY(-2px);
+            }
+        </style>
     </head>
     <body>
         
@@ -37,32 +90,109 @@
               <span class="sr-only">Next</span>
             </a>
           </div>
+        <!-- Hero Section -->
         <div class="container-fluid">
-        <h1>This is a new project</h1>
-        <h2>This is the new update</h2>
-        <h2> this is another one</h2>
-        <h2> this is another one</h2>
-
+            <div class="row align-items-center min-vh-100">
+                <div class="col-lg-6">
+                    <div class="hero-content p-5">
+                        <h1 class="display-4 fw-bold text-primary mb-4">
+                            Smart Parking Management System
+                        </h1>
+                        <p class="lead mb-4">
+                            Experience the future of parking with our AI-powered parking management solution.
+                            Real-time monitoring, automated slot detection, and seamless user experience.
+                        </p>
+                        <div class="d-flex flex-wrap gap-3">
+                            <a href="/dashboard/" class="btn btn-primary btn-lg">
+                                <i class="fas fa-tachometer-alt"></i> Live Dashboard
+                            </a>
+                            <a href="/customer/lookup/" class="btn btn-outline-primary btn-lg">
+                                <i class="fas fa-search"></i> Vehicle Lookup
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="hero-image text-center">
+                        <i class="fas fa-parking display-1 text-primary"></i>
+                    </div>
+                </div>
+            </div>
         </div>
-       
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-        <a href="admin_dashboard" style="padding: 10px 20px; background-color: blue; color: white; text-decoration: none; border: none; border-radius: 5px;">
-          admindash
-        </a>
-        
-        <a href="adminbase" style="padding: 10px 20px; background-color: blue; color: white; text-decoration: none; border: none; border-radius: 5px;">
-          admin base
-        </a>
-        <a href="staff/login" style="padding: 10px 20px; background-color: blue; color: white; text-decoration: none; border: none; border-radius: 5px;">
-          staff login
-        </a>
-        <a href="manager/logout" style="padding: 10px 20px; background-color: blue; color: white; text-decoration: none; border: none; border-radius: 5px;">
-          logout
-        </a>
-        <a href="{% url 'customer_dashboard' %}" style="padding: 10px 20px; background-color: blue; color: white; text-decoration: none; border: none; border-radius: 5px;">
-          customer
-        </a>
+        <!-- Features Section -->
+        <div class="container py-5">
+            <div class="row text-center mb-5">
+                <div class="col-12">
+                    <h2 class="display-5 fw-bold">Why Choose Our System?</h2>
+                    <p class="lead">Advanced features for modern parking management</p>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-card text-center p-4">
+                        <i class="fas fa-eye fa-3x text-primary mb-3"></i>
+                        <h4>Real-time Monitoring</h4>
+                        <p>Live camera feed with AI-powered slot detection for accurate parking status.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card text-center p-4">
+                        <i class="fas fa-mobile-alt fa-3x text-success mb-3"></i>
+                        <h4>Easy Access</h4>
+                        <p>Simple vehicle lookup and session management from any device.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card text-center p-4">
+                        <i class="fas fa-chart-line fa-3x text-warning mb-3"></i>
+                        <h4>Smart Analytics</h4>
+                        <p>Comprehensive reporting and analytics for better parking management.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Access Section -->
+        <div class="bg-light py-5">
+            <div class="container">
+                <div class="row text-center mb-4">
+                    <div class="col-12">
+                        <h3>Quick Access</h3>
+                        <p>Choose your role to get started</p>
+                    </div>
+                </div>
+                <div class="row g-3 justify-content-center">
+                    <div class="col-md-3 col-sm-6">
+                        <a href="/admin/" class="btn btn-outline-primary w-100 p-3">
+                            <i class="fas fa-user-shield d-block mb-2"></i>
+                            Admin Panel
+                        </a>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <a href="/staff/login/" class="btn btn-outline-success w-100 p-3">
+                            <i class="fas fa-user-tie d-block mb-2"></i>
+                            Staff Login
+                        </a>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <a href="/customer/login/" class="btn btn-outline-info w-100 p-3">
+                            <i class="fas fa-user d-block mb-2"></i>
+                            Customer Portal
+                        </a>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <a href="/dashboard/" class="btn btn-outline-warning w-100 p-3">
+                            <i class="fas fa-chart-bar d-block mb-2"></i>
+                            Live Dashboard
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     </body>
   
 </html>

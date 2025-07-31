@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Staff Login - PMS{% endblock %}
+{% block title %}Login - PMS{% endblock %}
 
 {% block extra_css %}
 <style>
@@ -9,14 +9,15 @@
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         min-height: 100vh;
     }
-
+    
     .login-container {
         min-height: 100vh;
         display: flex;
         align-items: center;
         justify-content: center;
+        padding: 2rem 0;
     }
-
+    
     .login-card {
         background: rgba(255, 255, 255, 0.95);
         backdrop-filter: blur(10px);
@@ -24,10 +25,10 @@
         box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
         padding: 3rem;
         width: 100%;
-        max-width: 400px;
+        max-width: 450px;
         animation: slideUp 0.6s ease-out;
     }
-
+    
     @keyframes slideUp {
         from {
             opacity: 0;
@@ -38,30 +39,30 @@
             transform: translateY(0);
         }
     }
-
+    
     .login-header {
         text-align: center;
         margin-bottom: 2rem;
     }
-
+    
     .login-header i {
         font-size: 3rem;
         color: #667eea;
         margin-bottom: 1rem;
     }
-
+    
     .form-control {
         border: 2px solid #e9ecef;
         border-radius: 10px;
         padding: 0.75rem 1rem;
         transition: all 0.3s ease;
     }
-
+    
     .form-control:focus {
         border-color: #667eea;
         box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
     }
-
+    
     .btn-login {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         border: none;
@@ -70,10 +71,37 @@
         font-weight: 600;
         transition: all 0.3s ease;
     }
-
+    
     .btn-login:hover {
         transform: translateY(-2px);
         box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    }
+    
+    .form-check-input:checked {
+        background-color: #667eea;
+        border-color: #667eea;
+    }
+    
+    .divider {
+        text-align: center;
+        margin: 1.5rem 0;
+        position: relative;
+    }
+    
+    .divider::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: #e9ecef;
+    }
+    
+    .divider span {
+        background: white;
+        padding: 0 1rem;
+        color: #6c757d;
     }
 </style>
 {% endblock %}
@@ -84,50 +112,58 @@
 <div class="login-container">
     <div class="login-card">
         <div class="login-header">
-            <i class="fas fa-user-tie"></i>
-            <h2 class="fw-bold text-dark">Staff Login</h2>
-            <p class="text-muted">Access your staff dashboard</p>
+            <i class="fas fa-parking"></i>
+            <h2 class="fw-bold text-dark">Welcome Back</h2>
+            <p class="text-muted">Sign in to your account</p>
         </div>
 
-        <form method="POST" class="needs-validation" novalidate>
+        <form method="POST" class="needs-validation" novalidate id="loginForm">
             {% csrf_token %}
-
+            
             <div class="form-group mb-3">
-                <label for="username" class="form-label">
-                    <i class="fas fa-user"></i> Username
+                <label for="{{ form.username.id_for_label }}" class="form-label">
+                    <i class="fas fa-user"></i> Username or Email
                 </label>
-                <input type="text"
-                       class="form-control"
-                       id="username"
-                       name="username"
-                       placeholder="Enter your username"
-                       required>
+                {{ form.username }}
                 <div class="invalid-feedback">
-                    Please provide a valid username.
+                    Please provide a valid username or email.
                 </div>
             </div>
 
-            <div class="form-group mb-4">
-                <label for="password" class="form-label">
+            <div class="form-group mb-3">
+                <label for="{{ form.password.id_for_label }}" class="form-label">
                     <i class="fas fa-lock"></i> Password
                 </label>
-                <input type="password"
-                       class="form-control"
-                       id="password"
-                       name="password"
-                       placeholder="Enter your password"
-                       required>
+                {{ form.password }}
                 <div class="invalid-feedback">
                     Please provide a valid password.
                 </div>
             </div>
 
+            <div class="form-group mb-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="form-check">
+                        {{ form.remember_me }}
+                        <label class="form-check-label" for="{{ form.remember_me.id_for_label }}">
+                            Remember me
+                        </label>
+                    </div>
+                    <a href="{% url 'password_reset_request' %}" class="text-decoration-none">
+                        Forgot password?
+                    </a>
+                </div>
+            </div>
+
             <div class="d-grid mb-3">
                 <button type="submit" class="btn btn-primary btn-login">
-                    <i class="fas fa-sign-in-alt"></i> Login
+                    <i class="fas fa-sign-in-alt"></i> Sign In
                 </button>
             </div>
         </form>
+
+        <div class="divider">
+            <span>or</span>
+        </div>
 
         <div class="text-center">
             <p class="text-muted">
@@ -136,9 +172,26 @@
                 </a>
             </p>
             <p class="text-muted">
-                Don't have an account?
-                <a href="/staff/register/" class="text-decoration-none">Register here</a>
+                Don't have an account? 
+                <a href="{% url 'register' %}" class="text-decoration-none">Create one here</a>
             </p>
+        </div>
+
+        <!-- Quick Login Options -->
+        <div class="mt-4">
+            <h6 class="text-center text-muted mb-3">Quick Access</h6>
+            <div class="row g-2">
+                <div class="col-6">
+                    <a href="/staff/login/" class="btn btn-outline-primary btn-sm w-100">
+                        <i class="fas fa-user-tie"></i> Staff
+                    </a>
+                </div>
+                <div class="col-6">
+                    <a href="/customer/login/" class="btn btn-outline-success btn-sm w-100">
+                        <i class="fas fa-user"></i> Customer
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -161,4 +214,12 @@
         });
     }, false);
 })();
+
+// Auto-focus first input
+document.addEventListener('DOMContentLoaded', function() {
+    const firstInput = document.querySelector('input[type="text"], input[type="email"]');
+    if (firstInput) {
+        firstInput.focus();
+    }
+});
 {% endblock %}

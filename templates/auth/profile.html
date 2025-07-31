@@ -1,0 +1,326 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}My Profile - PMS{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+<style>
+    .profile-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 2rem;
+        border-radius: 15px;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+    
+    .profile-avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        border: 4px solid white;
+        margin-bottom: 1rem;
+        object-fit: cover;
+    }
+    
+    .profile-tabs {
+        border-bottom: 2px solid #e9ecef;
+        margin-bottom: 2rem;
+    }
+    
+    .profile-tabs .nav-link {
+        border: none;
+        color: #6c757d;
+        font-weight: 500;
+        padding: 1rem 1.5rem;
+        border-bottom: 3px solid transparent;
+        transition: all 0.3s ease;
+    }
+    
+    .profile-tabs .nav-link.active {
+        color: #667eea;
+        border-bottom-color: #667eea;
+        background: none;
+    }
+    
+    .profile-tabs .nav-link:hover {
+        color: #667eea;
+        border-bottom-color: rgba(102, 126, 234, 0.3);
+    }
+    
+    .info-card {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        margin-bottom: 2rem;
+    }
+    
+    .info-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 0;
+        border-bottom: 1px solid #e9ecef;
+    }
+    
+    .info-item:last-child {
+        border-bottom: none;
+    }
+    
+    .info-label {
+        font-weight: 600;
+        color: #2c3e50;
+    }
+    
+    .info-value {
+        color: #6c757d;
+    }
+    
+    .badge-user-type {
+        font-size: 0.875rem;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+    }
+    
+    .verification-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .verified {
+        color: #28a745;
+    }
+    
+    .unverified {
+        color: #dc3545;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Profile Header -->
+    <div class="profile-header">
+        {% if profile.profile_picture %}
+            <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" class="profile-avatar">
+        {% else %}
+            <div class="profile-avatar bg-light d-flex align-items-center justify-content-center">
+                <i class="fas fa-user fa-3x text-muted"></i>
+            </div>
+        {% endif %}
+        <h2>{{ profile.full_name|default:user.username }}</h2>
+        <p class="mb-2">{{ user.email }}</p>
+        <span class="badge badge-user-type bg-primary">{{ profile.get_user_type_display }}</span>
+    </div>
+
+    <!-- Profile Tabs -->
+    <ul class="nav nav-tabs profile-tabs" id="profileTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button" role="tab">
+                <i class="fas fa-info-circle"></i> Personal Information
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="edit-tab" data-bs-toggle="tab" data-bs-target="#edit" type="button" role="tab">
+                <i class="fas fa-edit"></i> Edit Profile
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="security-tab" data-bs-toggle="tab" data-bs-target="#security" type="button" role="tab">
+                <i class="fas fa-shield-alt"></i> Security
+            </button>
+        </li>
+    </ul>
+
+    <!-- Tab Content -->
+    <div class="tab-content" id="profileTabContent">
+        <!-- Personal Information Tab -->
+        <div class="tab-pane fade show active" id="info" role="tabpanel">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="info-card">
+                        <h5 class="mb-4"><i class="fas fa-user"></i> Personal Details</h5>
+                        
+                        <div class="info-item">
+                            <span class="info-label">Full Name</span>
+                            <span class="info-value">{{ profile.full_name|default:"Not provided" }}</span>
+                        </div>
+                        
+                        <div class="info-item">
+                            <span class="info-label">Username</span>
+                            <span class="info-value">{{ user.username }}</span>
+                        </div>
+                        
+                        <div class="info-item">
+                            <span class="info-label">Email</span>
+                            <span class="info-value">
+                                {{ user.email }}
+                                <span class="verification-status ms-2">
+                                    {% if profile.email_verified %}
+                                        <i class="fas fa-check-circle verified"></i>
+                                        <small class="verified">Verified</small>
+                                    {% else %}
+                                        <i class="fas fa-exclamation-circle unverified"></i>
+                                        <small class="unverified">Not verified</small>
+                                    {% endif %}
+                                </span>
+                            </span>
+                        </div>
+                        
+                        <div class="info-item">
+                            <span class="info-label">Phone Number</span>
+                            <span class="info-value">{{ profile.phone_number|default:"Not provided" }}</span>
+                        </div>
+                        
+                        <div class="info-item">
+                            <span class="info-label">Date of Birth</span>
+                            <span class="info-value">{{ profile.date_of_birth|default:"Not provided" }}</span>
+                        </div>
+                        
+                        <div class="info-item">
+                            <span class="info-label">Address</span>
+                            <span class="info-value">{{ profile.address|default:"Not provided" }}</span>
+                        </div>
+                        
+                        <div class="info-item">
+                            <span class="info-label">Account Type</span>
+                            <span class="info-value">
+                                <span class="badge bg-primary">{{ profile.get_user_type_display }}</span>
+                            </span>
+                        </div>
+                        
+                        <div class="info-item">
+                            <span class="info-label">Member Since</span>
+                            <span class="info-value">{{ user.date_joined|date:"F d, Y" }}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="info-card">
+                        <h6 class="mb-3"><i class="fas fa-chart-line"></i> Account Statistics</h6>
+                        <div class="text-center">
+                            <div class="mb-3">
+                                <h4 class="text-primary">{{ user.date_joined|timesince }}</h4>
+                                <small class="text-muted">Member for</small>
+                            </div>
+                            <div class="mb-3">
+                                <h4 class="text-success">{{ user.last_login|date:"M d, Y" }}</h4>
+                                <small class="text-muted">Last login</small>
+                            </div>
+                            {% if profile.last_login_ip %}
+                            <div class="mb-3">
+                                <h6 class="text-info">{{ profile.last_login_ip }}</h6>
+                                <small class="text-muted">Last IP address</small>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Profile Tab -->
+        <div class="tab-pane fade" id="edit" role="tabpanel">
+            <div class="info-card">
+                <h5 class="mb-4"><i class="fas fa-edit"></i> Edit Profile</h5>
+                
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label for="{{ form.first_name.id_for_label }}" class="form-label">First Name</label>
+                                {{ form.first_name }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label for="{{ form.last_name.id_for_label }}" class="form-label">Last Name</label>
+                                {{ form.last_name }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group mb-3">
+                        <label for="{{ form.email.id_for_label }}" class="form-label">Email Address</label>
+                        {{ form.email }}
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label for="{{ form.phone_number.id_for_label }}" class="form-label">Phone Number</label>
+                                {{ form.phone_number }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label for="{{ form.date_of_birth.id_for_label }}" class="form-label">Date of Birth</label>
+                                {{ form.date_of_birth }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group mb-3">
+                        <label for="{{ form.address.id_for_label }}" class="form-label">Address</label>
+                        {{ form.address }}
+                    </div>
+                    
+                    <div class="form-group mb-4">
+                        <label for="{{ form.profile_picture.id_for_label }}" class="form-label">Profile Picture</label>
+                        {{ form.profile_picture }}
+                        <div class="form-text">Upload a new profile picture (optional)</div>
+                    </div>
+                    
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="location.reload()">
+                            <i class="fas fa-undo"></i> Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Security Tab -->
+        <div class="tab-pane fade" id="security" role="tabpanel">
+            <div class="info-card">
+                <h5 class="mb-4"><i class="fas fa-shield-alt"></i> Security Settings</h5>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Password</h6>
+                        <p class="text-muted">Keep your account secure with a strong password.</p>
+                        <a href="{% url 'change_password' %}" class="btn btn-outline-primary">
+                            <i class="fas fa-key"></i> Change Password
+                        </a>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <h6>Email Verification</h6>
+                        {% if profile.email_verified %}
+                            <p class="text-success">
+                                <i class="fas fa-check-circle"></i> Your email is verified
+                            </p>
+                        {% else %}
+                            <p class="text-warning">
+                                <i class="fas fa-exclamation-triangle"></i> Your email is not verified
+                            </p>
+                            <button class="btn btn-outline-warning btn-sm">
+                                <i class="fas fa-envelope"></i> Resend Verification
+                            </button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

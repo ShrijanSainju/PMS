@@ -1,0 +1,424 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Security Dashboard - PMS{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+    .security-alert {
+        border-left: 4px solid #dc3545;
+        background: #f8d7da;
+        color: #721c24;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 0 8px 8px 0;
+    }
+    
+    .security-warning {
+        border-left: 4px solid #ffc107;
+        background: #fff3cd;
+        color: #856404;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 0 8px 8px 0;
+    }
+    
+    .security-info {
+        border-left: 4px solid #0dcaf0;
+        background: #d1ecf1;
+        color: #055160;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 0 8px 8px 0;
+    }
+    
+    .threat-level {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.875rem;
+        font-weight: 600;
+    }
+    
+    .threat-low {
+        background: #d4edda;
+        color: #155724;
+    }
+    
+    .threat-medium {
+        background: #fff3cd;
+        color: #856404;
+    }
+    
+    .threat-high {
+        background: #f8d7da;
+        color: #721c24;
+    }
+    
+    .threat-critical {
+        background: #d1ecf1;
+        color: #055160;
+        animation: pulse 2s infinite;
+    }
+    
+    .security-metric {
+        text-align: center;
+        padding: 1.5rem;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        margin-bottom: 1rem;
+    }
+    
+    .security-metric h3 {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .security-metric.danger h3 {
+        color: #dc3545;
+    }
+    
+    .security-metric.warning h3 {
+        color: #ffc107;
+    }
+    
+    .security-metric.success h3 {
+        color: #28a745;
+    }
+    
+    .security-log {
+        max-height: 400px;
+        overflow-y: auto;
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 1rem;
+    }
+    
+    .log-entry {
+        padding: 0.5rem;
+        border-bottom: 1px solid #dee2e6;
+        font-family: 'Courier New', monospace;
+        font-size: 0.875rem;
+    }
+    
+    .log-entry:last-child {
+        border-bottom: none;
+    }
+    
+    .log-timestamp {
+        color: #6c757d;
+        margin-right: 1rem;
+    }
+    
+    .log-level-error {
+        color: #dc3545;
+        font-weight: bold;
+    }
+    
+    .log-level-warning {
+        color: #ffc107;
+        font-weight: bold;
+    }
+    
+    .log-level-info {
+        color: #0dcaf0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Security Dashboard Header -->
+    <div class="dashboard-header">
+        <h1><i class="fas fa-shield-alt"></i> Security Dashboard</h1>
+        <p>Monitor system security and threat detection</p>
+    </div>
+
+    <!-- Threat Level Indicator -->
+    <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5><i class="fas fa-exclamation-triangle"></i> Current Threat Level</h5>
+            <div>
+                <span class="threat-level threat-low" id="threatLevel">LOW</span>
+                <button class="btn btn-sm btn-outline-primary ms-2" onclick="refreshSecurityData()">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div id="threatDescription">
+                System is operating normally with no detected threats.
+            </div>
+        </div>
+    </div>
+
+    <!-- Security Metrics -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="security-metric">
+                <h3 id="failedLogins">0</h3>
+                <p><i class="fas fa-user-times"></i> Failed Logins (24h)</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="security-metric">
+                <h3 id="blockedIPs">0</h3>
+                <p><i class="fas fa-ban"></i> Blocked IPs</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="security-metric">
+                <h3 id="suspiciousRequests">0</h3>
+                <p><i class="fas fa-exclamation-circle"></i> Suspicious Requests</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="security-metric success">
+                <h3 id="activeUsers">0</h3>
+                <p><i class="fas fa-users"></i> Active Users</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Security Alerts -->
+    <div class="row">
+        <div class="col-md-8">
+            <!-- Recent Security Events -->
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-list"></i> Recent Security Events</h5>
+                </div>
+                <div class="card-body">
+                    <div class="security-log" id="securityLog">
+                        <div class="text-center">
+                            <div class="spinner"></div>
+                            <p>Loading security events...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security Chart -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5><i class="fas fa-chart-line"></i> Security Events (Last 24 Hours)</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="securityChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <!-- Active Alerts -->
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-bell"></i> Active Alerts</h5>
+                </div>
+                <div class="card-body" id="activeAlerts">
+                    <div class="security-info">
+                        <strong>System Status:</strong> All systems operational
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Threat Sources -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5><i class="fas fa-globe"></i> Top Threat Sources</h5>
+                </div>
+                <div class="card-body" id="threatSources">
+                    <p class="text-muted">No threats detected</p>
+                </div>
+            </div>
+
+            <!-- Security Actions -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5><i class="fas fa-tools"></i> Security Actions</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-warning" onclick="clearSecurityLogs()">
+                            <i class="fas fa-trash"></i> Clear Old Logs
+                        </button>
+                        <button class="btn btn-info" onclick="exportSecurityReport()">
+                            <i class="fas fa-download"></i> Export Report
+                        </button>
+                        <button class="btn btn-danger" onclick="emergencyLockdown()">
+                            <i class="fas fa-lock"></i> Emergency Lockdown
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+let securityChart;
+
+// Initialize security dashboard
+document.addEventListener('DOMContentLoaded', function() {
+    initializeSecurityChart();
+    loadSecurityData();
+    startSecurityMonitoring();
+});
+
+function initializeSecurityChart() {
+    const ctx = document.getElementById('securityChart').getContext('2d');
+    securityChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Failed Logins',
+                data: [],
+                borderColor: 'rgb(220, 53, 69)',
+                backgroundColor: 'rgba(220, 53, 69, 0.1)',
+                tension: 0.4
+            }, {
+                label: 'Suspicious Requests',
+                data: [],
+                borderColor: 'rgb(255, 193, 7)',
+                backgroundColor: 'rgba(255, 193, 7, 0.1)',
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+
+function loadSecurityData() {
+    // Simulate loading security data
+    // In a real implementation, this would fetch from your security API
+    
+    // Update metrics
+    document.getElementById('failedLogins').textContent = Math.floor(Math.random() * 10);
+    document.getElementById('blockedIPs').textContent = Math.floor(Math.random() * 5);
+    document.getElementById('suspiciousRequests').textContent = Math.floor(Math.random() * 20);
+    document.getElementById('activeUsers').textContent = Math.floor(Math.random() * 50) + 10;
+    
+    // Update threat level
+    updateThreatLevel();
+    
+    // Load security events
+    loadSecurityEvents();
+    
+    // Update chart
+    updateSecurityChart();
+}
+
+function updateThreatLevel() {
+    const levels = ['LOW', 'MEDIUM', 'HIGH'];
+    const level = levels[Math.floor(Math.random() * levels.length)];
+    const threatElement = document.getElementById('threatLevel');
+    const descElement = document.getElementById('threatDescription');
+    
+    threatElement.textContent = level;
+    threatElement.className = `threat-level threat-${level.toLowerCase()}`;
+    
+    const descriptions = {
+        'LOW': 'System is operating normally with no detected threats.',
+        'MEDIUM': 'Some suspicious activity detected. Monitoring increased.',
+        'HIGH': 'Multiple security events detected. Enhanced security measures active.'
+    };
+    
+    descElement.textContent = descriptions[level];
+}
+
+function loadSecurityEvents() {
+    const logContainer = document.getElementById('securityLog');
+    const events = [
+        { time: '2024-01-15 14:30:25', level: 'info', message: 'User admin logged in from 192.168.1.100' },
+        { time: '2024-01-15 14:28:15', level: 'warning', message: 'Failed login attempt for user staff from 203.0.113.45' },
+        { time: '2024-01-15 14:25:10', level: 'info', message: 'API key validated for opencv_detector' },
+        { time: '2024-01-15 14:22:05', level: 'warning', message: 'Rate limit exceeded for IP 198.51.100.25' },
+        { time: '2024-01-15 14:20:00', level: 'error', message: 'Suspicious URL pattern detected: /admin/../config.php' }
+    ];
+    
+    logContainer.innerHTML = '';
+    events.forEach(event => {
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.innerHTML = `
+            <span class="log-timestamp">${event.time}</span>
+            <span class="log-level-${event.level}">[${event.level.toUpperCase()}]</span>
+            ${event.message}
+        `;
+        logContainer.appendChild(entry);
+    });
+}
+
+function updateSecurityChart() {
+    // Generate sample data for the last 24 hours
+    const hours = [];
+    const failedLogins = [];
+    const suspiciousRequests = [];
+    
+    for (let i = 23; i >= 0; i--) {
+        const hour = new Date();
+        hour.setHours(hour.getHours() - i);
+        hours.push(hour.getHours() + ':00');
+        failedLogins.push(Math.floor(Math.random() * 5));
+        suspiciousRequests.push(Math.floor(Math.random() * 10));
+    }
+    
+    securityChart.data.labels = hours;
+    securityChart.data.datasets[0].data = failedLogins;
+    securityChart.data.datasets[1].data = suspiciousRequests;
+    securityChart.update();
+}
+
+function startSecurityMonitoring() {
+    // Refresh security data every 30 seconds
+    setInterval(loadSecurityData, 30000);
+}
+
+function refreshSecurityData() {
+    loadSecurityData();
+    if (window.showSuccess) {
+        window.showSuccess('Security data refreshed');
+    }
+}
+
+function clearSecurityLogs() {
+    if (confirm('Are you sure you want to clear old security logs?')) {
+        // Implement log clearing
+        if (window.showSuccess) {
+            window.showSuccess('Security logs cleared');
+        }
+    }
+}
+
+function exportSecurityReport() {
+    // Implement security report export
+    if (window.showInfo) {
+        window.showInfo('Security report export started');
+    }
+}
+
+function emergencyLockdown() {
+    if (confirm('Are you sure you want to initiate emergency lockdown? This will block all non-admin access.')) {
+        // Implement emergency lockdown
+        if (window.showWarning) {
+            window.showWarning('Emergency lockdown initiated', {
+                title: 'Security Alert',
+                browser: true
+            });
+        }
+    }
+}
+{% endblock %}
