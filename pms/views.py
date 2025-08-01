@@ -15,6 +15,7 @@ from .models import ParkingSlot, ParkingSession
 from .serializers import ParkingSlotSerializer
 from .decorators import require_staff_or_manager, require_approved_user
 from .permissions import require_staff_or_manager, require_approved_user
+import json
 # Configure logging
 logger = logging.getLogger(__name__)
 
