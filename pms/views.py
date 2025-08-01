@@ -681,12 +681,29 @@ def assign_slot(request):
                     session = ParkingSession.objects.get(id=session_id)
                     slot = session.slot
 
+                    # Try to find the vehicle owner
+                    vehicle_owner = None
+                    vehicle_info = None
+                    try:
+                        from .models import Vehicle
+                        vehicle_info = Vehicle.objects.filter(
+                            plate_number=vehicle_number,
+                            is_active=True
+                        ).select_related('owner', 'owner__userprofile').first()
+
+                        if vehicle_info:
+                            vehicle_owner = vehicle_info.owner
+                    except:
+                        pass
+
                     return render(request, f'{template_prefix}/assign_success.html', {
                         'session': session,
                         'slot': slot,
                         'auto_assigned': True,
                         'zone': data.get('zone', 'Unknown'),
-                        'message': f"Slot {slot_id} automatically assigned to {vehicle_number}"
+                        'message': f"Slot {slot_id} automatically assigned to {vehicle_number}",
+                        'vehicle_owner': vehicle_owner,
+                        'vehicle_info': vehicle_info,
                     })
                 else:
                     error_data = response.json()
@@ -730,6 +747,21 @@ def assign_slot(request):
             available_slot.is_reserved = True
             available_slot.save()
 
+            # Try to find the vehicle owner
+            vehicle_owner = None
+            vehicle_info = None
+            try:
+                from .models import Vehicle
+                vehicle_info = Vehicle.objects.filter(
+                    plate_number=vehicle_number,
+                    is_active=True
+                ).select_related('owner', 'owner__userprofile').first()
+
+                if vehicle_info:
+                    vehicle_owner = vehicle_info.owner
+            except:
+                pass
+
             logger.info(f"Manually assigned slot {available_slot.slot_id} to vehicle {vehicle_number}")
 
             return render(request, f'{template_prefix}/assign_success.html', {
@@ -737,7 +769,9 @@ def assign_slot(request):
                 'slot': available_slot,
                 'auto_assigned': False,
                 'zone': available_slot.slot_id[0] if available_slot.slot_id else 'Unknown',
-                'message': f"Slot {available_slot.slot_id} assigned to {vehicle_number}"
+                'message': f"Slot {available_slot.slot_id} assigned to {vehicle_number}",
+                'vehicle_owner': vehicle_owner,
+                'vehicle_info': vehicle_info,
             })
 
     else:
@@ -809,12 +843,16 @@ def lookup_session(request):
     elapsed_time = None
     price = None
     price_per_minute = 2  # Change this to match your pricing logic
+    vehicle_owner = None
+    vehicle_info = None
+    all_sessions = None
 
     if request.method == 'POST':
         form = LookupForm(request.POST)
         if form.is_valid():
             vehicle_number = form.cleaned_data['vehicle_number']
 
+            # Get the most relevant session (active > pending > recent completed)
             session = (
                 ParkingSession.objects
                 .filter(vehicle_number=vehicle_number)
@@ -830,6 +868,25 @@ def lookup_session(request):
                 .order_by('status_priority', '-start_time')
                 .first()
             )
+
+            # Get all sessions for this vehicle (for history)
+            all_sessions = ParkingSession.objects.filter(
+                vehicle_number=vehicle_number
+            ).order_by('-start_time')[:10]  # Last 10 sessions
+
+            # Try to find the vehicle owner from registered vehicles
+            try:
+                from .models import Vehicle
+                vehicle_info = Vehicle.objects.filter(
+                    plate_number=vehicle_number,
+                    is_active=True
+                ).select_related('owner', 'owner__userprofile').first()
+
+                if vehicle_info:
+                    vehicle_owner = vehicle_info.owner
+            except:
+                # If Vehicle model doesn't exist or other error, continue without owner info
+                pass
 
             if session and session.start_time:
                 if session.status in ['pending', 'active']:
@@ -849,6 +906,9 @@ def lookup_session(request):
         'session': session,
         'elapsed_time': elapsed_time,
         'price': price,
+        'vehicle_owner': vehicle_owner,
+        'vehicle_info': vehicle_info,
+        'all_sessions': all_sessions,
     })
 
 
@@ -860,6 +920,8 @@ from .models import ParkingSlot, ParkingSession
 def end_session_by_vehicle(request):
     message = ''
     selected_session = None
+    vehicle_owner = None
+    vehicle_info = None
     active_sessions = ParkingSession.objects.filter(status='active')
 
     if request.method == 'POST':
@@ -867,6 +929,19 @@ def end_session_by_vehicle(request):
         session = active_sessions.filter(vehicle_number=vehicle_number).last()
 
         if session:
+            # Try to find the vehicle owner
+            try:
+                from .models import Vehicle
+                vehicle_info = Vehicle.objects.filter(
+                    plate_number=vehicle_number,
+                    is_active=True
+                ).select_related('owner', 'owner__userprofile').first()
+
+                if vehicle_info:
+                    vehicle_owner = vehicle_info.owner
+            except:
+                pass
+
             now_time = timezone.now()  # Use a single consistent timestamp
             session.end_time = now_time
             session.status = 'completed'
@@ -885,5 +960,7 @@ def end_session_by_vehicle(request):
         'active_sessions': active_sessions,
         'selected_session': selected_session,
         'message': message,
+        'vehicle_owner': vehicle_owner,
+        'vehicle_info': vehicle_info,
     })
 

@@ -1,0 +1,266 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}My Vehicles - PMS{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+<style>
+    .vehicles-container {
+        max-width: 1000px;
+        margin: 2rem auto;
+    }
+    
+    .vehicle-card {
+        background: white;
+        border-radius: 15px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .vehicle-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+    
+    .vehicle-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #e9ecef;
+    }
+    
+    .vehicle-info {
+        flex: 1;
+    }
+    
+    .plate-number {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+    }
+    
+    .vehicle-details {
+        color: #6c757d;
+        font-size: 0.95rem;
+    }
+    
+    .status-badge {
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+    
+    .status-parked {
+        background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        color: white;
+    }
+    
+    .status-available {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        color: white;
+    }
+    
+    .vehicle-actions {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 1rem;
+    }
+    
+    .parking-info {
+        background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+        color: white;
+        padding: 1rem;
+        border-radius: 10px;
+        margin-top: 1rem;
+    }
+    
+    .no-vehicles {
+        text-align: center;
+        padding: 3rem;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .no-vehicles i {
+        font-size: 4rem;
+        color: #6c757d;
+        margin-bottom: 1rem;
+    }
+    
+    .add-vehicle-btn {
+        background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+        border: none;
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 25px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+    }
+    
+    .add-vehicle-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+        color: white;
+        text-decoration: none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="vehicles-container">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2><i class="fas fa-car"></i> My Vehicles</h2>
+                <p class="text-muted">Manage your registered vehicles and check their parking status</p>
+            </div>
+            <a href="{% url 'add_vehicle' %}" class="add-vehicle-btn">
+                <i class="fas fa-plus"></i> Add New Vehicle
+            </a>
+        </div>
+
+        {% if vehicles %}
+            <!-- Vehicle Cards -->
+            {% for vehicle in vehicles %}
+            <div class="vehicle-card">
+                <div class="vehicle-header">
+                    <div class="vehicle-info">
+                        <div class="plate-number">
+                            <i class="fas fa-car"></i> {{ vehicle.plate_number }}
+                        </div>
+                        <div class="vehicle-details">
+                            {% if vehicle.year or vehicle.make or vehicle.model %}
+                                {{ vehicle.year|default:"" }} {{ vehicle.make|default:"" }} {{ vehicle.model|default:"" }}
+                                {% if vehicle.color %} - {{ vehicle.color }}{% endif %}
+                            {% else %}
+                                {{ vehicle.get_vehicle_type_display }}
+                                {% if vehicle.color %} - {{ vehicle.color }}{% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="text-end">
+                        {% if vehicle.is_parked %}
+                            <div class="status-badge status-parked">
+                                <i class="fas fa-parking"></i> Currently Parked
+                            </div>
+                        {% else %}
+                            <div class="status-badge status-available">
+                                <i class="fas fa-check-circle"></i> Available
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% if vehicle.current_session %}
+                <div class="parking-info">
+                    <h6><i class="fas fa-info-circle"></i> Current Parking Session</h6>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <strong>Slot:</strong> {{ vehicle.current_session.slot.slot_id }}<br>
+                            <strong>Started:</strong> {{ vehicle.current_session.start_time|date:"M d, Y H:i" }}
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Status:</strong> {{ vehicle.current_session.get_status_display }}<br>
+                            <strong>Duration:</strong> 
+                            {% if vehicle.current_session.status == 'active' %}
+                                <span id="duration-{{ vehicle.id }}">Calculating...</span>
+                            {% else %}
+                                {{ vehicle.current_session.duration|default:"Pending" }}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="vehicle-actions">
+                    <a href="{% url 'vehicle_status' vehicle.id %}" class="btn btn-info btn-sm">
+                        <i class="fas fa-eye"></i> View Status
+                    </a>
+                    <a href="{% url 'edit_vehicle' vehicle.id %}" class="btn btn-primary btn-sm">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+                    {% if not vehicle.is_parked %}
+                        <a href="{% url 'delete_vehicle' vehicle.id %}" class="btn btn-danger btn-sm">
+                            <i class="fas fa-trash"></i> Remove
+                        </a>
+                    {% else %}
+                        <button class="btn btn-secondary btn-sm" disabled title="Cannot remove vehicle with active parking session">
+                            <i class="fas fa-lock"></i> Locked
+                        </button>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+
+        {% else %}
+            <!-- No Vehicles State -->
+            <div class="no-vehicles">
+                <i class="fas fa-car"></i>
+                <h3>No Vehicles Registered</h3>
+                <p class="text-muted mb-4">
+                    You haven't registered any vehicles yet. Add your first vehicle to start using the parking system.
+                </p>
+                <a href="{% url 'add_vehicle' %}" class="add-vehicle-btn">
+                    <i class="fas fa-plus"></i> Add Your First Vehicle
+                </a>
+            </div>
+        {% endif %}
+
+        <!-- Quick Actions -->
+        <div class="d-flex gap-3 justify-content-center mt-4">
+            <a href="{% url 'customer_dashboard' %}" class="btn btn-secondary">
+                <i class="fas fa-tachometer-alt"></i> Back to Dashboard
+            </a>
+            {% if vehicles %}
+                <a href="{% url 'add_vehicle' %}" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Add Another Vehicle
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+// Update duration for active sessions
+document.addEventListener('DOMContentLoaded', function() {
+    {% for vehicle in vehicles %}
+        {% if vehicle.current_session and vehicle.current_session.status == 'active' %}
+            updateDuration('{{ vehicle.id }}', '{{ vehicle.current_session.start_time|date:"c" }}');
+        {% endif %}
+    {% endfor %}
+});
+
+function updateDuration(vehicleId, startTime) {
+    const startDate = new Date(startTime);
+    const durationElement = document.getElementById(`duration-${vehicleId}`);
+    
+    function update() {
+        const now = new Date();
+        const diff = now - startDate;
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        
+        if (durationElement) {
+            durationElement.textContent = `${hours}h ${minutes}m`;
+        }
+    }
+    
+    update();
+    setInterval(update, 60000); // Update every minute
+}
+{% endblock %}

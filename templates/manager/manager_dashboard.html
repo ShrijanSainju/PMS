@@ -295,6 +295,40 @@
     .trend-neutral {
         color: #6c757d;
     }
+
+      /* Simple Live Update Styles */
+    .connection-indicator {
+        font-size: 0.8rem;
+        padding: 0.25rem 0.5rem;
+        border-radius: 12px;
+        margin-left: 1rem;
+        display: inline-block;
+    }
+
+    .connection-indicator.connected {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+
+    .connection-indicator.error {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+
+    .connection-indicator.connecting {
+        background: #fff3cd;
+        color: #856404;
+        border: 1px solid #ffeaa7;
+    }
+
+    .loading-indicator {
+        display: none;
+        color: #007bff;
+        margin-right: 0.5rem;
+        font-size: 0.9rem;
+    }
 </style>
 {% endblock %}
 
@@ -430,17 +464,17 @@
 
     <!-- Quick Actions -->
     <div class="quick-actions">
-        <a href="{% url 'manager_user_management' %}" class="quick-action">
+        <a href="{% url 'lookup-session' %}" class="quick-action">
             <i class="fas fa-users-cog"></i>
-            <h5>Manage Users</h5>
-            <p>View and manage all users</p>
+            <h5>User Lookup</h5>
+            <p>Find users and vehicles</p>
         </a>
-        <a href="{% url 'manager_create_staff' %}" class="quick-action">
+        <a href="{% url 'staff_register' %}" class="quick-action">
             <i class="fas fa-user-tie"></i>
             <h5>Add Staff</h5>
             <p>Create new staff member</p>
         </a>
-        <a href="{% url 'manager_create_customer' %}" class="quick-action">
+        <a href="{% url 'customer_register' %}" class="quick-action">
             <i class="fas fa-user-plus"></i>
             <h5>Add Customer</h5>
             <p>Register new customer</p>
@@ -460,10 +494,10 @@
             <h5>Lookup Vehicle</h5>
             <p>Search vehicle info</p>
         </a>
-        <a href="{% url 'manager_system_settings' %}" class="quick-action">
+        <a href="{% url 'security_dashboard' %}" class="quick-action">
             <i class="fas fa-cogs"></i>
-            <h5>System Settings</h5>
-            <p>Configure system parameters</p>
+            <h5>Security Monitor</h5>
+            <p>Monitor system security</p>
         </a>
         <a href="{% url 'history-log' %}" class="quick-action">
             <i class="fas fa-history"></i>
@@ -524,6 +558,9 @@
 // Global variables for live features
 let autoRefreshEnabled = true;
 let refreshInterval;
+let retryCount = 0;
+let lastSlotData = new Map();
+let connectionStatus = 'connecting';
 
 // Initialize dashboard
 document.addEventListener('DOMContentLoaded', function() {
@@ -567,55 +604,201 @@ function toggleAutoRefresh() {
 }
 
 function fetchSlots() {
+    const startTime = performance.now();
+    showLoadingIndicator();
+
     fetch('/api/slot-status/')
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+            return response.json();
+        })
         .then(data => {
-            const grid = document.getElementById('slotGrid');
-            grid.innerHTML = '';
+            const endTime = performance.now();
+            const responseTime = Math.round(endTime - startTime);
 
-            data.forEach(slot => {
-                const div = document.createElement('div');
-                div.classList.add('parking-slot');
-
-                let status, statusClass, tooltip = '';
-                if (slot.session_status === 'pending' || slot.is_reserved) {
-                    status = 'Reserved';
-                    statusClass = 'reserved';
-                    if (slot.vehicle_number) {
-                        tooltip = `Vehicle: ${slot.vehicle_number}`;
-                    }
-                } else if (slot.is_occupied) {
-                    status = 'Occupied';
-                    statusClass = 'occupied';
-                    if (slot.vehicle_number) {
-                        tooltip = `Vehicle: ${slot.vehicle_number}`;
-                        if (slot.session_start) {
-                            const startTime = new Date(slot.session_start);
-                            const duration = Math.floor((new Date() - startTime) / (1000 * 60));
-                            tooltip += `\nDuration: ${duration} min`;
-                        }
-                    }
-                } else {
-                    status = 'Available';
-                    statusClass = 'vacant';
-                    tooltip = 'Available for assignment';
-                }
-
-                div.classList.add(statusClass);
-                div.title = tooltip;
-                div.innerHTML = `
-                    <div class="slot-id">${slot.slot_id}</div>
-                    <div class="slot-status">${status}</div>
-                `;
-
-                grid.appendChild(div);
-            });
+            updateSlotGrid(data);
+            updateConnectionStatus('connected', responseTime);
+            hideLoadingIndicator();
+            retryCount = 0; // Reset retry count on success
         })
         .catch(error => {
             console.error('Error fetching slots:', error);
+            updateConnectionStatus('error', null);
+            hideLoadingIndicator();
+
             const grid = document.getElementById('slotGrid');
-            grid.innerHTML = '<div class="alert alert-danger">Error loading slot data</div>';
+            if (grid.children.length === 0) {
+                grid.innerHTML = '<div class="alert alert-danger">Error loading slot data. Retrying...</div>';
+            }
+
+            // Retry with exponential backoff
+            retryCount++;
+            const retryDelay = Math.min(1000 * Math.pow(2, retryCount), 10000);
+            setTimeout(() => {
+                if (autoRefreshEnabled) {
+                    fetchSlots();
+                }
+            }, retryDelay);
         });
+}
+
+function updateSlotGrid(data) {
+    const grid = document.getElementById('slotGrid');
+    const newSlotData = new Map();
+
+    // Clear grid
+    grid.innerHTML = '';
+
+    data.forEach(slot => {
+        const slotKey = slot.slot_id;
+        const currentStatus = `${slot.is_occupied}-${slot.is_reserved}-${slot.session_status}`;
+        newSlotData.set(slotKey, currentStatus);
+
+        const div = document.createElement('div');
+        div.classList.add('parking-slot');
+
+        let status, statusClass, tooltip = '';
+        if (slot.session_status === 'pending' || slot.is_reserved) {
+            status = 'Reserved';
+            statusClass = 'reserved';
+            if (slot.vehicle_number) {
+                tooltip = `Vehicle: ${slot.vehicle_number}`;
+            }
+        } else if (slot.is_occupied) {
+            status = 'Occupied';
+            statusClass = 'occupied';
+            if (slot.vehicle_number) {
+                tooltip = `Vehicle: ${slot.vehicle_number}`;
+                if (slot.session_start) {
+                    const startTime = new Date(slot.session_start);
+                    const duration = Math.floor((new Date() - startTime) / (1000 * 60));
+                    tooltip += `\nDuration: ${duration} min`;
+                }
+            }
+        } else {
+            status = 'Available';
+            statusClass = 'vacant';
+            tooltip = 'Available for assignment';
+        }
+
+        // Check if status changed
+        const wasChanged = lastSlotData.has(slotKey) &&
+                          lastSlotData.get(slotKey) !== currentStatus;
+
+        div.classList.add(statusClass);
+        if (wasChanged) {
+            div.classList.add('slot-updated');
+            // Remove animation class after animation
+            setTimeout(() => {
+                div.classList.remove('slot-updated');
+            }, 1000);
+        }
+
+        div.title = tooltip;
+        div.innerHTML = `
+            <div class="slot-id">${slot.slot_id}</div>
+            <div class="slot-status">${status}</div>
+            ${wasChanged ? '<div class="update-pulse"></div>' : ''}
+        `;
+
+        grid.appendChild(div);
+    });
+
+    // Update stored data for next comparison
+    lastSlotData = newSlotData;
+
+    // Update stats
+    updateStats(data);
+}
+
+function updateStats(data) {
+    const stats = {
+        available: data.filter(s => !s.is_occupied && !s.is_reserved && s.session_status !== 'pending').length,
+        occupied: data.filter(s => s.is_occupied).length,
+        reserved: data.filter(s => s.is_reserved || s.session_status === 'pending').length,
+        total: data.length
+    };
+
+    animateStatChange('availableCount', stats.available);
+    animateStatChange('occupiedCount', stats.occupied);
+    animateStatChange('reservedCount', stats.reserved);
+    animateStatChange('totalCount', stats.total);
+}
+
+function animateStatChange(elementId, newValue) {
+    const element = document.getElementById(elementId);
+    if (!element) return;
+
+    const currentValue = parseInt(element.textContent) || 0;
+
+    if (currentValue !== newValue) {
+        element.classList.add('stat-updated');
+        element.textContent = newValue;
+
+        setTimeout(() => {
+            element.classList.remove('stat-updated');
+        }, 500);
+    }
+}
+
+function updateConnectionStatus(status, responseTime) {
+    const indicator = document.getElementById('connectionIndicator') || createConnectionIndicator();
+    const now = new Date().toLocaleTimeString();
+
+    connectionStatus = status;
+
+    if (status === 'connected') {
+        indicator.className = 'connection-indicator connected';
+        indicator.innerHTML = `<i class="fas fa-wifi"></i> Live (${responseTime}ms) - ${now}`;
+    } else if (status === 'error') {
+        indicator.className = 'connection-indicator error';
+        indicator.innerHTML = `<i class="fas fa-exclamation-triangle"></i> Connection Error - ${now}`;
+    } else {
+        indicator.className = 'connection-indicator connecting';
+        indicator.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Connecting...`;
+    }
+}
+
+function createConnectionIndicator() {
+    const indicator = document.createElement('div');
+    indicator.id = 'connectionIndicator';
+    indicator.className = 'connection-indicator connecting';
+
+    // Add to dashboard header
+    const header = document.querySelector('.card-header h4');
+    if (header) {
+        header.appendChild(indicator);
+    }
+
+    return indicator;
+}
+
+function showLoadingIndicator() {
+    const indicator = document.getElementById('loadingIndicator') || createLoadingIndicator();
+    indicator.style.display = 'block';
+}
+
+function hideLoadingIndicator() {
+    const indicator = document.getElementById('loadingIndicator');
+    if (indicator) {
+        indicator.style.display = 'none';
+    }
+}
+
+function createLoadingIndicator() {
+    const indicator = document.createElement('div');
+    indicator.id = 'loadingIndicator';
+    indicator.className = 'loading-indicator';
+    indicator.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i>';
+
+    const refreshBtn = document.querySelector('button[onclick="fetchSlots()"]');
+    if (refreshBtn) {
+        refreshBtn.parentNode.insertBefore(indicator, refreshBtn);
+    }
+
+    return indicator;
 }
 
 function toggleFeed() {
@@ -696,16 +879,7 @@ function rejectUser(userId) {
     }
 }
 
-// Auto-refresh pending approvals count
-setInterval(() => {
-    fetch('/api/pending-approvals-count/')
-        .then(response => response.json())
-        .then(data => {
-            const countElement = document.querySelector('.stat-number.text-warning');
-            if (countElement && data.count !== undefined) {
-                countElement.textContent = data.count;
-            }
-        })
-        .catch(error => console.error('Error fetching pending approvals:', error));
-}, 30000); // Refresh every 30 seconds
+// Auto-refresh functionality temporarily disabled
+// TODO: Re-enable when user management APIs are restored
+console.log('Manager dashboard loaded successfully');
 {% endblock %}

@@ -136,6 +136,152 @@
                     {% endif %}
                 </div>
             </div>
+
+            <!-- Customer Information -->
+            {% if vehicle_owner or vehicle_info %}
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h3><i class="fas fa-user"></i> Vehicle Owner Information</h3>
+                </div>
+                <div class="card-body">
+                    {% if vehicle_owner %}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="info-item">
+                                <strong><i class="fas fa-user"></i> Owner Name:</strong>
+                                <span>{{ vehicle_owner.get_full_name|default:vehicle_owner.username }}</span>
+                            </div>
+                            <div class="info-item">
+                                <strong><i class="fas fa-envelope"></i> Email:</strong>
+                                <span>{{ vehicle_owner.email }}</span>
+                            </div>
+                            {% if vehicle_owner.userprofile.phone_number %}
+                            <div class="info-item">
+                                <strong><i class="fas fa-phone"></i> Phone:</strong>
+                                <span>{{ vehicle_owner.userprofile.phone_number }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-item">
+                                <strong><i class="fas fa-id-card"></i> Username:</strong>
+                                <span class="badge bg-secondary">{{ vehicle_owner.username }}</span>
+                            </div>
+                            <div class="info-item">
+                                <strong><i class="fas fa-calendar"></i> Member Since:</strong>
+                                <span>{{ vehicle_owner.date_joined|date:"M d, Y" }}</span>
+                            </div>
+                            <div class="info-item">
+                                <strong><i class="fas fa-check-circle"></i> Status:</strong>
+                                <span class="badge bg-success">{{ vehicle_owner.userprofile.get_approval_status_display }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if vehicle_info %}
+                    <hr>
+                    <h5><i class="fas fa-car"></i> Vehicle Details</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="info-item">
+                                <strong><i class="fas fa-hashtag"></i> Plate Number:</strong>
+                                <span class="badge bg-primary">{{ vehicle_info.plate_number }}</span>
+                            </div>
+                            <div class="info-item">
+                                <strong><i class="fas fa-car-side"></i> Type:</strong>
+                                <span>{{ vehicle_info.get_vehicle_type_display }}</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            {% if vehicle_info.make or vehicle_info.model %}
+                            <div class="info-item">
+                                <strong><i class="fas fa-industry"></i> Make/Model:</strong>
+                                <span>{{ vehicle_info.year|default:"" }} {{ vehicle_info.make|default:"" }} {{ vehicle_info.model|default:"" }}</span>
+                            </div>
+                            {% endif %}
+                            {% if vehicle_info.color %}
+                            <div class="info-item">
+                                <strong><i class="fas fa-palette"></i> Color:</strong>
+                                <span>{{ vehicle_info.color }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% else %}
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <strong>Vehicle not registered:</strong> This vehicle is not registered in our customer database.
+                        The owner may be using the system without registering their vehicle.
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Session History -->
+            {% if all_sessions and all_sessions|length > 1 %}
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h3><i class="fas fa-history"></i> Recent Session History</h3>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th><i class="fas fa-parking"></i> Slot</th>
+                                    <th><i class="fas fa-calendar"></i> Date</th>
+                                    <th><i class="fas fa-clock"></i> Duration</th>
+                                    <th><i class="fas fa-flag"></i> Status</th>
+                                    <th><i class="fas fa-rupee-sign"></i> Fee</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for hist_session in all_sessions %}
+                                <tr {% if hist_session.id == session.id %}class="table-primary"{% endif %}>
+                                    <td>
+                                        <span class="badge bg-info">{{ hist_session.slot.slot_id }}</span>
+                                    </td>
+                                    <td>{{ hist_session.start_time|date:"M d, Y H:i" }}</td>
+                                    <td>
+                                        {% if hist_session.start_time and hist_session.end_time %}
+                                            {% with duration=hist_session.end_time|timeuntil:hist_session.start_time %}
+                                                {{ duration }}
+                                            {% endwith %}
+                                        {% elif hist_session.status == 'active' %}
+                                            <span class="text-success">Active</span>
+                                        {% else %}
+                                            <span class="text-muted">-</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if hist_session.status == 'active' %}
+                                            <span class="badge bg-success">Active</span>
+                                        {% elif hist_session.status == 'pending' %}
+                                            <span class="badge bg-warning">Pending</span>
+                                        {% elif hist_session.status == 'completed' %}
+                                            <span class="badge bg-secondary">Completed</span>
+                                        {% else %}
+                                            <span class="badge bg-danger">{{ hist_session.status|title }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if hist_session.fee %}
+                                            <span class="text-success">₹{{ hist_session.fee }}</span>
+                                        {% else %}
+                                            <span class="text-muted">-</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
             {% endif %}
 
             <!-- Help Section -->

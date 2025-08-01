@@ -1,0 +1,255 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ vehicle.plate_number }} Status - PMS{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+<style>
+    .status-container {
+        max-width: 800px;
+        margin: 2rem auto;
+    }
+    
+    .vehicle-header {
+        background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+        color: white;
+        padding: 2rem;
+        border-radius: 15px;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+    
+    .vehicle-header h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+    
+    .current-status {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .status-parked {
+        border-left: 5px solid #dc3545;
+    }
+    
+    .status-available {
+        border-left: 5px solid #28a745;
+    }
+    
+    .session-details {
+        background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+        color: white;
+        padding: 1.5rem;
+        border-radius: 10px;
+        margin-top: 1rem;
+    }
+    
+    .detail-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .detail-row:last-child {
+        border-bottom: none;
+    }
+    
+    .history-section {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .session-item {
+        padding: 1rem;
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+    }
+    
+    .session-item:last-child {
+        margin-bottom: 0;
+    }
+    
+    .session-completed {
+        background: #f8f9fa;
+    }
+    
+    .session-active {
+        background: #fff3cd;
+        border-color: #ffeaa7;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="status-container">
+        <!-- Vehicle Header -->
+        <div class="vehicle-header">
+            <i class="fas fa-car" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+            <h2>{{ vehicle.plate_number }}</h2>
+            <p class="mb-0">{{ vehicle.display_name }}</p>
+        </div>
+
+        <!-- Current Status -->
+        <div class="current-status {% if vehicle.is_parked %}status-parked{% else %}status-available{% endif %}">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4>
+                    <i class="fas fa-info-circle"></i> Current Status
+                </h4>
+                {% if vehicle.is_parked %}
+                    <span class="badge bg-danger fs-6">
+                        <i class="fas fa-parking"></i> Currently Parked
+                    </span>
+                {% else %}
+                    <span class="badge bg-success fs-6">
+                        <i class="fas fa-check-circle"></i> Available
+                    </span>
+                {% endif %}
+            </div>
+
+            {% if current_session %}
+                <div class="session-details">
+                    <h5><i class="fas fa-clock"></i> Active Parking Session</h5>
+                    
+                    <div class="detail-row">
+                        <span><i class="fas fa-map-marker-alt"></i> Parking Slot</span>
+                        <strong>{{ current_session.slot.slot_id }}</strong>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <span><i class="fas fa-play-circle"></i> Start Time</span>
+                        <strong>{{ current_session.start_time|date:"M d, Y H:i:s" }}</strong>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <span><i class="fas fa-flag"></i> Status</span>
+                        <strong>{{ current_session.get_status_display }}</strong>
+                    </div>
+                    
+                    {% if current_session.status == 'active' %}
+                    <div class="detail-row">
+                        <span><i class="fas fa-stopwatch"></i> Duration</span>
+                        <strong id="liveDuration">Calculating...</strong>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <span><i class="fas fa-rupee-sign"></i> Estimated Fee</span>
+                        <strong id="estimatedFee">Calculating...</strong>
+                    </div>
+                    {% endif %}
+                </div>
+            {% else %}
+                <div class="alert alert-success">
+                    <i class="fas fa-check-circle"></i>
+                    <strong>Vehicle is available for parking.</strong>
+                    <p class="mb-0 mt-2">Your vehicle is not currently parked in any slot.</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Recent History -->
+        <div class="history-section">
+            <h4><i class="fas fa-history"></i> Recent Parking History</h4>
+            
+            {% if recent_sessions %}
+                {% for session in recent_sessions %}
+                <div class="session-item {% if session.status == 'active' %}session-active{% else %}session-completed{% endif %}">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h6>
+                                <i class="fas fa-map-marker-alt"></i> Slot {{ session.slot.slot_id }}
+                                <span class="badge bg-{{ session.status|yesno:'warning,success' }} ms-2">
+                                    {{ session.get_status_display }}
+                                </span>
+                            </h6>
+                            <small class="text-muted">
+                                <i class="fas fa-calendar"></i> 
+                                {{ session.start_time|date:"M d, Y H:i" }}
+                                {% if session.end_time %}
+                                    - {{ session.end_time|date:"M d, Y H:i" }}
+                                {% endif %}
+                            </small>
+                        </div>
+                        <div class="text-end">
+                            {% if session.fee %}
+                                <strong class="text-success">₹{{ session.fee }}</strong><br>
+                            {% endif %}
+                            {% if session.duration %}
+                                <small class="text-muted">{{ session.duration }}</small>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="text-center py-4">
+                    <i class="fas fa-history text-muted" style="font-size: 2rem;"></i>
+                    <p class="text-muted mt-2">No parking history found for this vehicle.</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Actions -->
+        <div class="d-flex gap-3 justify-content-center mt-4">
+            <a href="{% url 'customer_vehicles' %}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Vehicles
+            </a>
+            <a href="{% url 'edit_vehicle' vehicle.id %}" class="btn btn-primary">
+                <i class="fas fa-edit"></i> Edit Vehicle
+            </a>
+            <a href="{% url 'customer_dashboard' %}" class="btn btn-info">
+                <i class="fas fa-tachometer-alt"></i> Dashboard
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+// Live duration and fee calculation for active sessions
+document.addEventListener('DOMContentLoaded', function() {
+    {% if current_session and current_session.status == 'active' %}
+        const startTime = new Date('{{ current_session.start_time|date:"c" }}');
+        
+        function updateLiveInfo() {
+            const now = new Date();
+            const diff = now - startTime;
+            
+            // Calculate duration
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            
+            // Update duration display
+            const durationElement = document.getElementById('liveDuration');
+            if (durationElement) {
+                durationElement.textContent = `${hours}h ${minutes}m`;
+            }
+            
+            // Calculate estimated fee (Rs. 2 per minute)
+            const totalMinutes = Math.floor(diff / (1000 * 60));
+            const estimatedFee = totalMinutes * 2;
+            
+            // Update fee display
+            const feeElement = document.getElementById('estimatedFee');
+            if (feeElement) {
+                feeElement.textContent = `₹${estimatedFee}`;
+            }
+        }
+        
+        // Update immediately and then every minute
+        updateLiveInfo();
+        setInterval(updateLiveInfo, 60000);
+    {% endif %}
+});
+{% endblock %}

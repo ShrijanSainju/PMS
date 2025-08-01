@@ -421,6 +421,81 @@
         </div>
     </div>
 
+    <!-- My Vehicles Section -->
+    <div class="card mt-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5><i class="fas fa-car"></i> My Vehicles</h5>
+            <a href="{% url 'customer_vehicles' %}" class="btn btn-sm btn-primary">
+                <i class="fas fa-cog"></i> Manage Vehicles
+            </a>
+        </div>
+        <div class="card-body">
+            {% if has_vehicles %}
+                <div class="row">
+                    {% for vehicle_info in vehicle_status %}
+                    <div class="col-md-6 col-lg-4 mb-3">
+                        <div class="card h-100 {% if vehicle_info.is_parked %}border-danger{% else %}border-success{% endif %}">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <h6 class="card-title mb-0">
+                                        <i class="fas fa-car"></i> {{ vehicle_info.vehicle.plate_number }}
+                                    </h6>
+                                    {% if vehicle_info.is_parked %}
+                                        <span class="badge bg-danger">Parked</span>
+                                    {% else %}
+                                        <span class="badge bg-success">Available</span>
+                                    {% endif %}
+                                </div>
+
+                                <p class="card-text text-muted small mb-2">
+                                    {{ vehicle_info.vehicle.display_name }}
+                                </p>
+
+                                {% if vehicle_info.is_parked %}
+                                    <div class="alert alert-info py-2 mb-2">
+                                        <small>
+                                            <strong>Slot:</strong> {{ vehicle_info.slot.slot_id }}<br>
+                                            <strong>Since:</strong> {{ vehicle_info.current_session.start_time|date:"M d, H:i" }}
+                                        </small>
+                                    </div>
+                                {% endif %}
+
+                                <div class="d-flex gap-1">
+                                    <a href="{% url 'vehicle_status' vehicle_info.vehicle.id %}" class="btn btn-sm btn-outline-info">
+                                        <i class="fas fa-eye"></i> Status
+                                    </a>
+                                    {% if not vehicle_info.is_parked %}
+                                        <a href="{% url 'edit_vehicle' vehicle_info.vehicle.id %}" class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-edit"></i> Edit
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                {% if my_vehicles.count > 3 %}
+                <div class="text-center mt-3">
+                    <a href="{% url 'customer_vehicles' %}" class="btn btn-outline-primary">
+                        <i class="fas fa-list"></i> View All {{ my_vehicles.count }} Vehicles
+                    </a>
+                </div>
+                {% endif %}
+            {% else %}
+                <div class="text-center py-4">
+                    <i class="fas fa-car text-muted" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                    <h6 class="text-muted">No Vehicles Registered</h6>
+                    <p class="text-muted mb-3">Add your first vehicle to start using the parking system.</p>
+                    <a href="{% url 'add_vehicle' %}" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add Your First Vehicle
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
     <!-- Current Sessions -->
     {% if current_sessions %}
     <div class="info-section">
@@ -514,6 +589,11 @@
 
     <!-- Quick Actions -->
     <div class="quick-actions">
+        <a href="{% url 'customer_vehicles' %}" class="quick-action">
+            <i class="fas fa-car"></i>
+            <h5>My Vehicles</h5>
+            <p>Manage your vehicles</p>
+        </a>
         <a href="{% url 'lookup-session' %}" class="quick-action">
             <i class="fas fa-search"></i>
             <h5>Lookup Vehicle</h5>

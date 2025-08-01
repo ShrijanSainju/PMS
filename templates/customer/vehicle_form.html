@@ -1,0 +1,339 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ title }} - PMS{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+<style>
+    .form-container {
+        max-width: 600px;
+        margin: 2rem auto;
+    }
+    
+    .vehicle-form {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .form-header {
+        text-align: center;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #e9ecef;
+    }
+    
+    .form-header i {
+        font-size: 3rem;
+        color: #007bff;
+        margin-bottom: 1rem;
+    }
+    
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    
+    .form-label {
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .form-control {
+        border-radius: 10px;
+        border: 2px solid #e9ecef;
+        padding: 0.75rem 1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+    
+    .help-text {
+        font-size: 0.875rem;
+        color: #6c757d;
+        margin-top: 0.25rem;
+    }
+    
+    .required-field::after {
+        content: " *";
+        color: #dc3545;
+        font-weight: bold;
+    }
+    
+    .form-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin-top: 2rem;
+        padding-top: 1rem;
+        border-top: 1px solid #e9ecef;
+    }
+    
+    .btn-primary {
+        background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+        border: none;
+        padding: 0.75rem 2rem;
+        border-radius: 25px;
+        font-weight: 600;
+    }
+    
+    .btn-secondary {
+        background: linear-gradient(135deg, #6c757d 0%, #545b62 100%);
+        border: none;
+        padding: 0.75rem 2rem;
+        border-radius: 25px;
+        font-weight: 600;
+    }
+    
+    .plate-preview {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        color: white;
+        padding: 1rem;
+        border-radius: 10px;
+        text-align: center;
+        margin-top: 1rem;
+        font-family: 'Courier New', monospace;
+        font-size: 1.2rem;
+        font-weight: bold;
+        letter-spacing: 2px;
+        display: none;
+    }
+    
+    .vehicle-type-icons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+    }
+    
+    .type-icon {
+        padding: 0.5rem;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-align: center;
+        min-width: 60px;
+    }
+    
+    .type-icon:hover {
+        border-color: #007bff;
+        background: #f8f9fa;
+    }
+    
+    .type-icon.selected {
+        border-color: #007bff;
+        background: #007bff;
+        color: white;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="form-container">
+        <div class="vehicle-form">
+            <div class="form-header">
+                <i class="fas fa-car"></i>
+                <h2>{{ title }}</h2>
+                <p class="text-muted">
+                    {% if vehicle %}
+                        Update your vehicle information
+                    {% else %}
+                        Add a new vehicle to your account
+                    {% endif %}
+                </p>
+            </div>
+
+            <form method="post" class="needs-validation" novalidate>
+                {% csrf_token %}
+                
+                <!-- Plate Number -->
+                <div class="form-group">
+                    <label for="{{ form.plate_number.id_for_label }}" class="form-label required-field">
+                        <i class="fas fa-id-card"></i> Plate Number
+                    </label>
+                    {{ form.plate_number }}
+                    {% if form.plate_number.help_text %}
+                        <div class="help-text">{{ form.plate_number.help_text }}</div>
+                    {% endif %}
+                    {% if form.plate_number.errors %}
+                        <div class="invalid-feedback d-block">
+                            {% for error in form.plate_number.errors %}{{ error }}{% endfor %}
+                        </div>
+                    {% endif %}
+                    <div class="plate-preview" id="platePreview"></div>
+                </div>
+
+                <!-- Vehicle Type -->
+                <div class="form-group">
+                    <label for="{{ form.vehicle_type.id_for_label }}" class="form-label">
+                        <i class="fas fa-car-side"></i> Vehicle Type
+                    </label>
+                    {{ form.vehicle_type }}
+                    {% if form.vehicle_type.help_text %}
+                        <div class="help-text">{{ form.vehicle_type.help_text }}</div>
+                    {% endif %}
+                    {% if form.vehicle_type.errors %}
+                        <div class="invalid-feedback d-block">
+                            {% for error in form.vehicle_type.errors %}{{ error }}{% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Vehicle Details Row -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="{{ form.make.id_for_label }}" class="form-label">
+                                <i class="fas fa-industry"></i> Make
+                            </label>
+                            {{ form.make }}
+                            {% if form.make.help_text %}
+                                <div class="help-text">{{ form.make.help_text }}</div>
+                            {% endif %}
+                            {% if form.make.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.make.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="{{ form.model.id_for_label }}" class="form-label">
+                                <i class="fas fa-car"></i> Model
+                            </label>
+                            {{ form.model }}
+                            {% if form.model.help_text %}
+                                <div class="help-text">{{ form.model.help_text }}</div>
+                            {% endif %}
+                            {% if form.model.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.model.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Year and Color Row -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="{{ form.year.id_for_label }}" class="form-label">
+                                <i class="fas fa-calendar"></i> Year
+                            </label>
+                            {{ form.year }}
+                            {% if form.year.help_text %}
+                                <div class="help-text">{{ form.year.help_text }}</div>
+                            {% endif %}
+                            {% if form.year.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.year.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="{{ form.color.id_for_label }}" class="form-label">
+                                <i class="fas fa-palette"></i> Color
+                            </label>
+                            {{ form.color }}
+                            {% if form.color.help_text %}
+                                <div class="help-text">{{ form.color.help_text }}</div>
+                            {% endif %}
+                            {% if form.color.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.color.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <a href="{% url 'customer_vehicles' %}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Cancel
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> 
+                        {% if vehicle %}Update Vehicle{% else %}Add Vehicle{% endif %}
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Help Section -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h6><i class="fas fa-info-circle"></i> Tips</h6>
+            </div>
+            <div class="card-body">
+                <ul class="mb-0">
+                    <li><strong>Plate Number:</strong> Enter exactly as it appears on your vehicle</li>
+                    <li><strong>Vehicle Type:</strong> Select the category that best matches your vehicle</li>
+                    <li><strong>Optional Fields:</strong> Make, model, year, and color help identify your vehicle but are not required</li>
+                    <li><strong>Multiple Vehicles:</strong> You can register multiple vehicles under your account</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+// Form enhancements
+document.addEventListener('DOMContentLoaded', function() {
+    // Plate number preview
+    const plateInput = document.getElementById('{{ form.plate_number.id_for_label }}');
+    const platePreview = document.getElementById('platePreview');
+    
+    if (plateInput && platePreview) {
+        plateInput.addEventListener('input', function() {
+            const value = this.value.toUpperCase().trim();
+            if (value.length >= 3) {
+                platePreview.textContent = value;
+                platePreview.style.display = 'block';
+            } else {
+                platePreview.style.display = 'none';
+            }
+        });
+        
+        // Show preview if there's an initial value
+        if (plateInput.value) {
+            platePreview.textContent = plateInput.value.toUpperCase();
+            platePreview.style.display = 'block';
+        }
+    }
+    
+    // Auto-uppercase plate number
+    if (plateInput) {
+        plateInput.addEventListener('input', function() {
+            this.value = this.value.toUpperCase();
+        });
+    }
+    
+    // Form validation
+    const forms = document.querySelectorAll('.needs-validation');
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        }, false);
+    });
+});
+{% endblock %}

@@ -81,6 +81,63 @@ class ParkingSession(models.Model):
         return minutes * 2  # Rs. 2 per minute
 
 
+class Vehicle(models.Model):
+    """Model to represent customer vehicles"""
+    VEHICLE_TYPES = [
+        ('car', 'Car'),
+        ('motorcycle', 'Motorcycle'),
+        ('truck', 'Truck'),
+        ('van', 'Van'),
+        ('suv', 'SUV'),
+        ('other', 'Other'),
+    ]
+
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='vehicles')
+    plate_number = models.CharField(max_length=20, unique=True, help_text="Vehicle plate/registration number")
+    vehicle_type = models.CharField(max_length=20, choices=VEHICLE_TYPES, default='car')
+    make = models.CharField(max_length=50, blank=True, null=True, help_text="e.g., Toyota, Honda")
+    model = models.CharField(max_length=50, blank=True, null=True, help_text="e.g., Camry, Civic")
+    year = models.IntegerField(blank=True, null=True, help_text="Manufacturing year")
+    color = models.CharField(max_length=30, blank=True, null=True)
+    is_active = models.BooleanField(default=True, help_text="Whether this vehicle is actively used")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.plate_number} ({self.owner.username})"
+
+    @property
+    def display_name(self):
+        """Return a friendly display name for the vehicle"""
+        parts = []
+        if self.year:
+            parts.append(str(self.year))
+        if self.make:
+            parts.append(self.make)
+        if self.model:
+            parts.append(self.model)
+
+        if parts:
+            return f"{' '.join(parts)} - {self.plate_number}"
+        return self.plate_number
+
+    @property
+    def current_session(self):
+        """Get the current active parking session for this vehicle"""
+        return ParkingSession.objects.filter(
+            vehicle_number=self.plate_number,
+            status__in=['pending', 'active']
+        ).first()
+
+    @property
+    def is_parked(self):
+        """Check if the vehicle is currently parked"""
+        return self.current_session is not None
+
+
 class UserProfile(models.Model):
     USER_TYPES = [
         ('customer', 'Customer'),

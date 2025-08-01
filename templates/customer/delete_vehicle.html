@@ -1,0 +1,218 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Remove Vehicle - PMS{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+<style>
+    .delete-container {
+        max-width: 600px;
+        margin: 2rem auto;
+    }
+    
+    .delete-form {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        border: 2px solid #dc3545;
+    }
+    
+    .warning-header {
+        text-align: center;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #e9ecef;
+    }
+    
+    .warning-header i {
+        font-size: 4rem;
+        color: #dc3545;
+        margin-bottom: 1rem;
+    }
+    
+    .vehicle-info {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        border-left: 4px solid #dc3545;
+    }
+    
+    .warning-list {
+        background: #fff3cd;
+        border: 1px solid #ffeaa7;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 2rem;
+    }
+    
+    .warning-list ul {
+        margin-bottom: 0;
+        padding-left: 1.5rem;
+    }
+    
+    .warning-list li {
+        margin-bottom: 0.5rem;
+    }
+    
+    .form-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        padding-top: 1rem;
+        border-top: 1px solid #e9ecef;
+    }
+    
+    .btn-danger {
+        background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        border: none;
+        padding: 0.75rem 2rem;
+        border-radius: 25px;
+        font-weight: 600;
+    }
+    
+    .btn-secondary {
+        background: linear-gradient(135deg, #6c757d 0%, #545b62 100%);
+        border: none;
+        padding: 0.75rem 2rem;
+        border-radius: 25px;
+        font-weight: 600;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="delete-container">
+        <div class="delete-form">
+            <div class="warning-header">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h2 class="text-danger">Remove Vehicle</h2>
+                <p class="text-muted">Are you sure you want to remove this vehicle from your account?</p>
+            </div>
+
+            <!-- Vehicle Information -->
+            <div class="vehicle-info">
+                <h5><i class="fas fa-car"></i> Vehicle Details</h5>
+                <div class="row mt-3">
+                    <div class="col-sm-4"><strong>Plate Number:</strong></div>
+                    <div class="col-sm-8">{{ vehicle.plate_number }}</div>
+                </div>
+                {% if vehicle.make or vehicle.model %}
+                <div class="row mt-2">
+                    <div class="col-sm-4"><strong>Vehicle:</strong></div>
+                    <div class="col-sm-8">
+                        {% if vehicle.year %}{{ vehicle.year }}{% endif %}
+                        {% if vehicle.make %}{{ vehicle.make }}{% endif %}
+                        {% if vehicle.model %}{{ vehicle.model }}{% endif %}
+                    </div>
+                </div>
+                {% endif %}
+                <div class="row mt-2">
+                    <div class="col-sm-4"><strong>Type:</strong></div>
+                    <div class="col-sm-8">{{ vehicle.get_vehicle_type_display }}</div>
+                </div>
+                {% if vehicle.color %}
+                <div class="row mt-2">
+                    <div class="col-sm-4"><strong>Color:</strong></div>
+                    <div class="col-sm-8">{{ vehicle.color }}</div>
+                </div>
+                {% endif %}
+                <div class="row mt-2">
+                    <div class="col-sm-4"><strong>Added:</strong></div>
+                    <div class="col-sm-8">{{ vehicle.created_at|date:"M d, Y" }}</div>
+                </div>
+            </div>
+
+            <!-- Warning Information -->
+            <div class="warning-list">
+                <h6><i class="fas fa-info-circle text-warning"></i> Important Information</h6>
+                <ul>
+                    <li><strong>This action cannot be undone.</strong> The vehicle will be removed from your account.</li>
+                    <li>All parking history for this vehicle will remain in the system for record-keeping.</li>
+                    <li>You can re-add this vehicle later if needed.</li>
+                    <li>If you have an active parking session, you must end it before removing the vehicle.</li>
+                </ul>
+            </div>
+
+            <!-- Confirmation Form -->
+            <form method="post">
+                {% csrf_token %}
+                
+                <div class="alert alert-danger">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="confirmDelete" required>
+                        <label class="form-check-label" for="confirmDelete">
+                            <strong>I understand that this action cannot be undone and I want to remove this vehicle from my account.</strong>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <a href="{% url 'customer_vehicles' %}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Cancel
+                    </a>
+                    <button type="submit" class="btn btn-danger" id="deleteButton" disabled>
+                        <i class="fas fa-trash"></i> Remove Vehicle
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Additional Information -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h6><i class="fas fa-lightbulb"></i> Alternative Options</h6>
+            </div>
+            <div class="card-body">
+                <p class="mb-3">Instead of removing the vehicle, you might want to:</p>
+                <div class="d-flex gap-2 flex-wrap">
+                    <a href="{% url 'edit_vehicle' vehicle.id %}" class="btn btn-sm btn-outline-primary">
+                        <i class="fas fa-edit"></i> Edit Vehicle Details
+                    </a>
+                    <a href="{% url 'vehicle_status' vehicle.id %}" class="btn btn-sm btn-outline-info">
+                        <i class="fas fa-eye"></i> Check Vehicle Status
+                    </a>
+                    <a href="{% url 'customer_dashboard' %}" class="btn btn-sm btn-outline-secondary">
+                        <i class="fas fa-tachometer-alt"></i> Go to Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+// Enable delete button only when checkbox is checked
+document.addEventListener('DOMContentLoaded', function() {
+    const confirmCheckbox = document.getElementById('confirmDelete');
+    const deleteButton = document.getElementById('deleteButton');
+    
+    if (confirmCheckbox && deleteButton) {
+        confirmCheckbox.addEventListener('change', function() {
+            deleteButton.disabled = !this.checked;
+            
+            if (this.checked) {
+                deleteButton.classList.remove('btn-secondary');
+                deleteButton.classList.add('btn-danger');
+            } else {
+                deleteButton.classList.remove('btn-danger');
+                deleteButton.classList.add('btn-secondary');
+            }
+        });
+    }
+    
+    // Add confirmation dialog
+    const form = document.querySelector('form');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            if (!confirm('Are you absolutely sure you want to remove this vehicle? This action cannot be undone.')) {
+                e.preventDefault();
+            }
+        });
+    }
+});
+{% endblock %}

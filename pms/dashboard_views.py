@@ -1,10 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.http import JsonResponse
 from django.utils import timezone
 from django.db.models import Count, Q, Sum
-from .models import ParkingSlot, ParkingSession, UserProfile, LoginAttempt
+from .models import ParkingSlot, ParkingSession, UserProfile, LoginAttempt, Vehicle
+from .forms import VehicleForm
 from .permissions import require_manager, require_staff_or_manager, require_customer, require_approved_user
 import json
 
@@ -30,22 +31,42 @@ def is_manager_user(user):
 @require_customer
 def customer_dashboard(request):
     """Customer dashboard view - limited access for customers only"""
-    # Get customer's own sessions
+    # Get customer's vehicles
+    customer_vehicles = Vehicle.objects.filter(owner=request.user, is_active=True)
+
+    # Get all plate numbers for this customer
+    customer_plate_numbers = list(customer_vehicles.values_list('plate_number', flat=True))
+
+    # Get customer's own sessions based on their registered vehicles
     customer_sessions = ParkingSession.objects.filter(
-        vehicle_number__icontains=request.user.username  # This might need adjustment based on how you link vehicles to users
-    )
+        vehicle_number__in=customer_plate_numbers
+    ) if customer_plate_numbers else ParkingSession.objects.none()
 
     current_sessions = customer_sessions.filter(status__in=['active', 'pending'])
     recent_sessions = customer_sessions.filter(status='completed').order_by('-end_time')[:5]
+
+    # Get vehicle status information
+    vehicle_status = []
+    for vehicle in customer_vehicles:
+        current_session = vehicle.current_session
+        vehicle_status.append({
+            'vehicle': vehicle,
+            'is_parked': vehicle.is_parked,
+            'current_session': current_session,
+            'slot': current_session.slot if current_session else None
+        })
 
     context = {
         'user_type': 'customer',
         'available_slots': ParkingSlot.objects.filter(is_occupied=False, is_reserved=False).count(),
         'total_slots': ParkingSlot.objects.count(),
+        'my_vehicles': customer_vehicles,
+        'vehicle_status': vehicle_status,
         'my_total_sessions': customer_sessions.count(),
         'total_spent': customer_sessions.aggregate(total=Sum('fee'))['total'] or 0,
         'current_sessions': current_sessions,
         'recent_sessions': recent_sessions,
+        'has_vehicles': customer_vehicles.exists(),
     }
 
     return render(request, 'customer/customer_dashboard.html', context)
@@ -231,3 +252,105 @@ def live_stats_api(request):
     }
     
     return JsonResponse(stats)
+
+
+# Vehicle Management Views
+@require_customer
+def customer_vehicles(request):
+    """View for customers to manage their vehicles"""
+    vehicles = Vehicle.objects.filter(owner=request.user, is_active=True)
+
+    context = {
+        'vehicles': vehicles,
+        'user_type': 'customer',
+    }
+    return render(request, 'customer/vehicles.html', context)
+
+
+@require_customer
+def add_vehicle(request):
+    """View for customers to add a new vehicle"""
+    if request.method == 'POST':
+        form = VehicleForm(request.POST)
+        if form.is_valid():
+            vehicle = form.save(commit=False)
+            vehicle.owner = request.user
+            vehicle.save()
+            messages.success(request, f'Vehicle {vehicle.plate_number} has been added successfully!')
+            return redirect('customer_vehicles')
+    else:
+        form = VehicleForm()
+
+    context = {
+        'form': form,
+        'user_type': 'customer',
+        'title': 'Add New Vehicle'
+    }
+    return render(request, 'customer/vehicle_form.html', context)
+
+
+@require_customer
+def edit_vehicle(request, vehicle_id):
+    """View for customers to edit their vehicle"""
+    vehicle = get_object_or_404(Vehicle, id=vehicle_id, owner=request.user)
+
+    if request.method == 'POST':
+        form = VehicleForm(request.POST, instance=vehicle)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f'Vehicle {vehicle.plate_number} has been updated successfully!')
+            return redirect('customer_vehicles')
+    else:
+        form = VehicleForm(instance=vehicle)
+
+    context = {
+        'form': form,
+        'vehicle': vehicle,
+        'user_type': 'customer',
+        'title': f'Edit Vehicle - {vehicle.plate_number}'
+    }
+    return render(request, 'customer/vehicle_form.html', context)
+
+
+@require_customer
+def delete_vehicle(request, vehicle_id):
+    """View for customers to delete their vehicle"""
+    vehicle = get_object_or_404(Vehicle, id=vehicle_id, owner=request.user)
+
+    # Check if vehicle has active sessions
+    if vehicle.is_parked:
+        messages.error(request, f'Cannot delete vehicle {vehicle.plate_number} - it has an active parking session.')
+        return redirect('customer_vehicles')
+
+    if request.method == 'POST':
+        plate_number = vehicle.plate_number
+        vehicle.is_active = False  # Soft delete
+        vehicle.save()
+        messages.success(request, f'Vehicle {plate_number} has been removed from your account.')
+        return redirect('customer_vehicles')
+
+    context = {
+        'vehicle': vehicle,
+        'user_type': 'customer',
+    }
+    return render(request, 'customer/delete_vehicle.html', context)
+
+
+@require_customer
+def vehicle_status(request, vehicle_id):
+    """View to check specific vehicle status"""
+    vehicle = get_object_or_404(Vehicle, id=vehicle_id, owner=request.user)
+    current_session = vehicle.current_session
+
+    # Get recent sessions for this vehicle
+    recent_sessions = ParkingSession.objects.filter(
+        vehicle_number=vehicle.plate_number
+    ).order_by('-start_time')[:10]
+
+    context = {
+        'vehicle': vehicle,
+        'current_session': current_session,
+        'recent_sessions': recent_sessions,
+        'user_type': 'customer',
+    }
+    return render(request, 'customer/vehicle_status.html', context)

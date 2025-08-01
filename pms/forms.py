@@ -3,7 +3,8 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, Pass
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.contrib.auth import authenticate
-from .models import UserProfile
+from .models import UserProfile, Vehicle
+from django.utils import timezone
 import re
 
 
@@ -255,3 +256,80 @@ class StaffRegisterForm(UserCreationForm):
             profile.save()
 
         return user
+
+
+class VehicleForm(forms.ModelForm):
+    """Form for customers to add/edit their vehicles"""
+
+    class Meta:
+        model = Vehicle
+        fields = ['plate_number', 'vehicle_type', 'make', 'model', 'year', 'color']
+        widgets = {
+            'plate_number': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'e.g., ABC-1234',
+                'style': 'text-transform: uppercase;'
+            }),
+            'vehicle_type': forms.Select(attrs={'class': 'form-control'}),
+            'make': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'e.g., Toyota, Honda'
+            }),
+            'model': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'e.g., Camry, Civic'
+            }),
+            'year': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'e.g., 2020',
+                'min': '1900',
+                'max': '2030'
+            }),
+            'color': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'e.g., Red, Blue'
+            }),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Make plate_number required and add validation
+        self.fields['plate_number'].required = True
+
+        # Add help text
+        self.fields['plate_number'].help_text = "Enter your vehicle's license plate number"
+        self.fields['vehicle_type'].help_text = "Select your vehicle type"
+        self.fields['make'].help_text = "Vehicle manufacturer (optional)"
+        self.fields['model'].help_text = "Vehicle model (optional)"
+        self.fields['year'].help_text = "Manufacturing year (optional)"
+        self.fields['color'].help_text = "Vehicle color (optional)"
+
+    def clean_plate_number(self):
+        """Validate and format plate number"""
+        plate_number = self.cleaned_data.get('plate_number', '').upper().strip()
+
+        if not plate_number:
+            raise ValidationError("Plate number is required.")
+
+        # Basic validation - adjust regex based on your country's plate format
+        if not re.match(r'^[A-Z0-9\-\s]{3,15}$', plate_number):
+            raise ValidationError("Please enter a valid plate number (3-15 characters, letters, numbers, hyphens, and spaces only).")
+
+        # Check if plate number already exists (excluding current instance)
+        existing_vehicle = Vehicle.objects.filter(plate_number=plate_number)
+        if self.instance.pk:
+            existing_vehicle = existing_vehicle.exclude(pk=self.instance.pk)
+
+        if existing_vehicle.exists():
+            raise ValidationError("A vehicle with this plate number is already registered.")
+
+        return plate_number
+
+    def clean_year(self):
+        """Validate vehicle year"""
+        year = self.cleaned_data.get('year')
+        if year:
+            current_year = timezone.now().year
+            if year < 1900 or year > current_year + 1:
+                raise ValidationError(f"Please enter a valid year between 1900 and {current_year + 1}.")
+        return year

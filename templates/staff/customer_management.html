@@ -59,7 +59,7 @@
 <div class="container customer-management">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1><i class="fas fa-users"></i> Customer Management</h1>
-        <a href="{% url 'staff_create_customer' %}" class="btn btn-success">
+        <a href="{% url 'customer_register' %}" class="btn btn-success">
             <i class="fas fa-user-plus"></i> Add Customer
         </a>
     </div>
@@ -183,53 +183,16 @@
 {% endblock %}
 
 {% block extra_scripts %}
+// Customer approval functions temporarily disabled
+// TODO: Re-enable when user management views are restored
+
 function approveCustomer(userId) {
-    if (confirm('Are you sure you want to approve this customer?')) {
-        fetch(`/staff/approve-customer/${userId}/`, {
-            method: 'POST',
-            headers: {
-                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
-                'Content-Type': 'application/json',
-            },
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                location.reload();
-            } else {
-                alert('Error: ' + data.message);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('An error occurred while approving the customer.');
-        });
-    }
+    alert('Customer approval functionality is temporarily unavailable. Please use the Django admin interface for user management.');
 }
 
 function rejectCustomer(userId) {
-    const reason = prompt('Please provide a reason for rejection (optional):');
-    if (reason !== null) {
-        fetch(`/staff/reject-customer/${userId}/`, {
-            method: 'POST',
-            headers: {
-                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({reason: reason})
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                location.reload();
-            } else {
-                alert('Error: ' + data.message);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('An error occurred while rejecting the customer.');
-        });
-    }
+    alert('Customer rejection functionality is temporarily unavailable. Please use the Django admin interface for user management.');
 }
+
+console.log('Customer management page loaded');
 {% endblock %}
