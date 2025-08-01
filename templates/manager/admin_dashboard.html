@@ -262,10 +262,10 @@
 
     <!-- Quick Actions -->
     <div class="quick-actions">
-        <a href="{% url 'lookup-session' %}" class="quick-action">
+        <a href="{% url 'manager_user_management' %}" class="quick-action">
             <i class="fas fa-users-cog"></i>
-            <h5>User Lookup</h5>
-            <p>Find users and vehicles</p>
+            <h5>User Management</h5>
+            <p>Manage users and approvals</p>
         </a>
         <a href="{% url 'staff_register' %}" class="quick-action">
             <i class="fas fa-user-plus"></i>
@@ -320,8 +320,8 @@
                     </div>
                     {% endfor %}
                     <div class="text-center mt-3">
-                        <a href="{% url 'lookup-session' %}" class="btn btn-outline-primary">
-                            User Lookup
+                        <a href="{% url 'manager_user_management' %}" class="btn btn-outline-primary">
+                            User Management
                         </a>
                     </div>
                 {% else %}

@@ -479,10 +479,10 @@
 
     <!-- Quick Actions -->
     <div class="quick-actions">
-        <a href="{% url 'lookup-session' %}" class="quick-action">
+        <a href="{% url 'manager_user_management' %}" class="quick-action">
             <i class="fas fa-users-cog"></i>
-            <h5>User Lookup</h5>
-            <p>Find users and vehicles</p>
+            <h5>User Management</h5>
+            <p>Manage users and approvals</p>
         </a>
         <a href="{% url 'staff_register' %}" class="quick-action">
             <i class="fas fa-user-tie"></i>
@@ -494,20 +494,15 @@
             <h5>Add Customer</h5>
             <p>Register new customer</p>
         </a>
-        <a href="{% url 'manager_assign_slot' %}" class="quick-action">
+        <a href="{% url 'unified-parking-management' %}" class="quick-action">
             <i class="fas fa-parking"></i>
-            <h5>Assign Slot</h5>
-            <p>Assign parking slot</p>
+            <h5>Parking Management</h5>
+            <p>Assign slots, view registry & lookup sessions</p>
         </a>
         <a href="{% url 'end_session_by_vehicle' %}" class="quick-action">
             <i class="fas fa-sign-out-alt"></i>
             <h5>End Session</h5>
             <p>End parking session</p>
-        </a>
-        <a href="{% url 'lookup-session' %}" class="quick-action">
-            <i class="fas fa-search"></i>
-            <h5>Lookup Vehicle</h5>
-            <p>Search vehicle info</p>
         </a>
         <a href="{% url 'security_dashboard' %}" class="quick-action">
             <i class="fas fa-cogs"></i>
@@ -576,13 +571,14 @@ let refreshInterval;
 let retryCount = 0;
 let lastSlotData = new Map();
 let connectionStatus = 'connecting';
+let isUpdating = false; // Prevent concurrent updates
 
 // Initialize dashboard
 document.addEventListener('DOMContentLoaded', function() {
     initializeDashboard();
     startAutoRefresh();
-    // Auto-start video feed for detection
-    toggleFeed();
+    // Don't auto-start video feed - let user choose
+    console.log('Manager dashboard initialized');
 });
 
 function initializeDashboard() {
@@ -596,7 +592,7 @@ function startAutoRefresh() {
         if (autoRefreshEnabled) {
             fetchSlots();
         }
-    }, 3000); // Refresh every 3 seconds
+    }, 10000); // Refresh every 10 seconds (reduced from 3 seconds)
 }
 
 function toggleAutoRefresh() {
@@ -619,6 +615,9 @@ function toggleAutoRefresh() {
 }
 
 function fetchSlots() {
+    if (isUpdating) return; // Prevent concurrent updates
+
+    isUpdating = true;
     const startTime = performance.now();
     showLoadingIndicator();
 
@@ -637,6 +636,7 @@ function fetchSlots() {
             updateConnectionStatus('connected', responseTime);
             hideLoadingIndicator();
             retryCount = 0; // Reset retry count on success
+            isUpdating = false; // Allow next update
         })
         .catch(error => {
             console.error('Error fetching slots:', error);
@@ -651,6 +651,7 @@ function fetchSlots() {
             // Retry with exponential backoff
             retryCount++;
             const retryDelay = Math.min(1000 * Math.pow(2, retryCount), 10000);
+            isUpdating = false; // Allow retry
             setTimeout(() => {
                 if (autoRefreshEnabled) {
                     fetchSlots();
@@ -663,7 +664,24 @@ function updateSlotGrid(data) {
     const grid = document.getElementById('slotGrid');
     const newSlotData = new Map();
 
-    // Clear grid
+    // Check if data has actually changed to avoid unnecessary DOM updates
+    let hasChanges = false;
+    data.forEach(slot => {
+        const slotKey = slot.slot_id;
+        const currentStatus = `${slot.is_occupied}-${slot.is_reserved}-${slot.session_status}-${slot.user_info ? slot.user_info.name : ''}`;
+        newSlotData.set(slotKey, currentStatus);
+
+        if (!lastSlotData.has(slotKey) || lastSlotData.get(slotKey) !== currentStatus) {
+            hasChanges = true;
+        }
+    });
+
+    // Only update DOM if there are actual changes
+    if (!hasChanges && lastSlotData.size === newSlotData.size) {
+        return;
+    }
+
+    // Clear grid only when necessary
     grid.innerHTML = '';
 
     data.forEach(slot => {

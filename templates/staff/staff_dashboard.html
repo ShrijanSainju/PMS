@@ -452,24 +452,19 @@
             <h5>Add Customer</h5>
             <p>Register new customer</p>
         </a>
-        <a href="{% url 'assign-slot' %}" class="quick-action">
+        <a href="{% url 'unified-parking-management' %}" class="quick-action">
             <i class="fas fa-parking"></i>
-            <h5>Assign Slot</h5>
-            <p>Assign parking slot</p>
+            <h5>Parking Management</h5>
+            <p>Assign slots, view registry & lookup sessions</p>
         </a>
         <a href="{% url 'end_session_by_vehicle' %}" class="quick-action">
             <i class="fas fa-sign-out-alt"></i>
             <h5>End Session</h5>
             <p>End parking session</p>
         </a>
-        <a href="{% url 'lookup-session' %}" class="quick-action">
-            <i class="fas fa-search"></i>
-            <h5>Lookup Vehicle</h5>
-            <p>Search vehicle info</p>
-        </a>
-        <a href="{% url 'lookup-session' %}" class="quick-action">
+        <a href="{% url 'staff_customer_management' %}" class="quick-action">
             <i class="fas fa-users-cog"></i>
-            <h5>Customer Lookup</h5>
+            <h5>Customer Management</h5>
             <p>Find customer vehicles</p>
         </a>
         <a href="{% url 'history-log' %}" class="quick-action">

@@ -4,7 +4,7 @@ from .views import ParkingSlotViewSet, update_slot
 from . import views
 from . import auth_views
 from . import dashboard_views
-# from . import user_management_views  # Temporarily commented out
+from . import user_management_views
 
 from .views import assign_slot
 
@@ -31,13 +31,17 @@ urlpatterns = [
     path('video-feed/', views.video_feed, name='video_feed'),
 
     # Staff operations
-    path('staff/assign/', assign_slot, name='assign-slot'),
+    path('staff/assign/', views.unified_parking_management, name='assign-slot'),
     path('staff/end/<str:slot_id>/', views.end_session, name='end-session'),
     path('staff/end-by-vehicle/', views.end_session_by_vehicle, name='end_session_by_vehicle'),
 
-    # History and lookup
+    # History and unified parking management
     path('history/', views.history_log, name='history-log'),
+    path('parking-management/', views.unified_parking_management, name='unified-parking-management'),
+
+    # Legacy routes for backward compatibility
     path('customer/lookup/', views.lookup_session, name='lookup-session'),
+    path('vehicle-registry/', views.unified_parking_management, name='vehicle-registry-lookup'),
 
     # Security dashboard
     path('security/', views.security_dashboard, name='security_dashboard'),
@@ -73,22 +77,22 @@ urlpatterns = [
     # Legacy admin route for backward compatibility
     path('adminbase/', dashboard_views.manager_dashboard, name='adminbase'),
 
-    # User management routes - TEMPORARILY COMMENTED OUT
-    # path('manager/users/', user_management_views.manager_user_management, name='manager_user_management'),
-    # path('manager/create-staff/', user_management_views.manager_create_staff, name='manager_create_staff'),
-    # path('manager/create-customer/', user_management_views.manager_create_customer, name='manager_create_customer'),
+    # User management routes
+    path('manager/users/', user_management_views.manager_user_management, name='manager_user_management'),
+    path('manager/create-staff/', user_management_views.manager_create_staff, name='manager_create_staff'),
+    path('manager/create-customer/', user_management_views.manager_create_customer, name='manager_create_customer'),
     path('manager/assign-slot/', assign_slot, name='manager_assign_slot'),
-    # path('manager/approve-user/<int:user_id>/', user_management_views.approve_user, name='manager_approve_user'),
-    # path('manager/reject-user/<int:user_id>/', user_management_views.reject_user, name='manager_reject_user'),
-    # path('manager/settings/', user_management_views.manager_system_settings, name='manager_system_settings'),
+    path('manager/approve-user/<int:user_id>/', user_management_views.approve_user, name='manager_approve_user'),
+    path('manager/reject-user/<int:user_id>/', user_management_views.reject_user, name='manager_reject_user'),
+    path('manager/settings/', user_management_views.manager_system_settings, name='manager_system_settings'),
 
-    # Staff management routes - TEMPORARILY COMMENTED OUT
-    # path('staff/customers/', user_management_views.staff_customer_management, name='staff_customer_management'),
-    # path('staff/create-customer/', user_management_views.staff_create_customer, name='staff_create_customer'),
-    # path('staff/approve-customer/<int:user_id>/', user_management_views.approve_customer, name='staff_approve_customer'),
-    # path('staff/reject-customer/<int:user_id>/', user_management_views.reject_customer, name='staff_reject_customer'),
+    # Staff management routes
+    path('staff/customers/', user_management_views.staff_customer_management, name='staff_customer_management'),
+    path('staff/create-customer/', user_management_views.staff_create_customer, name='staff_create_customer'),
+    path('staff/approve-customer/<int:user_id>/', user_management_views.approve_customer, name='staff_approve_customer'),
+    path('staff/reject-customer/<int:user_id>/', user_management_views.reject_customer, name='staff_reject_customer'),
 
-    # API endpoints for role-based features - TEMPORARILY COMMENTED OUT
-    # path('api/pending-approvals-count/', user_management_views.pending_approvals_count_api, name='pending_approvals_count_api'),
-    # path('api/staff-stats/', user_management_views.staff_stats_api, name='staff_stats_api'),
+    # API endpoints for role-based features
+    path('api/pending-approvals-count/', user_management_views.pending_approvals_count_api, name='pending_approvals_count_api'),
+    path('api/staff-stats/', user_management_views.staff_stats_api, name='staff_stats_api'),
 ]

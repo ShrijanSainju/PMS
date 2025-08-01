@@ -1,0 +1,401 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Parking Management - PMS{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+<style>
+/* Include the same styles as staff template */
+.nav-tabs .nav-link {
+    color: #6c757d;
+    border: none;
+    border-bottom: 3px solid transparent;
+    padding: 1rem 1.5rem;
+    font-weight: 600;
+}
+
+.nav-tabs .nav-link.active {
+    color: #007bff;
+    border-bottom-color: #007bff;
+    background: none;
+}
+
+.nav-tabs .nav-link:hover {
+    border-bottom-color: #007bff;
+    color: #007bff;
+}
+
+.tab-content {
+    padding: 2rem 0;
+}
+
+.vehicle-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-bottom: 1rem;
+    transition: transform 0.2s ease;
+}
+
+.vehicle-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.vehicle-header {
+    padding: 1rem;
+    border-bottom: 1px solid #e9ecef;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.vehicle-plate {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+.status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.status-success { background: #d4edda; color: #155724; }
+.status-warning { background: #fff3cd; color: #856404; }
+.status-secondary { background: #e2e3e5; color: #383d41; }
+
+.vehicle-details {
+    padding: 1rem;
+}
+
+.detail-row {
+    display: flex;
+    margin-bottom: 0.5rem;
+}
+
+.detail-label {
+    font-weight: 600;
+    width: 120px;
+    color: #6c757d;
+}
+
+.detail-value {
+    color: #2c3e50;
+}
+
+.stats-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.search-filters {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+}
+
+.filter-row {
+    display: flex;
+    gap: 1rem;
+    align-items: end;
+}
+
+.assignment-form {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+}
+
+.lookup-form {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+}
+
+.success-card {
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.session-info {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.quick-assign-btn {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 1000;
+    border-radius: 50px;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.manager-badge {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-left: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .filter-row {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .stats-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .quick-assign-btn {
+        bottom: 1rem;
+        right: 1rem;
+        padding: 0.75rem 1rem;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>
+            <i class="fas fa-parking"></i> Parking Management
+            <span class="manager-badge">Manager</span>
+        </h2>
+        <div>
+            <a href="{% url 'manager_user_management' %}" class="btn btn-outline-primary me-2">
+                <i class="fas fa-users"></i> User Management
+            </a>
+            <a href="{% url 'dashboard' %}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <ul class="nav nav-tabs" id="parkingTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link {% if action == 'registry' %}active{% endif %}" 
+               href="?action=registry" role="tab">
+                <i class="fas fa-car"></i> Vehicle Registry
+            </a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link {% if action == 'assign' %}active{% endif %}" 
+               href="?action=assign" role="tab">
+                <i class="fas fa-plus-circle"></i> Assign Slot
+            </a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link {% if action == 'lookup' %}active{% endif %}" 
+               href="?action=lookup" role="tab">
+                <i class="fas fa-search"></i> Session Lookup
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        {% if action == 'registry' %}
+        <!-- Vehicle Registry Tab -->
+        <div class="tab-pane fade show active">
+            <!-- Statistics Cards -->
+            <div class="stats-cards">
+                <div class="stat-card">
+                    <div class="stat-number text-primary">{{ total_vehicles }}</div>
+                    <div class="stat-label">Total Registered</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number text-success">{{ parked_vehicles }}</div>
+                    <div class="stat-label">Currently Parked</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number text-warning">{{ reserved_vehicles }}</div>
+                    <div class="stat-label">Reserved</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number text-secondary">{{ available_vehicles }}</div>
+                    <div class="stat-label">Available</div>
+                </div>
+            </div>
+
+            <!-- Search and Filters -->
+            <div class="search-filters">
+                <form method="get" class="filter-row">
+                    <input type="hidden" name="action" value="registry">
+                    <div class="flex-grow-1">
+                        <label for="search" class="form-label">Search Vehicles</label>
+                        <input type="text"
+                               class="form-control"
+                               id="search"
+                               name="search"
+                               value="{{ search_query }}"
+                               placeholder="Search by plate number, owner name, email, or vehicle make/model...">
+                    </div>
+                    <div>
+                        <label for="status" class="form-label">Filter by Status</label>
+                        <select class="form-select" id="status" name="status">
+                            <option value="all" {% if filter_status == 'all' %}selected{% endif %}>All Vehicles</option>
+                            <option value="parked" {% if filter_status == 'parked' %}selected{% endif %}>Currently Parked</option>
+                            <option value="reserved" {% if filter_status == 'reserved' %}selected{% endif %}>Reserved</option>
+                            <option value="available" {% if filter_status == 'available' %}selected{% endif %}>Available</option>
+                        </select>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Vehicle List -->
+            <div class="row">
+                {% for vehicle_data in enhanced_vehicles %}
+                <div class="col-lg-6 col-xl-4">
+                    <div class="vehicle-card">
+                        <div class="vehicle-header">
+                            <div>
+                                <div class="vehicle-plate">
+                                    <i class="fas fa-car"></i> {{ vehicle_data.vehicle.plate_number }}
+                                </div>
+                                <small class="text-muted">
+                                    {{ vehicle_data.vehicle.year|default:"" }}
+                                    {{ vehicle_data.vehicle.make|default:"" }}
+                                    {{ vehicle_data.vehicle.model|default:"" }}
+                                </small>
+                            </div>
+                            <span class="status-badge status-{{ vehicle_data.status_class }}">
+                                {{ vehicle_data.parking_status }}
+                            </span>
+                        </div>
+
+                        <div class="vehicle-details">
+                            <div class="detail-row">
+                                <div class="detail-label">Owner:</div>
+                                <div class="detail-value">
+                                    {{ vehicle_data.owner.get_full_name|default:vehicle_data.owner.username }}
+                                </div>
+                            </div>
+
+                            {% if vehicle_data.user_profile.phone_number %}
+                            <div class="detail-row">
+                                <div class="detail-label">Phone:</div>
+                                <div class="detail-value">{{ vehicle_data.user_profile.phone_number }}</div>
+                            </div>
+                            {% endif %}
+
+                            <div class="detail-row">
+                                <div class="detail-label">Email:</div>
+                                <div class="detail-value">{{ vehicle_data.owner.email }}</div>
+                            </div>
+
+                            <div class="detail-row">
+                                <div class="detail-label">Status:</div>
+                                <div class="detail-value">{{ vehicle_data.status_detail }}</div>
+                            </div>
+
+                            <div class="detail-row">
+                                <div class="detail-label">Sessions:</div>
+                                <div class="detail-value">{{ vehicle_data.total_sessions }}</div>
+                            </div>
+
+                            <div class="mt-3">
+                                <a href="?action=lookup&vehicle={{ vehicle_data.vehicle.plate_number }}"
+                                   class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-search"></i> View Sessions
+                                </a>
+                                {% if vehicle_data.parking_status == 'Not Parked' %}
+                                <a href="?action=assign&vehicle={{ vehicle_data.vehicle.plate_number }}"
+                                   class="btn btn-sm btn-success">
+                                    <i class="fas fa-plus"></i> Assign Slot
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-12">
+                    <div class="text-center py-5">
+                        <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                        <h4 class="text-muted">No vehicles found</h4>
+                        <p class="text-muted">
+                            {% if search_query %}
+                                No vehicles match your search criteria.
+                            {% else %}
+                                No registered vehicles in the system.
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Quick Assign Button -->
+<a href="?action=assign" class="btn btn-success quick-assign-btn">
+    <i class="fas fa-plus"></i> Quick Assign
+</a>
+
+<script>
+// Auto-submit form on status change
+document.getElementById('status')?.addEventListener('change', function() {
+    this.form.submit();
+});
+
+// Auto-refresh registry every 30 seconds
+if ('{{ action }}' === 'registry') {
+    setInterval(function() {
+        if (!document.querySelector('#search').value && document.querySelector('#status').value === 'all') {
+            location.reload();
+        }
+    }, 30000);
+}
+</script>
+{% endblock %}

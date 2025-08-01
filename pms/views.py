@@ -8,10 +8,11 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse, StreamingHttpResponse
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
+from django.db.models import Q
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import viewsets
-from .models import ParkingSlot, ParkingSession
+from .models import ParkingSlot, ParkingSession, Vehicle
 from .serializers import ParkingSlotSerializer
 from .decorators import require_staff_or_manager, require_approved_user
 from .permissions import require_staff_or_manager, require_approved_user
@@ -695,55 +696,69 @@ def assign_slot(request):
                     'zones': []
                 })
 
-            # Try to use the auto-assignment API for better slot selection
+            # Try to use auto-assignment logic for better slot selection
             try:
-                import requests
-                api_url = request.build_absolute_uri('/api/auto-assign/')
-                response = requests.post(api_url, json={
-                    'vehicle_number': vehicle_number,
-                    'zone_preference': zone_preference
-                }, timeout=5)
-
-                if response.status_code == 200:
-                    data = response.json()
-                    slot_id = data['slot_id']
-                    session_id = data['session_id']
-
-                    # Get the session and slot objects
-                    session = ParkingSession.objects.get(id=session_id)
-                    slot = session.slot
-
-                    # Try to find the vehicle owner
-                    vehicle_owner = None
-                    vehicle_info = None
-                    try:
-                        from .models import Vehicle
-                        vehicle_info = Vehicle.objects.filter(
-                            plate_number=vehicle_number,
-                            is_active=True
-                        ).select_related('owner', 'owner__userprofile').first()
-
-                        if vehicle_info:
-                            vehicle_owner = vehicle_info.owner
-                    except:
-                        pass
-
-                    return render(request, f'{template_prefix}/assign_success.html', {
-                        'session': session,
-                        'slot': slot,
-                        'auto_assigned': True,
-                        'zone': data.get('zone', 'Unknown'),
-                        'message': f"Slot {slot_id} automatically assigned to {vehicle_number}",
-                        'vehicle_owner': vehicle_owner,
-                        'vehicle_info': vehicle_info,
-                    })
+                # Validate vehicle number (basic validation)
+                if not vehicle_number or len(vehicle_number.strip()) < 2:
+                    error_message = "Invalid vehicle number"
                 else:
-                    error_data = response.json()
-                    error_message = error_data.get('error', 'Failed to assign slot automatically')
+                    vehicle_number = vehicle_number.strip().upper()
+
+                    # Find available slots, preferring the specified zone
+                    available_slots = ParkingSlot.objects.filter(
+                        is_occupied=False,
+                        is_reserved=False
+                    ).order_by('slot_id')
+
+                    # Filter by zone preference if specified
+                    if zone_preference and zone_preference != '':
+                        preferred_slots = [slot for slot in available_slots if slot.slot_id.startswith(zone_preference)]
+                        if preferred_slots:
+                            available_slots = preferred_slots
+
+                    if not available_slots:
+                        error_message = "No available slots"
+                    else:
+                        # Assign the first available slot
+                        assigned_slot = available_slots[0]
+                        assigned_slot.is_reserved = True
+                        assigned_slot.save()
+
+                        # Create a pending session
+                        session = ParkingSession.objects.create(
+                            vehicle_number=vehicle_number,
+                            slot=assigned_slot,
+                            status='pending'
+                        )
+
+                        # Try to find the vehicle owner
+                        vehicle_owner = None
+                        vehicle_info = None
+                        try:
+                            from .models import Vehicle
+                            vehicle_info = Vehicle.objects.filter(
+                                plate_number=vehicle_number,
+                                is_active=True
+                            ).select_related('owner', 'owner__userprofile').first()
+
+                            if vehicle_info:
+                                vehicle_owner = vehicle_info.owner
+                        except:
+                            pass
+
+                        return render(request, f'{template_prefix}/assign_success.html', {
+                            'session': session,
+                            'slot': assigned_slot,
+                            'auto_assigned': True,
+                            'zone': assigned_slot.slot_id[0] if assigned_slot.slot_id else 'Unknown',
+                            'message': f"Slot {assigned_slot.slot_id} automatically assigned to {vehicle_number}",
+                            'vehicle_owner': vehicle_owner,
+                            'vehicle_info': vehicle_info,
+                        })
 
             except Exception as e:
                 error_message = f"Auto-assignment failed: {str(e)}"
-                logger.warning(f"Auto-assignment API failed: {e}")
+                logger.warning(f"Auto-assignment failed: {e}")
 
             # Fallback to manual assignment if auto-assignment fails
             available_slots = ParkingSlot.objects.filter(
@@ -974,6 +989,270 @@ def lookup_session(request):
         'vehicle_info': vehicle_info,
         'all_sessions': all_sessions,
     })
+
+
+@require_staff_or_manager
+def unified_parking_management(request):
+    """Unified interface for vehicle registry, session lookup, and slot assignment"""
+    # Determine user role and template prefix
+    user_profile = getattr(request.user, 'userprofile', None)
+    is_manager = user_profile and user_profile.user_type == 'manager'
+    template_prefix = 'manager' if is_manager else 'staff'
+
+    # Get URL parameters
+    action = request.GET.get('action', 'registry')  # registry, lookup, assign
+    search_query = request.GET.get('search', '')
+    filter_status = request.GET.get('status', 'all')
+    vehicle_lookup = request.GET.get('vehicle', '')
+
+    # Initialize context
+    context = {
+        'action': action,
+        'search_query': search_query,
+        'filter_status': filter_status,
+        'vehicle_lookup': vehicle_lookup,
+        'is_manager': is_manager,
+    }
+
+    # Handle different actions
+    if action == 'assign':
+        # Handle slot assignment
+        if request.method == 'POST':
+            form = VehicleEntryForm(request.POST)
+            if form.is_valid():
+                vehicle_number = form.cleaned_data['vehicle_number']
+                zone_preference = request.POST.get('zone_preference', 'A')
+
+                # Check if vehicle already has a pending or active session
+                existing_session = ParkingSession.objects.filter(
+                    vehicle_number=vehicle_number,
+                    status__in=['pending', 'active']
+                ).first()
+
+                if existing_session:
+                    context.update({
+                        'form': form,
+                        'assign_error': f"Vehicle {vehicle_number} already has an ongoing session (Slot {existing_session.slot.slot_id}).",
+                        'available_slots': [],
+                        'zones': []
+                    })
+                else:
+                    # Implement auto-assignment logic directly
+                    try:
+                        # Validate vehicle number (basic validation)
+                        if not vehicle_number or len(vehicle_number.strip()) < 2:
+                            context['assign_error'] = "Invalid vehicle number"
+                        else:
+                            vehicle_number = vehicle_number.strip().upper()
+
+                            # Find available slots, preferring the specified zone
+                            available_slots = ParkingSlot.objects.filter(
+                                is_occupied=False,
+                                is_reserved=False
+                            ).order_by('slot_id')
+
+                            # Filter by zone preference if specified
+                            if zone_preference and zone_preference != '':
+                                preferred_slots = [slot for slot in available_slots if slot.slot_id.startswith(zone_preference)]
+                                if preferred_slots:
+                                    available_slots = preferred_slots
+
+                            if not available_slots:
+                                context['assign_error'] = "No available slots"
+                            else:
+                                # Assign the first available slot
+                                assigned_slot = available_slots[0]
+                                assigned_slot.is_reserved = True
+                                assigned_slot.save()
+
+                                # Create a pending session
+                                session = ParkingSession.objects.create(
+                                    vehicle_number=vehicle_number,
+                                    slot=assigned_slot,
+                                    status='pending'
+                                )
+
+                                # Try to find vehicle owner
+                                vehicle_owner = None
+                                vehicle_info = None
+                                try:
+                                    vehicle_info = Vehicle.objects.filter(
+                                        plate_number=vehicle_number,
+                                        is_active=True
+                                    ).select_related('owner', 'owner__userprofile').first()
+                                    if vehicle_info:
+                                        vehicle_owner = vehicle_info.owner
+                                except:
+                                    pass
+
+                                context.update({
+                                    'assignment_success': True,
+                                    'assigned_session': session,
+                                    'assigned_slot': assigned_slot,
+                                    'vehicle_owner': vehicle_owner,
+                                    'vehicle_info': vehicle_info,
+                                    'assignment_message': f"Slot {assigned_slot.slot_id} assigned to {vehicle_number}"
+                                })
+
+                                logger.info(f"Assigned slot {assigned_slot.slot_id} to vehicle {vehicle_number} by user {request.user.username}")
+                    except Exception as e:
+                        context['assign_error'] = f"Assignment failed: {str(e)}"
+                        logger.error(f"Error in slot assignment for {vehicle_number}: {str(e)}")
+        else:
+            form = VehicleEntryForm()
+
+        # Get available slots and zones for assignment
+        available_slots = ParkingSlot.objects.filter(is_occupied=False, is_reserved=False)
+        # Extract zones (first character of slot_id) manually
+        zones = set()
+        for slot in available_slots:
+            if slot.slot_id:
+                zones.add(slot.slot_id[0])
+        context.update({
+            'form': form,
+            'available_slots': available_slots,
+            'zones': sorted(zones)
+        })
+
+    elif action == 'lookup':
+        # Handle session lookup
+        session = None
+        all_sessions = None
+        vehicle_owner = None
+        vehicle_info = None
+
+        if request.method == 'POST' or vehicle_lookup:
+            lookup_vehicle = request.POST.get('vehicle_number', vehicle_lookup)
+            if lookup_vehicle:
+                # Get the most relevant session
+                from django.db.models import Case, When, Value, IntegerField
+                session = (
+                    ParkingSession.objects
+                    .filter(vehicle_number=lookup_vehicle)
+                    .annotate(
+                        status_priority=Case(
+                            When(status='active', then=Value(1)),
+                            When(status='pending', then=Value(2)),
+                            When(status='completed', then=Value(3)),
+                            default=Value(4),
+                            output_field=IntegerField()
+                        )
+                    )
+                    .order_by('status_priority', '-start_time')
+                    .first()
+                )
+
+                # Get all sessions for history
+                all_sessions = ParkingSession.objects.filter(
+                    vehicle_number=lookup_vehicle
+                ).order_by('-start_time')[:10]
+
+                # Try to find vehicle owner
+                try:
+                    vehicle_info = Vehicle.objects.filter(
+                        plate_number=lookup_vehicle,
+                        is_active=True
+                    ).select_related('owner', 'owner__userprofile').first()
+                    if vehicle_info:
+                        vehicle_owner = vehicle_info.owner
+                except:
+                    pass
+
+        from .forms import LookupForm
+        lookup_form = LookupForm(initial={'vehicle_number': vehicle_lookup})
+        context.update({
+            'lookup_form': lookup_form,
+            'lookup_session': session,
+            'lookup_all_sessions': all_sessions,
+            'lookup_vehicle_owner': vehicle_owner,
+            'lookup_vehicle_info': vehicle_info,
+        })
+
+    else:  # action == 'registry' (default)
+        # Handle vehicle registry
+        vehicles = Vehicle.objects.filter(is_active=True).select_related(
+            'owner', 'owner__userprofile'
+        ).order_by('plate_number')
+
+        # Apply search filter
+        if search_query:
+            vehicles = vehicles.filter(
+                Q(plate_number__icontains=search_query) |
+                Q(owner__first_name__icontains=search_query) |
+                Q(owner__last_name__icontains=search_query) |
+                Q(owner__email__icontains=search_query) |
+                Q(make__icontains=search_query) |
+                Q(model__icontains=search_query)
+            )
+
+        # Enhance vehicles with current parking status
+        enhanced_vehicles = []
+        for vehicle in vehicles:
+            current_session = ParkingSession.objects.filter(
+                vehicle_number=vehicle.plate_number,
+                status__in=['pending', 'active']
+            ).select_related('slot').first()
+
+            recent_sessions = ParkingSession.objects.filter(
+                vehicle_number=vehicle.plate_number
+            ).order_by('-start_time')[:5]
+
+            # Determine current status
+            if current_session:
+                if current_session.status == 'active':
+                    parking_status = 'Currently Parked'
+                    status_class = 'success'
+                    status_detail = f"Slot {current_session.slot.slot_id}"
+                else:
+                    parking_status = 'Reserved'
+                    status_class = 'warning'
+                    status_detail = f"Slot {current_session.slot.slot_id}"
+            else:
+                parking_status = 'Not Parked'
+                status_class = 'secondary'
+                status_detail = 'Available'
+
+            user_profile = getattr(vehicle.owner, 'userprofile', None)
+
+            vehicle_data = {
+                'vehicle': vehicle,
+                'owner': vehicle.owner,
+                'user_profile': user_profile,
+                'current_session': current_session,
+                'recent_sessions': recent_sessions,
+                'parking_status': parking_status,
+                'status_class': status_class,
+                'status_detail': status_detail,
+                'total_sessions': ParkingSession.objects.filter(
+                    vehicle_number=vehicle.plate_number
+                ).count()
+            }
+
+            # Apply status filter
+            if filter_status == 'parked' and parking_status != 'Currently Parked':
+                continue
+            elif filter_status == 'available' and parking_status != 'Not Parked':
+                continue
+            elif filter_status == 'reserved' and parking_status != 'Reserved':
+                continue
+
+            enhanced_vehicles.append(vehicle_data)
+
+        # Get summary statistics
+        total_vehicles = Vehicle.objects.filter(is_active=True).count()
+        parked_vehicles = ParkingSession.objects.filter(status='active').count()
+        reserved_vehicles = ParkingSession.objects.filter(status='pending').count()
+        available_vehicles = total_vehicles - parked_vehicles - reserved_vehicles
+
+        context.update({
+            'enhanced_vehicles': enhanced_vehicles,
+            'total_vehicles': total_vehicles,
+            'parked_vehicles': parked_vehicles,
+            'reserved_vehicles': reserved_vehicles,
+            'available_vehicles': available_vehicles,
+        })
+
+    return render(request, f'{template_prefix}/unified_parking_management.html', context)
 
 
 from django.shortcuts import render
