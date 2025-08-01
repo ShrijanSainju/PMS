@@ -462,7 +462,29 @@ def slot_status_api(request):
         vehicle_number = session.vehicle_number if session else None
         session_start = session.start_time if session else None
 
-        data.append({
+        # Try to find user information for the vehicle
+        user_info = None
+        vehicle_info = None
+        if vehicle_number:
+            try:
+                from .models import Vehicle
+                vehicle_info = Vehicle.objects.filter(
+                    plate_number=vehicle_number,
+                    is_active=True
+                ).select_related('owner', 'owner__userprofile').first()
+
+                if vehicle_info and vehicle_info.owner:
+                    user_profile = getattr(vehicle_info.owner, 'userprofile', None)
+                    user_info = {
+                        'name': vehicle_info.owner.get_full_name() or vehicle_info.owner.username,
+                        'email': vehicle_info.owner.email,
+                        'phone': user_profile.phone_number if user_profile else None,
+                        'user_type': user_profile.get_user_type_display() if user_profile else 'Unknown'
+                    }
+            except:
+                pass
+
+        slot_data = {
             'slot_id': slot.slot_id,
             'is_occupied': slot.is_occupied,
             'is_reserved': slot.is_reserved,
@@ -470,7 +492,17 @@ def slot_status_api(request):
             'vehicle_number': vehicle_number,
             'session_start': session_start.isoformat() if session_start else None,
             'timestamp': slot.timestamp.isoformat(),
-        })
+            'user_info': user_info,
+            'vehicle_info': {
+                'make': vehicle_info.make if vehicle_info else None,
+                'model': vehicle_info.model if vehicle_info else None,
+                'year': vehicle_info.year if vehicle_info else None,
+                'color': vehicle_info.color if vehicle_info else None,
+                'type': vehicle_info.get_vehicle_type_display() if vehicle_info else None
+            } if vehicle_info else None
+        }
+
+        data.append(slot_data)
 
     return JsonResponse(data, safe=False)
 
@@ -831,7 +863,39 @@ def end_session(request, slot_id):
 @require_approved_user
 def history_log(request):
     sessions = ParkingSession.objects.all().order_by('-start_time')
-    return render(request, 'admin/history.html', {'sessions': sessions})
+
+    # Enhance sessions with user information
+    enhanced_sessions = []
+    for session in sessions:
+        session_data = {
+            'session': session,
+            'user_info': None,
+            'vehicle_info': None
+        }
+
+        # Try to find user information for the vehicle
+        try:
+            from .models import Vehicle
+            vehicle_info = Vehicle.objects.filter(
+                plate_number=session.vehicle_number,
+                is_active=True
+            ).select_related('owner', 'owner__userprofile').first()
+
+            if vehicle_info and vehicle_info.owner:
+                session_data['vehicle_info'] = vehicle_info
+                user_profile = getattr(vehicle_info.owner, 'userprofile', None)
+                session_data['user_info'] = {
+                    'name': vehicle_info.owner.get_full_name() or vehicle_info.owner.username,
+                    'email': vehicle_info.owner.email,
+                    'phone': user_profile.phone_number if user_profile else None,
+                    'user_type': user_profile.get_user_type_display() if user_profile else 'Unknown'
+                }
+        except:
+            pass
+
+        enhanced_sessions.append(session_data)
+
+    return render(request, 'admin/history.html', {'enhanced_sessions': enhanced_sessions})
 
 
 from django.utils.timezone import now
@@ -922,11 +986,43 @@ def end_session_by_vehicle(request):
     selected_session = None
     vehicle_owner = None
     vehicle_info = None
-    active_sessions = ParkingSession.objects.filter(status='active')
+
+    # Get active sessions with enhanced user information
+    active_sessions_raw = ParkingSession.objects.filter(status='active').select_related('slot')
+    enhanced_active_sessions = []
+
+    for session in active_sessions_raw:
+        session_data = {
+            'session': session,
+            'user_info': None,
+            'vehicle_info': None
+        }
+
+        # Try to find user information for each active session
+        try:
+            from .models import Vehicle
+            vehicle_info_obj = Vehicle.objects.filter(
+                plate_number=session.vehicle_number,
+                is_active=True
+            ).select_related('owner', 'owner__userprofile').first()
+
+            if vehicle_info_obj and vehicle_info_obj.owner:
+                session_data['vehicle_info'] = vehicle_info_obj
+                user_profile = getattr(vehicle_info_obj.owner, 'userprofile', None)
+                session_data['user_info'] = {
+                    'name': vehicle_info_obj.owner.get_full_name() or vehicle_info_obj.owner.username,
+                    'email': vehicle_info_obj.owner.email,
+                    'phone': user_profile.phone_number if user_profile else None,
+                    'user_type': user_profile.get_user_type_display() if user_profile else 'Unknown'
+                }
+        except:
+            pass
+
+        enhanced_active_sessions.append(session_data)
 
     if request.method == 'POST':
         vehicle_number = request.POST.get('vehicle_number')
-        session = active_sessions.filter(vehicle_number=vehicle_number).last()
+        session = active_sessions_raw.filter(vehicle_number=vehicle_number).last()
 
         if session:
             # Try to find the vehicle owner
@@ -957,7 +1053,8 @@ def end_session_by_vehicle(request):
             message = "No active session found for this vehicle."
 
     return render(request, 'staff/end_session_by_vehicle.html', {
-        'active_sessions': active_sessions,
+        'enhanced_active_sessions': enhanced_active_sessions,
+        'active_sessions': active_sessions_raw,  # Keep for backward compatibility
         'selected_session': selected_session,
         'message': message,
         'vehicle_owner': vehicle_owner,

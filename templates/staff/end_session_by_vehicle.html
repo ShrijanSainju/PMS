@@ -120,13 +120,32 @@
                     </label>
                     <select name="vehicle_number" id="vehicle_number" class="form-control" required>
                         <option value="" disabled selected>-- Select Vehicle to End Session --</option>
-                        {% for session in active_sessions %}
+                        {% for session_data in enhanced_active_sessions %}
+                            {% with session=session_data.session user_info=session_data.user_info vehicle_info=session_data.vehicle_info %}
                             <option value="{{ session.vehicle_number }}"
                                     data-slot="{{ session.slot.slot_id }}"
-                                    data-start="{{ session.start_time|date:'M d, Y H:i' }}">
-                                {{ session.vehicle_number }} (Slot: {{ session.slot.slot_id }})
+                                    data-start="{{ session.start_time|date:'M d, Y H:i' }}"
+                                    data-user-name="{% if user_info %}{{ user_info.name }}{% endif %}"
+                                    data-user-phone="{% if user_info %}{{ user_info.phone }}{% endif %}">
+                                {% if user_info %}
+                                    {{ user_info.name }} - {{ session.vehicle_number }} (Slot: {{ session.slot.slot_id }})
+                                {% else %}
+                                    {{ session.vehicle_number }} (Slot: {{ session.slot.slot_id }}) - Unregistered
+                                {% endif %}
                             </option>
+                            {% endwith %}
                         {% endfor %}
+
+                        <!-- Fallback for backward compatibility -->
+                        {% if not enhanced_active_sessions %}
+                            {% for session in active_sessions %}
+                                <option value="{{ session.vehicle_number }}"
+                                        data-slot="{{ session.slot.slot_id }}"
+                                        data-start="{{ session.start_time|date:'M d, Y H:i' }}">
+                                    {{ session.vehicle_number }} (Slot: {{ session.slot.slot_id }})
+                                </option>
+                            {% endfor %}
+                        {% endif %}
                     </select>
                     <div class="invalid-feedback">
                         Please select a vehicle to end its session.

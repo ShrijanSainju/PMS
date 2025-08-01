@@ -200,6 +200,32 @@
     }
 
     .slot-id {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 2px;
+    }
+
+    .slot-user {
+        font-size: 0.75rem;
+        font-weight: 500;
+        margin-bottom: 2px;
+        opacity: 0.9;
+        line-height: 1.1;
+        max-height: 2.2em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+
+    .slot-status {
+        font-size: 0.7rem;
+        font-weight: 600;
+        opacity: 0.8;
+    }
+
+    .slot-id {
         font-size: 1.1rem;
         font-weight: 700;
         margin-bottom: 0.25rem;
@@ -597,17 +623,43 @@ function updateSlotGrid(data) {
         div.classList.add('parking-slot');
 
         let status, statusClass, tooltip = '';
+        let displayInfo = '';
+
         if (slot.session_status === 'pending' || slot.is_reserved) {
             status = 'Reserved';
             statusClass = 'reserved';
             if (slot.vehicle_number) {
-                tooltip = `Vehicle: ${slot.vehicle_number}`;
+                if (slot.user_info && slot.user_info.name) {
+                    displayInfo = slot.user_info.name;
+                    tooltip = `Owner: ${slot.user_info.name}\nVehicle: ${slot.vehicle_number}`;
+                    if (slot.user_info.phone) {
+                        tooltip += `\nPhone: ${slot.user_info.phone}`;
+                    }
+                    if (slot.vehicle_info && (slot.vehicle_info.make || slot.vehicle_info.model)) {
+                        tooltip += `\nVehicle: ${slot.vehicle_info.year || ''} ${slot.vehicle_info.make || ''} ${slot.vehicle_info.model || ''}`.trim();
+                    }
+                } else {
+                    displayInfo = slot.vehicle_number;
+                    tooltip = `Vehicle: ${slot.vehicle_number} (Unregistered)`;
+                }
             }
         } else if (slot.is_occupied) {
             status = 'Occupied';
             statusClass = 'occupied';
             if (slot.vehicle_number) {
-                tooltip = `Vehicle: ${slot.vehicle_number}`;
+                if (slot.user_info && slot.user_info.name) {
+                    displayInfo = slot.user_info.name;
+                    tooltip = `Owner: ${slot.user_info.name}\nVehicle: ${slot.vehicle_number}`;
+                    if (slot.user_info.phone) {
+                        tooltip += `\nPhone: ${slot.user_info.phone}`;
+                    }
+                    if (slot.vehicle_info && (slot.vehicle_info.make || slot.vehicle_info.model)) {
+                        tooltip += `\nVehicle: ${slot.vehicle_info.year || ''} ${slot.vehicle_info.make || ''} ${slot.vehicle_info.model || ''}`.trim();
+                    }
+                } else {
+                    displayInfo = slot.vehicle_number;
+                    tooltip = `Vehicle: ${slot.vehicle_number} (Unregistered)`;
+                }
                 if (slot.session_start) {
                     const startTime = new Date(slot.session_start);
                     const duration = Math.floor((new Date() - startTime) / (1000 * 60));
@@ -622,10 +674,15 @@ function updateSlotGrid(data) {
 
         div.classList.add(statusClass);
         div.title = tooltip;
-        div.innerHTML = `
-            <div class="slot-id">${slot.slot_id}</div>
-            <div class="slot-status">${status}</div>
-        `;
+
+        // Create slot content with user-friendly display
+        let slotContent = `<div class="slot-id">${slot.slot_id}</div>`;
+        if (displayInfo) {
+            slotContent += `<div class="slot-user">${displayInfo}</div>`;
+        }
+        slotContent += `<div class="slot-status">${status}</div>`;
+
+        div.innerHTML = slotContent;
 
         // Add click handler for available slots (staff can assign)
         if (statusClass === 'vacant') {
