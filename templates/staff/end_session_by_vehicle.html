@@ -1,27 +1,263 @@
-<h2>End Parking Session (By Vehicle Number)</h2>
+{% extends 'base.html' %}
+{% load static %}
 
-<form method="post">
-    {% csrf_token %}
-    <label for="vehicle_number">Select Vehicle Number:</label>
-    <select name="vehicle_number" required>
-        <option value="" disabled selected>-- Select Vehicle --</option>
-        {% for session in active_sessions %}
-            <option value="{{ session.vehicle_number }}">{{ session.vehicle_number }}</option>
-        {% endfor %}
-    </select>
-    <button type="submit">End Session</button>
-</form>
+{% block title %}End Parking Session - PMS{% endblock %}
 
-{% if message %}
-    <p style="color: red;">{{ message }}</p>
-{% endif %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+<style>
+    .end-session-container {
+        max-width: 700px;
+        margin: 2rem auto;
+    }
 
-{% if selected_session %}
-    <h3>Session Ended</h3>
-    <p>Vehicle Number: {{ selected_session.vehicle_number }}</p>
-    <p>Start Time: {{ selected_session.start_time|date:"Y-m-d H:i:s" }}</p>
-    <p>End Time: {{ selected_session.end_time|date:"Y-m-d H:i:s" }}</p>
-    <p>Duration: {{ selected_session.duration }}</p>
-    <p>Total Fee: Rs. {{ selected_session.fee }}</p>
-{% endif %}
+    .session-form {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        margin-bottom: 2rem;
+    }
+
+    .form-header {
+        text-align: center;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #e9ecef;
+    }
+
+    .form-header i {
+        font-size: 3rem;
+        color: #dc3545;
+        margin-bottom: 1rem;
+    }
+
+    .active-sessions-info {
+        background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+        color: white;
+        padding: 1rem;
+        border-radius: 10px;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+
+    .session-ended-details {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        color: white;
+        padding: 2rem;
+        border-radius: 15px;
+        margin-top: 2rem;
+    }
+
+    .detail-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .detail-item:last-child {
+        border-bottom: none;
+    }
+
+    .detail-label {
+        font-weight: 600;
+        opacity: 0.9;
+    }
+
+    .detail-value {
+        font-size: 1.1rem;
+        font-weight: 700;
+    }
+
+    .fee-highlight {
+        background: rgba(255, 255, 255, 0.2);
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-weight: 700;
+        font-size: 1.2rem;
+    }
+
+    .duration-badge {
+        background: rgba(255, 255, 255, 0.2);
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-weight: 600;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="end-session-container">
+        <!-- Form Section -->
+        <div class="session-form">
+            <div class="form-header">
+                <i class="fas fa-sign-out-alt"></i>
+                <h2 class="text-danger mb-0">End Parking Session</h2>
+                <p class="text-muted mt-2">Select a vehicle to end its parking session</p>
+            </div>
+
+            {% if active_sessions %}
+                <div class="active-sessions-info">
+                    <i class="fas fa-info-circle"></i>
+                    <strong>{{ active_sessions|length }}</strong> active session{{ active_sessions|length|pluralize }} found
+                </div>
+            {% endif %}
+
+            {% if message %}
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-triangle"></i> {{ message }}
+                </div>
+            {% endif %}
+
+            <form method="post" class="needs-validation" novalidate>
+                {% csrf_token %}
+                <div class="form-group mb-4">
+                    <label for="vehicle_number" class="form-label">
+                        <i class="fas fa-car"></i> Select Vehicle Number
+                    </label>
+                    <select name="vehicle_number" id="vehicle_number" class="form-control" required>
+                        <option value="" disabled selected>-- Select Vehicle to End Session --</option>
+                        {% for session in active_sessions %}
+                            <option value="{{ session.vehicle_number }}"
+                                    data-slot="{{ session.slot.slot_id }}"
+                                    data-start="{{ session.start_time|date:'M d, Y H:i' }}">
+                                {{ session.vehicle_number }} (Slot: {{ session.slot.slot_id }})
+                            </option>
+                        {% endfor %}
+                    </select>
+                    <div class="invalid-feedback">
+                        Please select a vehicle to end its session.
+                    </div>
+                    {% if not active_sessions %}
+                        <small class="text-muted">No active sessions found.</small>
+                    {% endif %}
+                </div>
+
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <a href="/staff/dashboard/" class="btn btn-secondary me-md-2">
+                        <i class="fas fa-arrow-left"></i> Back to Dashboard
+                    </a>
+                    <button type="submit" class="btn btn-danger" {% if not active_sessions %}disabled{% endif %}>
+                        <i class="fas fa-stop-circle"></i> End Session
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Session Ended Details -->
+        {% if selected_session %}
+        <div class="session-ended-details">
+            <div class="text-center mb-4">
+                <i class="fas fa-check-circle" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                <h3>Session Ended Successfully!</h3>
+            </div>
+
+            <div class="detail-item">
+                <span class="detail-label">
+                    <i class="fas fa-car"></i> Vehicle Number
+                </span>
+                <span class="detail-value">{{ selected_session.vehicle_number }}</span>
+            </div>
+
+            <div class="detail-item">
+                <span class="detail-label">
+                    <i class="fas fa-map-marker-alt"></i> Parking Slot
+                </span>
+                <span class="detail-value">{{ selected_session.slot.slot_id }}</span>
+            </div>
+
+            <div class="detail-item">
+                <span class="detail-label">
+                    <i class="fas fa-play-circle"></i> Start Time
+                </span>
+                <span class="detail-value">{{ selected_session.start_time|date:"M d, Y H:i:s" }}</span>
+            </div>
+
+            <div class="detail-item">
+                <span class="detail-label">
+                    <i class="fas fa-stop-circle"></i> End Time
+                </span>
+                <span class="detail-value">{{ selected_session.end_time|date:"M d, Y H:i:s" }}</span>
+            </div>
+
+            <div class="detail-item">
+                <span class="detail-label">
+                    <i class="fas fa-clock"></i> Duration
+                </span>
+                <span class="detail-value">
+                    <span class="duration-badge">{{ selected_session.duration }}</span>
+                </span>
+            </div>
+
+            <div class="detail-item">
+                <span class="detail-label">
+                    <i class="fas fa-rupee-sign"></i> Total Fee
+                </span>
+                <span class="detail-value">
+                    <span class="fee-highlight">Rs. {{ selected_session.fee }}</span>
+                </span>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="d-flex gap-3 justify-content-center mt-4">
+            <a href="{% url 'end_session_by_vehicle' %}" class="btn btn-danger">
+                <i class="fas fa-stop-circle"></i> End Another Session
+            </a>
+            <a href="/staff/dashboard/" class="btn btn-secondary">
+                <i class="fas fa-tachometer-alt"></i> Back to Dashboard
+            </a>
+            <a href="/customer/lookup/" class="btn btn-info">
+                <i class="fas fa-search"></i> Vehicle Lookup
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+// Form validation
+document.addEventListener('DOMContentLoaded', function() {
+    // Bootstrap form validation
+    const forms = document.querySelectorAll('.needs-validation');
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        }, false);
+    });
+
+    // Show vehicle details on selection
+    const vehicleSelect = document.getElementById('vehicle_number');
+    if (vehicleSelect) {
+        vehicleSelect.addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            if (selectedOption.value) {
+                const slot = selectedOption.getAttribute('data-slot');
+                const startTime = selectedOption.getAttribute('data-start');
+
+                // You can add a preview section here if needed
+                console.log(`Selected: ${this.value}, Slot: ${slot}, Started: ${startTime}`);
+            }
+        });
+    }
+
+    // Show success notification if session was ended
+    {% if selected_session %}
+    if (window.showSuccess) {
+        window.showSuccess('Session ended successfully! Fee: Rs. {{ selected_session.fee }}', {
+            title: 'Session Ended',
+            browser: true
+        });
+    }
+    {% endif %}
+});
+{% endblock %}
 

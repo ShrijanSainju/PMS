@@ -1,11 +1,250 @@
-<h2>Session Ended</h2>
-{% if session %}
-<p>Vehicle: {{ session.vehicle_number }}</p>
-<p>Slot: {{ session.slot.slot_id }}</p>
-<p>Start Time: {{ session.start_time }}</p>
-<p>End Time: {{ session.end_time }}</p>
-<p>Status: {{ session.status }}</p>
-<p>Total Fee: Rs. {{ session.fee }}</p>
-{% else %}
-<p style="color:red">{{ error }}</p>
-{% endif %}
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Session Ended Successfully - PMS{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+<style>
+    .success-container {
+        max-width: 600px;
+        margin: 2rem auto;
+    }
+
+    .success-icon {
+        font-size: 4rem;
+        color: #28a745;
+        margin-bottom: 1rem;
+    }
+
+    .error-icon {
+        font-size: 4rem;
+        color: #dc3545;
+        margin-bottom: 1rem;
+    }
+
+    .session-details {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        color: white;
+        padding: 2rem;
+        border-radius: 15px;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .error-details {
+        background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        color: white;
+        padding: 2rem;
+        border-radius: 15px;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .detail-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .detail-item:last-child {
+        border-bottom: none;
+    }
+
+    .detail-label {
+        font-weight: 600;
+        opacity: 0.9;
+    }
+
+    .detail-value {
+        font-size: 1.1rem;
+        font-weight: 700;
+    }
+
+    .fee-highlight {
+        background: rgba(255, 255, 255, 0.2);
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-weight: 700;
+        font-size: 1.2rem;
+    }
+
+    .status-badge {
+        background: rgba(255, 255, 255, 0.2);
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-weight: 600;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="success-container">
+        {% if session %}
+            <!-- Success Header -->
+            <div class="text-center">
+                <i class="fas fa-check-circle success-icon"></i>
+                <h2 class="text-success mb-3">Session Ended Successfully!</h2>
+                <p class="text-muted">The parking session has been completed and fees have been calculated.</p>
+            </div>
+
+            <!-- Session Details -->
+            <div class="session-details">
+                <h4 class="mb-4">
+                    <i class="fas fa-receipt"></i> Session Summary
+                </h4>
+
+                <div class="detail-item">
+                    <span class="detail-label">
+                        <i class="fas fa-car"></i> Vehicle Number
+                    </span>
+                    <span class="detail-value">{{ session.vehicle_number }}</span>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">
+                        <i class="fas fa-map-marker-alt"></i> Parking Slot
+                    </span>
+                    <span class="detail-value">{{ session.slot.slot_id }}</span>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">
+                        <i class="fas fa-play-circle"></i> Start Time
+                    </span>
+                    <span class="detail-value">{{ session.start_time|date:"M d, Y H:i:s" }}</span>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">
+                        <i class="fas fa-stop-circle"></i> End Time
+                    </span>
+                    <span class="detail-value">{{ session.end_time|date:"M d, Y H:i:s" }}</span>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">
+                        <i class="fas fa-flag"></i> Status
+                    </span>
+                    <span class="detail-value">
+                        <span class="status-badge">{{ session.status|title }}</span>
+                    </span>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">
+                        <i class="fas fa-rupee-sign"></i> Total Fee
+                    </span>
+                    <span class="detail-value">
+                        <span class="fee-highlight">Rs. {{ session.fee }}</span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Receipt Information -->
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-info-circle"></i> Payment Information</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="text-primary">Session Details:</h6>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-arrow-right text-primary"></i> Session ID: {{ session.id }}</li>
+                                <li><i class="fas fa-arrow-right text-primary"></i> Duration: {{ session.duration|default:"Calculated automatically" }}</li>
+                                <li><i class="fas fa-arrow-right text-primary"></i> Rate: Rs. 2/minute</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-success">Payment Status:</h6>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-check text-success"></i> Session completed</li>
+                                <li><i class="fas fa-check text-success"></i> Fee calculated</li>
+                                <li><i class="fas fa-check text-success"></i> Slot released</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        {% else %}
+            <!-- Error State -->
+            <div class="text-center">
+                <i class="fas fa-exclamation-triangle error-icon"></i>
+                <h2 class="text-danger mb-3">Session End Failed</h2>
+                <p class="text-muted">There was an issue ending the parking session.</p>
+            </div>
+
+            <div class="error-details">
+                <h4 class="mb-3">
+                    <i class="fas fa-exclamation-circle"></i> Error Details
+                </h4>
+                <p class="mb-0">{{ error }}</p>
+            </div>
+        {% endif %}
+
+        <!-- Actions -->
+        <div class="d-flex gap-3 justify-content-center mt-4">
+            {% if session %}
+                <a href="{% url 'end_session_by_vehicle' %}" class="btn btn-danger">
+                    <i class="fas fa-stop-circle"></i> End Another Session
+                </a>
+            {% else %}
+                <a href="{% url 'end_session_by_vehicle' %}" class="btn btn-primary">
+                    <i class="fas fa-redo"></i> Try Again
+                </a>
+            {% endif %}
+            <a href="/staff/dashboard/" class="btn btn-secondary">
+                <i class="fas fa-tachometer-alt"></i> Back to Dashboard
+            </a>
+            <a href="/customer/lookup/" class="btn btn-info">
+                <i class="fas fa-search"></i> Vehicle Lookup
+            </a>
+        </div>
+
+        <!-- Quick Access Section -->
+        {% if session %}
+        <div class="card mt-4">
+            <div class="card-header">
+                <h6><i class="fas fa-clipboard-list"></i> Quick Reference</h6>
+            </div>
+            <div class="card-body text-center">
+                <p class="text-muted">
+                    Vehicle: <strong>{{ session.vehicle_number }}</strong><br>
+                    Total Fee: <strong>Rs. {{ session.fee }}</strong><br>
+                    Session ID: <strong>{{ session.id }}</strong>
+                </p>
+                <small class="text-muted">
+                    Keep this information for your records or customer inquiries.
+                </small>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+// Show success/error notification
+document.addEventListener('DOMContentLoaded', function() {
+    {% if session %}
+        if (window.showSuccess) {
+            window.showSuccess('Session ended successfully! Total fee: Rs. {{ session.fee }}', {
+                title: 'Session Completed',
+                browser: true
+            });
+        }
+    {% else %}
+        if (window.showError) {
+            window.showError('{{ error }}', {
+                title: 'Session End Failed',
+                browser: true
+            });
+        }
+    {% endif %}
+});
+{% endblock %}
