@@ -374,6 +374,270 @@
                 {% endfor %}
             </div>
         </div>
+
+        {% elif action == 'assign' %}
+        <!-- Assign Slot Tab -->
+        <div class="tab-pane fade show active">
+            {% if assignment_success %}
+            <div class="alert alert-success">
+                <h5><i class="fas fa-check-circle"></i> Slot Assignment Successful!</h5>
+                <p><strong>{{ assignment_message }}</strong></p>
+
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <h6>Session Details:</h6>
+                        <ul class="list-unstyled">
+                            <li><strong>Session ID:</strong> {{ assigned_session.session_id }}</li>
+                            <li><strong>Vehicle:</strong> {{ assigned_session.vehicle_number }}</li>
+                            <li><strong>Slot:</strong> {{ assigned_slot.slot_id }}</li>
+                            <li><strong>Status:</strong> <span class="badge bg-warning">{{ assigned_session.get_status_display }}</span></li>
+                            <li><strong>Created:</strong> {{ assigned_session.start_time|default:"Pending arrival"|date:"M d, Y H:i" }}</li>
+                        </ul>
+                    </div>
+
+                    {% if vehicle_owner %}
+                    <div class="col-md-6">
+                        <h6>Vehicle Owner:</h6>
+                        <ul class="list-unstyled">
+                            <li><strong>Name:</strong> {{ vehicle_owner.get_full_name|default:vehicle_owner.username }}</li>
+                            <li><strong>Email:</strong> {{ vehicle_owner.email }}</li>
+                            {% if vehicle_info.owner.userprofile.phone_number %}
+                            <li><strong>Phone:</strong> {{ vehicle_info.owner.userprofile.phone_number }}</li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="mt-3">
+                    <a href="?action=assign" class="btn btn-primary">Assign Another Slot</a>
+                    <a href="?action=registry" class="btn btn-outline-secondary">View Registry</a>
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="assignment-form">
+                <h4><i class="fas fa-plus-circle"></i> Assign Parking Slot</h4>
+
+                {% if assign_error %}
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-triangle"></i> {{ assign_error }}
+                </div>
+                {% endif %}
+
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="assign">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label for="{{ form.vehicle_number.id_for_label }}" class="form-label">
+                                    <i class="fas fa-car"></i> Vehicle Number
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       id="{{ form.vehicle_number.id_for_label }}"
+                                       name="{{ form.vehicle_number.name }}"
+                                       value="{{ request.GET.vehicle|default:'' }}"
+                                       placeholder="Enter vehicle number (e.g., ABC-1234)"
+                                       required
+                                       style="text-transform: uppercase;">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label for="zone_preference" class="form-label">
+                                    <i class="fas fa-layer-group"></i> Zone Preference
+                                </label>
+                                <select class="form-control" id="zone_preference" name="zone_preference">
+                                    <option value="">Auto-select best zone</option>
+                                    {% for zone in zones %}
+                                    <option value="{{ zone }}">Zone {{ zone }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <button type="submit" class="btn btn-success btn-lg">
+                            <i class="fas fa-plus-circle"></i> Assign Slot
+                        </button>
+                        <a href="?action=registry" class="btn btn-outline-secondary btn-lg ms-2">
+                            <i class="fas fa-list"></i> View Registry
+                        </a>
+                    </div>
+                </form>
+
+                {% if available_slots %}
+                <div class="mt-4">
+                    <h6>Available Slots ({{ available_slots.count }})</h6>
+                    <div class="row">
+                        {% for slot in available_slots|slice:":12" %}
+                        <div class="col-md-2 col-sm-3 col-4 mb-2">
+                            <div class="badge bg-success">{{ slot.slot_id }}</div>
+                        </div>
+                        {% endfor %}
+                        {% if available_slots.count > 12 %}
+                        <div class="col-12">
+                            <small class="text-muted">... and {{ available_slots.count|add:"-12" }} more slots</small>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        {% elif action == 'lookup' %}
+        <!-- Session Lookup Tab -->
+        <div class="tab-pane fade show active">
+            <div class="lookup-form">
+                <h4><i class="fas fa-search"></i> Vehicle Session Lookup</h4>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="lookup">
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group mb-3">
+                                <label for="{{ lookup_form.vehicle_number.id_for_label }}" class="form-label">
+                                    <i class="fas fa-car"></i> Vehicle Number
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       id="{{ lookup_form.vehicle_number.id_for_label }}"
+                                       name="{{ lookup_form.vehicle_number.name }}"
+                                       value="{{ vehicle_lookup }}"
+                                       placeholder="Enter vehicle number to search"
+                                       required
+                                       style="text-transform: uppercase;">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group mb-3">
+                                <label class="form-label">&nbsp;</label>
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="fas fa-search"></i> Search
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            {% if lookup_session %}
+            <div class="session-info">
+                <h5><i class="fas fa-info-circle"></i> Current Session Information</h5>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Session Details:</h6>
+                        <ul class="list-unstyled">
+                            <li><strong>Vehicle:</strong> {{ lookup_session.vehicle_number }}</li>
+                            <li><strong>Slot:</strong> {{ lookup_session.slot.slot_id }}</li>
+                            <li><strong>Status:</strong>
+                                <span class="badge bg-{% if lookup_session.status == 'active' %}success{% elif lookup_session.status == 'pending' %}warning{% else %}secondary{% endif %}">
+                                    {{ lookup_session.get_status_display }}
+                                </span>
+                            </li>
+                            {% if lookup_session.start_time %}
+                            <li><strong>Start Time:</strong> {{ lookup_session.start_time|date:"M d, Y H:i" }}</li>
+                            {% endif %}
+                            {% if lookup_session.end_time %}
+                            <li><strong>End Time:</strong> {{ lookup_session.end_time|date:"M d, Y H:i" }}</li>
+                            {% endif %}
+                            {% if lookup_session.fee %}
+                            <li><strong>Fee:</strong> ₹{{ lookup_session.fee }}</li>
+                            {% endif %}
+                        </ul>
+                    </div>
+
+                    {% if lookup_vehicle_owner %}
+                    <div class="col-md-6">
+                        <h6>Vehicle Owner:</h6>
+                        <ul class="list-unstyled">
+                            <li><strong>Name:</strong> {{ lookup_vehicle_owner.get_full_name|default:lookup_vehicle_owner.username }}</li>
+                            <li><strong>Email:</strong> {{ lookup_vehicle_owner.email }}</li>
+                            {% if lookup_vehicle_info.owner.userprofile.phone_number %}
+                            <li><strong>Phone:</strong> {{ lookup_vehicle_info.owner.userprofile.phone_number }}</li>
+                            {% endif %}
+                            {% if lookup_vehicle_info %}
+                            <li><strong>Vehicle:</strong> {{ lookup_vehicle_info.year|default:"" }} {{ lookup_vehicle_info.make|default:"" }} {{ lookup_vehicle_info.model|default:"" }}</li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    {% else %}
+                    <div class="col-md-6">
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i> This vehicle is not registered in the system.
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            {% if lookup_all_sessions %}
+            <div class="session-info">
+                <h5><i class="fas fa-history"></i> Session History</h5>
+
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Slot</th>
+                                <th>Status</th>
+                                <th>Duration</th>
+                                <th>Fee</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for session in lookup_all_sessions %}
+                            <tr>
+                                <td>{{ session.start_time|date:"M d, Y H:i" }}</td>
+                                <td>{{ session.slot.slot_id }}</td>
+                                <td>
+                                    <span class="badge bg-{% if session.status == 'active' %}success{% elif session.status == 'pending' %}warning{% else %}secondary{% endif %}">
+                                        {{ session.get_status_display }}
+                                    </span>
+                                </td>
+                                <td>
+                                    {% if session.start_time and session.end_time %}
+                                        {% with duration=session.end_time|timeuntil:session.start_time %}
+                                            {{ duration }}
+                                        {% endwith %}
+                                    {% elif session.start_time and session.status == 'active' %}
+                                        Ongoing
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if session.fee %}
+                                        ₹{{ session.fee }}
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% elif vehicle_lookup %}
+            <div class="text-center py-5">
+                <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                <h4 class="text-muted">No sessions found</h4>
+                <p class="text-muted">No parking sessions found for vehicle {{ vehicle_lookup }}.</p>
+            </div>
+            {% endif %}
+        </div>
         {% endif %}
     </div>
 </div>
