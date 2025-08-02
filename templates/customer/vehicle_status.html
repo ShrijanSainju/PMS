@@ -107,9 +107,13 @@
                 <h4>
                     <i class="fas fa-info-circle"></i> Current Status
                 </h4>
-                {% if vehicle.is_parked %}
+                {% if current_session.status == 'active' %}
                     <span class="badge bg-danger fs-6">
                         <i class="fas fa-parking"></i> Currently Parked
+                    </span>
+                {% elif current_session.status == 'pending' %}
+                    <span class="badge bg-warning fs-6">
+                        <i class="fas fa-clock"></i> Slot Reserved
                     </span>
                 {% else %}
                     <span class="badge bg-success fs-6">
@@ -253,3 +257,4 @@ document.addEventListener('DOMContentLoaded', function() {
     {% endif %}
 });
 {% endblock %}
+
