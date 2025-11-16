@@ -17,3 +17,7 @@ venv
 pms/
 
 pms.log
+
+security.log
+
+parking_detector.log
