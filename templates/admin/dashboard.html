@@ -1,0 +1,595 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Admin Dashboard - PMS{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+    .analytics-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .chart-container {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .activity-feed {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        max-height: 400px;
+        overflow-y: auto;
+    }
+
+    .activity-item {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        border-bottom: 1px solid #e9ecef;
+        transition: background-color 0.3s ease;
+    }
+
+    .activity-item:hover {
+        background-color: #f8f9fa;
+    }
+
+    .activity-item:last-child {
+        border-bottom: none;
+    }
+
+    .activity-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+        font-size: 1.2rem;
+        color: white;
+    }
+
+    .activity-icon.entry {
+        background: linear-gradient(135deg, #56ab2f 0%, #a8e6cf 100%);
+    }
+
+    .activity-icon.exit {
+        background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+    }
+
+    .activity-icon.reserved {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+
+    .activity-content {
+        flex: 1;
+    }
+
+    .activity-content h6 {
+        margin-bottom: 0.25rem;
+        font-weight: 600;
+        color: #2c3e50;
+    }
+
+    .activity-content p {
+        margin: 0;
+        font-size: 0.9rem;
+        color: #6c757d;
+    }
+
+    .activity-time {
+        font-size: 0.8rem;
+        color: #6c757d;
+    }
+
+    .status-indicator {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        margin-right: 0.5rem;
+    }
+
+    .status-indicator.online {
+        background-color: #28a745;
+        animation: pulse 2s infinite;
+    }
+
+    .status-indicator.offline {
+        background-color: #dc3545;
+    }
+
+    @keyframes pulse {
+        0% { opacity: 1; }
+        50% { opacity: 0.5; }
+        100% { opacity: 1; }
+    }
+
+    .enhanced-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .enhanced-stats .stats-card {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .enhanced-stats .stats-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s ease;
+    }
+
+    .enhanced-stats .stats-card:hover::before {
+        left: 100%;
+    }
+
+    .trend-indicator {
+        font-size: 0.8rem;
+        margin-top: 0.5rem;
+    }
+
+    .trend-up {
+        color: #28a745;
+    }
+
+    .trend-down {
+        color: #dc3545;
+    }
+
+    .trend-neutral {
+        color: #6c757d;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+        <h1><i class="fas fa-tachometer-alt"></i> Admin Dashboard</h1>
+        <p>Real-time parking management and monitoring</p>
+    </div>
+
+    <!-- Enhanced Stats Cards -->
+    <div class="enhanced-stats">
+        <div class="stats-card success">
+            <h3 id="availableCount">0</h3>
+            <p><i class="fas fa-parking"></i> Available Slots</p>
+            <div class="trend-indicator" id="availableTrend">
+                <i class="fas fa-minus"></i> No change
+            </div>
+        </div>
+        <div class="stats-card danger">
+            <h3 id="occupiedCount">0</h3>
+            <p><i class="fas fa-car"></i> Occupied Slots</p>
+            <div class="trend-indicator" id="occupiedTrend">
+                <i class="fas fa-minus"></i> No change
+            </div>
+        </div>
+        <div class="stats-card warning">
+            <h3 id="reservedCount">0</h3>
+            <p><i class="fas fa-clock"></i> Reserved Slots</p>
+            <div class="trend-indicator" id="reservedTrend">
+                <i class="fas fa-minus"></i> No change
+            </div>
+        </div>
+        <div class="stats-card">
+            <h3 id="activeSessionsCount">0</h3>
+            <p><i class="fas fa-car-side"></i> Active Sessions</p>
+            <div class="trend-indicator" id="sessionsTrend">
+                <i class="fas fa-minus"></i> No change
+            </div>
+        </div>
+        <div class="stats-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+            <h3 id="todayRevenue">₹0</h3>
+            <p><i class="fas fa-rupee-sign"></i> Today's Revenue</p>
+            <div class="trend-indicator" id="revenueTrend">
+                <i class="fas fa-minus"></i> No change
+            </div>
+        </div>
+
+    </div>
+
+    <!-- System Status -->
+    <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5><i class="fas fa-server"></i> System Status</h5>
+            <div>
+                <span class="status-indicator online" id="systemStatus"></span>
+                <span id="systemStatusText">Online</span>
+                <small class="text-muted ms-2" id="lastUpdate">Last updated: --</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+        <a href="/staff/assign/" class="quick-action">
+            <i class="fas fa-plus-circle"></i>
+            <h4>Assign Slot</h4>
+            <p>Assign parking slot to vehicle</p>
+        </a>
+        <a href="/history/" class="quick-action">
+            <i class="fas fa-history"></i>
+            <h4>View History</h4>
+            <p>Check parking session history</p>
+        </a>
+        <a href="/staff/end-by-vehicle/" class="quick-action">
+            <i class="fas fa-sign-out-alt"></i>
+            <h4>End Session</h4>
+            <p>End parking session</p>
+        </a>
+        <a href="/customer/lookup/" class="quick-action">
+            <i class="fas fa-search"></i>
+            <h4>Lookup Vehicle</h4>
+            <p>Search vehicle information</p>
+        </a>
+    </div>
+
+    <!-- Analytics and Activity -->
+    <div class="analytics-grid">
+        <!-- Recent Activity Feed -->
+        <div class="activity-feed" style="grid-column: 1 / -1;">
+            <h5><i class="fas fa-clock"></i> Recent Activity</h5>
+            <div id="activityFeed">
+                <div class="loading text-center">
+                    <div class="spinner"></div>
+                    <p>Loading activity...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Parking Slots Grid -->
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <div>
+                <i class="fas fa-th-large"></i> Live Parking Slot Status
+                <span class="badge bg-success ms-2" id="autoRefreshBadge">Auto-refresh ON</span>
+            </div>
+            <div>
+                <button class="btn btn-sm btn-outline-primary me-2" onclick="toggleAutoRefresh()">
+                    <i class="fas fa-pause" id="autoRefreshIcon"></i> <span id="autoRefreshText">Pause</span>
+                </button>
+                <button class="btn btn-sm btn-light" onclick="fetchSlots()">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="parking-grid" id="slotGrid">
+                <div class="loading">
+                    <div class="spinner"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Feed -->
+    <div class="video-container">
+        <h3><i class="fas fa-video"></i> Live Camera Feed</h3>
+        <div class="video-controls">
+            <button class="btn btn-primary" onclick="toggleFeed()">
+                <i class="fas fa-play"></i> Show Feed
+            </button>
+            <button class="btn btn-secondary" onclick="refreshFeed()" style="display:none;" id="refreshBtn">
+                <i class="fas fa-sync-alt"></i> Refresh
+            </button>
+        </div>
+        <div id="videoArea" style="display:none; margin-top: 20px;">
+            <img id="liveFeed" src="{% url 'video_feed' %}" class="video-feed" />
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+// Global variables
+let autoRefreshEnabled = true;
+let refreshInterval;
+let previousStats = {};
+
+// Initialize dashboard
+document.addEventListener('DOMContentLoaded', function() {
+    initializeDashboard();
+    startAutoRefresh();
+    // Auto-start video feed for detection
+    toggleFeed();
+});
+
+function initializeDashboard() {
+    fetchDashboardAnalytics();
+    fetchSlots();
+}
+
+function startAutoRefresh() {
+    if (refreshInterval) clearInterval(refreshInterval);
+
+    refreshInterval = setInterval(() => {
+        if (autoRefreshEnabled) {
+            fetchLiveStats();
+            fetchSlots();
+            fetchRecentActivity();
+        }
+    }, 3000); // Refresh every 3 seconds
+}
+
+function toggleAutoRefresh() {
+    autoRefreshEnabled = !autoRefreshEnabled;
+    const icon = document.getElementById('autoRefreshIcon');
+    const text = document.getElementById('autoRefreshText');
+    const badge = document.getElementById('autoRefreshBadge');
+
+    if (autoRefreshEnabled) {
+        icon.className = 'fas fa-pause';
+        text.textContent = 'Pause';
+        badge.textContent = 'Auto-refresh ON';
+        badge.className = 'badge bg-success ms-2';
+    } else {
+        icon.className = 'fas fa-play';
+        text.textContent = 'Resume';
+        badge.textContent = 'Auto-refresh OFF';
+        badge.className = 'badge bg-warning ms-2';
+    }
+}
+
+function fetchDashboardAnalytics() {
+    fetch('/api/dashboard-analytics/')
+        .then(response => response.json())
+        .then(data => {
+            updateStats(data.stats);
+            updateRecentActivity(data.recent_activity);
+            updateSystemStatus(data.last_updated);
+        })
+        .catch(error => {
+            console.error('Error fetching analytics:', error);
+            updateSystemStatus(null, true);
+        });
+}
+
+function fetchLiveStats() {
+    fetch('/api/live-stats/')
+        .then(response => response.json())
+        .then(data => {
+            updateStats(data, true);
+            updateSystemStatus(data.timestamp);
+        })
+        .catch(error => {
+            console.error('Error fetching live stats:', error);
+            updateSystemStatus(null, true);
+        });
+}
+
+function updateStats(stats, showTrends = false) {
+    // Update stat values
+    document.getElementById('availableCount').textContent = stats.available_slots || 0;
+    document.getElementById('occupiedCount').textContent = stats.occupied_slots || 0;
+    document.getElementById('reservedCount').textContent = stats.reserved_slots || 0;
+    document.getElementById('activeSessionsCount').textContent = stats.active_sessions || 0;
+    document.getElementById('todayRevenue').textContent = '₹' + (stats.today_revenue || 0);
+
+    // Show trends if enabled and we have previous data
+    if (showTrends && Object.keys(previousStats).length > 0) {
+        updateTrend('availableTrend', stats.available_slots, previousStats.available_slots);
+        updateTrend('occupiedTrend', stats.occupied_slots, previousStats.occupied_slots);
+        updateTrend('reservedTrend', stats.reserved_slots, previousStats.reserved_slots);
+        updateTrend('sessionsTrend', stats.active_sessions, previousStats.active_sessions);
+        updateTrend('revenueTrend', stats.today_revenue, previousStats.today_revenue);
+    }
+
+    // Store current stats for next comparison
+    previousStats = { ...stats };
+}
+
+function updateTrend(elementId, current, previous) {
+    const element = document.getElementById(elementId);
+    if (!element || previous === undefined) return;
+
+    const diff = current - previous;
+    let icon, text, className;
+
+    if (diff > 0) {
+        icon = 'fas fa-arrow-up';
+        text = `+${diff}`;
+        className = 'trend-up';
+    } else if (diff < 0) {
+        icon = 'fas fa-arrow-down';
+        text = `${diff}`;
+        className = 'trend-down';
+    } else {
+        icon = 'fas fa-minus';
+        text = 'No change';
+        className = 'trend-neutral';
+    }
+
+    element.innerHTML = `<i class="${icon}"></i> ${text}`;
+    element.className = `trend-indicator ${className}`;
+}
+
+function updateSystemStatus(timestamp, isError = false) {
+    const statusIndicator = document.getElementById('systemStatus');
+    const statusText = document.getElementById('systemStatusText');
+    const lastUpdate = document.getElementById('lastUpdate');
+
+    if (isError) {
+        statusIndicator.className = 'status-indicator offline';
+        statusText.textContent = 'Offline';
+        lastUpdate.textContent = 'Connection error';
+    } else {
+        statusIndicator.className = 'status-indicator online';
+        statusText.textContent = 'Online';
+        if (timestamp) {
+            const updateTime = new Date(timestamp).toLocaleTimeString();
+            lastUpdate.textContent = `Last updated: ${updateTime}`;
+        }
+    }
+}
+
+function toggleFeed() {
+    const videoArea = document.getElementById('videoArea');
+    const button = document.querySelector('button[onclick="toggleFeed()"]');
+    const refreshBtn = document.getElementById('refreshBtn');
+
+    if (videoArea.style.display === 'none') {
+        videoArea.style.display = 'block';
+        button.innerHTML = '<i class="fas fa-pause"></i> Hide Feed';
+        refreshBtn.style.display = 'inline-block';
+    } else {
+        videoArea.style.display = 'none';
+        button.innerHTML = '<i class="fas fa-play"></i> Show Feed';
+        refreshBtn.style.display = 'none';
+    }
+}
+
+function refreshFeed() {
+    const liveFeed = document.getElementById('liveFeed');
+    const currentSrc = liveFeed.src;
+    liveFeed.src = '';
+    setTimeout(() => {
+        liveFeed.src = currentSrc + '?t=' + new Date().getTime();
+    }, 100);
+}
+
+function fetchSlots() {
+    fetch('/api/slot-status/')
+        .then(response => response.json())
+        .then(data => {
+            const grid = document.getElementById('slotGrid');
+            grid.innerHTML = '';
+
+            data.forEach(slot => {
+                const div = document.createElement('div');
+                div.classList.add('parking-slot');
+
+                let status, statusClass, tooltip = '';
+                if (slot.session_status === 'pending' || slot.is_reserved) {
+                    status = 'Reserved';
+                    statusClass = 'reserved';
+                    if (slot.vehicle_number) {
+                        tooltip = `Vehicle: ${slot.vehicle_number}`;
+                    }
+                } else if (slot.is_occupied) {
+                    status = 'Occupied';
+                    statusClass = 'occupied';
+                    if (slot.vehicle_number) {
+                        tooltip = `Vehicle: ${slot.vehicle_number}`;
+                        if (slot.session_start) {
+                            const startTime = new Date(slot.session_start);
+                            const duration = Math.floor((new Date() - startTime) / (1000 * 60));
+                            tooltip += `\nDuration: ${duration} min`;
+                        }
+                    }
+                } else {
+                    status = 'Available';
+                    statusClass = 'vacant';
+                    tooltip = 'Click to assign';
+                }
+
+                div.classList.add(statusClass);
+                div.title = tooltip;
+                div.innerHTML = `
+                    <div class="slot-id">${slot.slot_id}</div>
+                    <div class="slot-status">${status}</div>
+                `;
+
+                // Add click handler for available slots
+                if (statusClass === 'vacant') {
+                    div.style.cursor = 'pointer';
+                    div.onclick = () => {
+                        window.location.href = '/staff/assign/';
+                    };
+                }
+
+                grid.appendChild(div);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching slots:', error);
+            const grid = document.getElementById('slotGrid');
+            grid.innerHTML = '<div class="alert alert-danger">Error loading slot data</div>';
+        });
+}
+
+
+
+function fetchRecentActivity() {
+    fetch('/api/dashboard-analytics/')
+        .then(response => response.json())
+        .then(data => {
+            updateRecentActivity(data.recent_activity);
+        })
+        .catch(error => {
+            console.error('Error fetching recent activity:', error);
+        });
+}
+
+function updateRecentActivity(activities) {
+    const feed = document.getElementById('activityFeed');
+    if (!activities || activities.length === 0) {
+        feed.innerHTML = '<p class="text-muted text-center">No recent activity</p>';
+        return;
+    }
+
+    feed.innerHTML = '';
+    activities.forEach(activity => {
+        const item = document.createElement('div');
+        item.className = 'activity-item';
+
+        let iconClass, iconType;
+        if (activity.status === 'active') {
+            iconClass = 'entry';
+            iconType = 'fas fa-sign-in-alt';
+        } else if (activity.status === 'completed') {
+            iconClass = 'exit';
+            iconType = 'fas fa-sign-out-alt';
+        } else {
+            iconClass = 'reserved';
+            iconType = 'fas fa-clock';
+        }
+
+        const startTime = activity.start_time ? new Date(activity.start_time).toLocaleTimeString() : '--';
+        const fee = activity.fee ? `₹${activity.fee}` : '--';
+
+        item.innerHTML = `
+            <div class="activity-icon ${iconClass}">
+                <i class="${iconType}"></i>
+            </div>
+            <div class="activity-content">
+                <h6>${activity.vehicle_number}</h6>
+                <p>Slot ${activity.slot_id} • ${activity.status} • ${fee}</p>
+            </div>
+            <div class="activity-time">
+                ${startTime}
+            </div>
+        `;
+
+        feed.appendChild(item);
+    });
+}
+
+// Cleanup on page unload
+window.addEventListener('beforeunload', function() {
+    if (refreshInterval) {
+        clearInterval(refreshInterval);
+    }
+});
+{% endblock %}

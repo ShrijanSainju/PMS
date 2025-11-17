@@ -1,0 +1,428 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Manager Dashboard - PMS{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+<style>
+    .manager-dashboard {
+        padding: 2rem 0;
+    }
+
+    .dashboard-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 2rem;
+        border-radius: 15px;
+        margin-bottom: 2rem;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .stat-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: transform 0.3s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .stat-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .stat-number {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+        color: #666;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .text-primary { color: #007bff !important; }
+    .text-success { color: #28a745 !important; }
+    .text-warning { color: #ffc107 !important; }
+    .text-danger { color: #dc3545 !important; }
+    .text-info { color: #17a2b8 !important; }
+
+    .quick-actions {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .quick-action {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        text-decoration: none;
+        color: #333;
+        text-align: center;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+
+    .quick-action:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        text-decoration: none;
+        color: #007bff;
+        border-color: #007bff;
+    }
+
+    .quick-action i {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        display: block;
+    }
+
+    .quick-action h5 {
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+    }
+
+    .quick-action p {
+        margin: 0;
+        font-size: 0.9rem;
+        color: #666;
+    }
+
+    .pending-approvals {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .pending-approvals h4 {
+        margin-bottom: 1rem;
+        color: #333;
+    }
+
+    .approval-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        margin-bottom: 0.5rem;
+    }
+
+    .approval-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .user-info h6 {
+        margin: 0;
+        color: #333;
+    }
+
+    .user-info small {
+        color: #666;
+    }
+
+    .approval-actions .btn {
+        margin-left: 0.5rem;
+        padding: 0.25rem 0.75rem;
+        font-size: 0.875rem;
+    }
+
+    .system-status {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        padding: 1.5rem;
+    }
+
+    .status-indicator {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin-right: 0.5rem;
+    }
+
+    .status-online { background-color: #28a745; }
+    .status-warning { background-color: #ffc107; }
+    .status-offline { background-color: #dc3545; }
+
+    @media (max-width: 768px) {
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .quick-actions {
+            grid-template-columns: 1fr;
+        }
+
+        .approval-item {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .approval-actions {
+            margin-top: 1rem;
+            width: 100%;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid manager-dashboard">
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="mb-2">
+                    <i class="fas fa-user-shield"></i> Manager Dashboard
+                </h1>
+                <p class="mb-0">Welcome back! Here's your system overview and management tools.</p>
+            </div>
+            <div class="col-md-4 text-md-end">
+                <div class="d-flex align-items-center justify-content-md-end">
+                    <span class="status-indicator status-online"></span>
+                    <span class="text-light">System Online</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Grid -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon text-primary">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="stat-number text-primary">{{ total_users|default:0 }}</div>
+            <div class="stat-label">Total Users</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon text-warning">
+                <i class="fas fa-clock"></i>
+            </div>
+            <div class="stat-number text-warning">{{ pending_approvals_count|default:0 }}</div>
+            <div class="stat-label">Pending Approvals</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon text-success">
+                <i class="fas fa-car"></i>
+            </div>
+            <div class="stat-number text-success">{{ active_sessions|default:0 }}</div>
+            <div class="stat-label">Active Sessions</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon text-info">
+                <i class="fas fa-dollar-sign"></i>
+            </div>
+            <div class="stat-number text-info">${{ total_revenue|default:0 }}</div>
+            <div class="stat-label">Total Revenue</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon text-success">
+                <i class="fas fa-parking"></i>
+            </div>
+            <div class="stat-number text-success">{{ available_slots|default:0 }}</div>
+            <div class="stat-label">Available Slots</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon text-primary">
+                <i class="fas fa-history"></i>
+            </div>
+            <div class="stat-number text-primary">{{ today_sessions|default:0 }}</div>
+            <div class="stat-label">Today's Sessions</div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+        <a href="{% url 'manager_user_management' %}" class="quick-action">
+            <i class="fas fa-users-cog"></i>
+            <h5>User Management</h5>
+            <p>Manage users and approvals</p>
+        </a>
+        <a href="{% url 'staff_register' %}" class="quick-action">
+            <i class="fas fa-user-plus"></i>
+            <h5>Create Staff</h5>
+            <p>Add new staff members</p>
+        </a>
+        <a href="{% url 'security_dashboard' %}" class="quick-action">
+            <i class="fas fa-cogs"></i>
+            <h5>Security Monitor</h5>
+            <p>Monitor system security</p>
+        </a>
+        <a href="{% url 'history-log' %}" class="quick-action">
+            <i class="fas fa-history"></i>
+            <h5>System Logs</h5>
+            <p>View system activity logs</p>
+        </a>
+        <a href="{% url 'security_dashboard' %}" class="quick-action">
+            <i class="fas fa-shield-alt"></i>
+            <h5>Security</h5>
+            <p>Monitor security events</p>
+        </a>
+        <a href="/staff/dashboard/" class="quick-action">
+            <i class="fas fa-tachometer-alt"></i>
+            <h5>Staff Dashboard</h5>
+            <p>View staff operations</p>
+        </a>
+    </div>
+
+    <div class="row">
+        <!-- Pending Approvals -->
+        <div class="col-lg-8">
+            <div class="pending-approvals">
+                <h4><i class="fas fa-user-check"></i> Pending User Approvals</h4>
+                {% if pending_approvals %}
+                    {% for approval in pending_approvals %}
+                    <div class="approval-item">
+                        <div class="user-info">
+                            <h6>{{ approval.user.get_full_name|default:approval.user.username }}</h6>
+                            <small class="text-muted">
+                                {{ approval.user_type|title }} • {{ approval.user.email }} •
+                                Registered {{ approval.created_at|timesince }} ago
+                            </small>
+                        </div>
+                        <div class="approval-actions">
+                            <button class="btn btn-success btn-sm" onclick="approveUser({{ approval.user.id }})">
+                                <i class="fas fa-check"></i> Approve
+                            </button>
+                            <button class="btn btn-danger btn-sm" onclick="rejectUser({{ approval.user.id }})">
+                                <i class="fas fa-times"></i> Reject
+                            </button>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <div class="text-center mt-3">
+                        <a href="{% url 'manager_user_management' %}" class="btn btn-outline-primary">
+                            User Management
+                        </a>
+                    </div>
+                {% else %}
+                    <p class="text-muted text-center">No pending approvals at this time.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- System Status -->
+        <div class="col-lg-4">
+            <div class="system-status">
+                <h4><i class="fas fa-server"></i> System Status</h4>
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span>Database</span>
+                        <span><span class="status-indicator status-online"></span> Online</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span>Cache</span>
+                        <span><span class="status-indicator status-online"></span> Online</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span>Storage</span>
+                        <span><span class="status-indicator status-online"></span> Online</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span>Security</span>
+                        <span><span class="status-indicator status-online"></span> Active</span>
+                    </div>
+                </div>
+
+                <hr>
+
+                <h6>Recent Security Events</h6>
+                {% if recent_login_attempts %}
+                    {% for attempt in recent_login_attempts %}
+                    <div class="small text-muted mb-1">
+                        Failed login: {{ attempt.username }} from {{ attempt.ip_address }}
+                        <br><small>{{ attempt.timestamp|timesince }} ago</small>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="small text-muted">No recent security events</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+// Auto-refresh functionality temporarily disabled
+// TODO: Re-enable when user management APIs are restored
+console.log('Dashboard loaded successfully');
+
+// User approval functions
+function approveUser(userId) {
+    if (confirm('Are you sure you want to approve this user?')) {
+        fetch(`/manager/approve-user/${userId}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Error: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while approving the user.');
+        });
+    }
+}
+
+function rejectUser(userId) {
+    if (confirm('Are you sure you want to reject this user?')) {
+        fetch(`/manager/reject-user/${userId}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Error: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while rejecting the user.');
+        });
+    }
+}
+{% endblock %}
