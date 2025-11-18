@@ -916,7 +916,7 @@ def history_log(request):
 from django.utils.timezone import now
 from django.db.models import Case, When, Value, IntegerField
 
-@require_approved_user
+# @require_approved_user
 def lookup_session(request):
     session = None
     elapsed_time = None
