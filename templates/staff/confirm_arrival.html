@@ -1,0 +1,359 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Confirm Arrival - Staff - PMS{% endblock %}
+
+{% block extra_css %}
+<style>
+    .confirm-container {
+        max-width: 800px;
+        margin: 2rem auto;
+    }
+
+    .confirm-header {
+        background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+        color: white;
+        padding: 2.5rem;
+        border-radius: 15px;
+        text-align: center;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 20px rgba(0, 123, 255, 0.3);
+    }
+
+    .booking-summary {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    .info-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 1rem 0;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    .info-row:last-child {
+        border-bottom: none;
+    }
+
+    .vehicle-card {
+        background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%);
+        color: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        margin-bottom: 2rem;
+    }
+
+    .slot-selector {
+        background: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 12px;
+        margin-bottom: 2rem;
+    }
+
+    .available-slots {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .slot-option {
+        position: relative;
+        padding: 1rem;
+        border: 2px solid #dee2e6;
+        border-radius: 8px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        background: white;
+    }
+
+    .slot-option:hover {
+        transform: scale(1.05);
+        border-color: #007bff;
+    }
+
+    .slot-option.selected {
+        background: #007bff;
+        color: white;
+        border-color: #0056b3;
+    }
+
+    .slot-option.reserved {
+        background: #ffc107;
+        border-color: #e0a800;
+        cursor: not-allowed;
+    }
+
+    .warning-box {
+        background: #fff3cd;
+        border-left: 4px solid #ffc107;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 2rem;
+    }
+
+    .checklist {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        margin-bottom: 2rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .checklist-item {
+        padding: 0.75rem;
+        margin-bottom: 0.5rem;
+        border-radius: 6px;
+        background: #f8f9fa;
+    }
+
+    .btn-confirm-arrival {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        border: none;
+        color: white;
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-confirm-arrival:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+        color: white;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="confirm-container">
+        <!-- Header -->
+        <div class="confirm-header">
+            <h1><i class="fas fa-car-side"></i> Confirm Customer Arrival</h1>
+            <p class="mb-0">Check-in and convert booking to active parking session</p>
+        </div>
+
+        <!-- Booking Summary -->
+        <div class="booking-summary">
+            <h4 class="mb-3"><i class="fas fa-ticket-alt"></i> Booking Details</h4>
+            <div class="info-row">
+                <span class="text-muted">Booking ID</span>
+                <span class="fw-bold">{{ booking.booking_id }}</span>
+            </div>
+            <div class="info-row">
+                <span class="text-muted">Customer</span>
+                <span>{{ booking.user.get_full_name|default:booking.user.username }}</span>
+            </div>
+            <div class="info-row">
+                <span class="text-muted">Phone</span>
+                <span>{{ booking.user.userprofile.phone|default:"Not provided" }}</span>
+            </div>
+            <div class="info-row">
+                <span class="text-muted">Scheduled Arrival</span>
+                <span>{{ booking.scheduled_arrival|date:"F d, Y - h:i A" }}</span>
+            </div>
+            <div class="info-row">
+                <span class="text-muted">Expected Duration</span>
+                <span>{{ booking.expected_duration }} minutes</span>
+            </div>
+        </div>
+
+        <!-- Vehicle Information -->
+        <div class="vehicle-card">
+            <h4 class="mb-3"><i class="fas fa-car"></i> Vehicle Information</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>{{ booking.vehicle.license_plate }}</h5>
+                    <p class="mb-0">{{ booking.vehicle.make }} {{ booking.vehicle.model }}</p>
+                    {% if booking.vehicle.color %}
+                    <small>Color: {{ booking.vehicle.color }}</small>
+                    {% endif %}
+                </div>
+                <div class="col-md-6 text-md-end">
+                    {% if booking.vehicle.vehicle_type %}
+                    <span class="badge bg-light text-dark">{{ booking.vehicle.get_vehicle_type_display }}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Warning for Late/Early Arrival -->
+        {% if booking.time_until_arrival %}
+        <div class="warning-box">
+            <h6><i class="fas fa-clock"></i> Arrival Time Notice</h6>
+            <p class="mb-0">
+                Customer is {% if booking.time_until_arrival > 0 %}early by{% else %}late by{% endif %} 
+                {{ booking.time_until_arrival|abs }} minutes. Scheduled time was {{ booking.scheduled_arrival|date:"h:i A" }}.
+            </p>
+        </div>
+        {% endif %}
+
+        <!-- Pre-Check Checklist -->
+        <div class="checklist">
+            <h5 class="mb-3"><i class="fas fa-clipboard-check"></i> Pre-Check Verification</h5>
+            <div class="checklist-item">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="check1" required>
+                    <label class="form-check-label" for="check1">
+                        Vehicle license plate matches booking: <strong>{{ booking.vehicle.license_plate }}</strong>
+                    </label>
+                </div>
+            </div>
+            <div class="checklist-item">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="check2" required>
+                    <label class="form-check-label" for="check2">
+                        Customer ID verified
+                    </label>
+                </div>
+            </div>
+            <div class="checklist-item">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="check3" required>
+                    <label class="form-check-label" for="check3">
+                        Vehicle condition documented (if required)
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slot Assignment -->
+        <div class="slot-selector">
+            <h5 class="mb-3"><i class="fas fa-parking"></i> Assign Parking Slot</h5>
+            {% if booking.slot %}
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i> Pre-assigned slot: <strong>Slot {{ booking.slot.slot_number }}</strong>
+            </div>
+            {% endif %}
+            
+            <p class="text-muted">Select an available parking slot:</p>
+            <div class="available-slots" id="slotGrid">
+                <!-- Slots will be loaded via JavaScript -->
+            </div>
+            <input type="hidden" id="selectedSlot" name="slot_id" value="{{ booking.slot.id|default:'' }}">
+        </div>
+
+        <!-- Confirmation Form -->
+        <form method="post" id="confirmForm">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                <label for="notes" class="form-label">
+                    <i class="fas fa-sticky-note"></i> Additional Notes (Optional)
+                </label>
+                <textarea class="form-control" id="notes" name="notes" rows="3" 
+                          placeholder="Any special instructions or observations..."></textarea>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-confirm-arrival flex-grow-1" id="confirmBtn" disabled>
+                    <i class="fas fa-check-circle"></i> Confirm Arrival & Start Session
+                </button>
+                <a href="{% url 'staff_bookings' %}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left"></i> Cancel
+                </a>
+            </div>
+        </form>
+
+        <!-- Instructions -->
+        <div class="alert alert-secondary mt-4">
+            <h6><i class="fas fa-info-circle"></i> What happens next?</h6>
+            <ul class="mb-0">
+                <li>Booking status will change to "Active"</li>
+                <li>A new parking session will be created</li>
+                <li>The selected slot will be marked as occupied</li>
+                <li>Customer will receive a confirmation notification</li>
+                <li>Parking fees will start accumulating</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const selectedSlotInput = document.getElementById('selectedSlot');
+    const confirmBtn = document.getElementById('confirmBtn');
+    const checkboxes = document.querySelectorAll('.checklist-item input[type="checkbox"]');
+    
+    // Load available slots
+    fetchAvailableSlots();
+    
+    // Validate form
+    function validateForm() {
+        const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+        const slotSelected = selectedSlotInput.value !== '';
+        confirmBtn.disabled = !(allChecked && slotSelected);
+    }
+    
+    checkboxes.forEach(cb => cb.addEventListener('change', validateForm));
+    
+    function fetchAvailableSlots() {
+        fetch('/api/slot-status/')
+            .then(response => response.json())
+            .then(data => {
+                const grid = document.getElementById('slotGrid');
+                grid.innerHTML = '';
+                
+                // Filter only vacant slots
+                const availableSlots = data.filter(slot => !slot.is_occupied && !slot.is_reserved);
+                
+                data.forEach(slot => {
+                    const div = document.createElement('div');
+                    div.classList.add('slot-option');
+                    
+                    if (slot.is_occupied || (slot.is_reserved && slot.slot_id != {{ booking.slot.id|default:0 }})) {
+                        div.classList.add('reserved');
+                        div.title = 'Slot occupied or reserved';
+                    } else if ({{ booking.slot.id|default:0 }} && slot.slot_id == {{ booking.slot.id|default:0 }}) {
+                        div.classList.add('selected');
+                        selectedSlotInput.value = slot.slot_id;
+                    }
+                    
+                    div.innerHTML = `
+                        <div style="font-weight: bold;">${slot.slot_id}</div>
+                        <small>${slot.is_occupied ? 'Occupied' : slot.is_reserved ? 'Reserved' : 'Available'}</small>
+                    `;
+                    
+                    if (!slot.is_occupied && (!slot.is_reserved || slot.slot_id == {{ booking.slot.id|default:0 }})) {
+                        div.addEventListener('click', function() {
+                            document.querySelectorAll('.slot-option').forEach(s => s.classList.remove('selected'));
+                            this.classList.add('selected');
+                            selectedSlotInput.value = slot.slot_id;
+                            validateForm();
+                        });
+                    }
+                    
+                    grid.appendChild(div);
+                });
+                
+                validateForm();
+            })
+            .catch(error => console.error('Error fetching slots:', error));
+    }
+    
+    // Form submission validation
+    document.getElementById('confirmForm').addEventListener('submit', function(e) {
+        if (!selectedSlotInput.value) {
+            e.preventDefault();
+            alert('Please select a parking slot');
+            return false;
+        }
+        
+        if (!confirm('Confirm customer arrival and start parking session?')) {
+            e.preventDefault();
+            return false;
+        }
+    });
+});
+</script>
+{% endblock %}

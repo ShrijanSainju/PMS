@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ParkingSlot, ParkingSession, UserProfile, LoginAttempt, PasswordResetRequest
+from .models import ParkingSlot, ParkingSession, UserProfile, LoginAttempt, PasswordResetRequest, Booking
 
 
 @admin.register(ParkingSlot)
@@ -43,6 +43,34 @@ class PasswordResetRequestAdmin(admin.ModelAdmin):
     search_fields = ('user__username', 'user__email', 'token')
     readonly_fields = ('token', 'created_at')
     date_hierarchy = 'created_at'
+
+
+@admin.register(Booking)
+class BookingAdmin(admin.ModelAdmin):
+    list_display = ('booking_id', 'customer', 'vehicle', 'slot', 'scheduled_arrival', 'status', 'estimated_fee')
+    list_filter = ('status', 'scheduled_arrival', 'created_at')
+    search_fields = ('booking_id', 'customer__username', 'customer__email', 'vehicle__plate_number')
+    readonly_fields = ('booking_id', 'created_at', 'updated_at', 'estimated_fee')
+    date_hierarchy = 'scheduled_arrival'
+    
+    fieldsets = (
+        ('Booking Information', {
+            'fields': ('booking_id', 'customer', 'vehicle', 'slot', 'status')
+        }),
+        ('Schedule', {
+            'fields': ('scheduled_arrival', 'expected_duration', 'actual_arrival', 'actual_departure')
+        }),
+        ('Session & Payment', {
+            'fields': ('parking_session', 'estimated_fee')
+        }),
+        ('Additional Info', {
+            'fields': ('notes', 'created_at', 'updated_at')
+        }),
+    )
+    
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.select_related('customer', 'vehicle', 'slot', 'parking_session')
 
 
 # Customize admin site header

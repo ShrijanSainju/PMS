@@ -1,0 +1,226 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Cancel Booking - PMS{% endblock %}
+
+{% block extra_css %}
+<style>
+    .cancel-container {
+        max-width: 600px;
+        margin: 3rem auto;
+    }
+
+    .cancel-header {
+        background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        color: white;
+        padding: 2rem;
+        border-radius: 15px;
+        text-align: center;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 20px rgba(220, 53, 69, 0.3);
+    }
+
+    .warning-card {
+        background: #fff3cd;
+        border-left: 4px solid #ffc107;
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin-bottom: 2rem;
+    }
+
+    .booking-summary {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+        margin-bottom: 2rem;
+    }
+
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    .summary-row:last-child {
+        border-bottom: none;
+    }
+
+    .refund-info {
+        background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+        color: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .btn-confirm-cancel {
+        background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        border: none;
+        color: white;
+        padding: 1rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-confirm-cancel:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);
+        color: white;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="cancel-container">
+        <!-- Header -->
+        <div class="cancel-header">
+            <h1><i class="fas fa-exclamation-triangle"></i> Cancel Booking</h1>
+            <p class="mb-0">Are you sure you want to cancel this booking?</p>
+        </div>
+
+        <!-- Warning Message -->
+        <div class="warning-card">
+            <h5><i class="fas fa-info-circle"></i> Important Information</h5>
+            <ul class="mb-0">
+                <li>This action cannot be undone</li>
+                <li>You can rebook the same time slot if still available</li>
+                <li>Cancellation is only allowed up to 1 hour before scheduled arrival</li>
+                {% if booking.status == 'confirmed' %}
+                <li>Your slot will be released and made available to others</li>
+                {% endif %}
+            </ul>
+        </div>
+
+        <!-- Booking Summary -->
+        <div class="booking-summary">
+            <h5 class="mb-3"><i class="fas fa-receipt"></i> Booking Summary</h5>
+            
+            <div class="summary-row">
+                <span class="text-muted">Booking ID</span>
+                <span class="fw-bold">{{ booking.booking_id }}</span>
+            </div>
+            
+            <div class="summary-row">
+                <span class="text-muted">Vehicle</span>
+                <span>{{ booking.vehicle.license_plate }}</span>
+            </div>
+            
+            <div class="summary-row">
+                <span class="text-muted">Scheduled Arrival</span>
+                <span>{{ booking.scheduled_arrival|date:"F d, Y - h:i A" }}</span>
+            </div>
+            
+            <div class="summary-row">
+                <span class="text-muted">Duration</span>
+                <span>{{ booking.expected_duration }} minutes</span>
+            </div>
+            
+            <div class="summary-row">
+                <span class="text-muted">Estimated Fee</span>
+                <span class="text-success fw-bold">₹{{ booking.estimated_fee }}</span>
+            </div>
+
+            {% if booking.slot %}
+            <div class="summary-row">
+                <span class="text-muted">Assigned Slot</span>
+                <span class="badge bg-primary">Slot {{ booking.slot.slot_number }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Refund Information (if applicable) -->
+        {% if booking.status == 'confirmed' %}
+        <div class="refund-info">
+            <h5><i class="fas fa-money-bill-wave"></i> Refund Information</h5>
+            <p class="mb-0">
+                Since you're cancelling more than 1 hour in advance, no cancellation fee will be charged.
+                If you made any advance payment, it will be refunded within 3-5 business days.
+            </p>
+        </div>
+        {% endif %}
+
+        <!-- Cancellation Form -->
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                <label for="cancellation_reason" class="form-label fw-bold">
+                    <i class="fas fa-comment"></i> Reason for Cancellation (Optional)
+                </label>
+                <textarea 
+                    class="form-control" 
+                    id="cancellation_reason" 
+                    name="cancellation_reason" 
+                    rows="4" 
+                    placeholder="Please let us know why you're cancelling (optional)..."></textarea>
+                <small class="text-muted">Your feedback helps us improve our service</small>
+            </div>
+
+            <!-- Confirmation Checkbox -->
+            <div class="form-check mb-4">
+                <input 
+                    class="form-check-input" 
+                    type="checkbox" 
+                    id="confirmCancel" 
+                    required>
+                <label class="form-check-label fw-bold" for="confirmCancel">
+                    I understand that this booking will be permanently cancelled
+                </label>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <a href="{% url 'booking_detail' booking.id %}" class="btn btn-outline-secondary flex-grow-1">
+                    <i class="fas fa-arrow-left"></i> Go Back
+                </a>
+                <button type="submit" class="btn btn-confirm-cancel flex-grow-1">
+                    <i class="fas fa-times-circle"></i> Confirm Cancellation
+                </button>
+            </div>
+        </form>
+
+        <!-- Help Section -->
+        <div class="alert alert-secondary mt-4">
+            <h6><i class="fas fa-headset"></i> Need Assistance?</h6>
+            <p class="mb-0">
+                If you're experiencing issues or need to modify your booking instead of cancelling, 
+                please contact our support team. We're here to help!
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form');
+    const checkbox = document.getElementById('confirmCancel');
+    
+    form.addEventListener('submit', function(e) {
+        if (!checkbox.checked) {
+            e.preventDefault();
+            alert('Please confirm that you understand this action cannot be undone.');
+            return false;
+        }
+        
+        // Additional confirmation
+        if (!confirm('Are you absolutely sure you want to cancel this booking?')) {
+            e.preventDefault();
+            return false;
+        }
+    });
+});
+</script>
+{% endblock %}
