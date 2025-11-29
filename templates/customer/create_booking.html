@@ -185,7 +185,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function updateFee() {
         const duration = parseInt(durationInput.value) || 0;
-        const fee = duration * 2; // ₹2 per minute
+        const pricePerMinute = {{ settings.price_per_minute|default:2 }};
+        const fee = duration * pricePerMinute;
         feeDisplay.textContent = `₹${fee}`;
     }
     

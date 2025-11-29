@@ -31,6 +31,8 @@ def is_manager_user(user):
 @require_customer
 def customer_dashboard(request):
     """Customer dashboard view - limited access for customers only"""
+    from .models import SystemSettings
+    
     # Get customer's vehicles
     customer_vehicles = Vehicle.objects.filter(owner=request.user, is_active=True)
 
@@ -67,6 +69,7 @@ def customer_dashboard(request):
         'current_sessions': current_sessions,
         'recent_sessions': recent_sessions,
         'has_vehicles': customer_vehicles.exists(),
+        'settings': SystemSettings.load(),
     }
 
     return render(request, 'customer/customer_dashboard.html', context)
@@ -339,6 +342,8 @@ def delete_vehicle(request, vehicle_id):
 @require_customer
 def vehicle_status(request, vehicle_id):
     """View to check specific vehicle status"""
+    from .models import SystemSettings
+    
     vehicle = get_object_or_404(Vehicle, id=vehicle_id, owner=request.user)
     current_session = vehicle.current_session
 
@@ -352,5 +357,6 @@ def vehicle_status(request, vehicle_id):
         'current_session': current_session,
         'recent_sessions': recent_sessions,
         'user_type': 'customer',
+        'settings': SystemSettings.load(),
     }
     return render(request, 'customer/vehicle_status.html', context)

@@ -42,6 +42,8 @@ def my_bookings(request):
 @require_customer
 def create_booking(request):
     """Customer creates a new parking booking"""
+    from .models import SystemSettings
+    
     # Check if user has any active vehicles
     user_vehicles = Vehicle.objects.filter(owner=request.user, is_active=True)
     
@@ -93,6 +95,7 @@ def create_booking(request):
         'form': form,
         'user_vehicles': user_vehicles,
         'available_slots_count': available_slots_count,
+        'settings': SystemSettings.load(),
     }
     
     return render(request, 'customer/create_booking.html', context)

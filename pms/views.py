@@ -381,7 +381,7 @@ def get_available_slots(request):
 def security_dashboard(request):
     """Security monitoring dashboard for administrators"""
 
-    return render(request, 'admin/security_dashboard.html')
+    return render(request, 'manager/security_dashboard.html')
 
 
 @api_view(['GET'])
@@ -910,7 +910,7 @@ def history_log(request):
 
         enhanced_sessions.append(session_data)
 
-    return render(request, 'admin/history.html', {'enhanced_sessions': enhanced_sessions})
+    return render(request, 'manager/history.html', {'enhanced_sessions': enhanced_sessions})
 
 
 from django.utils.timezone import now
@@ -921,7 +921,9 @@ def lookup_session(request):
     session = None
     elapsed_time = None
     price = None
-    price_per_minute = 2  # Change this to match your pricing logic
+    from .models import SystemSettings
+    settings = SystemSettings.load()
+    price_per_minute = float(settings.price_per_minute)
     vehicle_owner = None
     vehicle_info = None
     all_sessions = None
@@ -968,14 +970,17 @@ def lookup_session(request):
                 pass
 
             if session and session.start_time:
+                # Use the duration property from the model
+                elapsed_time = session.duration
+                
+                # Calculate price
                 if session.status in ['pending', 'active']:
                     end = now()
                 else:
                     end = session.end_time or now()
-
+                
                 elapsed = end - session.start_time
                 elapsed_minutes = int(elapsed.total_seconds() // 60)
-                elapsed_time = str(elapsed).split('.')[0]  # Format HH:MM:SS
                 price = elapsed_minutes * price_per_minute
     else:
         form = LookupForm()

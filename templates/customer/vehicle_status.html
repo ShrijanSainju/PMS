@@ -242,7 +242,8 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Calculate estimated fee (Rs. 2 per minute)
             const totalMinutes = Math.floor(diff / (1000 * 60));
-            const estimatedFee = totalMinutes * 2;
+            const pricePerMinute = {{ settings.price_per_minute|default:2 }};
+            const estimatedFee = totalMinutes * pricePerMinute;
             
             // Update fee display
             const feeElement = document.getElementById('estimatedFee');

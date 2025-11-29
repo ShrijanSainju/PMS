@@ -1,5 +1,19 @@
 from django.contrib import admin
-from .models import ParkingSlot, ParkingSession, UserProfile, LoginAttempt, PasswordResetRequest, Booking
+from .models import ParkingSlot, ParkingSession, UserProfile, LoginAttempt, PasswordResetRequest, Booking, SystemSettings
+
+
+@admin.register(SystemSettings)
+class SystemSettingsAdmin(admin.ModelAdmin):
+    list_display = ('price_per_minute', 'updated_at', 'updated_by')
+    readonly_fields = ('updated_at',)
+    
+    def has_add_permission(self, request):
+        # Only allow one instance
+        return not SystemSettings.objects.exists()
+    
+    def has_delete_permission(self, request, obj=None):
+        # Prevent deletion
+        return False
 
 
 @admin.register(ParkingSlot)

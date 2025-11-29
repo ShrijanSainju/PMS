@@ -4,6 +4,39 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+class SystemSettings(models.Model):
+    """Singleton model to store system-wide settings"""
+    price_per_minute = models.DecimalField(
+        max_digits=6, 
+        decimal_places=2, 
+        default=2.00,
+        help_text="Parking fee per minute in Rs."
+    )
+    updated_at = models.DateTimeField(auto_now=True)
+    updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+
+    class Meta:
+        verbose_name = "System Settings"
+        verbose_name_plural = "System Settings"
+
+    def save(self, *args, **kwargs):
+        # Ensure only one instance exists
+        self.pk = 1
+        super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        # Prevent deletion
+        pass
+
+    @classmethod
+    def load(cls):
+        """Load the singleton settings instance"""
+        obj, created = cls.objects.get_or_create(pk=1)
+        return obj
+
+    def __str__(self):
+        return f"System Settings - Rs. {self.price_per_minute}/min"
+
 class ParkingSlot(models.Model):
     slot_id = models.CharField(max_length=20)
     is_occupied = models.BooleanField(default=False)
@@ -78,7 +111,29 @@ class ParkingSession(models.Model):
         end_time = self.end_time or now()
         duration = end_time - self.start_time
         minutes = int(duration.total_seconds() // 60)
-        return minutes * 2  # Rs. 2 per minute
+        settings = SystemSettings.load()
+        return float(minutes * settings.price_per_minute)  # Use system settings
+
+    @property
+    def duration(self):
+        """Calculate and return duration as a formatted string"""
+        if not self.start_time:
+            return "N/A"
+        
+        end_time = self.end_time or now()
+        duration = end_time - self.start_time
+        
+        total_seconds = int(duration.total_seconds())
+        hours = total_seconds // 3600
+        minutes = (total_seconds % 3600) // 60
+        seconds = total_seconds % 60
+        
+        if hours > 0:
+            return f"{hours}h {minutes}m"
+        elif minutes > 0:
+            return f"{minutes}m {seconds}s"
+        else:
+            return f"{seconds}s"
 
 
 class Vehicle(models.Model):
@@ -328,7 +383,8 @@ class Booking(models.Model):
 
         # Calculate estimated fee
         if self.expected_duration and not self.estimated_fee:
-            self.estimated_fee = self.expected_duration * 2  # Rs. 2 per minute
+            settings = SystemSettings.load()
+            self.estimated_fee = float(self.expected_duration * settings.price_per_minute)
 
         super().save(*args, **kwargs)
 
