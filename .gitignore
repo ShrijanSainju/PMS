@@ -13,8 +13,7 @@ db.sqlite3
 # *.env
 venv
 
-# Ignore the PMS folder
-
+# Other unneessary files
 pms.log
 
 security.log
