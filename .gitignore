@@ -14,7 +14,6 @@ db.sqlite3
 venv
 
 # Ignore the PMS folder
-pms/
 
 pms.log
 
