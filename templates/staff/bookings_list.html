@@ -224,11 +224,11 @@
                 <div class="booking-details">
                     <div class="detail-item">
                         <span class="detail-label">Customer</span>
-                        <span class="detail-value">{{ booking.user.get_full_name|default:booking.user.username }}</span>
+                        <span class="detail-value">{{ booking.customer.get_full_name|default:booking.customer.username }}</span>
                     </div>
                     <div class="detail-item">
                         <span class="detail-label">Vehicle</span>
-                        <span class="detail-value">{{ booking.vehicle.license_plate }}</span>
+                        <span class="detail-value">{{ booking.vehicle.plate_number }}</span>
                     </div>
                     <div class="detail-item">
                         <span class="detail-label">Scheduled Arrival</span>
@@ -255,17 +255,8 @@
                         <i class="fas fa-eye"></i> View Details
                     </a>
                     
-                    {% if booking.status == 'pending' %}
-                    <form method="post" action="{% url 'staff_confirm_booking' booking.id %}" style="display:inline;">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-sm btn-success">
-                            <i class="fas fa-check"></i> Confirm
-                        </button>
-                    </form>
-                    {% endif %}
-
                     {% if booking.status == 'confirmed' %}
-                    <a href="{% url 'staff_confirm_arrival' booking.id %}" class="btn btn-sm btn-primary">
+                    <a href="{% url 'confirm_arrival' booking.id %}" class="btn btn-sm btn-primary">
                         <i class="fas fa-car-side"></i> Check-In
                     </a>
                     {% endif %}

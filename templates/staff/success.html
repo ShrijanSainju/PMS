@@ -159,9 +159,15 @@
             <a href="{% url 'assign-slot' %}" class="btn btn-primary">
                 <i class="fas fa-plus"></i> Assign Another Slot
             </a>
-            <a href="/staff/dashboard/" class="btn btn-secondary">
-                <i class="fas fa-tachometer-alt"></i> Back to Dashboard
-            </a>
+            {% if request.user.userprofile.user_type == 'manager' %}
+                <a href="{% url 'manager_dashboard' %}" class="btn btn-secondary">
+                    <i class="fas fa-tachometer-alt"></i> Back to Dashboard
+                </a>
+            {% else %}
+                <a href="{% url 'staff_dashboard' %}" class="btn btn-secondary">
+                    <i class="fas fa-tachometer-alt"></i> Back to Dashboard
+                </a>
+            {% endif %}
             <a href="/customer/lookup/" class="btn btn-info">
                 <i class="fas fa-search"></i> Vehicle Lookup
             </a>

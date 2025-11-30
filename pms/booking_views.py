@@ -11,7 +11,7 @@ import logging
 
 from .models import Booking, ParkingSlot, Vehicle, ParkingSession
 from .forms import BookingForm
-from .permissions import require_customer, require_staff_or_manager
+from .permissions import require_customer, require_staff_or_manager, require_approved_user
 
 logger = logging.getLogger(__name__)
 
@@ -54,23 +54,40 @@ def create_booking(request):
     if request.method == 'POST':
         form = BookingForm(request.user, request.POST)
         if form.is_valid():
-            booking = form.save(commit=False)
-            booking.customer = request.user
-            
-            # Find available slot for the requested time
-            available_slot = find_available_slot_for_time(
-                booking.scheduled_arrival,
-                booking.expected_duration
-            )
-            
-            if available_slot:
-                booking.slot = available_slot
+            # Get the slot selected by customer BEFORE saving
+            slot_id = form.cleaned_data.get('slot')
+            try:
+                selected_slot = ParkingSlot.objects.get(id=slot_id)
+                
+                # Verify slot is available
+                if selected_slot.is_occupied:
+                    messages.error(request, f'Slot {selected_slot.slot_id} is currently occupied. Please select another slot.')
+                    return render(request, 'customer/create_booking.html', {
+                        'form': form,
+                        'user_vehicles': user_vehicles,
+                        'available_slots_count': ParkingSlot.objects.filter(is_occupied=False, is_reserved=False).count(),
+                        'settings': SystemSettings.load(),
+                    })
+                
+                if selected_slot.is_reserved:
+                    messages.error(request, f'Slot {selected_slot.slot_id} is already reserved. Please select another slot.')
+                    return render(request, 'customer/create_booking.html', {
+                        'form': form,
+                        'user_vehicles': user_vehicles,
+                        'available_slots_count': ParkingSlot.objects.filter(is_occupied=False, is_reserved=False).count(),
+                        'settings': SystemSettings.load(),
+                    })
+                
+                # Create booking instance without saving
+                booking = form.save(commit=False)
+                booking.customer = request.user
+                booking.slot = selected_slot
                 booking.status = 'confirmed'
                 booking.save()
                 
                 # Reserve the slot
-                available_slot.is_reserved = True
-                available_slot.save()
+                selected_slot.is_reserved = True
+                selected_slot.save()
                 
                 # Send confirmation
                 try:
@@ -78,10 +95,11 @@ def create_booking(request):
                 except Exception as e:
                     logger.error(f"Failed to send booking confirmation: {e}")
                 
-                messages.success(request, f'Booking confirmed! Slot {available_slot.slot_id} reserved for {booking.scheduled_arrival.strftime("%B %d, %Y at %I:%M %p")}')
+                messages.success(request, f'Booking confirmed! Slot {selected_slot.slot_id} reserved for {booking.scheduled_arrival.strftime("%B %d, %Y at %I:%M %p")}')
                 return redirect('booking_detail', booking_id=booking.id)
-            else:
-                messages.error(request, 'No slots available for the selected time. Please try a different time.')
+                
+            except ParkingSlot.DoesNotExist:
+                messages.error(request, 'Invalid slot selected. Please try again.')
     else:
         form = BookingForm(request.user)
     
@@ -117,13 +135,20 @@ def booking_detail(request, booking_id):
     return render(request, 'customer/booking_detail.html', context)
 
 
-@require_customer
+@require_approved_user
 def cancel_booking(request, booking_id):
-    """Cancel a booking"""
-    booking = get_object_or_404(Booking, id=booking_id, customer=request.user)
+    """Cancel a booking - accessible by customer (own bookings) or staff/manager (any booking)"""
+    user_profile = getattr(request.user, 'userprofile', None)
+    is_staff_or_manager = user_profile and user_profile.user_type in ['staff', 'manager']
+    
+    # Staff/manager can cancel any booking, customers only their own
+    if is_staff_or_manager:
+        booking = get_object_or_404(Booking, id=booking_id)
+    else:
+        booking = get_object_or_404(Booking, id=booking_id, customer=request.user)
     
     if request.method == 'POST':
-        if booking.can_cancel:
+        if booking.can_cancel or is_staff_or_manager:
             booking.status = 'cancelled'
             booking.save()
             
@@ -139,7 +164,12 @@ def cancel_booking(request, booking_id):
                 logger.error(f"Failed to send cancellation notification: {e}")
             
             messages.success(request, 'Booking cancelled successfully')
-            return redirect('customer_bookings')
+            
+            # Redirect based on user type
+            if is_staff_or_manager:
+                return redirect('staff_bookings_list')
+            else:
+                return redirect('customer_bookings')
         else:
             if booking.status not in ['pending', 'confirmed']:
                 messages.error(request, f'Cannot cancel a {booking.get_status_display()} booking')
@@ -194,17 +224,25 @@ def staff_bookings_list(request):
     """Staff view of all bookings"""
     status_filter = request.GET.get('status', 'all')
     
-    bookings = Booking.objects.all().select_related('customer', 'vehicle', 'slot')
+    bookings_query = Booking.objects.all().select_related('customer', 'vehicle', 'slot')
     
     if status_filter != 'all':
-        bookings = bookings.filter(status=status_filter)
+        bookings = bookings_query.filter(status=status_filter)
+    else:
+        bookings = bookings_query
     
     # Today's bookings
     today = timezone.now().date()
-    today_bookings = bookings.filter(scheduled_arrival__date=today)
+    today_bookings = bookings_query.filter(scheduled_arrival__date=today)
+    
+    # Stats for the dashboard
+    pending_count = bookings_query.filter(status='pending').count()
+    confirmed_count = bookings_query.filter(status='confirmed').count()
+    active_count = bookings_query.filter(status='active').count()
+    today_count = today_bookings.count()
     
     # Upcoming bookings
-    upcoming = bookings.filter(
+    upcoming = bookings_query.filter(
         status='confirmed',
         scheduled_arrival__gt=timezone.now()
     ).order_by('scheduled_arrival')[:20]
@@ -214,6 +252,10 @@ def staff_bookings_list(request):
         'today_bookings': today_bookings,
         'upcoming_bookings': upcoming,
         'status_filter': status_filter,
+        'pending_count': pending_count,
+        'confirmed_count': confirmed_count,
+        'active_count': active_count,
+        'today_count': today_count,
     }
     
     return render(request, 'staff/bookings_list.html', context)
@@ -226,14 +268,29 @@ def confirm_arrival(request, booking_id):
     
     if request.method == 'POST':
         if booking.status == 'confirmed':
-            session = booking.convert_to_session()
-            if session:
-                messages.success(request, f'Customer checked in. Session {session.session_id} started.')
-                logger.info(f"Booking {booking.booking_id} converted to session {session.session_id} by {request.user.username}")
-            else:
-                messages.error(request, 'Failed to start parking session')
+            # Check if booking has a slot assigned
+            if not booking.slot:
+                messages.error(request, 'Cannot check in: No parking slot assigned to this booking')
+                return redirect('staff_bookings_list')
+            
+            # Check if slot is already occupied
+            if booking.slot.is_occupied:
+                messages.error(request, f'Cannot check in: Slot {booking.slot.slot_id} is already occupied')
+                return redirect('staff_bookings_list')
+            
+            try:
+                session = booking.convert_to_session()
+                if session:
+                    messages.success(request, f'Customer checked in successfully! Session {session.session_id} started in slot {booking.slot.slot_id}.')
+                    logger.info(f"Booking {booking.booking_id} converted to session {session.session_id} by {request.user.username}")
+                    return redirect('staff_bookings_list')
+                else:
+                    messages.error(request, 'Failed to start parking session. Please try again.')
+            except Exception as e:
+                logger.error(f"Error converting booking {booking.booking_id} to session: {str(e)}")
+                messages.error(request, f'Error starting session: {str(e)}')
         else:
-            messages.error(request, f'Cannot check in a {booking.get_status_display()} booking')
+            messages.error(request, f'Cannot check in a {booking.get_status_display()} booking. Only confirmed bookings can be checked in.')
         
         return redirect('staff_bookings_list')
     

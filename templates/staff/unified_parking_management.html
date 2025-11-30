@@ -323,7 +323,12 @@
                                    class="btn btn-sm btn-outline-primary">
                                     <i class="fas fa-search"></i> View Sessions
                                 </a>
-                                {% if vehicle_data.parking_status == 'Not Parked' %}
+                                {% if vehicle_data.current_booking %}
+                                <a href="{% url 'confirm_arrival' vehicle_data.current_booking.id %}"
+                                   class="btn btn-sm btn-info">
+                                    <i class="fas fa-check-circle"></i> Confirm Arrival
+                                </a>
+                                {% elif vehicle_data.parking_status == 'Not Parked' %}
                                 <a href="?action=assign&vehicle={{ vehicle_data.vehicle.plate_number }}" 
                                    class="btn btn-sm btn-success">
                                     <i class="fas fa-plus"></i> Assign Slot

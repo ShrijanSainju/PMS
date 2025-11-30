@@ -62,6 +62,63 @@
         box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
         color: white;
     }
+
+    .slot-selection-section {
+        margin: 2rem 0;
+        padding: 1.5rem;
+        background: #f8f9fa;
+        border-radius: 12px;
+        border: 2px solid #20c997;
+    }
+
+    .slot-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 15px;
+        margin-top: 1rem;
+    }
+
+    .slot-option {
+        padding: 1rem;
+        border: 2px solid #dee2e6;
+        border-radius: 8px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: white;
+    }
+
+    .slot-option:hover:not(.reserved):not(.occupied) {
+        border-color: #20c997;
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(32, 201, 151, 0.2);
+    }
+
+    .slot-option.selected {
+        background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%);
+        color: white;
+        border-color: #20c997;
+        font-weight: bold;
+    }
+
+    .slot-option.reserved, .slot-option.occupied {
+        background: #e9ecef;
+        color: #6c757d;
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+
+    .slot-required-notice {
+        color: #dc3545;
+        font-weight: 600;
+        margin-top: 0.5rem;
+        display: none;
+    }
+
+    .slot-required-notice.show {
+        display: block;
+    }
+
 </style>
 {% endblock %}
 
@@ -137,12 +194,39 @@
                 <small class="form-text text-muted">{{ form.notes.help_text }}</small>
             </div>
 
+            <!-- Parking Slot Selection -->
+             
+            <div class="slot-selection-section">
+                <h5 class="mb-3">
+                    <i class="fas fa-parking"></i> Select Your Parking Slot
+                    <span class="badge bg-success">{{ available_slots_count }} Available</span>
+                </h5>
+                <p class="text-muted mb-3">Click on an available slot to select it for your booking</p>
+                
+                <div id="slotGrid" class="slot-grid">
+                    <div class="text-center text-muted">
+                        <i class="fas fa-spinner fa-spin fa-2x"></i>
+                        <p class="mt-2">Loading available slots...</p>
+                    </div>
+                </div>
+                
+                {{ form.slot }}
+                {% if form.slot.errors %}
+                    <div class="text-danger mt-2">{{ form.slot.errors }}</div>
+                {% endif %}
+                <div id="slotRequiredNotice" class="slot-required-notice">
+                    <i class="fas fa-exclamation-triangle"></i> Please select a parking slot before confirming
+                </div>
+            </div>
+
             <!-- Estimated Fee Display -->
-            <div class="estimated-fee">
+            {% comment %} <div class="estimated-fee">
                 <h5 class="mb-2">Estimated Parking Fee</h5>
                 <h2 id="estimatedFee">₹0</h2>
                 <small>Based on ₹2 per minute</small>
-            </div>
+            </div> 
+            Need to make dynamic so hidden for now
+            {% endcomment %} 
 
             <!-- Form Errors -->
             {% if form.non_field_errors %}
@@ -178,37 +262,102 @@
 {% endblock %}
 
 {% block extra_scripts %}
-<script>
 document.addEventListener('DOMContentLoaded', function() {
-    const durationInput = document.getElementById('{{ form.expected_duration.id_for_label }}');
-    const feeDisplay = document.getElementById('estimatedFee');
+    const durationInput = document.getElementById('id_expected_duration');
+    const slotRequiredNotice = document.getElementById('slotRequiredNotice');
+    const bookingForm = document.getElementById('bookingForm');
     
-    function updateFee() {
-        const duration = parseInt(durationInput.value) || 0;
-        const pricePerMinute = {{ settings.price_per_minute|default:2 }};
-        const fee = duration * pricePerMinute;
-        feeDisplay.textContent = `₹${fee}`;
+    // Find the slot input - try multiple possible IDs
+    var selectedSlotInput = document.getElementById('id_slot') || 
+                           document.getElementById('selectedSlotInput') ||
+                           document.querySelector('input[name="slot"]');
+    
+    console.log('Booking form loaded. Slot input found:', selectedSlotInput);
+    console.log('Slot input ID:', selectedSlotInput ? selectedSlotInput.id : 'NULL');
+    console.log('Slot input name:', selectedSlotInput ? selectedSlotInput.name : 'NULL');
+    
+    // Debug: List all hidden inputs
+    document.querySelectorAll('input[type="hidden"]').forEach(function(input) {
+        console.log('Hidden input found:', input.id, input.name);
+    });
+    
+    function loadParkingSlots() {
+        console.log('Fetching slots...');
+        
+        fetch('/api/slot-status/', {
+            credentials: 'same-origin',
+            headers: {'Accept': 'application/json'}
+        })
+        .then(function(response) {
+            if (!response.ok) throw new Error('HTTP ' + response.status);
+            return response.json();
+        })
+        .then(function(data) {
+            console.log('Got ' + data.length + ' slots');
+            const grid = document.getElementById('slotGrid');
+            grid.innerHTML = '';
+            
+            if (data.length === 0) {
+                grid.innerHTML = '<div class="text-center text-muted"><p>No slots available</p></div>';
+                return;
+            }
+            
+            data.forEach(function(slot) {
+                const div = document.createElement('div');
+                div.classList.add('slot-option');
+                
+                const isAvailable = !slot.is_occupied && !slot.is_reserved;
+                
+                if (slot.is_occupied) div.classList.add('occupied');
+                else if (slot.is_reserved) div.classList.add('reserved');
+                
+                var status = slot.is_occupied ? 'Occupied' : (slot.is_reserved ? 'Reserved' : 'Available');
+                div.innerHTML = '<div style="font-weight:bold;font-size:1.1rem;">' + slot.slot_id + '</div><small style="font-size:0.85rem;">' + status + '</small>';
+                
+                if (isAvailable) {
+                    div.addEventListener('click', function() {
+                        document.querySelectorAll('.slot-option').forEach(function(s) {
+                            s.classList.remove('selected');
+                        });
+                        div.classList.add('selected');
+                        if (selectedSlotInput) {
+                            selectedSlotInput.value = slot.id;
+                            console.log('Selected slot:', slot.slot_id, 'ID:', slot.id);
+                        }
+                        if (slotRequiredNotice) slotRequiredNotice.classList.remove('show');
+                    });
+                }
+                
+                grid.appendChild(div);
+            });
+        })
+        .catch(function(error) {
+            console.error('Error:', error);
+            document.getElementById('slotGrid').innerHTML = '<div class="text-danger">Error loading slots</div>';
+        });
     }
     
-    if (durationInput) {
-        durationInput.addEventListener('input', updateFee);
-        updateFee(); // Initial calculation
+    loadParkingSlots();
+    
+    if (bookingForm) {
+        bookingForm.addEventListener('submit', function(e) {
+            if (!selectedSlotInput || !selectedSlotInput.value) {
+                e.preventDefault();
+                alert('Please select a parking slot');
+                if (slotRequiredNotice) slotRequiredNotice.classList.add('show');
+                return false;
+            }
+            return confirm('Confirm booking?');
+        });
     }
     
-    // Set minimum datetime to 1 hour from now
-    const arrivalInput = document.getElementById('{{ form.scheduled_arrival.id_for_label }}');
+    const arrivalInput = document.getElementById('id_scheduled_arrival');
     if (arrivalInput) {
         const now = new Date();
-        now.setHours(now.getHours() + 1);
-        const minDateTime = now.toISOString().slice(0, 16);
-        arrivalInput.setAttribute('min', minDateTime);
-        
-        // Set maximum to 7 days from now
+        arrivalInput.setAttribute('min', now.toISOString().slice(0, 16));
         const maxDate = new Date();
         maxDate.setDate(maxDate.getDate() + 7);
-        const maxDateTime = maxDate.toISOString().slice(0, 16);
-        arrivalInput.setAttribute('max', maxDateTime);
+        arrivalInput.setAttribute('max', maxDate.toISOString().slice(0, 16));
     }
 });
-</script>
 {% endblock %}

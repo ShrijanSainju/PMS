@@ -149,11 +149,11 @@
             </div>
             <div class="info-row">
                 <span class="text-muted">Customer</span>
-                <span>{{ booking.user.get_full_name|default:booking.user.username }}</span>
+                <span>{{ booking.customer.get_full_name|default:booking.customer.username }}</span>
             </div>
             <div class="info-row">
                 <span class="text-muted">Phone</span>
-                <span>{{ booking.user.userprofile.phone|default:"Not provided" }}</span>
+                <span>{{ booking.customer.userprofile.phone_number|default:"Not provided" }}</span>
             </div>
             <div class="info-row">
                 <span class="text-muted">Scheduled Arrival</span>
@@ -170,7 +170,7 @@
             <h4 class="mb-3"><i class="fas fa-car"></i> Vehicle Information</h4>
             <div class="row">
                 <div class="col-md-6">
-                    <h5>{{ booking.vehicle.license_plate }}</h5>
+                    <h5>{{ booking.vehicle.plate_number }}</h5>
                     <p class="mb-0">{{ booking.vehicle.make }} {{ booking.vehicle.model }}</p>
                     {% if booking.vehicle.color %}
                     <small>Color: {{ booking.vehicle.color }}</small>
@@ -185,14 +185,16 @@
         </div>
 
         <!-- Warning for Late/Early Arrival -->
-        {% if booking.time_until_arrival %}
+        {% if booking.scheduled_arrival %}
+        {% now "U" as current_timestamp %}
+        {% if booking.scheduled_arrival.timestamp > current_timestamp|add:"300" or booking.scheduled_arrival.timestamp < current_timestamp|add:"-300" %}
         <div class="warning-box">
             <h6><i class="fas fa-clock"></i> Arrival Time Notice</h6>
             <p class="mb-0">
-                Customer is {% if booking.time_until_arrival > 0 %}early by{% else %}late by{% endif %} 
-                {{ booking.time_until_arrival|abs }} minutes. Scheduled time was {{ booking.scheduled_arrival|date:"h:i A" }}.
+                Scheduled arrival time: {{ booking.scheduled_arrival|date:"h:i A" }}
             </p>
         </div>
+        {% endif %}
         {% endif %}
 
         <!-- Pre-Check Checklist -->
@@ -202,7 +204,7 @@
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="check1" required>
                     <label class="form-check-label" for="check1">
-                        Vehicle license plate matches booking: <strong>{{ booking.vehicle.license_plate }}</strong>
+                        Vehicle license plate matches booking: <strong>{{ booking.vehicle.plate_number }}</strong>
                     </label>
                 </div>
             </div>
@@ -226,18 +228,27 @@
 
         <!-- Slot Assignment -->
         <div class="slot-selector">
-            <h5 class="mb-3"><i class="fas fa-parking"></i> Assign Parking Slot</h5>
+            <h5 class="mb-3"><i class="fas fa-parking"></i> Assigned Parking Slot</h5>
             {% if booking.slot %}
-            <div class="alert alert-info">
-                <i class="fas fa-info-circle"></i> Pre-assigned slot: <strong>Slot {{ booking.slot.slot_number }}</strong>
-            </div>
+                <div class="alert alert-success">
+                    <h5 class="mb-0">
+                        <i class="fas fa-check-circle"></i> 
+                        Pre-assigned Slot: <strong>{{ booking.slot.slot_id }}</strong>
+                    </h5>
+                    <p class="mb-0 mt-2">This slot was selected by the customer during booking.</p>
+                </div>
+                <input type="hidden" id="selectedSlot" name="slot_id" value="{{ booking.slot.id }}">
+            {% else %}
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle"></i> 
+                    No slot assigned. Please select a parking slot below.
+                </div>
+                <p class="text-muted">Select an available parking slot:</p>
+                <div class="available-slots" id="slotGrid">
+                    <!-- Slots will be loaded via JavaScript -->
+                </div>
+                <input type="hidden" id="selectedSlot" name="slot_id" value="">
             {% endif %}
-            
-            <p class="text-muted">Select an available parking slot:</p>
-            <div class="available-slots" id="slotGrid">
-                <!-- Slots will be loaded via JavaScript -->
-            </div>
-            <input type="hidden" id="selectedSlot" name="slot_id" value="{{ booking.slot.id|default:'' }}">
         </div>
 
         <!-- Confirmation Form -->
@@ -257,7 +268,7 @@
                 <button type="submit" class="btn btn-confirm-arrival flex-grow-1" id="confirmBtn" disabled>
                     <i class="fas fa-check-circle"></i> Confirm Arrival & Start Session
                 </button>
-                <a href="{% url 'staff_bookings' %}" class="btn btn-outline-secondary">
+                <a href="{% url 'staff_bookings_list' %}" class="btn btn-outline-secondary">
                     <i class="fas fa-arrow-left"></i> Cancel
                 </a>
             </div>
@@ -279,44 +290,82 @@
 {% endblock %}
 
 {% block extra_scripts %}
-<script>
 document.addEventListener('DOMContentLoaded', function() {
     const selectedSlotInput = document.getElementById('selectedSlot');
     const confirmBtn = document.getElementById('confirmBtn');
-    const checkboxes = document.querySelectorAll('.checklist-item input[type="checkbox"]');
+    const check1 = document.getElementById('check1');
+    const check2 = document.getElementById('check2');
+    const check3 = document.getElementById('check3');
+    const preAssignedSlot = {{ booking.slot.id|default:'null' }};
     
-    // Load available slots
-    fetchAvailableSlots();
+    console.log('Elements found:', {
+        selectedSlotInput: selectedSlotInput,
+        confirmBtn: confirmBtn,
+        check1: check1,
+        check2: check2,
+        check3: check3
+    });
+    
+    // If booking already has a slot, it's pre-selected
+    if (preAssignedSlot) {
+        selectedSlotInput.value = preAssignedSlot;
+        console.log('Pre-assigned slot:', preAssignedSlot);
+    }
+    
+    // Load available slots (only if no pre-assigned slot)
+    if (!preAssignedSlot) {
+        fetchAvailableSlots();
+    }
     
     // Validate form
     function validateForm() {
-        const allChecked = Array.from(checkboxes).every(cb => cb.checked);
-        const slotSelected = selectedSlotInput.value !== '';
-        confirmBtn.disabled = !(allChecked && slotSelected);
+        const allChecked = check1.checked && check2.checked && check3.checked;
+        const slotSelected = selectedSlotInput && selectedSlotInput.value !== '';
+        const isValid = allChecked && slotSelected;
+        
+        console.log('Validation:', {
+            check1: check1.checked,
+            check2: check2.checked,
+            check3: check3.checked,
+            allChecked: allChecked,
+            slotSelected: slotSelected,
+            slotValue: selectedSlotInput ? selectedSlotInput.value : 'null',
+            isValid: isValid
+        });
+        
+        confirmBtn.disabled = !isValid;
     }
     
-    checkboxes.forEach(cb => cb.addEventListener('change', validateForm));
+    // Add event listeners
+    if (check1) check1.addEventListener('change', validateForm);
+    if (check2) check2.addEventListener('change', validateForm);
+    if (check3) check3.addEventListener('change', validateForm);
+    
+    // Run initial validation
+    validateForm();
     
     function fetchAvailableSlots() {
         fetch('/api/slot-status/')
             .then(response => response.json())
             .then(data => {
                 const grid = document.getElementById('slotGrid');
-                grid.innerHTML = '';
+                if (!grid) {
+                    // Grid doesn't exist (slot already assigned)
+                    validateForm();
+                    return;
+                }
                 
-                // Filter only vacant slots
-                const availableSlots = data.filter(slot => !slot.is_occupied && !slot.is_reserved);
+                grid.innerHTML = '';
                 
                 data.forEach(slot => {
                     const div = document.createElement('div');
                     div.classList.add('slot-option');
                     
-                    if (slot.is_occupied || (slot.is_reserved && slot.slot_id != {{ booking.slot.id|default:0 }})) {
+                    const isAvailable = !slot.is_occupied && !slot.is_reserved;
+                    
+                    if (!isAvailable) {
                         div.classList.add('reserved');
                         div.title = 'Slot occupied or reserved';
-                    } else if ({{ booking.slot.id|default:0 }} && slot.slot_id == {{ booking.slot.id|default:0 }}) {
-                        div.classList.add('selected');
-                        selectedSlotInput.value = slot.slot_id;
                     }
                     
                     div.innerHTML = `
@@ -324,11 +373,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         <small>${slot.is_occupied ? 'Occupied' : slot.is_reserved ? 'Reserved' : 'Available'}</small>
                     `;
                     
-                    if (!slot.is_occupied && (!slot.is_reserved || slot.slot_id == {{ booking.slot.id|default:0 }})) {
+                    if (isAvailable) {
                         div.addEventListener('click', function() {
                             document.querySelectorAll('.slot-option').forEach(s => s.classList.remove('selected'));
                             this.classList.add('selected');
-                            selectedSlotInput.value = slot.slot_id;
+                            selectedSlotInput.value = slot.id;
                             validateForm();
                         });
                     }
@@ -338,8 +387,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 validateForm();
             })
-            .catch(error => console.error('Error fetching slots:', error));
+            .catch(error => {
+                console.error('Error fetching slots:', error);
+            });
     }
+    
+    // Initial validation (for pre-assigned slots)
+    validateForm();
     
     // Form submission validation
     document.getElementById('confirmForm').addEventListener('submit', function(e) {
@@ -355,5 +409,4 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
-</script>
 {% endblock %}

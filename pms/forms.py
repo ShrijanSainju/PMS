@@ -371,6 +371,13 @@ class BookingForm(forms.ModelForm):
         help_text="How long will you stay? (in minutes, minimum 30)"
     )
     
+    # Keep slot as a regular field, not a model field
+    slot = forms.IntegerField(
+        widget=forms.HiddenInput(attrs={'id': 'selectedSlotInput'}),
+        required=True,
+        error_messages={'required': 'Please select a parking slot'}
+    )
+    
     notes = forms.CharField(
         required=False,
         widget=forms.Textarea(attrs={
@@ -384,6 +391,7 @@ class BookingForm(forms.ModelForm):
     class Meta:
         model = Booking
         fields = ['vehicle', 'scheduled_arrival', 'expected_duration', 'notes']
+        # Exclude 'slot' - it's defined as a regular field above and handled manually
 
     def __init__(self, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -399,9 +407,14 @@ class BookingForm(forms.ModelForm):
         scheduled_arrival = self.cleaned_data.get('scheduled_arrival')
         now = timezone.now()
 
+        # For testing: allow immediate bookings (1 hour requirement disabled)
         # Must be at least 1 hour in future
-        if scheduled_arrival <= now + timedelta(hours=1):
-            raise ValidationError("Booking must be at least 1 hour in advance.")
+        # if scheduled_arrival <= now + timedelta(hours=1):
+        #     raise ValidationError("Booking must be at least 1 hour in advance.")
+        
+        # Allow bookings from current time onwards
+        if scheduled_arrival < now:
+            raise ValidationError("Booking cannot be in the past.")
 
         # Cannot book more than 7 days in advance
         if scheduled_arrival > now + timedelta(days=7):
