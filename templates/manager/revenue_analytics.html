@@ -1,0 +1,541 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Revenue Analytics - Manager - PMS{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+<style>
+    .revenue-analytics {
+        padding: 2rem 0;
+    }
+    
+    .analytics-header {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        color: white;
+        padding: 2.5rem;
+        border-radius: 15px;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 20px rgba(40, 167, 69, 0.3);
+    }
+    
+    .revenue-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+    
+    .revenue-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .revenue-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        transition: left 0.5s ease;
+    }
+    
+    .revenue-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+    
+    .revenue-card:hover::before {
+        left: 100%;
+    }
+    
+    .revenue-card.today {
+        border-top: 4px solid #667eea;
+    }
+    
+    .revenue-card.week {
+        border-top: 4px solid #764ba2;
+    }
+    
+    .revenue-card.month {
+        border-top: 4px solid #28a745;
+    }
+    
+    .revenue-card.lifetime {
+        border-top: 4px solid #17a2b8;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    }
+    
+    .revenue-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        opacity: 0.8;
+    }
+    
+    .revenue-card.today .revenue-icon { color: #667eea; }
+    .revenue-card.week .revenue-icon { color: #764ba2; }
+    .revenue-card.month .revenue-icon { color: #28a745; }
+    .revenue-card.lifetime .revenue-icon { color: #17a2b8; }
+    
+    .revenue-amount {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        color: #2c3e50;
+    }
+    
+    .revenue-label {
+        font-size: 1rem;
+        color: #6c757d;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 600;
+    }
+    
+    .revenue-period {
+        font-size: 0.85rem;
+        color: #95a5a6;
+        margin-top: 0.5rem;
+    }
+    
+    .chart-section {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        margin-bottom: 2rem;
+    }
+    
+    .chart-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #e9ecef;
+    }
+    
+    .chart-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #2c3e50;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .revenue-breakdown {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border-radius: 12px;
+        padding: 2rem;
+    }
+    
+    .breakdown-header {
+        font-size: 1.25rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+        color: #2c3e50;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .breakdown-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 0;
+        border-bottom: 1px solid #dee2e6;
+    }
+    
+    .breakdown-item:last-child {
+        border-bottom: none;
+        padding-top: 1.5rem;
+        margin-top: 0.5rem;
+        border-top: 3px solid #28a745;
+    }
+    
+    .breakdown-item.total {
+        font-weight: bold;
+        font-size: 1.15rem;
+    }
+    
+    .breakdown-label {
+        color: #6c757d;
+        font-size: 0.95rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .breakdown-value {
+        color: #2c3e50;
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+    
+    .breakdown-item.total .breakdown-label,
+    .breakdown-item.total .breakdown-value {
+        color: #28a745;
+        font-size: 1.2rem;
+    }
+    
+    .breakdown-percentage {
+        font-size: 0.85rem;
+        color: #95a5a6;
+        margin-left: 0.5rem;
+    }
+    
+    .stats-summary {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        margin-bottom: 2rem;
+    }
+    
+    .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+        margin-top: 1.5rem;
+    }
+    
+    .summary-item {
+        text-align: center;
+    }
+    
+    .summary-number {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #667eea;
+    }
+    
+    .summary-label {
+        color: #6c757d;
+        font-size: 0.9rem;
+        margin-top: 0.5rem;
+    }
+    
+    .back-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        background: white;
+        color: #667eea;
+        border: 2px solid #667eea;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .back-button:hover {
+        background: #667eea;
+        color: white;
+        transform: translateX(-5px);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container revenue-analytics">
+    <!-- Analytics Header -->
+    <div class="analytics-header">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1><i class="fas fa-chart-line"></i> Revenue Analytics</h1>
+                <p class="mb-0">Comprehensive revenue tracking and performance analysis</p>
+            </div>
+            <div class="col-md-4 text-md-end">
+                <a href="{% url 'manager_dashboard' %}" class="back-button">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Revenue Cards -->
+    <div class="revenue-cards">
+        <div class="revenue-card today">
+            <div class="revenue-icon">
+                <i class="fas fa-calendar-day"></i>
+            </div>
+            <div class="revenue-amount">₹{{ today_revenue|floatformat:2 }}</div>
+            <div class="revenue-label">Today's Revenue</div>
+            <div class="revenue-period">{{ today|date:"F d, Y" }}</div>
+        </div>
+
+        <div class="revenue-card week">
+            <div class="revenue-icon">
+                <i class="fas fa-calendar-week"></i>
+            </div>
+            <div class="revenue-amount">₹{{ week_revenue|floatformat:2 }}</div>
+            <div class="revenue-label">This Week</div>
+            <div class="revenue-period">Week of {{ week_start|date:"M d" }}</div>
+        </div>
+
+        <div class="revenue-card month">
+            <div class="revenue-icon">
+                <i class="fas fa-calendar-alt"></i>
+            </div>
+            <div class="revenue-amount">₹{{ month_revenue|floatformat:2 }}</div>
+            <div class="revenue-label">This Month</div>
+            <div class="revenue-period">{{ month_start|date:"F Y" }}</div>
+        </div>
+
+        <div class="revenue-card lifetime">
+            <div class="revenue-icon">
+                <i class="fas fa-infinity"></i>
+            </div>
+            <div class="revenue-amount">₹{{ total_revenue|floatformat:2 }}</div>
+            <div class="revenue-label">Lifetime Revenue</div>
+            <div class="revenue-period">All completed sessions</div>
+        </div>
+    </div>
+
+    <!-- Chart Section -->
+    <div class="chart-section">
+        <div class="chart-header">
+            <div class="chart-title">
+                <i class="fas fa-chart-bar"></i>
+                Revenue Performance Overview
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <canvas id="revenueChart" height="100"></canvas>
+            </div>
+            <div class="col-md-4">
+                <div class="revenue-breakdown">
+                    <div class="breakdown-header">
+                        <i class="fas fa-list"></i>
+                        Detailed Breakdown
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">
+                            <i class="fas fa-circle" style="color: #667eea; font-size: 0.6rem;"></i>
+                            Today
+                        </span>
+                        <div>
+                            <span class="breakdown-value">₹{{ today_revenue|floatformat:2 }}</span>
+                            {% if total_revenue > 0 %}
+                            <span class="breakdown-percentage">({{ today_revenue|floatformat:0|add:0|floatformat:0 }})</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">
+                            <i class="fas fa-circle" style="color: #764ba2; font-size: 0.6rem;"></i>
+                            This Week
+                        </span>
+                        <span class="breakdown-value">₹{{ week_revenue|floatformat:2 }}</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">
+                            <i class="fas fa-circle" style="color: #28a745; font-size: 0.6rem;"></i>
+                            This Month
+                        </span>
+                        <span class="breakdown-value">₹{{ month_revenue|floatformat:2 }}</span>
+                    </div>
+                    <div class="breakdown-item total">
+                        <span class="breakdown-label">
+                            <i class="fas fa-trophy"></i>
+                            Total Revenue
+                        </span>
+                        <span class="breakdown-value">₹{{ total_revenue|floatformat:2 }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Session Statistics -->
+    <div class="stats-summary">
+        <h3><i class="fas fa-info-circle"></i> Session Statistics</h3>
+        <div class="summary-grid">
+            <div class="summary-item">
+                <div class="summary-number">{{ today_sessions }}</div>
+                <div class="summary-label">Sessions Today</div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-number">{{ completed_sessions }}</div>
+                <div class="summary-label">Total Completed Sessions</div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-number">
+                    {% if completed_sessions > 0 %}
+                        ₹{{ total_revenue|floatformat:0|add:0|divisibleby:completed_sessions|floatformat:2 }}
+                    {% else %}
+                        ₹0.00
+                    {% endif %}
+                </div>
+                <div class="summary-label">Average Revenue per Session</div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-number">{{ active_sessions|default:0 }}</div>
+                <div class="summary-label">Active Sessions</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row">
+        <div class="col-md-4">
+            <a href="{% url 'manager_dashboard' %}" class="quick-action-card">
+                <i class="fas fa-tachometer-alt"></i>
+                <h5>Main Dashboard</h5>
+                <p>Back to overview</p>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="{% url 'staff_bookings_list' %}" class="quick-action-card">
+                <i class="fas fa-calendar-check"></i>
+                <h5>Manage Bookings</h5>
+                <p>View all bookings</p>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="{% url 'unified-parking-management' %}" class="quick-action-card">
+                <i class="fas fa-parking"></i>
+                <h5>Parking Management</h5>
+                <p>Monitor parking slots</p>
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .quick-action-card {
+        display: block;
+        background: white;
+        border: 2px solid #e9ecef;
+        border-radius: 12px;
+        padding: 2rem;
+        text-align: center;
+        text-decoration: none;
+        color: #2c3e50;
+        transition: all 0.3s ease;
+        margin-bottom: 1rem;
+    }
+    
+    .quick-action-card:hover {
+        border-color: #667eea;
+        color: #667eea;
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.2);
+    }
+    
+    .quick-action-card i {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        display: block;
+    }
+    
+    .quick-action-card h5 {
+        margin-bottom: 0.5rem;
+    }
+    
+    .quick-action-card p {
+        margin: 0;
+        font-size: 0.9rem;
+        color: #6c757d;
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Chart.js for revenue visualization -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+{% endblock %}
+
+{% block extra_scripts %}
+// Revenue Chart
+const ctx = document.getElementById('revenueChart');
+if (ctx) {
+    const revenueChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Today', 'This Week', 'This Month', 'All Time'],
+            datasets: [{
+                label: 'Revenue (₹)',
+                data: [
+                    {{ today_revenue|default:0 }},
+                    {{ week_revenue|default:0 }},
+                    {{ month_revenue|default:0 }},
+                    {{ total_revenue|default:0 }}
+                ],
+                backgroundColor: [
+                    'rgba(102, 126, 234, 0.8)',
+                    'rgba(118, 75, 162, 0.8)',
+                    'rgba(40, 167, 69, 0.8)',
+                    'rgba(23, 162, 184, 0.8)'
+                ],
+                borderColor: [
+                    'rgba(102, 126, 234, 1)',
+                    'rgba(118, 75, 162, 1)',
+                    'rgba(40, 167, 69, 1)',
+                    'rgba(23, 162, 184, 1)'
+                ],
+                borderWidth: 2,
+                borderRadius: 8,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                title: {
+                    display: true,
+                    text: 'Revenue Comparison',
+                    font: {
+                        size: 18,
+                        weight: 'bold'
+                    },
+                    padding: {
+                        bottom: 20
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return 'Revenue: ₹' + context.parsed.y.toFixed(2);
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return '₹' + value.toFixed(0);
+                        }
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.05)'
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        }
+    });
+}
+
+console.log('Revenue analytics page loaded');
+{% endblock %}

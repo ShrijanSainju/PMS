@@ -85,6 +85,7 @@ urlpatterns = [
 
     # Role-based dashboard routes (these are the main ones)
     path('manager/dashboard/', dashboard_views.manager_dashboard, name='manager_dashboard'),
+    path('manager/revenue-analytics/', dashboard_views.revenue_analytics, name='revenue_analytics'),
     path('staff/dashboard/', dashboard_views.staff_dashboard, name='staff_dashboard'),
     path('customer/dashboard/', dashboard_views.customer_dashboard, name='customer_dashboard'),
 

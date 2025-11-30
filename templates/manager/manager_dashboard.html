@@ -344,6 +344,55 @@
         margin-right: 0.5rem;
         font-size: 0.9rem;
     }
+    
+    /* Revenue Breakdown Styles */
+    .revenue-breakdown {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 1.5rem;
+        height: 100%;
+    }
+    
+    .revenue-breakdown h5 {
+        margin-bottom: 1.5rem;
+        color: #2c3e50;
+        font-weight: 600;
+    }
+    
+    .breakdown-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid #dee2e6;
+    }
+    
+    .breakdown-item:last-child {
+        border-bottom: none;
+        padding-top: 1rem;
+        margin-top: 0.5rem;
+        border-top: 2px solid #667eea;
+    }
+    
+    .breakdown-item.total {
+        font-weight: bold;
+        font-size: 1.1rem;
+    }
+    
+    .breakdown-label {
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+    
+    .breakdown-value {
+        color: #2c3e50;
+        font-weight: 600;
+    }
+    
+    .breakdown-item.total .breakdown-label,
+    .breakdown-item.total .breakdown-value {
+        color: #667eea;
+    }
 </style>
 {% endblock %}
 
@@ -370,36 +419,44 @@
             <h3 id="availableCount">{{ available_slots|default:0 }}</h3>
             <p><i class="fas fa-parking"></i> Available Slots</p>
             <div class="trend-indicator" id="availableTrend">
-                <i class="fas fa-minus"></i> No change
             </div>
         </div>
         <div class="stats-card danger">
             <h3 id="occupiedCount">{{ occupied_slots|default:0 }}</h3>
             <p><i class="fas fa-car"></i> Occupied Slots</p>
             <div class="trend-indicator" id="occupiedTrend">
-                <i class="fas fa-minus"></i> No change
             </div>
         </div>
         <div class="stats-card warning">
             <h3 id="reservedCount">{{ reserved_slots|default:0 }}</h3>
             <p><i class="fas fa-clock"></i> Reserved Slots</p>
             <div class="trend-indicator" id="reservedTrend">
-                <i class="fas fa-minus"></i> No change
             </div>
         </div>
 
         <div class="stats-card">
-            <h3 id="todayRevenue">₹{{ today_revenue|default:0 }}</h3>
+            <h3 id="todayRevenue">₹{{ today_revenue|floatformat:2 }}</h3>
             <p><i class="fas fa-rupee-sign"></i> Today's Revenue</p>
-            <div class="trend-indicator" id="revenueTrend">
-                <i class="fas fa-minus"></i> No change
-            </div>
         </div>
-        <div class="stats-card">
-            <h3 id="pendingApprovalsCount">{{ pending_approvals_count|default:0 }}</h3>
-            <p><i class="fas fa-user-clock"></i> Pending Approvals</p>
-            <div class="trend-indicator" id="approvalsTrend">
-                <i class="fas fa-minus"></i> No change
+        
+        <div class="stats-card success">
+            <h3 id="totalRevenue">₹{{ total_revenue|floatformat:2 }}</h3>
+            <p><i class="fas fa-chart-line"></i> Lifetime Revenue</p>
+        </div>
+        
+    </div>
+
+    <!-- Revenue Analytics Quick Link -->
+    <div class="management-section" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white;">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h3 style="color: white;"><i class="fas fa-chart-line"></i> Revenue Analytics</h3>
+                <p class="mb-0">View detailed revenue reports, trends, and performance metrics</p>
+            </div>
+            <div class="col-md-4 text-md-end">
+                <a href="{% url 'revenue_analytics' %}" class="btn btn-light btn-lg">
+                    <i class="fas fa-chart-bar"></i> View Analytics
+                </a>
             </div>
         </div>
     </div>
@@ -952,5 +1009,6 @@ function rejectUser(userId) {
 
 // Auto-refresh functionality temporarily disabled
 // TODO: Re-enable when user management APIs are restored
+
 console.log('Manager dashboard loaded successfully');
 {% endblock %}
