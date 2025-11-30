@@ -873,8 +873,19 @@ def end_session(request, slot_id):
         session.fee = session.calculate_fee()
         session.save()
 
+        # Clear both occupied and reserved flags
         slot.is_occupied = False
+        slot.is_reserved = False
         slot.save()
+
+        # Also complete any related booking
+        try:
+            booking = Booking.objects.get(parking_session=session, status='active')
+            booking.status = 'completed'
+            booking.actual_departure = timezone.now()
+            booking.save()
+        except Booking.DoesNotExist:
+            pass
 
         return render(request, 'staff/end_success.html', {'session': session})
     else:
@@ -1376,9 +1387,19 @@ def end_session_by_vehicle(request):
             session.fee = session.calculate_fee()
             session.save()
 
-            # Update slot to vacant
+            # Update slot to vacant - clear both flags
             session.slot.is_occupied = False
+            session.slot.is_reserved = False
             session.slot.save()
+
+            # Also complete any related booking
+            try:
+                booking = Booking.objects.get(parking_session=session, status='active')
+                booking.status = 'completed'
+                booking.actual_departure = now_time
+                booking.save()
+            except Booking.DoesNotExist:
+                pass
 
             selected_session = session
         else:

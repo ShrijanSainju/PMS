@@ -240,7 +240,7 @@
     <div class="tab-content">
         {% if action == 'registry' %}
         <!-- Vehicle Registry Tab -->
-        <div class="tab-pane fade show active">
+        <div class="tab-pane fade show active"> 
             <!-- Statistics Cards -->
             <div class="stats-cards">
                 <div class="stat-card">
@@ -665,7 +665,7 @@
             <div class="parking-grid" id="slotGrid">
                 <div class="loading">
                     <div class="spinner"></div>
-                    <img id="liveFeed" src="{% url 'video_feed' %}" class="video-feed" />
+                    {% comment %} <img id="liveFeed" src="{% url 'video_feed' %}" class="video-feed" /> {% endcomment %}
                 </div>
             </div>
         </div>
