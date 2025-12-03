@@ -567,7 +567,7 @@ def slot_status_sync_api(request):
 from django.http import StreamingHttpResponse
 
 def gen_frames():
-    cap = cv2.VideoCapture(0)  # Change to 0 for webcam 1 for droidcam 2 for droidcam2 'parking_lot.mp4' for dummy video
+    cap = cv2.VideoCapture('parking_lot.mp4')  # Change to 0 for webcam 1 for droidcam 2 for droidcam2 'parking_lot.mp4' for dummy video
 
     parking_slots = [
         (60, 0, 150, 57), (60, 56, 150, 57), (60, 115, 150, 59),
@@ -577,7 +577,7 @@ def gen_frames():
         (212, 295, 150, 59), (212, 355, 150, 59),
     ]
 
-    occupancy_threshold = 0.01 #0.1
+    occupancy_threshold = 0.1 #0.1
     last_update = {}  # Track last update time for each slot to avoid too frequent updates
 
     while True:

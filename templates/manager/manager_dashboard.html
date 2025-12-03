@@ -566,11 +566,6 @@
             <h5>End Session</h5>
             <p>End parking session</p>
         </a>
-        <a href="{% url 'security_dashboard' %}" class="quick-action">
-            <i class="fas fa-cogs"></i>
-            <h5>Security Monitor</h5>
-            <p>Monitor system security</p>
-        </a>
         <a href="{% url 'history-log' %}" class="quick-action">
             <i class="fas fa-history"></i>
             <h5>System Logs</h5>
@@ -591,9 +586,6 @@
                 <span class="badge bg-success ms-2" id="autoRefreshBadge">Auto-refresh ON</span>
             </div>
             <div>
-                <button class="btn btn-sm btn-outline-primary me-2" onclick="toggleAutoRefresh()">
-                    <i class="fas fa-pause" id="autoRefreshIcon"></i> <span id="autoRefreshText">Pause</span>
-                </button>
                 <button class="btn btn-sm btn-light" onclick="fetchSlots()">
                     <i class="fas fa-sync-alt"></i> Refresh
                 </button>
