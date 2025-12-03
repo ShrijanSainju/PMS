@@ -5,6 +5,7 @@ from . import views
 from . import auth_views
 from . import dashboard_views
 from . import user_management_views
+from . import booking_views
 
 from .views import assign_slot
 
@@ -59,6 +60,19 @@ urlpatterns = [
     path('customer/vehicles/<int:vehicle_id>/delete/', dashboard_views.delete_vehicle, name='delete_vehicle'),
     path('customer/vehicles/<int:vehicle_id>/status/', dashboard_views.vehicle_status, name='vehicle_status'),
 
+    # Customer booking routes
+    path('customer/bookings/', booking_views.my_bookings, name='customer_bookings'),
+    path('customer/booking/create/', booking_views.create_booking, name='create_booking'),
+    path('customer/booking/<int:booking_id>/', booking_views.booking_detail, name='booking_detail'),
+    path('customer/booking/<int:booking_id>/cancel/', booking_views.cancel_booking, name='cancel_booking'),
+
+    # Booking API
+    path('api/check-availability/', booking_views.check_availability_api, name='check_availability'),
+
+    # Staff booking management
+    path('staff/bookings/', booking_views.staff_bookings_list, name='staff_bookings_list'),
+    path('staff/booking/<int:booking_id>/confirm-arrival/', booking_views.confirm_arrival, name='confirm_arrival'),
+
     # Legacy staff routes for backward compatibility
     path('staff/register/', auth_views.staff_register_view, name='staff_register'),
     path('staff/login/', auth_views.staff_login_view, name='staff_login'),
@@ -71,6 +85,7 @@ urlpatterns = [
 
     # Role-based dashboard routes (these are the main ones)
     path('manager/dashboard/', dashboard_views.manager_dashboard, name='manager_dashboard'),
+    path('manager/revenue-analytics/', dashboard_views.revenue_analytics, name='revenue_analytics'),
     path('staff/dashboard/', dashboard_views.staff_dashboard, name='staff_dashboard'),
     path('customer/dashboard/', dashboard_views.customer_dashboard, name='customer_dashboard'),
 

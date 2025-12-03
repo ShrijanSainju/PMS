@@ -8,11 +8,12 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse, StreamingHttpResponse
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import viewsets
-from .models import ParkingSlot, ParkingSession, Vehicle
+from .models import ParkingSlot, ParkingSession, Vehicle, Booking
 from .serializers import ParkingSlotSerializer
 from .decorators import require_staff_or_manager, require_approved_user
 from .permissions import require_staff_or_manager, require_approved_user
@@ -381,7 +382,7 @@ def get_available_slots(request):
 def security_dashboard(request):
     """Security monitoring dashboard for administrators"""
 
-    return render(request, 'admin/security_dashboard.html')
+    return render(request, 'manager/security_dashboard.html')
 
 
 @api_view(['GET'])
@@ -451,8 +452,12 @@ def dashboard_view(request):
     from .dashboard_views import dashboard_view as role_based_dashboard
     return role_based_dashboard(request)
 
-@require_approved_user
 def slot_status_api(request):
+    """API endpoint for getting slot status - accessible to all logged-in users"""
+    # Check if user is authenticated - return JSON error for AJAX requests
+    if not request.user.is_authenticated:
+        return JsonResponse({'error': 'Authentication required'}, status=401)
+    
     slots = ParkingSlot.objects.all().order_by('slot_id')
     data = []
 
@@ -486,6 +491,7 @@ def slot_status_api(request):
                 pass
 
         slot_data = {
+            'id': slot.id,
             'slot_id': slot.slot_id,
             'is_occupied': slot.is_occupied,
             'is_reserved': slot.is_reserved,
@@ -867,8 +873,19 @@ def end_session(request, slot_id):
         session.fee = session.calculate_fee()
         session.save()
 
+        # Clear both occupied and reserved flags
         slot.is_occupied = False
+        slot.is_reserved = False
         slot.save()
+
+        # Also complete any related booking
+        try:
+            booking = Booking.objects.get(parking_session=session, status='active')
+            booking.status = 'completed'
+            booking.actual_departure = timezone.now()
+            booking.save()
+        except Booking.DoesNotExist:
+            pass
 
         return render(request, 'staff/end_success.html', {'session': session})
     else:
@@ -877,7 +894,26 @@ def end_session(request, slot_id):
 
 @require_approved_user
 def history_log(request):
-    sessions = ParkingSession.objects.all().order_by('-start_time')
+    """
+    History view that shows:
+    - All sessions for staff/manager
+    - Only user's own vehicle sessions for customers
+    """
+    user_profile = getattr(request.user, 'userprofile', None)
+    is_customer = user_profile and user_profile.user_type == 'customer'
+    
+    if is_customer:
+        # For customers, only show their own vehicle sessions
+        from .models import Vehicle
+        customer_vehicles = Vehicle.objects.filter(owner=request.user, is_active=True)
+        customer_plate_numbers = list(customer_vehicles.values_list('plate_number', flat=True))
+        
+        sessions = ParkingSession.objects.filter(
+            vehicle_number__in=customer_plate_numbers
+        ).order_by('-start_time') if customer_plate_numbers else ParkingSession.objects.none()
+    else:
+        # For staff/manager, show all sessions
+        sessions = ParkingSession.objects.all().order_by('-start_time')
 
     # Enhance sessions with user information
     enhanced_sessions = []
@@ -910,7 +946,12 @@ def history_log(request):
 
         enhanced_sessions.append(session_data)
 
-    return render(request, 'admin/history.html', {'enhanced_sessions': enhanced_sessions})
+    # Use different templates for customer vs staff/manager
+    template = 'customer/parking_history.html' if is_customer else 'manager/history.html'
+    return render(request, template, {
+        'enhanced_sessions': enhanced_sessions,
+        'is_customer': is_customer
+    })
 
 
 from django.utils.timezone import now
@@ -921,7 +962,9 @@ def lookup_session(request):
     session = None
     elapsed_time = None
     price = None
-    price_per_minute = 2  # Change this to match your pricing logic
+    from .models import SystemSettings
+    settings = SystemSettings.load()
+    price_per_minute = float(settings.price_per_minute)
     vehicle_owner = None
     vehicle_info = None
     all_sessions = None
@@ -968,14 +1011,17 @@ def lookup_session(request):
                 pass
 
             if session and session.start_time:
+                # Use the duration property from the model
+                elapsed_time = session.duration
+                
+                # Calculate price
                 if session.status in ['pending', 'active']:
                     end = now()
                 else:
                     end = session.end_time or now()
-
+                
                 elapsed = end - session.start_time
                 elapsed_minutes = int(elapsed.total_seconds() // 60)
-                elapsed_time = str(elapsed).split('.')[0]  # Format HH:MM:SS
                 price = elapsed_minutes * price_per_minute
     else:
         form = LookupForm()
@@ -1192,12 +1238,18 @@ def unified_parking_management(request):
                 vehicle_number=vehicle.plate_number,
                 status__in=['pending', 'active']
             ).select_related('slot').first()
+            
+            # Check for active bookings
+            current_booking = Booking.objects.filter(
+                vehicle=vehicle,
+                status__in=['confirmed', 'active']
+            ).select_related('slot').first()
 
             recent_sessions = ParkingSession.objects.filter(
                 vehicle_number=vehicle.plate_number
             ).order_by('-start_time')[:5]
 
-            # Determine current status
+            # Determine current status (prioritize session over booking)
             if current_session:
                 if current_session.status == 'active':
                     parking_status = 'Currently Parked'
@@ -1207,6 +1259,15 @@ def unified_parking_management(request):
                     parking_status = 'Reserved'
                     status_class = 'warning'
                     status_detail = f"Slot {current_session.slot.slot_id}"
+            elif current_booking:
+                if current_booking.status == 'active':
+                    parking_status = 'Currently Parked'
+                    status_class = 'success'
+                    status_detail = f"Slot {current_booking.slot.slot_id if current_booking.slot else 'TBD'}"
+                else:
+                    parking_status = 'Reserved (Booking)'
+                    status_class = 'warning'
+                    status_detail = f"Slot {current_booking.slot.slot_id if current_booking.slot else 'TBD'}"
             else:
                 parking_status = 'Not Parked'
                 status_class = 'secondary'
@@ -1219,6 +1280,7 @@ def unified_parking_management(request):
                 'owner': vehicle.owner,
                 'user_profile': user_profile,
                 'current_session': current_session,
+                'current_booking': current_booking,
                 'recent_sessions': recent_sessions,
                 'parking_status': parking_status,
                 'status_class': status_class,
@@ -1233,7 +1295,7 @@ def unified_parking_management(request):
                 continue
             elif filter_status == 'available' and parking_status != 'Not Parked':
                 continue
-            elif filter_status == 'reserved' and parking_status != 'Reserved':
+            elif filter_status == 'reserved' and 'Reserved' not in parking_status:
                 continue
 
             enhanced_vehicles.append(vehicle_data)
@@ -1241,7 +1303,9 @@ def unified_parking_management(request):
         # Get summary statistics
         total_vehicles = Vehicle.objects.filter(is_active=True).count()
         parked_vehicles = ParkingSession.objects.filter(status='active').count()
-        reserved_vehicles = ParkingSession.objects.filter(status='pending').count()
+        reserved_sessions = ParkingSession.objects.filter(status='pending').count()
+        reserved_bookings = Booking.objects.filter(status='confirmed').count()
+        reserved_vehicles = reserved_sessions + reserved_bookings
         available_vehicles = total_vehicles - parked_vehicles - reserved_vehicles
 
         context.update({
@@ -1323,9 +1387,19 @@ def end_session_by_vehicle(request):
             session.fee = session.calculate_fee()
             session.save()
 
-            # Update slot to vacant
+            # Update slot to vacant - clear both flags
             session.slot.is_occupied = False
+            session.slot.is_reserved = False
             session.slot.save()
+
+            # Also complete any related booking
+            try:
+                booking = Booking.objects.get(parking_session=session, status='active')
+                booking.status = 'completed'
+                booking.actual_departure = now_time
+                booking.save()
+            except Booking.DoesNotExist:
+                pass
 
             selected_session = session
         else:

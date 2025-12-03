@@ -323,7 +323,12 @@
                                    class="btn btn-sm btn-outline-primary">
                                     <i class="fas fa-search"></i> View Sessions
                                 </a>
-                                {% if vehicle_data.parking_status == 'Not Parked' %}
+                                {% if vehicle_data.current_booking %}
+                                <a href="{% url 'confirm_arrival' vehicle_data.current_booking.id %}"
+                                   class="btn btn-sm btn-info">
+                                    <i class="fas fa-check-circle"></i> Confirm Arrival
+                                </a>
+                                {% elif vehicle_data.parking_status == 'Not Parked' %}
                                 <a href="?action=assign&vehicle={{ vehicle_data.vehicle.plate_number }}" 
                                    class="btn btn-sm btn-success">
                                     <i class="fas fa-plus"></i> Assign Slot
@@ -616,24 +621,153 @@
     </div>
 </div>
 
+<!-- Live Parking Slots Section -->
+<div class="container-fluid mt-4">
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <div>
+                <i class="fas fa-th-large"></i> Live Parking Slot Status
+                <span class="badge bg-success ms-2" id="autoRefreshBadge">Auto-refresh ON</span>
+            </div>
+            <div>
+                <button class="btn btn-sm btn-light" onclick="fetchSlots()">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="parking-grid" id="slotGrid">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <img id="liveFeed" src="{% url 'video_feed' %}" class="video-feed" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Quick Assign Button -->
 <a href="?action=assign" class="btn btn-success quick-assign-btn">
     <i class="fas fa-plus"></i> Quick Assign
 </a>
 
 <script>
+let autoRefreshEnabled = true;
+let refreshInterval;
+
+function toggleAutoRefresh() {
+    autoRefreshEnabled = !autoRefreshEnabled;
+    const badge = document.getElementById('autoRefreshBadge');
+    const icon = document.getElementById('autoRefreshIcon');
+    const text = document.getElementById('autoRefreshText');
+
+    if (autoRefreshEnabled) {
+        badge.textContent = 'Auto-refresh ON';
+        badge.className = 'badge bg-success ms-2';
+        icon.className = 'fas fa-pause';
+        text.textContent = 'Pause';
+        startAutoRefresh();
+    } else {
+        badge.textContent = 'Auto-refresh OFF';
+        badge.className = 'badge bg-danger ms-2';
+        icon.className = 'fas fa-play';
+        text.textContent = 'Resume';
+        if (refreshInterval) {
+            clearInterval(refreshInterval);
+        }
+    }
+}
+
+function startAutoRefresh() {
+    if (refreshInterval) {
+        clearInterval(refreshInterval);
+    }
+    refreshInterval = setInterval(function() {
+        if (autoRefreshEnabled) {
+            fetchSlots();
+        }
+    }, 5000);
+}
+
+function fetchSlots() {
+    fetch('/api/slot-status/')
+        .then(response => response.json())
+        .then(data => {
+            const grid = document.getElementById('slotGrid');
+            grid.innerHTML = '';
+
+            data.forEach(slot => {
+                const div = document.createElement('div');
+                div.classList.add('parking-slot');
+                div.dataset.slotId = slot.slot_id;
+
+                let status, statusClass, tooltip = '';
+                let displayInfo = '';
+
+                if (slot.session_status === 'pending' || slot.is_reserved) {
+                    status = 'Reserved';
+                    statusClass = 'reserved';
+                    if (slot.vehicle_number) {
+                        if (slot.user_info && slot.user_info.name) {
+                            displayInfo = slot.user_info.name;
+                            tooltip = `Owner: ${slot.user_info.name}\nVehicle: ${slot.vehicle_number}`;
+                            if (slot.user_info.phone) {
+                                tooltip += `\nPhone: ${slot.user_info.phone}`;
+                            }
+                        } else {
+                            displayInfo = slot.vehicle_number;
+                            tooltip = `Vehicle: ${slot.vehicle_number}`;
+                        }
+                    }
+                } else if (slot.is_occupied) {
+                    status = 'Occupied';
+                    statusClass = 'occupied';
+                    if (slot.vehicle_number) {
+                        if (slot.user_info && slot.user_info.name) {
+                            displayInfo = slot.user_info.name;
+                            tooltip = `Owner: ${slot.user_info.name}\nVehicle: ${slot.vehicle_number}`;
+                            if (slot.user_info.phone) {
+                                tooltip += `\nPhone: ${slot.user_info.phone}`;
+                            }
+                        } else {
+                            displayInfo = slot.vehicle_number;
+                            tooltip = `Vehicle: ${slot.vehicle_number}`;
+                        }
+                        if (slot.session_start) {
+                            const startTime = new Date(slot.session_start);
+                            const duration = Math.floor((new Date() - startTime) / (1000 * 60));
+                            tooltip += `\nDuration: ${duration} min`;
+                        }
+                    }
+                } else {
+                    status = 'Available';
+                    statusClass = 'vacant';
+                    tooltip = 'Available for parking';
+                }
+
+                div.classList.add(statusClass);
+                div.title = tooltip;
+
+                let slotContent = `<div class="slot-id">${slot.slot_id}</div>`;
+                if (displayInfo) {
+                    slotContent += `<div class="slot-user">${displayInfo}</div>`;
+                }
+                slotContent += `<div class="slot-status">${status}</div>`;
+
+                div.innerHTML = slotContent;
+                grid.appendChild(div);
+            });
+        })
+        .catch(error => console.error('Error fetching slots:', error));
+}
+
+// Initial load and start auto-refresh
+fetchSlots();
+startAutoRefresh();
+
 // Auto-submit form on status change
 document.getElementById('status')?.addEventListener('change', function() {
     this.form.submit();
 });
-
-// Auto-refresh registry every 30 seconds
-if ('{{ action }}' === 'registry') {
-    setInterval(function() {
-        if (!document.querySelector('#search').value && document.querySelector('#status').value === 'all') {
-            location.reload();
-        }
-    }, 30000);
-}
 </script>
 {% endblock %}

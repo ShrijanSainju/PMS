@@ -1,0 +1,316 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Booking Details - PMS{% endblock %}
+
+{% block extra_css %}
+<style>
+    .booking-detail-container {
+        max-width: 900px;
+        margin: 2rem auto;
+    }
+
+    .booking-header {
+        background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%);
+        color: white;
+        padding: 2.5rem;
+        border-radius: 15px;
+        text-align: center;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .booking-id {
+        font-size: 1.5rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+    }
+
+    .status-badge {
+        font-size: 1.1rem;
+        padding: 0.5rem 1.5rem;
+        border-radius: 25px;
+        display: inline-block;
+        margin-top: 1rem;
+    }
+
+    .detail-card {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    .detail-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 1rem 0;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    .detail-row:last-child {
+        border-bottom: none;
+    }
+
+    .detail-label {
+        font-weight: 600;
+        color: #6c757d;
+    }
+
+    .detail-value {
+        font-weight: 500;
+        color: #2c3e50;
+    }
+
+    .timeline {
+        position: relative;
+        padding-left: 2rem;
+    }
+
+    .timeline-item {
+        position: relative;
+        padding-bottom: 1.5rem;
+    }
+
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        left: -1.5rem;
+        top: 0.5rem;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #20c997;
+    }
+
+    .timeline-item::after {
+        content: '';
+        position: absolute;
+        left: -1.4rem;
+        top: 1.2rem;
+        width: 2px;
+        height: calc(100% - 0.5rem);
+        background: #dee2e6;
+    }
+
+    .timeline-item:last-child::after {
+        display: none;
+    }
+
+    .qr-code-section {
+        text-align: center;
+        padding: 2rem;
+        background: #f8f9fa;
+        border-radius: 12px;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+
+    .countdown {
+        background: linear-gradient(135deg, #6610f2 0%, #e83e8c 100%);
+        color: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        text-align: center;
+    }
+
+    .countdown-value {
+        font-size: 2rem;
+        font-weight: 700;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="booking-detail-container">
+        <!-- Booking Header -->
+        <div class="booking-header">
+            <h1><i class="fas fa-ticket-alt"></i> Booking Details</h1>
+            <div class="booking-id">{{ booking.booking_id }}</div>
+            <span class="badge status-badge 
+                {% if booking.status == 'confirmed' %}bg-success
+                {% elif booking.status == 'pending' %}bg-warning
+                {% elif booking.status == 'active' %}bg-primary
+                {% elif booking.status == 'completed' %}bg-secondary
+                {% elif booking.status == 'cancelled' %}bg-danger
+                {% elif booking.status == 'expired' %}bg-dark
+                {% endif %}">
+                {{ booking.get_status_display }}
+            </span>
+        </div>
+
+        <!-- Countdown Timer (for confirmed/pending bookings) -->
+        {% if booking.status in 'confirmed,pending' and booking.time_until_arrival %}
+        <div class="countdown mb-4">
+            <h5><i class="fas fa-clock"></i> Time Until Arrival</h5>
+            <div class="countdown-value">{{ booking.time_until_arrival }}</div>
+        </div>
+        {% endif %}
+
+        <!-- Vehicle Details -->
+        <div class="detail-card">
+            <h4 class="mb-3"><i class="fas fa-car"></i> Vehicle Information</h4>
+            <div class="detail-row">
+                <span class="detail-label">License Plate</span>
+                <span class="detail-value">{{ booking.vehicle.license_plate }}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Make & Model</span>
+                <span class="detail-value">{{ booking.vehicle.make }} {{ booking.vehicle.model }}</span>
+            </div>
+            {% if booking.vehicle.color %}
+            <div class="detail-row">
+                <span class="detail-label">Color</span>
+                <span class="detail-value">{{ booking.vehicle.color }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Booking Details -->
+        <div class="detail-card">
+            <h4 class="mb-3"><i class="fas fa-calendar-check"></i> Booking Information</h4>
+            <div class="detail-row">
+                <span class="detail-label">Scheduled Arrival</span>
+                <span class="detail-value">{{ booking.scheduled_arrival|date:"F d, Y - h:i A" }}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Expected Duration</span>
+                <span class="detail-value">{{ booking.expected_duration }} minutes</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Estimated Departure</span>
+                <span class="detail-value">{{ booking.estimated_departure|date:"F d, Y - h:i A" }}</span>
+            </div>
+            {% if booking.slot %}
+            <div class="detail-row">
+                <span class="detail-label">Assigned Slot</span>
+                <span class="detail-value">Slot {{ booking.slot.slot_number }}</span>
+            </div>
+            {% endif %}
+            <div class="detail-row">
+                <span class="detail-label">Estimated Fee</span>
+                <span class="detail-value text-success fw-bold">₹{{ booking.estimated_fee }}</span>
+            </div>
+        </div>
+
+        <!-- Special Requests -->
+        {% if booking.notes %}
+        <div class="detail-card">
+            <h4 class="mb-3"><i class="fas fa-sticky-note"></i> Special Requests</h4>
+            <p class="mb-0">{{ booking.notes }}</p>
+        </div>
+        {% endif %}
+
+        <!-- Timeline -->
+        <div class="detail-card">
+            <h4 class="mb-3"><i class="fas fa-history"></i> Booking Timeline</h4>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="detail-label">Booking Created</div>
+                    <div class="detail-value">{{ booking.created_at|date:"F d, Y - h:i A" }}</div>
+                </div>
+                {% if booking.confirmed_at %}
+                <div class="timeline-item">
+                    <div class="detail-label">Confirmed</div>
+                    <div class="detail-value">{{ booking.confirmed_at|date:"F d, Y - h:i A" }}</div>
+                </div>
+                {% endif %}
+                {% if booking.actual_arrival %}
+                <div class="timeline-item">
+                    <div class="detail-label">Actual Arrival</div>
+                    <div class="detail-value">{{ booking.actual_arrival|date:"F d, Y - h:i A" }}</div>
+                </div>
+                {% endif %}
+                {% if booking.cancelled_at %}
+                <div class="timeline-item">
+                    <div class="detail-label">Cancelled</div>
+                    <div class="detail-value">{{ booking.cancelled_at|date:"F d, Y - h:i A" }}</div>
+                </div>
+                {% endif %}
+                {% if booking.parking_session %}
+                <div class="timeline-item">
+                    <div class="detail-label">Parking Session</div>
+                    <div class="detail-value">
+                        <a href="{% url 'parking_history' %}" class="text-primary">
+                            Session {{ booking.parking_session.session_id }}
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- QR Code Section (for active bookings) -->
+        {% if booking.status in 'confirmed,pending' %}
+        <div class="detail-card">
+            <div class="qr-code-section">
+                <h4 class="mb-3"><i class="fas fa-qrcode"></i> Check-In QR Code</h4>
+                <div id="qrcode" class="mb-3"></div>
+                <p class="text-muted">Show this QR code to staff upon arrival</p>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <a href="{% url 'customer_bookings' %}" class="btn btn-outline-primary flex-grow-1">
+                <i class="fas fa-arrow-left"></i> Back to My Bookings
+            </a>
+            
+            {% if booking.can_cancel %}
+            <a href="{% url 'cancel_booking' booking.id %}" 
+               class="btn btn-danger flex-grow-1"
+               onclick="return confirm('Are you sure you want to cancel this booking?');">
+                <i class="fas fa-times-circle"></i> Cancel Booking
+            </a>
+            {% endif %}
+        </div>
+
+        <!-- Help Section -->
+        <div class="alert alert-info mt-4">
+            <h6><i class="fas fa-question-circle"></i> Need Help?</h6>
+            <p class="mb-0">
+                {% if booking.status == 'confirmed' %}
+                Your booking is confirmed! Please arrive within 30 minutes of your scheduled time. 
+                If you need to cancel, you must do so at least 1 hour before arrival.
+                {% elif booking.status == 'pending' %}
+                Your booking is pending confirmation. We'll notify you once it's confirmed.
+                {% elif booking.status == 'active' %}
+                Your parking session is currently active. Enjoy your parking!
+                {% elif booking.status == 'completed' %}
+                This booking has been completed. Thank you for using our service!
+                {% elif booking.status == 'cancelled' %}
+                This booking was cancelled on {{ booking.cancelled_at|date:"F d, Y" }}.
+                {% elif booking.status == 'expired' %}
+                This booking expired due to no-show. Please create a new booking if needed.
+                {% endif %}
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+{% if booking.status in 'confirmed,pending' %}
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Generate QR code with booking ID
+    new QRCode(document.getElementById("qrcode"), {
+        text: "{{ booking.booking_id }}",
+        width: 200,
+        height: 200,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+    });
+});
+</script>
+{% endif %}
+{% endblock %}

@@ -126,16 +126,55 @@
     <!-- System Configuration -->
     <div class="settings-section">
         <h3><i class="fas fa-server"></i> System Configuration</h3>
+        
+        {% if messages %}
+        <div class="mt-3">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
         <div class="row">
             <div class="col-md-6">
                 <h5>Parking Settings</h5>
-                <div class="mb-3">
-                    <label for="parkingRate" class="form-label">Parking Rate (₹ per minute)</label>
-                    <input type="number" class="form-control" id="parkingRate" value="2" disabled>
-                </div>
-                <div class="mb-3">
+                <form method="POST" action="{% url 'manager_system_settings' %}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="parkingRate" class="form-label">
+                            <i class="fas fa-rupee-sign"></i> Parking Rate (Rs. per minute)
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text">Rs.</span>
+                            <input type="number" 
+                                   step="0.01" 
+                                   min="0.01" 
+                                   class="form-control" 
+                                   id="parkingRate" 
+                                   name="price_per_minute"
+                                   value="{{ settings.price_per_minute }}" 
+                                   required>
+                            <span class="input-group-text">/min</span>
+                        </div>
+                        <small class="form-text text-muted">
+                            Current rate: Rs. {{ settings.price_per_minute }}/minute
+                            {% if settings.updated_by and settings.updated_at %}
+                            <br>Last updated by {{ settings.updated_by.username }} on {{ settings.updated_at|date:"M d, Y H:i" }}
+                            {% endif %}
+                        </small>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Update Parking Rate
+                    </button>
+                </form>
+                
+                <div class="mt-3">
                     <label for="maxParkingTime" class="form-label">Maximum Parking Time (hours)</label>
                     <input type="number" class="form-control" id="maxParkingTime" value="24" disabled>
+                    <small class="form-text text-muted">Feature coming soon</small>
                 </div>
             </div>
             <div class="col-md-6">
@@ -143,10 +182,12 @@
                 <div class="mb-3">
                     <label for="sessionTimeout" class="form-label">Session Timeout (minutes)</label>
                     <input type="number" class="form-control" id="sessionTimeout" value="30" disabled>
+                    <small class="form-text text-muted">Feature coming soon</small>
                 </div>
                 <div class="mb-3">
                     <label for="maxLoginAttempts" class="form-label">Max Login Attempts</label>
                     <input type="number" class="form-control" id="maxLoginAttempts" value="5" disabled>
+                    <small class="form-text text-muted">Feature coming soon</small>
                 </div>
             </div>
         </div>

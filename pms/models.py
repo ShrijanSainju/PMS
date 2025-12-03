@@ -4,6 +4,39 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+class SystemSettings(models.Model):
+    """Singleton model to store system-wide settings"""
+    price_per_minute = models.DecimalField(
+        max_digits=6, 
+        decimal_places=2, 
+        default=2.00,
+        help_text="Parking fee per minute in Rs."
+    )
+    updated_at = models.DateTimeField(auto_now=True)
+    updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+
+    class Meta:
+        verbose_name = "System Settings"
+        verbose_name_plural = "System Settings"
+
+    def save(self, *args, **kwargs):
+        # Ensure only one instance exists
+        self.pk = 1
+        super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        # Prevent deletion
+        pass
+
+    @classmethod
+    def load(cls):
+        """Load the singleton settings instance"""
+        obj, created = cls.objects.get_or_create(pk=1)
+        return obj
+
+    def __str__(self):
+        return f"System Settings - Rs. {self.price_per_minute}/min"
+
 class ParkingSlot(models.Model):
     slot_id = models.CharField(max_length=20)
     is_occupied = models.BooleanField(default=False)
@@ -78,7 +111,29 @@ class ParkingSession(models.Model):
         end_time = self.end_time or now()
         duration = end_time - self.start_time
         minutes = int(duration.total_seconds() // 60)
-        return minutes * 2  # Rs. 2 per minute
+        settings = SystemSettings.load()
+        return float(minutes * settings.price_per_minute)  # Use system settings
+
+    @property
+    def duration(self):
+        """Calculate and return duration as a formatted string"""
+        if not self.start_time:
+            return "N/A"
+        
+        end_time = self.end_time or now()
+        duration = end_time - self.start_time
+        
+        total_seconds = int(duration.total_seconds())
+        hours = total_seconds // 3600
+        minutes = (total_seconds % 3600) // 60
+        seconds = total_seconds % 60
+        
+        if hours > 0:
+            return f"{hours}h {minutes}m"
+        elif minutes > 0:
+            return f"{minutes}m {seconds}s"
+        else:
+            return f"{seconds}s"
 
 
 class Vehicle(models.Model):
@@ -257,3 +312,132 @@ class LoginAttempt(models.Model):
 
     class Meta:
         ordering = ['-timestamp']
+
+
+class Booking(models.Model):
+    """Model for parking slot bookings/reservations"""
+    BOOKING_STATUS = [
+        ('pending', 'Pending Confirmation'),
+        ('confirmed', 'Confirmed'),
+        ('active', 'Currently Parked'),
+        ('completed', 'Completed'),
+        ('cancelled', 'Cancelled'),
+        ('expired', 'Expired'),
+    ]
+    
+    booking_id = models.CharField(max_length=30, unique=True, blank=True, editable=False)
+    customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='bookings')
+    vehicle = models.ForeignKey('Vehicle', on_delete=models.CASCADE, related_name='bookings')
+    slot = models.ForeignKey('ParkingSlot', on_delete=models.SET_NULL, null=True, blank=True, related_name='bookings')
+    
+    booking_time = models.DateTimeField(auto_now_add=True)
+    scheduled_arrival = models.DateTimeField(help_text="When customer plans to arrive")
+    expected_duration = models.IntegerField(help_text="Expected duration in minutes")
+    
+    actual_arrival = models.DateTimeField(null=True, blank=True)
+    actual_departure = models.DateTimeField(null=True, blank=True)
+    
+    status = models.CharField(max_length=20, choices=BOOKING_STATUS, default='pending')
+    parking_session = models.OneToOneField('ParkingSession', null=True, blank=True, on_delete=models.SET_NULL, related_name='booking')
+    
+    notes = models.TextField(blank=True, null=True, help_text="Additional notes or special requests")
+    estimated_fee = models.FloatField(null=True, blank=True)
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-scheduled_arrival']
+        indexes = [
+            models.Index(fields=['customer', 'status']),
+            models.Index(fields=['scheduled_arrival']),
+            models.Index(fields=['status']),
+        ]
+
+    def __str__(self):
+        return f"{self.booking_id} - {self.customer.username} - {self.vehicle.plate_number} ({self.status})"
+
+    def save(self, *args, **kwargs):
+        if not self.booking_id:
+            import uuid
+            from django.db import transaction
+
+            with transaction.atomic():
+                prefix = "BOOK"
+                date_str = timezone.now().strftime('%Y%m%d')
+
+                max_attempts = 10
+                for attempt in range(max_attempts):
+                    today_count = Booking.objects.filter(
+                        booking_id__startswith=f"{prefix}-{date_str}"
+                    ).count() + 1 + attempt
+
+                    potential_booking_id = f"{prefix}-{date_str}-{today_count:04d}"
+
+                    if not Booking.objects.filter(booking_id=potential_booking_id).exists():
+                        self.booking_id = potential_booking_id
+                        break
+                else:
+                    unique_suffix = str(uuid.uuid4())[:8].upper()
+                    self.booking_id = f"{prefix}-{date_str}-{unique_suffix}"
+
+        # Calculate estimated fee
+        if self.expected_duration and not self.estimated_fee:
+            settings = SystemSettings.load()
+            self.estimated_fee = float(self.expected_duration * settings.price_per_minute)
+
+        super().save(*args, **kwargs)
+
+    @property
+    def is_upcoming(self):
+        """Check if booking is upcoming"""
+        return self.status == 'confirmed' and self.scheduled_arrival > timezone.now()
+
+    @property
+    def is_active(self):
+        """Check if booking is currently active"""
+        return self.status == 'active'
+
+    @property
+    def can_cancel(self):
+        """Check if booking can be cancelled"""
+        if self.status not in ['pending', 'confirmed']:
+            return False
+        # Can cancel up to 1 hour before scheduled arrival
+        time_until_arrival = self.scheduled_arrival - timezone.now()
+        return time_until_arrival.total_seconds() > 3600
+
+    @property
+    def time_until_arrival(self):
+        """Get time until scheduled arrival"""
+        if self.scheduled_arrival > timezone.now():
+            delta = self.scheduled_arrival - timezone.now()
+            hours = int(delta.total_seconds() // 3600)
+            minutes = int((delta.total_seconds() % 3600) // 60)
+            return f"{hours}h {minutes}m"
+        return "Arrived"
+
+    def convert_to_session(self):
+        """Convert booking to active parking session"""
+        if self.status != 'confirmed':
+            return None
+
+        session = ParkingSession.objects.create(
+            vehicle_number=self.vehicle.plate_number,
+            slot=self.slot,
+            start_time=timezone.now(),
+            status='active'
+        )
+
+        self.parking_session = session
+        self.status = 'active'
+        self.actual_arrival = timezone.now()
+        self.save()
+
+        # Update slot status
+        if self.slot:
+            self.slot.is_occupied = True
+            self.slot.is_reserved = False
+            self.slot.save()
+
+        return session

@@ -3,8 +3,9 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, Pass
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.contrib.auth import authenticate
-from .models import UserProfile, Vehicle
+from .models import UserProfile, Vehicle, Booking
 from django.utils import timezone
+from datetime import timedelta
 import re
 
 
@@ -245,14 +246,15 @@ class StaffRegisterForm(UserCreationForm):
     def save(self, commit=True):
         user = super().save(commit=False)
         user.email = self.cleaned_data['email']
+        user.is_staff = True
+        user.is_active = False  # Inactive until approved
 
         if commit:
             user.save()
-            # Create user profile with staff type and set is_staff
-            user.is_staff = True
-            user.save()
+            # Create/update user profile with staff type and pending status
             profile, created = UserProfile.objects.get_or_create(user=user)
             profile.user_type = 'staff'
+            profile.approval_status = 'pending'  # Require approval
             profile.save()
 
         return user
@@ -333,3 +335,108 @@ class VehicleForm(forms.ModelForm):
             if year < 1900 or year > current_year + 1:
                 raise ValidationError(f"Please enter a valid year between 1900 and {current_year + 1}.")
         return year
+
+
+class BookingForm(forms.ModelForm):
+    """Form for customers to create parking bookings"""
+    
+    vehicle = forms.ModelChoiceField(
+        queryset=Vehicle.objects.none(),
+        widget=forms.Select(attrs={
+            'class': 'form-control',
+            'required': True
+        }),
+        help_text="Select which vehicle you'll be parking"
+    )
+    
+    scheduled_arrival = forms.DateTimeField(
+        widget=forms.DateTimeInput(attrs={
+            'class': 'form-control',
+            'type': 'datetime-local',
+            'required': True
+        }),
+        help_text="When do you plan to arrive?"
+    )
+    
+    expected_duration = forms.IntegerField(
+        min_value=30,
+        max_value=1440,  # 24 hours max
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'e.g., 120',
+            'min': '30',
+            'step': '30',
+            'required': True
+        }),
+        help_text="How long will you stay? (in minutes, minimum 30)"
+    )
+    
+    # Keep slot as a regular field, not a model field
+    slot = forms.IntegerField(
+        widget=forms.HiddenInput(attrs={'id': 'selectedSlotInput'}),
+        required=True,
+        error_messages={'required': 'Please select a parking slot'}
+    )
+    
+    notes = forms.CharField(
+        required=False,
+        widget=forms.Textarea(attrs={
+            'class': 'form-control',
+            'rows': 3,
+            'placeholder': 'Any special requests or notes (optional)'
+        }),
+        help_text="Optional: Add any special requests"
+    )
+
+    class Meta:
+        model = Booking
+        fields = ['vehicle', 'scheduled_arrival', 'expected_duration', 'notes']
+        # Exclude 'slot' - it's defined as a regular field above and handled manually
+
+    def __init__(self, user, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Filter vehicles to only show user's active vehicles
+        self.fields['vehicle'].queryset = Vehicle.objects.filter(
+            owner=user,
+            is_active=True
+        )
+        self.user = user
+
+    def clean_scheduled_arrival(self):
+        """Validate scheduled arrival time"""
+        scheduled_arrival = self.cleaned_data.get('scheduled_arrival')
+        now = timezone.now()
+
+        # For testing: allow immediate bookings (1 hour requirement disabled)
+        # Must be at least 1 hour in future
+        # if scheduled_arrival <= now + timedelta(hours=1):
+        #     raise ValidationError("Booking must be at least 1 hour in advance.")
+        
+        # Allow bookings from current time onwards
+        if scheduled_arrival < now:
+            raise ValidationError("Booking cannot be in the past.")
+
+        # Cannot book more than 7 days in advance
+        if scheduled_arrival > now + timedelta(days=7):
+            raise ValidationError("Cannot book more than 7 days in advance.")
+
+        return scheduled_arrival
+
+    def clean(self):
+        """Additional validation"""
+        cleaned_data = super().clean()
+        vehicle = cleaned_data.get('vehicle')
+        scheduled_arrival = cleaned_data.get('scheduled_arrival')
+
+        if vehicle and scheduled_arrival:
+            # Check if vehicle already has a booking for this time
+            existing_booking = Booking.objects.filter(
+                vehicle=vehicle,
+                status__in=['pending', 'confirmed'],
+                scheduled_arrival__date=scheduled_arrival.date()
+            ).exists()
+
+            if existing_booking:
+                raise ValidationError(f"Vehicle {vehicle.plate_number} already has a booking for this date.")
+
+        return cleaned_data

@@ -1,0 +1,298 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Manage Bookings - Staff - PMS{% endblock %}
+
+{% block extra_css %}
+<style>
+    .staff-booking-container {
+        padding: 2rem 0;
+    }
+
+    .page-header {
+        background: linear-gradient(135deg, #6610f2 0%, #e83e8c 100%);
+        color: white;
+        padding: 2rem;
+        border-radius: 15px;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 20px rgba(102, 16, 242, 0.3);
+    }
+
+    .filter-section {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        margin-bottom: 2rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .booking-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+        border-left: 4px solid transparent;
+    }
+
+    .booking-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    .booking-card.confirmed {
+        border-left-color: #28a745;
+    }
+
+    .booking-card.pending {
+        border-left-color: #ffc107;
+    }
+
+    .booking-card.active {
+        border-left-color: #007bff;
+    }
+
+    .booking-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #f8f9fa;
+    }
+
+    .booking-id {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #2c3e50;
+    }
+
+    .booking-details {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .detail-item {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .detail-label {
+        font-size: 0.85rem;
+        color: #6c757d;
+        margin-bottom: 0.25rem;
+    }
+
+    .detail-value {
+        font-weight: 600;
+        color: #2c3e50;
+    }
+
+    .booking-actions {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .stat-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        text-align: center;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .stat-value {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+
+    .filter-badge {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        margin: 0.25rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .filter-badge:hover {
+        transform: scale(1.05);
+    }
+
+    .no-bookings {
+        text-align: center;
+        padding: 3rem;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container staff-booking-container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1><i class="fas fa-clipboard-list"></i> Manage Bookings</h1>
+        <p class="mb-0">View and manage all parking reservations</p>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-value text-warning">{{ pending_count }}</div>
+            <div class="stat-label">Pending Confirmation</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value text-success">{{ confirmed_count }}</div>
+            <div class="stat-label">Confirmed Bookings</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value text-primary">{{ active_count }}</div>
+            <div class="stat-label">Active Now</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value text-info">{{ today_count }}</div>
+            <div class="stat-label">Today's Bookings</div>
+        </div>
+    </div>
+
+    <!-- Filter Section -->
+    <div class="filter-section">
+        <h5 class="mb-3"><i class="fas fa-filter"></i> Filter Bookings</h5>
+        <div>
+            <a href="?status=all" class="filter-badge {% if not request.GET.status or request.GET.status == 'all' %}bg-primary text-white{% else %}bg-light{% endif %}">
+                All
+            </a>
+            <a href="?status=pending" class="filter-badge {% if request.GET.status == 'pending' %}bg-warning text-white{% else %}bg-light{% endif %}">
+                Pending
+            </a>
+            <a href="?status=confirmed" class="filter-badge {% if request.GET.status == 'confirmed' %}bg-success text-white{% else %}bg-light{% endif %}">
+                Confirmed
+            </a>
+            <a href="?status=active" class="filter-badge {% if request.GET.status == 'active' %}bg-primary text-white{% else %}bg-light{% endif %}">
+                Active
+            </a>
+            <a href="?date=today" class="filter-badge {% if request.GET.date == 'today' %}bg-info text-white{% else %}bg-light{% endif %}">
+                Today
+            </a>
+            <a href="?date=tomorrow" class="filter-badge {% if request.GET.date == 'tomorrow' %}bg-secondary text-white{% else %}bg-light{% endif %}">
+                Tomorrow
+            </a>
+        </div>
+    </div>
+
+    <!-- Bookings List -->
+    {% if bookings %}
+        <div class="bookings-list">
+            {% for booking in bookings %}
+            <div class="booking-card {{ booking.status }}">
+                <div class="booking-header">
+                    <div>
+                        <div class="booking-id">{{ booking.booking_id }}</div>
+                        <small class="text-muted">Created {{ booking.created_at|date:"M d, Y - h:i A" }}</small>
+                    </div>
+                    <span class="badge 
+                        {% if booking.status == 'confirmed' %}bg-success
+                        {% elif booking.status == 'pending' %}bg-warning
+                        {% elif booking.status == 'active' %}bg-primary
+                        {% elif booking.status == 'completed' %}bg-secondary
+                        {% elif booking.status == 'cancelled' %}bg-danger
+                        {% elif booking.status == 'expired' %}bg-dark
+                        {% endif %}">
+                        {{ booking.get_status_display }}
+                    </span>
+                </div>
+
+                <div class="booking-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Customer</span>
+                        <span class="detail-value">{{ booking.customer.get_full_name|default:booking.customer.username }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Vehicle</span>
+                        <span class="detail-value">{{ booking.vehicle.plate_number }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Scheduled Arrival</span>
+                        <span class="detail-value">{{ booking.scheduled_arrival|date:"M d - h:i A" }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Duration</span>
+                        <span class="detail-value">{{ booking.expected_duration }} min</span>
+                    </div>
+                    {% if booking.slot %}
+                    <div class="detail-item">
+                        <span class="detail-label">Assigned Slot</span>
+                        <span class="detail-value">Slot {{ booking.slot.slot_number }}</span>
+                    </div>
+                    {% endif %}
+                    <div class="detail-item">
+                        <span class="detail-label">Estimated Fee</span>
+                        <span class="detail-value text-success">₹{{ booking.estimated_fee }}</span>
+                    </div>
+                </div>
+
+                <div class="booking-actions">
+                    <a href="{% url 'booking_detail' booking.id %}" class="btn btn-sm btn-outline-primary">
+                        <i class="fas fa-eye"></i> View Details
+                    </a>
+                    
+                    {% if booking.status == 'confirmed' %}
+                    <a href="{% url 'confirm_arrival' booking.id %}" class="btn btn-sm btn-primary">
+                        <i class="fas fa-car-side"></i> Check-In
+                    </a>
+                    {% endif %}
+
+                    {% if booking.status in 'pending,confirmed' %}
+                    <form method="post" action="{% url 'cancel_booking' booking.id %}" style="display:inline;" 
+                          onsubmit="return confirm('Are you sure you want to cancel this booking?');">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-sm btn-danger">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    </form>
+                    {% endif %}
+                </div>
+
+                {% if booking.notes %}
+                <div class="mt-3 p-2 bg-light rounded">
+                    <small class="text-muted"><i class="fas fa-sticky-note"></i> Note:</small>
+                    <div>{{ booking.notes }}</div>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="no-bookings">
+            <i class="fas fa-calendar-times fa-4x text-muted mb-3"></i>
+            <h4>No bookings found</h4>
+            <p class="text-muted">
+                {% if request.GET.status %}
+                    No {{ request.GET.status }} bookings at the moment.
+                {% else %}
+                    There are no bookings to display.
+                {% endif %}
+            </p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

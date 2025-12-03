@@ -1,0 +1,363 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Create Booking - PMS{% endblock %}
+
+{% block extra_css %}
+<style>
+    .booking-form-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-header {
+        background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%);
+        color: white;
+        padding: 2rem;
+        border-radius: 12px;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+
+    .info-card {
+        background: #f8f9fa;
+        border-left: 4px solid #20c997;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        border-radius: 8px;
+    }
+
+    .estimated-fee {
+        background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+        color: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        text-align: center;
+        margin-top: 1.5rem;
+    }
+
+    .form-group label {
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+    }
+
+    .btn-create-booking {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        border: none;
+        color: white;
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-create-booking:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+        color: white;
+    }
+
+    .slot-selection-section {
+        margin: 2rem 0;
+        padding: 1.5rem;
+        background: #f8f9fa;
+        border-radius: 12px;
+        border: 2px solid #20c997;
+    }
+
+    .slot-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 15px;
+        margin-top: 1rem;
+    }
+
+    .slot-option {
+        padding: 1rem;
+        border: 2px solid #dee2e6;
+        border-radius: 8px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: white;
+    }
+
+    .slot-option:hover:not(.reserved):not(.occupied) {
+        border-color: #20c997;
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(32, 201, 151, 0.2);
+    }
+
+    .slot-option.selected {
+        background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%);
+        color: white;
+        border-color: #20c997;
+        font-weight: bold;
+    }
+
+    .slot-option.reserved, .slot-option.occupied {
+        background: #e9ecef;
+        color: #6c757d;
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+
+    .slot-required-notice {
+        color: #dc3545;
+        font-weight: 600;
+        margin-top: 0.5rem;
+        display: none;
+    }
+
+    .slot-required-notice.show {
+        display: block;
+    }
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="booking-form-container">
+        <div class="form-header">
+            <h1><i class="fas fa-calendar-plus"></i> Create New Booking</h1>
+            <p class="mb-0">Reserve your parking spot in advance</p>
+        </div>
+
+        <!-- Info Cards -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="info-card">
+                    <h6><i class="fas fa-parking"></i> Available Slots</h6>
+                    <h3 class="text-success mb-0">{{ available_slots_count }}</h3>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="info-card">
+                    <h6><i class="fas fa-car"></i> Your Vehicles</h6>
+                    <h3 class="text-primary mb-0">{{ user_vehicles.count }}</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- Booking Form -->
+        <form method="post" id="bookingForm">
+            {% csrf_token %}
+            
+            <div class="form-group mb-3">
+                <label for="{{ form.vehicle.id_for_label }}">
+                    <i class="fas fa-car"></i> Select Vehicle
+                </label>
+                {{ form.vehicle }}
+                {% if form.vehicle.errors %}
+                    <div class="text-danger mt-1">{{ form.vehicle.errors }}</div>
+                {% endif %}
+                <small class="form-text text-muted">{{ form.vehicle.help_text }}</small>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="{{ form.scheduled_arrival.id_for_label }}">
+                    <i class="fas fa-clock"></i> Scheduled Arrival
+                </label>
+                {{ form.scheduled_arrival }}
+                {% if form.scheduled_arrival.errors %}
+                    <div class="text-danger mt-1">{{ form.scheduled_arrival.errors }}</div>
+                {% endif %}
+                <small class="form-text text-muted">{{ form.scheduled_arrival.help_text }}</small>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="{{ form.expected_duration.id_for_label }}">
+                    <i class="fas fa-hourglass-half"></i> Expected Duration (minutes)
+                </label>
+                {{ form.expected_duration }}
+                {% if form.expected_duration.errors %}
+                    <div class="text-danger mt-1">{{ form.expected_duration.errors }}</div>
+                {% endif %}
+                <small class="form-text text-muted">{{ form.expected_duration.help_text }}</small>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="{{ form.notes.id_for_label }}">
+                    <i class="fas fa-sticky-note"></i> Special Requests (Optional)
+                </label>
+                {{ form.notes }}
+                {% if form.notes.errors %}
+                    <div class="text-danger mt-1">{{ form.notes.errors }}</div>
+                {% endif %}
+                <small class="form-text text-muted">{{ form.notes.help_text }}</small>
+            </div>
+
+            <!-- Parking Slot Selection -->
+             
+            <div class="slot-selection-section">
+                <h5 class="mb-3">
+                    <i class="fas fa-parking"></i> Select Your Parking Slot
+                    <span class="badge bg-success">{{ available_slots_count }} Available</span>
+                </h5>
+                <p class="text-muted mb-3">Click on an available slot to select it for your booking</p>
+                
+                <div id="slotGrid" class="slot-grid">
+                    <div class="text-center text-muted">
+                        <i class="fas fa-spinner fa-spin fa-2x"></i>
+                        <p class="mt-2">Loading available slots...</p>
+                    </div>
+                </div>
+                
+                {{ form.slot }}
+                {% if form.slot.errors %}
+                    <div class="text-danger mt-2">{{ form.slot.errors }}</div>
+                {% endif %}
+                <div id="slotRequiredNotice" class="slot-required-notice">
+                    <i class="fas fa-exclamation-triangle"></i> Please select a parking slot before confirming
+                </div>
+            </div>
+
+            <!-- Estimated Fee Display -->
+            {% comment %} <div class="estimated-fee">
+                <h5 class="mb-2">Estimated Parking Fee</h5>
+                <h2 id="estimatedFee">₹0</h2>
+                <small>Based on ₹2 per minute</small>
+            </div> 
+            Need to make dynamic so hidden for now
+            {% endcomment %} 
+
+            <!-- Form Errors -->
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger mt-3">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            <!-- Action Buttons -->
+            <div class="mt-4 d-flex gap-2">
+                <button type="submit" class="btn btn-create-booking flex-grow-1">
+                    <i class="fas fa-check"></i> Confirm Booking
+                </button>
+                <a href="{% url 'customer_bookings' %}" class="btn btn-outline-secondary">
+                    <i class="fas fa-times"></i> Cancel
+                </a>
+            </div>
+        </form>
+
+        <!-- Important Notes -->
+        <div class="alert alert-info mt-4">
+            <h6><i class="fas fa-info-circle"></i> Important Information</h6>
+            <ul class="mb-0">
+                <li>Bookings must be made at least 1 hour in advance</li>
+                <li>You can book up to 7 days in advance</li>
+                <li>Arrive within 30 minutes of your scheduled time</li>
+                <li>You can cancel up to 1 hour before your scheduled arrival</li>
+                <li>No-shows will result in automatic cancellation</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+document.addEventListener('DOMContentLoaded', function() {
+    const durationInput = document.getElementById('id_expected_duration');
+    const slotRequiredNotice = document.getElementById('slotRequiredNotice');
+    const bookingForm = document.getElementById('bookingForm');
+    
+    // Find the slot input - try multiple possible IDs
+    var selectedSlotInput = document.getElementById('id_slot') || 
+                           document.getElementById('selectedSlotInput') ||
+                           document.querySelector('input[name="slot"]');
+    
+    console.log('Booking form loaded. Slot input found:', selectedSlotInput);
+    console.log('Slot input ID:', selectedSlotInput ? selectedSlotInput.id : 'NULL');
+    console.log('Slot input name:', selectedSlotInput ? selectedSlotInput.name : 'NULL');
+    
+    // Debug: List all hidden inputs
+    document.querySelectorAll('input[type="hidden"]').forEach(function(input) {
+        console.log('Hidden input found:', input.id, input.name);
+    });
+    
+    function loadParkingSlots() {
+        console.log('Fetching slots...');
+        
+        fetch('/api/slot-status/', {
+            credentials: 'same-origin',
+            headers: {'Accept': 'application/json'}
+        })
+        .then(function(response) {
+            if (!response.ok) throw new Error('HTTP ' + response.status);
+            return response.json();
+        })
+        .then(function(data) {
+            console.log('Got ' + data.length + ' slots');
+            const grid = document.getElementById('slotGrid');
+            grid.innerHTML = '';
+            
+            if (data.length === 0) {
+                grid.innerHTML = '<div class="text-center text-muted"><p>No slots available</p></div>';
+                return;
+            }
+            
+            data.forEach(function(slot) {
+                const div = document.createElement('div');
+                div.classList.add('slot-option');
+                
+                const isAvailable = !slot.is_occupied && !slot.is_reserved;
+                
+                if (slot.is_occupied) div.classList.add('occupied');
+                else if (slot.is_reserved) div.classList.add('reserved');
+                
+                var status = slot.is_occupied ? 'Occupied' : (slot.is_reserved ? 'Reserved' : 'Available');
+                div.innerHTML = '<div style="font-weight:bold;font-size:1.1rem;">' + slot.slot_id + '</div><small style="font-size:0.85rem;">' + status + '</small>';
+                
+                if (isAvailable) {
+                    div.addEventListener('click', function() {
+                        document.querySelectorAll('.slot-option').forEach(function(s) {
+                            s.classList.remove('selected');
+                        });
+                        div.classList.add('selected');
+                        if (selectedSlotInput) {
+                            selectedSlotInput.value = slot.id;
+                            console.log('Selected slot:', slot.slot_id, 'ID:', slot.id);
+                        }
+                        if (slotRequiredNotice) slotRequiredNotice.classList.remove('show');
+                    });
+                }
+                
+                grid.appendChild(div);
+            });
+        })
+        .catch(function(error) {
+            console.error('Error:', error);
+            document.getElementById('slotGrid').innerHTML = '<div class="text-danger">Error loading slots</div>';
+        });
+    }
+    
+    loadParkingSlots();
+    
+    if (bookingForm) {
+        bookingForm.addEventListener('submit', function(e) {
+            if (!selectedSlotInput || !selectedSlotInput.value) {
+                e.preventDefault();
+                alert('Please select a parking slot');
+                if (slotRequiredNotice) slotRequiredNotice.classList.add('show');
+                return false;
+            }
+            return confirm('Confirm booking?');
+        });
+    }
+    
+    const arrivalInput = document.getElementById('id_scheduled_arrival');
+    if (arrivalInput) {
+        const now = new Date();
+        arrivalInput.setAttribute('min', now.toISOString().slice(0, 16));
+        const maxDate = new Date();
+        maxDate.setDate(maxDate.getDate() + 7);
+        arrivalInput.setAttribute('max', maxDate.toISOString().slice(0, 16));
+    }
+});
+{% endblock %}

@@ -31,6 +31,8 @@ def is_manager_user(user):
 @require_customer
 def customer_dashboard(request):
     """Customer dashboard view - limited access for customers only"""
+    from .models import SystemSettings
+    
     # Get customer's vehicles
     customer_vehicles = Vehicle.objects.filter(owner=request.user, is_active=True)
 
@@ -67,6 +69,7 @@ def customer_dashboard(request):
         'current_sessions': current_sessions,
         'recent_sessions': recent_sessions,
         'has_vehicles': customer_vehicles.exists(),
+        'settings': SystemSettings.load(),
     }
 
     return render(request, 'customer/customer_dashboard.html', context)
@@ -125,9 +128,34 @@ def manager_dashboard(request):
     
     # Session statistics
     today = timezone.now().date()
+    from datetime import timedelta
+    week_start = today - timedelta(days=today.weekday())  # Monday of current week
+    month_start = today.replace(day=1)  # First day of current month
+    
     context.update({
         'today_sessions': ParkingSession.objects.filter(start_time__date=today).count(),
         'completed_sessions': ParkingSession.objects.filter(status='completed').count(),
+        'today_revenue': sum([
+            session.fee for session in ParkingSession.objects.filter(
+                status='completed',
+                end_time__date=today,
+                fee__isnull=False
+            )
+        ]) or 0,
+        'week_revenue': sum([
+            session.fee for session in ParkingSession.objects.filter(
+                status='completed',
+                end_time__date__gte=week_start,
+                fee__isnull=False
+            )
+        ]) or 0,
+        'month_revenue': sum([
+            session.fee for session in ParkingSession.objects.filter(
+                status='completed',
+                end_time__date__gte=month_start,
+                fee__isnull=False
+            )
+        ]) or 0,
         'total_revenue': sum([
             session.fee for session in ParkingSession.objects.filter(
                 status='completed', fee__isnull=False
@@ -141,6 +169,54 @@ def manager_dashboard(request):
     ).order_by('-timestamp')[:5]
 
     return render(request, 'manager/manager_dashboard.html', context)
+
+
+@require_manager
+def revenue_analytics(request):
+    """Dedicated revenue analytics page for managers"""
+    today = timezone.now().date()
+    from datetime import timedelta
+    week_start = today - timedelta(days=today.weekday())
+    month_start = today.replace(day=1)
+    
+    context = {
+        'user_type': 'manager',
+        'today': today,
+        'week_start': week_start,
+        'month_start': month_start,
+        'today_sessions': ParkingSession.objects.filter(start_time__date=today).count(),
+        'completed_sessions': ParkingSession.objects.filter(status='completed').count(),
+        'active_sessions': ParkingSession.objects.filter(status='active').count(),
+        'today_revenue': sum([
+            session.fee for session in ParkingSession.objects.filter(
+                status='completed',
+                end_time__date=today,
+                fee__isnull=False
+            )
+        ]) or 0,
+        'week_revenue': sum([
+            session.fee for session in ParkingSession.objects.filter(
+                status='completed',
+                end_time__date__gte=week_start,
+                fee__isnull=False
+            )
+        ]) or 0,
+        'month_revenue': sum([
+            session.fee for session in ParkingSession.objects.filter(
+                status='completed',
+                end_time__date__gte=month_start,
+                fee__isnull=False
+            )
+        ]) or 0,
+        'total_revenue': sum([
+            session.fee for session in ParkingSession.objects.filter(
+                status='completed',
+                fee__isnull=False
+            )
+        ]) or 0,
+    }
+    
+    return render(request, 'manager/revenue_analytics.html', context)
 
 
 @require_approved_user
@@ -339,6 +415,8 @@ def delete_vehicle(request, vehicle_id):
 @require_customer
 def vehicle_status(request, vehicle_id):
     """View to check specific vehicle status"""
+    from .models import SystemSettings
+    
     vehicle = get_object_or_404(Vehicle, id=vehicle_id, owner=request.user)
     current_session = vehicle.current_session
 
@@ -352,5 +430,6 @@ def vehicle_status(request, vehicle_id):
         'current_session': current_session,
         'recent_sessions': recent_sessions,
         'user_type': 'customer',
+        'settings': SystemSettings.load(),
     }
     return render(request, 'customer/vehicle_status.html', context)

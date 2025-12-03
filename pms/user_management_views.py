@@ -257,7 +257,27 @@ def manager_create_customer(request):
 @require_manager
 def manager_system_settings(request):
     """Manager view for system settings"""
+    from .models import SystemSettings
+    from django.contrib import messages
+    
+    settings = SystemSettings.load()
+    
+    if request.method == 'POST':
+        new_price = request.POST.get('price_per_minute')
+        try:
+            new_price = float(new_price)
+            if new_price > 0:
+                settings.price_per_minute = new_price
+                settings.updated_by = request.user
+                settings.save()
+                messages.success(request, f'Parking fee updated to Rs. {new_price} per minute successfully!')
+            else:
+                messages.error(request, 'Price must be greater than 0.')
+        except (ValueError, TypeError):
+            messages.error(request, 'Invalid price format. Please enter a valid number.')
+    
     context = {
+        'settings': settings,
         'total_users': UserProfile.objects.count(),
         'pending_approvals': UserProfile.objects.filter(approval_status='pending').count(),
         'total_sessions': ParkingSession.objects.count(),

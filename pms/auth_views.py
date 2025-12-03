@@ -521,8 +521,8 @@ def staff_register_view(request):
         form = StaffRegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)
-            return redirect('staff_dashboard')
+            messages.success(request, 'Staff account created successfully! Your account is pending approval. You will be notified once approved.')
+            return redirect('staff_login')
     else:
         form = StaffRegisterForm()
     return render(request, 'staff/register.html', {'form': form})
