@@ -156,9 +156,15 @@
                 </div>
 
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <a href="/staff/dashboard/" class="btn btn-secondary me-md-2">
-                        <i class="fas fa-arrow-left"></i> Back to Dashboard
-                    </a>
+                    {% if request.user.userprofile.user_type == 'manager' %}
+                        <a href="{% url 'manager_dashboard' %}" class="btn btn-secondary me-md-2">
+                            <i class="fas fa-arrow-left"></i> Back to Dashboard
+                        </a>
+                    {% else %}
+                        <a href="{% url 'staff_dashboard' %}" class="btn btn-secondary me-md-2">
+                            <i class="fas fa-arrow-left"></i> Back to Dashboard
+                        </a>
+                    {% endif %}
                     <button type="submit" class="btn btn-danger" {% if not active_sessions %}disabled{% endif %}>
                         <i class="fas fa-stop-circle"></i> End Session
                     </button>
@@ -309,9 +315,15 @@
             <a href="{% url 'end_session_by_vehicle' %}" class="btn btn-danger">
                 <i class="fas fa-stop-circle"></i> End Another Session
             </a>
-            <a href="/staff/dashboard/" class="btn btn-secondary">
-                <i class="fas fa-tachometer-alt"></i> Back to Dashboard
-            </a>
+            {% if request.user.userprofile.user_type == 'manager' %}
+                <a href="{% url 'manager_dashboard' %}" class="btn btn-secondary">
+                    <i class="fas fa-tachometer-alt"></i> Back to Dashboard
+                </a>
+            {% else %}
+                <a href="{% url 'staff_dashboard' %}" class="btn btn-secondary">
+                    <i class="fas fa-tachometer-alt"></i> Back to Dashboard
+                </a>
+            {% endif %}
             <a href="/customer/lookup/" class="btn btn-info">
                 <i class="fas fa-search"></i> Vehicle Lookup
             </a>

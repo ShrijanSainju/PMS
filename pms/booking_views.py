@@ -54,27 +54,92 @@ def create_booking(request):
     if request.method == 'POST':
         form = BookingForm(request.user, request.POST)
         if form.is_valid():
+            # Check if vehicle already has an active or confirmed booking
+            selected_vehicle = form.cleaned_data.get('vehicle')
+            existing_booking = Booking.objects.filter(
+                vehicle=selected_vehicle,
+                status__in=['confirmed', 'active']
+            ).first()
+            
+            if existing_booking:
+                messages.error(
+                    request, 
+                    f'Vehicle {selected_vehicle.plate_number} already has an active booking '
+                    f'({existing_booking.booking_id}) scheduled for '
+                    f'{existing_booking.scheduled_arrival.strftime("%B %d, %Y at %I:%M %p")}. '
+                    f'Please cancel the existing booking first or use a different vehicle.'
+                )
+                return render(request, 'customer/create_booking.html', {
+                    'form': form,
+                    'user_vehicles': user_vehicles,
+                    'available_slots_count': ParkingSlot.objects.filter(is_occupied=False, is_reserved=False).count(),
+                    'settings': SystemSettings.load(),
+                })
+            
+            # Check if vehicle already has an active parking session (walk-in)
+            existing_session = ParkingSession.objects.filter(
+                vehicle_number=selected_vehicle.plate_number,
+                status__in=['pending', 'active']
+            ).first()
+            
+            if existing_session:
+                messages.error(
+                    request,
+                    f'Vehicle {selected_vehicle.plate_number} is currently parked '
+                    f'(Session {existing_session.session_id}) in slot {existing_session.slot.slot_id}. '
+                    f'Please end the current session before making a new booking.'
+                )
+                return render(request, 'customer/create_booking.html', {
+                    'form': form,
+                    'user_vehicles': user_vehicles,
+                    'available_slots_count': ParkingSlot.objects.filter(is_occupied=False, is_reserved=False).count(),
+                    'settings': SystemSettings.load(),
+                })
+            
             # Get the slot selected by customer BEFORE saving
             slot_id = form.cleaned_data.get('slot')
+            scheduled_arrival = form.cleaned_data.get('scheduled_arrival')
+            expected_duration = form.cleaned_data.get('expected_duration')
+            
+            # Calculate booking time window
+            scheduled_departure = scheduled_arrival + timedelta(minutes=expected_duration)
+            
             try:
                 selected_slot = ParkingSlot.objects.get(id=slot_id)
                 
-                # Verify slot is available
+                # Check if slot is currently occupied (active session)
                 if selected_slot.is_occupied:
                     messages.error(request, f'Slot {selected_slot.slot_id} is currently occupied. Please select another slot.')
                     return render(request, 'customer/create_booking.html', {
                         'form': form,
                         'user_vehicles': user_vehicles,
-                        'available_slots_count': ParkingSlot.objects.filter(is_occupied=False, is_reserved=False).count(),
+                        'available_slots_count': ParkingSlot.objects.filter(is_occupied=False).count(),
                         'settings': SystemSettings.load(),
                     })
                 
-                if selected_slot.is_reserved:
-                    messages.error(request, f'Slot {selected_slot.slot_id} is already reserved. Please select another slot.')
+                # TIME-BASED CONFLICT CHECK: Check for overlapping bookings
+                # Manual check for time overlaps (more reliable than Django ORM for this case)
+                time_conflicts = []
+                for booking in Booking.objects.filter(slot=selected_slot, status__in=['confirmed', 'active']):
+                    booking_end = booking.scheduled_arrival + timedelta(minutes=booking.expected_duration)
+                    # Check if time windows overlap
+                    if not (booking_end <= scheduled_arrival or booking.scheduled_arrival >= scheduled_departure):
+                        time_conflicts.append(booking)
+                
+                if time_conflicts:
+                    conflict = time_conflicts[0]
+                    conflict_end = conflict.scheduled_arrival + timedelta(minutes=conflict.expected_duration)
+                    messages.error(
+                        request,
+                        f'Slot {selected_slot.slot_id} is already booked from '
+                        f'{conflict.scheduled_arrival.strftime("%b %d, %I:%M %p")} to '
+                        f'{conflict_end.strftime("%I:%M %p")}. '
+                        f'Please choose a different time slot or parking slot.'
+                    )
                     return render(request, 'customer/create_booking.html', {
                         'form': form,
                         'user_vehicles': user_vehicles,
-                        'available_slots_count': ParkingSlot.objects.filter(is_occupied=False, is_reserved=False).count(),
+                        'available_slots_count': ParkingSlot.objects.filter(is_occupied=False).count(),
                         'settings': SystemSettings.load(),
                     })
                 
@@ -85,9 +150,8 @@ def create_booking(request):
                 booking.status = 'confirmed'
                 booking.save()
                 
-                # Reserve the slot
-                selected_slot.is_reserved = True
-                selected_slot.save()
+                # DO NOT reserve the slot immediately - only reserve when customer arrives
+                # This allows multiple future bookings for the same slot at different times
                 
                 # Send confirmation
                 try:
@@ -263,36 +327,111 @@ def staff_bookings_list(request):
 
 @require_staff_or_manager
 def confirm_arrival(request, booking_id):
-    """Staff confirms customer arrival and converts booking to active session"""
+    """
+    Staff confirms customer arrival for their booking.
+    Creates a PENDING session (not active yet).
+    Session will auto-activate when camera detects the vehicle.
+    """
     booking = get_object_or_404(Booking, id=booking_id)
     
-    if request.method == 'POST':
-        if booking.status == 'confirmed':
-            # Check if booking has a slot assigned
-            if not booking.slot:
-                messages.error(request, 'Cannot check in: No parking slot assigned to this booking')
-                return redirect('staff_bookings_list')
-            
-            # Check if slot is already occupied
-            if booking.slot.is_occupied:
-                messages.error(request, f'Cannot check in: Slot {booking.slot.slot_id} is already occupied')
-                return redirect('staff_bookings_list')
-            
-            try:
-                session = booking.convert_to_session()
-                if session:
-                    messages.success(request, f'Customer checked in successfully! Session {session.session_id} started in slot {booking.slot.slot_id}.')
-                    logger.info(f"Booking {booking.booking_id} converted to session {session.session_id} by {request.user.username}")
-                    return redirect('staff_bookings_list')
-                else:
-                    messages.error(request, 'Failed to start parking session. Please try again.')
-            except Exception as e:
-                logger.error(f"Error converting booking {booking.booking_id} to session: {str(e)}")
-                messages.error(request, f'Error starting session: {str(e)}')
-        else:
-            messages.error(request, f'Cannot check in a {booking.get_status_display()} booking. Only confirmed bookings can be checked in.')
-        
+    # Security validation
+    if booking.status != 'confirmed':
+        messages.error(request, f'Booking must be confirmed before arrival. Current status: {booking.get_status_display()}')
         return redirect('staff_bookings_list')
+    
+    # Check if slot is assigned
+    if not booking.slot:
+        messages.error(request, 'No parking slot assigned to this booking')
+        return redirect('staff_bookings_list')
+    
+    # Verify slot is not already occupied
+    if booking.slot.is_occupied:
+        messages.error(request, f'Slot {booking.slot.slot_id} is already occupied')
+        return redirect('staff_bookings_list')
+    
+    # GRACE PERIOD VALIDATION: Check if customer is arriving within acceptable time window
+    GRACE_PERIOD_MINUTES = 30  # Allow 30 minutes before/after scheduled arrival
+    
+    current_time = timezone.now()
+    scheduled_arrival = booking.scheduled_arrival
+    
+    # Make scheduled_arrival timezone-aware if it's naive
+    if timezone.is_naive(scheduled_arrival):
+        scheduled_arrival = timezone.make_aware(scheduled_arrival)
+    
+    earliest_allowed = scheduled_arrival - timedelta(minutes=GRACE_PERIOD_MINUTES)
+    latest_allowed = scheduled_arrival + timedelta(minutes=GRACE_PERIOD_MINUTES)
+    
+    if current_time < earliest_allowed:
+        too_early_minutes = int((earliest_allowed - current_time).total_seconds() / 60)
+        messages.error(
+            request, 
+            f'Arrival too early! Customer is {too_early_minutes} minutes early. '
+            f'Scheduled arrival: {scheduled_arrival.strftime("%b %d, %I:%M %p")}. '
+            f'Please arrive between {earliest_allowed.strftime("%I:%M %p")} and {latest_allowed.strftime("%I:%M %p")}.'
+        )
+        return redirect('staff_bookings_list')
+    
+    if current_time > latest_allowed:
+        too_late_minutes = int((current_time - latest_allowed).total_seconds() / 60)
+        if request.method == 'POST' and request.POST.get('force_confirm') == 'yes':
+            # Staff can force confirm late arrivals
+            messages.warning(request, f'Late arrival confirmed ({too_late_minutes} minutes late). Fee may be adjusted.')
+        else:
+            messages.error(
+                request, 
+                f'Arrival too late! Customer is {too_late_minutes} minutes late. '
+                f'Scheduled arrival: {scheduled_arrival.strftime("%b %d, %I:%M %p")}. '
+                f'Grace period ended at {latest_allowed.strftime("%I:%M %p")}. '
+                f'Consider canceling and creating a new booking.'
+            )
+            # Provide option to force confirm on the template
+            return render(request, 'staff/confirm_arrival.html', {
+                'booking': booking,
+                'too_late': True,
+                'late_minutes': too_late_minutes,
+                'grace_period': GRACE_PERIOD_MINUTES
+            })
+    
+    if request.method == 'POST':
+        try:
+            # Create PENDING parking session (not active yet!)
+            parking_session = ParkingSession.objects.create(
+                vehicle_number=booking.vehicle.plate_number,
+                slot=booking.slot,
+                status='pending',  # PENDING, waiting for camera detection
+                start_time=None    # No start time yet
+            )
+            
+            # Update booking
+            booking.status = 'active'
+            booking.parking_session = parking_session
+            booking.actual_arrival = timezone.now()
+            booking.save()
+            
+            # RESERVE the slot (do NOT mark as occupied yet)
+            booking.slot.is_reserved = True   # RESERVED
+            booking.slot.is_occupied = False  # NOT occupied yet
+            booking.slot.save()
+            
+            messages.success(
+                request, 
+                f'Booking confirmed! Session {parking_session.session_id} created (PENDING). '
+                f'Slot {booking.slot.slot_id} is RESERVED. '
+                f'Session will auto-activate when vehicle is detected by camera.'
+            )
+            
+            logger.info(
+                f"Pending session {parking_session.session_id} created for booking {booking.booking_id} "
+                f"by {request.user.username}. Waiting for camera detection."
+            )
+            
+            return redirect('staff_bookings_list')
+            
+        except Exception as e:
+            logger.error(f"Error confirming arrival for booking {booking_id}: {str(e)}")
+            messages.error(request, f'Error confirming arrival: {str(e)}')
+            return redirect('staff_bookings_list')
     
     return render(request, 'staff/confirm_arrival.html', {'booking': booking})
 

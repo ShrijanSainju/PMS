@@ -185,7 +185,25 @@
         </div>
 
         <!-- Warning for Late/Early Arrival -->
-        {% if booking.scheduled_arrival %}
+        {% if too_late %}
+        <div class="alert alert-danger">
+            <h5><i class="fas fa-exclamation-triangle"></i> Late Arrival Warning</h5>
+            <p>
+                Customer is <strong>{{ late_minutes }} minutes late</strong> for their scheduled arrival.
+                <br>
+                Scheduled arrival: <strong>{{ booking.scheduled_arrival|date:"F d, Y - h:i A" }}</strong>
+                <br>
+                Grace period: <strong>{{ grace_period }} minutes</strong>
+            </p>
+            <p class="mb-0">
+                <strong>Options:</strong>
+            </p>
+            <ul>
+                <li>Force confirm arrival (may result in adjusted fees)</li>
+                <li>Cancel this booking and create a new one</li>
+            </ul>
+        </div>
+        {% elif booking.scheduled_arrival %}
         {% now "U" as current_timestamp %}
         {% if booking.scheduled_arrival.timestamp > current_timestamp|add:"300" or booking.scheduled_arrival.timestamp < current_timestamp|add:"-300" %}
         <div class="warning-box">
@@ -255,6 +273,11 @@
         <form method="post" id="confirmForm">
             {% csrf_token %}
             
+            {% if too_late %}
+            <!-- Hidden field to force confirm late arrival -->
+            <input type="hidden" name="force_confirm" value="yes">
+            {% endif %}
+            
             <div class="mb-3">
                 <label for="notes" class="form-label">
                     <i class="fas fa-sticky-note"></i> Additional Notes (Optional)
@@ -265,9 +288,15 @@
 
             <!-- Action Buttons -->
             <div class="d-flex gap-2">
+                {% if too_late %}
+                <button type="submit" class="btn btn-warning flex-grow-1" id="confirmBtn">
+                    <i class="fas fa-exclamation-triangle"></i> Force Confirm Late Arrival
+                </button>
+                {% else %}
                 <button type="submit" class="btn btn-confirm-arrival flex-grow-1" id="confirmBtn" disabled>
                     <i class="fas fa-check-circle"></i> Confirm Arrival & Start Session
                 </button>
+                {% endif %}
                 <a href="{% url 'staff_bookings_list' %}" class="btn btn-outline-secondary">
                     <i class="fas fa-arrow-left"></i> Cancel
                 </a>

@@ -26,11 +26,104 @@ class ParkingSlotAdmin(admin.ModelAdmin):
 
 @admin.register(ParkingSession)
 class ParkingSessionAdmin(admin.ModelAdmin):
-    list_display = ('session_id', 'vehicle_number', 'slot', 'status', 'start_time', 'end_time', 'fee')
+    list_display = ('session_id', 'vehicle_number', 'slot', 'status', 'start_time', 'end_time', 'fee', 'duration_display')
     list_filter = ('status', 'start_time', 'end_time')
     search_fields = ('vehicle_number', 'session_id', 'slot__slot_id')
-    readonly_fields = ('session_id',)
+    readonly_fields = ('session_id', 'created_at', 'duration_display', 'calculated_fee')
     date_hierarchy = 'start_time'
+    list_editable = ('fee',)  # Allow editing fee directly in list view
+    
+    fieldsets = (
+        ('Session Information', {
+            'fields': ('session_id', 'vehicle_number', 'slot', 'status', 'created_at')
+        }),
+        ('Timing', {
+            'fields': ('start_time', 'end_time', 'duration_display')
+        }),
+        ('Revenue', {
+            'fields': ('calculated_fee', 'fee'),
+            'description': 'Calculated fee is auto-computed. You can manually override the actual fee charged.'
+        }),
+    )
+    
+    actions = ['recalculate_fees', 'mark_as_completed', 'export_revenue_report']
+    
+    def duration_display(self, obj):
+        """Display session duration"""
+        if obj.start_time and obj.end_time:
+            duration = obj.end_time - obj.start_time
+            hours = duration.total_seconds() // 3600
+            minutes = (duration.total_seconds() % 3600) // 60
+            return f"{int(hours)}h {int(minutes)}m"
+        return "N/A"
+    duration_display.short_description = 'Duration'
+    
+    def calculated_fee(self, obj):
+        """Show auto-calculated fee"""
+        if obj.start_time and obj.end_time:
+            return f"₹{obj.calculate_fee():.2f}"
+        return "N/A"
+    calculated_fee.short_description = 'Auto-Calculated Fee'
+    
+    def recalculate_fees(self, request, queryset):
+        """Recalculate fees for selected sessions"""
+        count = 0
+        for session in queryset:
+            if session.start_time and session.end_time:
+                session.fee = session.calculate_fee()
+                session.save()
+                count += 1
+        self.message_user(request, f'Recalculated fees for {count} session(s).')
+    recalculate_fees.short_description = 'Recalculate fees for selected sessions'
+    
+    def mark_as_completed(self, request, queryset):
+        """Mark selected sessions as completed"""
+        updated = queryset.update(status='completed')
+        self.message_user(request, f'Marked {updated} session(s) as completed.')
+    mark_as_completed.short_description = 'Mark selected as completed'
+    
+    def export_revenue_report(self, request, queryset):
+        """Export revenue report for selected sessions"""
+        import csv
+        from django.http import HttpResponse
+        from django.utils import timezone
+        
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = f'attachment; filename="revenue_report_{timezone.now().strftime("%Y%m%d_%H%M%S")}.csv"'
+        
+        writer = csv.writer(response)
+        writer.writerow(['Session ID', 'Vehicle', 'Slot', 'Start Time', 'End Time', 'Duration (min)', 'Fee', 'Status'])
+        
+        total_revenue = 0
+        for session in queryset:
+            duration = 0
+            if session.start_time and session.end_time:
+                duration = int((session.end_time - session.start_time).total_seconds() / 60)
+            
+            writer.writerow([
+                session.session_id,
+                session.vehicle_number,
+                session.slot.slot_id,
+                session.start_time.strftime('%Y-%m-%d %H:%M') if session.start_time else '',
+                session.end_time.strftime('%Y-%m-%d %H:%M') if session.end_time else '',
+                duration,
+                f"{session.fee:.2f}" if session.fee else '0.00',
+                session.status
+            ])
+            
+            if session.fee:
+                total_revenue += session.fee
+        
+        writer.writerow([])
+        writer.writerow(['TOTAL REVENUE', '', '', '', '', '', f"{total_revenue:.2f}", ''])
+        
+        self.message_user(request, f'Exported {queryset.count()} sessions. Total Revenue: ₹{total_revenue:.2f}')
+        return response
+    export_revenue_report.short_description = 'Export revenue report (CSV)'
+    
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.select_related('slot')
 
 
 @admin.register(UserProfile)
