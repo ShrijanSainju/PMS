@@ -104,8 +104,8 @@
     .slot-option.reserved, .slot-option.occupied {
         background: #e9ecef;
         color: #6c757d;
-        cursor: not-allowed;
-        opacity: 0.6;
+        cursor: pointer !important;  /* Changed from not-allowed to pointer */
+        opacity: 0.8;  /* Changed from 0.6 to 0.8 for better visibility */
     }
 
     .slot-required-notice {
@@ -145,6 +145,51 @@
         color: #856404;
         border: 1px solid #ffeaa7;
         display: block;
+    }
+
+    /* Enhanced slot selection styling */
+    .slot-option {
+        position: relative;
+        transition: all 0.3s ease;
+    }
+
+    .slot-option.selected {
+        border: 3px solid #007bff !important;
+        box-shadow: 0 0 15px rgba(0, 123, 255, 0.5) !important;
+        transform: scale(1.05);
+    }
+
+    .slot-option.clickable {
+        cursor: pointer !important;
+    }
+
+    .slot-option.available {
+        cursor: pointer;
+    }
+
+    .slot-option.available:hover {
+        border-color: #28a745 !important;
+        background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%) !important;
+        transform: translateY(-3px);
+    }
+
+    /* Occupied slots can still be clicked for future bookings */
+    .slot-option.occupied {
+        cursor: pointer !important;
+        background: #f8d7da;
+        border-color: #f5c6cb;
+    }
+
+    .slot-option.occupied:hover {
+        border-color: #007bff !important;
+        background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%) !important;
+        transform: translateY(-3px);
+    }
+
+    .slot-option.reserved:hover {
+        border-color: #007bff !important;
+        background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%) !important;
+        transform: translateY(-3px);
     }
 
 </style>
@@ -229,7 +274,10 @@
                     <i class="fas fa-parking"></i> Select Your Parking Slot
                     <span class="badge bg-success">{{ available_slots_count }} Available</span>
                 </h5>
-                <p class="text-muted mb-3">Click on an available slot to select it for your booking</p>
+                <p class="text-muted mb-3">
+                    Click on any slot to select it for your booking. 
+                    <span class="badge bg-info">💡 Tip: Currently occupied slots can be booked for future times!</span>
+                </p>
                 
                 <div id="slotGrid" class="slot-grid">
                     <div class="text-center text-muted">
@@ -411,31 +459,83 @@ document.addEventListener('DOMContentLoaded', function() {
                 const div = document.createElement('div');
                 div.classList.add('slot-option');
                 
-                const isAvailable = !slot.is_occupied && !slot.is_reserved;
-                
-                if (slot.is_occupied) div.classList.add('occupied');
-                else if (slot.is_reserved) div.classList.add('reserved');
-                
-                var status = slot.is_occupied ? 'Occupied' : (slot.is_reserved ? 'Reserved' : 'Available');
-                div.innerHTML = '<div style="font-weight:bold;font-size:1.1rem;">' + slot.slot_id + '</div><small style="font-size:0.85rem;">' + status + '</small>';
-                
-                if (isAvailable) {
-                    div.addEventListener('click', function() {
-                        document.querySelectorAll('.slot-option').forEach(function(s) {
-                            s.classList.remove('selected');
-                        });
-                        div.classList.add('selected');
-                        if (selectedSlotInput) {
-                            selectedSlotInput.value = slot.id;
-                            console.log('Selected slot:', slot.slot_id, 'ID:', slot.id);
-                            
-                            // Check availability when slot is selected
-                            if (checkTimeout) clearTimeout(checkTimeout);
-                            checkTimeout = setTimeout(checkSlotAvailability, 300);
-                        }
-                        if (slotRequiredNotice) slotRequiredNotice.classList.remove('show');
-                    });
+                // Add status classes for visual feedback
+                if (slot.is_occupied) {
+                    div.classList.add('occupied');
+                } else if (slot.is_reserved) {
+                    div.classList.add('reserved');
+                } else {
+                    div.classList.add('available');
                 }
+                
+                // Add data attribute for slot ID
+                div.setAttribute('data-slot-id', slot.id);
+                
+                var statusText = slot.is_occupied ? 'Currently Occupied' : (slot.is_reserved ? 'Reserved' : 'Available');
+                var statusSubtext = '';
+                
+                // Show when slot will be free
+                if (slot.is_occupied && slot.estimated_free_time) {
+                    var freeTime = new Date(slot.estimated_free_time);
+                    statusSubtext = '<br><small style="color:#28a745;">Free at ' + freeTime.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'}) + '</small>';
+                } else if (slot.is_occupied) {
+                    statusSubtext = '<br><small style="color:#28a745;">Book for later</small>';
+                }
+                
+                // Show upcoming booking info
+                if (slot.upcoming_booking) {
+                    var minutesUntil = slot.upcoming_booking.minutes_until_arrival;
+                    statusSubtext += '<br><small style="color:#ff9800;">📅 Booking in ' + minutesUntil + ' min</small>';
+                }
+                
+                div.innerHTML = '<div style="font-weight:bold;font-size:1.1rem;">' + slot.slot_id + '</div>' +
+                               '<small style="font-size:0.85rem;">' + statusText + statusSubtext + '</small>';
+                
+                // ALL SLOTS ARE NOW CLICKABLE for time-based booking
+                div.style.cursor = 'pointer';
+                div.classList.add('clickable');
+                
+                div.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove selected class from all slots
+                    document.querySelectorAll('.slot-option').forEach(function(s) {
+                        s.classList.remove('selected');
+                    });
+                    
+                    // Add selected class to clicked slot
+                    div.classList.add('selected');
+                    
+                    if (selectedSlotInput) {
+                        selectedSlotInput.value = slot.id;
+                        console.log('Selected slot:', slot.slot_id, 'ID:', slot.id, 'Currently occupied:', slot.is_occupied);
+                        
+                        // Show message if slot is currently occupied
+                        if (slot.is_occupied && availabilityStatus) {
+                            var msg = '<i class="fas fa-info-circle"></i> Slot currently occupied';
+                            if (slot.estimated_free_time) {
+                                var freeTime = new Date(slot.estimated_free_time);
+                                msg += ' - expected free at ' + freeTime.toLocaleTimeString();
+                            }
+                            msg += ' - select a future date/time to check availability';
+                            availabilityStatus.className = 'availability-status checking';
+                            availabilityStatus.innerHTML = msg;
+                        }
+                        
+                        // Show message if there's an upcoming booking
+                        if (slot.upcoming_booking && availabilityStatus) {
+                            var arrivalTime = new Date(slot.upcoming_booking.scheduled_arrival);
+                            availabilityStatus.className = 'availability-status checking';
+                            availabilityStatus.innerHTML = '<i class="fas fa-calendar-alt"></i> Note: Booking arriving at ' + 
+                                arrivalTime.toLocaleTimeString() + ' (' + slot.upcoming_booking.minutes_until_arrival + ' minutes)';
+                        }
+                        
+                        // Check availability when slot is selected
+                        if (checkTimeout) clearTimeout(checkTimeout);
+                        checkTimeout = setTimeout(checkSlotAvailability, 300);
+                    }
+                    if (slotRequiredNotice) slotRequiredNotice.classList.remove('show');
+                });
                 
                 grid.appendChild(div);
             });

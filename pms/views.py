@@ -254,28 +254,34 @@ def update_slot(request):
         session = ParkingSession.objects.filter(slot=slot, status='pending').last()
         
         if session:
-            # Check if this is a booking-related session (requires dual confirmation)
+            # AUTO-ACTIVATE SESSION (same behavior for both walk-in and bookings)
+            session.status = 'active'
+            if session.start_time is None:
+                session.start_time = timezone.now()
+            session.save()
+            
+            # Update slot to occupied
+            slot.is_occupied = True
+            slot.is_reserved = False
+            slot.save()
+            
+            # If this is a booking-related session, update booking camera detection
             try:
                 booking = Booking.objects.get(parking_session=session, status='active')
-                # This is a BOOKING session - mark camera detection but DON'T auto-activate
                 if not booking.camera_detected:
                     booking.camera_detected = True
                     booking.camera_detected_at = timezone.now()
                     booking.save()
-                    logger.info(f"Camera detected vehicle for booking {booking.booking_id}. Waiting for staff confirmation.")
-                return Response({
-                    "message": f"Camera detected vehicle in slot {slot_id}. Booking requires staff confirmation.",
-                    "booking_id": booking.booking_id,
-                    "requires_confirmation": True
-                })
+                    logger.info(f"Camera detected and auto-activated session for booking {booking.booking_id}")
             except Booking.DoesNotExist:
-                # This is a WALK-IN session (assign_slot) - auto-activate as before
-                session.status = 'active'
-                if session.start_time is None:
-                    session.start_time = timezone.now()
-                session.save()
-                slot.is_reserved = False  # Clear reservation
-                logger.info(f"Auto-activated walk-in session {session.session_id} via camera detection.")
+                # This is a walk-in session (not from booking)
+                logger.info(f"Camera detected and auto-activated walk-in session {session.session_id}")
+            
+            return Response({
+                "message": f"Vehicle detected in slot {slot_id}. Session {session.session_id} auto-activated.",
+                "session_id": session.session_id,
+                "auto_activated": True
+            })
 
     # Update occupancy
     slot.is_occupied = is_occupied
@@ -478,6 +484,8 @@ def slot_status_api(request):
     
     slots = ParkingSlot.objects.all().order_by('slot_id')
     data = []
+    now = timezone.now()
+    upcoming_window = timedelta(minutes=30)  # Show bookings arriving within 30 minutes
 
     for slot in slots:
         # Check for pending/active session for this slot
@@ -485,6 +493,27 @@ def slot_status_api(request):
         session_status = session.status if session else None
         vehicle_number = session.vehicle_number if session else None
         session_start = session.start_time if session else None
+
+        # Check for upcoming bookings (arriving within 30 minutes)
+        upcoming_booking = Booking.objects.filter(
+            slot=slot,
+            status='confirmed',
+            scheduled_arrival__gte=now,
+            scheduled_arrival__lte=now + upcoming_window
+        ).order_by('scheduled_arrival').first()
+
+        # Calculate when occupied slot will be free
+        estimated_free_time = None
+        if slot.is_occupied and session and session.start_time:
+            # Try to find related booking for duration
+            related_booking = Booking.objects.filter(
+                slot=slot,
+                status='active',
+                parking_session=session
+            ).first()
+            
+            if related_booking and related_booking.expected_duration:
+                estimated_free_time = (session.start_time + timedelta(minutes=related_booking.expected_duration)).isoformat()
 
         # Try to find user information for the vehicle
         user_info = None
@@ -517,6 +546,14 @@ def slot_status_api(request):
             'vehicle_number': vehicle_number,
             'session_start': session_start.isoformat() if session_start else None,
             'timestamp': slot.timestamp.isoformat(),
+            'estimated_free_time': estimated_free_time,
+            'upcoming_booking': {
+                'booking_id': upcoming_booking.booking_id,
+                'scheduled_arrival': upcoming_booking.scheduled_arrival.isoformat(),
+                'vehicle': upcoming_booking.vehicle.plate_number if upcoming_booking.vehicle else None,
+                'customer': upcoming_booking.customer.get_full_name() or upcoming_booking.customer.username,
+                'minutes_until_arrival': int((upcoming_booking.scheduled_arrival - now).total_seconds() / 60)
+            } if upcoming_booking else None,
             'user_info': user_info,
             'vehicle_info': {
                 'make': vehicle_info.make if vehicle_info else None,
@@ -667,7 +704,7 @@ def gen_frames():
         (212, 295, 150, 59), (212, 355, 150, 59),
     ]
 
-    occupancy_threshold = 0.0199 #0.1
+    occupancy_threshold = 0.03 #0.1
     last_update = {}  # Track last update time for each slot to avoid too frequent updates
 
     while True:

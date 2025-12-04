@@ -259,19 +259,15 @@
                     <a href="{% url 'confirm_arrival' booking.id %}" class="btn btn-sm btn-primary">
                         <i class="fas fa-car-side"></i> Check-In
                     </a>
-                    {% elif booking.status == 'active' and booking.parking_session and booking.parking_session.status == 'pending' %}
-                        {% if booking.camera_detected %}
-                        <button onclick="activateBookingSession('{{ booking.parking_session.session_id }}')"
-                           class="btn btn-sm btn-success"
-                           id="activate-{{ booking.parking_session.session_id }}"
-                           title="Camera detected vehicle. Click to start session.">
-                            <i class="fas fa-check-circle"></i> Start Session (Camera Detected ✓)
-                        </button>
-                        {% else %}
-                        <button class="btn btn-sm btn-warning" disabled
-                           title="Waiting for camera to detect vehicle">
-                            <i class="fas fa-camera"></i> Waiting for Camera Detection...
-                        </button>
+                    {% elif booking.status == 'active' and booking.parking_session %}
+                        {% if booking.parking_session.status == 'pending' %}
+                            <span class="badge bg-warning">
+                                <i class="fas fa-camera"></i> Waiting for Camera Detection...
+                            </span>
+                        {% elif booking.parking_session.status == 'active' %}
+                            <span class="badge bg-success">
+                                <i class="fas fa-check-circle"></i> Session Active
+                            </span>
                         {% endif %}
                     {% endif %}
 
@@ -336,33 +332,10 @@ function activateBookingSession(sessionId) {
         method: 'POST',
         headers: {
             'X-CSRFToken': '{{ csrf_token }}',
-            'X-Requested-With': 'XMLHttpRequest',
-            'Content-Type': 'application/json'
-        },
-        credentials: 'same-origin'
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert(`✓ Session started successfully!\\n\\nVehicle: ${data.vehicle_number}\\nSlot: ${data.slot_id}\\nStart Time: ${new Date(data.start_time).toLocaleString()}\\n\\nBilling has begun.`);
-            // Reload the page to show updated status
-            window.location.reload();
-        } else if (data.requires_camera) {
-            alert('⚠️ Cannot start session yet.\\n\\nThe camera has not detected the vehicle. Please wait for camera confirmation.');
-            button.disabled = false;
-            button.innerHTML = originalHtml;
-        } else {
-            alert('Failed to activate session: ' + (data.error || data.message || 'Unknown error'));
-            button.disabled = false;
-            button.innerHTML = originalHtml;
         }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Error activating session: ' + error.message);
-        button.disabled = false;
-        button.innerHTML = originalHtml;
     });
 }
+
+// Note: activateBookingSession function removed - sessions now auto-activate via camera
 </script>
 {% endblock %}

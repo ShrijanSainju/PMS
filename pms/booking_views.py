@@ -107,24 +107,60 @@ def create_booking(request):
             try:
                 selected_slot = ParkingSlot.objects.get(id=slot_id)
                 
-                # Check if slot is currently occupied (active session)
-                if selected_slot.is_occupied:
-                    messages.error(request, f'Slot {selected_slot.slot_id} is currently occupied. Please select another slot.')
-                    return render(request, 'customer/create_booking.html', {
-                        'form': form,
-                        'user_vehicles': user_vehicles,
-                        'available_slots_count': ParkingSlot.objects.filter(is_occupied=False).count(),
-                        'settings': SystemSettings.load(),
-                    })
-                
                 # TIME-BASED CONFLICT CHECK: Check for overlapping bookings
                 # Manual check for time overlaps (more reliable than Django ORM for this case)
                 time_conflicts = []
+                
+                # Check existing bookings for conflicts
                 for booking in Booking.objects.filter(slot=selected_slot, status__in=['confirmed', 'active']):
                     booking_end = booking.scheduled_arrival + timedelta(minutes=booking.expected_duration)
                     # Check if time windows overlap
                     if not (booking_end <= scheduled_arrival or booking.scheduled_arrival >= scheduled_departure):
                         time_conflicts.append(booking)
+                
+                # Check active parking sessions for conflicts (currently parked vehicles)
+                active_session = ParkingSession.objects.filter(
+                    slot=selected_slot, 
+                    status='active'
+                ).first()
+                
+                if active_session:
+                    # Try to find related booking to get expected end time
+                    related_booking = Booking.objects.filter(
+                        slot=selected_slot,
+                        status='active',
+                        parking_session=active_session
+                    ).first()
+                    
+                    if related_booking:
+                        # Session has expected end time from booking
+                        session_end = active_session.start_time + timedelta(minutes=related_booking.expected_duration)
+                        
+                        # Check if our booking conflicts with active session
+                        if not (session_end <= scheduled_arrival or active_session.start_time >= scheduled_departure):
+                            # Conflict with active session
+                            messages.error(
+                                request,
+                                f'Slot {selected_slot.slot_id} is currently occupied until approximately '
+                                f'{session_end.strftime("%b %d, %I:%M %p")}. '
+                                f'Please schedule your booking after this time.'
+                            )
+                            return render(request, 'customer/create_booking.html', {
+                                'form': form,
+                                'user_vehicles': user_vehicles,
+                                'available_slots_count': ParkingSlot.objects.filter(is_occupied=False).count(),
+                                'settings': SystemSettings.load(),
+                            })
+                    else:
+                        # Active session without booking - warn but allow future booking
+                        # Only block if scheduled arrival is very soon (within next hour)
+                        if (scheduled_arrival - timezone.now()).total_seconds() < 3600:
+                            messages.warning(
+                                request,
+                                f'Slot {selected_slot.slot_id} is currently occupied. '
+                                f'Your booking is scheduled for {scheduled_arrival.strftime("%b %d, %I:%M %p")}. '
+                                f'The slot may not be available if the current vehicle has not left.'
+                            )
                 
                 if time_conflicts:
                     conflict = time_conflicts[0]
@@ -152,12 +188,6 @@ def create_booking(request):
                 
                 # DO NOT reserve the slot immediately - only reserve when customer arrives
                 # This allows multiple future bookings for the same slot at different times
-                
-                # Send confirmation
-                try:
-                    send_booking_confirmation(booking)
-                except Exception as e:
-                    logger.error(f"Failed to send booking confirmation: {e}")
                 
                 messages.success(request, f'Booking confirmed! Slot {selected_slot.slot_id} reserved for {booking.scheduled_arrival.strftime("%B %d, %Y at %I:%M %p")}')
                 return redirect('booking_detail', booking_id=booking.id)
@@ -221,12 +251,6 @@ def cancel_booking(request, booking_id):
                 booking.slot.is_reserved = False
                 booking.slot.save()
             
-            # Send cancellation notification
-            try:
-                send_cancellation_notification(booking)
-            except Exception as e:
-                logger.error(f"Failed to send cancellation notification: {e}")
-            
             messages.success(request, 'Booking cancelled successfully')
             
             # Redirect based on user type
@@ -279,7 +303,6 @@ def check_availability_api(request):
             return JsonResponse({'error': str(e)}, status=500)
     
     return JsonResponse({'error': 'GET method required'}, status=405)
-
 
 # Staff/Manager Views
 
@@ -435,7 +458,6 @@ def confirm_arrival(request, booking_id):
     
     return render(request, 'staff/confirm_arrival.html', {'booking': booking})
 
-
 # Helper Functions
 
 def find_available_slot_for_time(arrival_time, duration_minutes):
@@ -468,147 +490,3 @@ def find_all_available_slots_for_time(arrival_time, duration_minutes):
     )
     
     return available_slots
-
-
-def send_booking_confirmation(booking):
-    """Send email confirmation for booking"""
-    subject = f'Parking Booking Confirmed - {booking.booking_id}'
-    message = f"""
-Dear {booking.customer.get_full_name() or booking.customer.username},
-
-Your parking booking has been confirmed!
-
-Booking Details:
-- Booking ID: {booking.booking_id}
-- Vehicle: {booking.vehicle.plate_number} ({booking.vehicle.display_name})
-- Parking Slot: {booking.slot.slot_id}
-- Scheduled Arrival: {booking.scheduled_arrival.strftime('%B %d, %Y at %I:%M %p')}
-- Expected Duration: {booking.expected_duration} minutes
-- Estimated Fee: ₹{booking.estimated_fee}
-
-Important:
-- Please arrive within 30 minutes of your scheduled time
-- Your booking will expire if you don't arrive within this window
-- You can cancel up to 1 hour before your scheduled arrival
-
-Thank you for using our Parking Management System!
-
-Best regards,
-PMS Team
-    """
-    
-    try:
-        send_mail(
-            subject,
-            message,
-            settings.DEFAULT_FROM_EMAIL,
-            [booking.customer.email],
-            fail_silently=False,
-        )
-        logger.info(f"Booking confirmation sent to {booking.customer.email}")
-    except Exception as e:
-        logger.error(f"Failed to send booking confirmation email: {e}")
-        raise
-
-
-def send_cancellation_notification(booking):
-    """Send cancellation notification"""
-    subject = f'Booking Cancelled - {booking.booking_id}'
-    message = f"""
-Dear {booking.customer.get_full_name() or booking.customer.username},
-
-Your parking booking has been cancelled.
-
-Cancelled Booking:
-- Booking ID: {booking.booking_id}
-- Vehicle: {booking.vehicle.plate_number}
-- Scheduled Arrival: {booking.scheduled_arrival.strftime('%B %d, %Y at %I:%M %p')}
-
-You can make a new booking anytime.
-
-Thank you for using our Parking Management System!
-
-Best regards,
-PMS Team
-    """
-    
-    try:
-        send_mail(
-            subject,
-            message,
-            settings.DEFAULT_FROM_EMAIL,
-            [booking.customer.email],
-            fail_silently=False,
-        )
-        logger.info(f"Cancellation notification sent to {booking.customer.email}")
-    except Exception as e:
-        logger.error(f"Failed to send cancellation notification: {e}")
-
-
-def check_expired_bookings():
-    """Check and expire bookings that customer didn't show up for (run as cron job)"""
-    now = timezone.now()
-    grace_period = timedelta(minutes=30)
-    
-    expired = Booking.objects.filter(
-        status='confirmed',
-        scheduled_arrival__lt=now - grace_period,
-        actual_arrival__isnull=True
-    )
-    
-    for booking in expired:
-        booking.status = 'expired'
-        booking.save()
-        
-        # Free up the slot
-        if booking.slot:
-            booking.slot.is_reserved = False
-            booking.slot.save()
-        
-        logger.info(f"Booking {booking.booking_id} expired (no-show)")
-    
-    return expired.count()
-
-
-def send_booking_reminders():
-    """Send reminders 30 minutes before arrival (run as cron job)"""
-    now = timezone.now()
-    reminder_window_start = now + timedelta(minutes=25)
-    reminder_window_end = now + timedelta(minutes=35)
-    
-    upcoming_bookings = Booking.objects.filter(
-        status='confirmed',
-        scheduled_arrival__gte=reminder_window_start,
-        scheduled_arrival__lte=reminder_window_end
-    )
-    
-    for booking in upcoming_bookings:
-        subject = f'Reminder: Parking Booking in 30 Minutes - {booking.booking_id}'
-        message = f"""
-Dear {booking.customer.get_full_name() or booking.customer.username},
-
-This is a reminder that your parking booking is in 30 minutes:
-
-- Slot: {booking.slot.slot_id}
-- Arrival Time: {booking.scheduled_arrival.strftime('%I:%M %p')}
-- Vehicle: {booking.vehicle.plate_number}
-
-Please arrive on time to avoid cancellation.
-
-Best regards,
-PMS Team
-        """
-        
-        try:
-            send_mail(
-                subject,
-                message,
-                settings.DEFAULT_FROM_EMAIL,
-                [booking.customer.email],
-                fail_silently=True,
-            )
-            logger.info(f"Reminder sent for booking {booking.booking_id}")
-        except Exception as e:
-            logger.error(f"Failed to send reminder for booking {booking.booking_id}: {e}")
-    
-    return upcoming_bookings.count()
