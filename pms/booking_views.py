@@ -213,17 +213,53 @@ def create_booking(request):
     return render(request, 'customer/create_booking.html', context)
 
 
-@require_customer
+@require_approved_user
 def booking_detail(request, booking_id):
-    """View booking details"""
-    booking = get_object_or_404(
-        Booking,
-        id=booking_id,
-        customer=request.user
-    )
+    """View booking details - accessible by customer (own bookings) or staff/manager (any booking)"""
+    user_profile = getattr(request.user, 'userprofile', None)
+    is_staff_or_manager = user_profile and user_profile.user_type in ['staff', 'manager']
+    
+    # Staff/manager can view any booking, customers only their own
+    if is_staff_or_manager:
+        booking = get_object_or_404(Booking, id=booking_id)
+    else:
+        booking = get_object_or_404(
+            Booking,
+            id=booking_id,
+            customer=request.user
+        )
+    
+    # Calculate estimated departure time
+    estimated_departure = None
+    if booking.scheduled_arrival and booking.expected_duration:
+        estimated_departure = booking.scheduled_arrival + timedelta(minutes=booking.expected_duration)
+    
+    # Get slot information
+    slot_info = None
+    if booking.slot:
+        slot_info = {
+            'slot_id': booking.slot.slot_id,
+            'is_occupied': booking.slot.is_occupied,
+            'is_reserved': booking.slot.is_reserved,
+        }
+    
+    # Get parking session if exists
+    parking_session = booking.parking_session if hasattr(booking, 'parking_session') else None
+    
+    # Calculate actual/estimated fee
+    actual_fee = None
+    if booking.status == 'completed' and parking_session and parking_session.fee:
+        actual_fee = parking_session.fee
+    else:
+        actual_fee = booking.estimated_fee
     
     context = {
         'booking': booking,
+        'estimated_departure': estimated_departure,
+        'slot_info': slot_info,
+        'parking_session': parking_session,
+        'actual_fee': actual_fee,
+        'is_staff_or_manager': is_staff_or_manager,
     }
     
     return render(request, 'customer/booking_detail.html', context)

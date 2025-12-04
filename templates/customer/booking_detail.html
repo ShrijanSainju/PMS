@@ -181,22 +181,71 @@
             </div>
             <div class="detail-row">
                 <span class="detail-label">Expected Duration</span>
-                <span class="detail-value">{{ booking.expected_duration }} minutes</span>
+                <span class="detail-value">{{ booking.expected_duration }} minutes ({% widthratio booking.expected_duration 60 1 %} hour{% if booking.expected_duration >= 120 %}s{% endif %})</span>
             </div>
             <div class="detail-row">
                 <span class="detail-label">Estimated Departure</span>
-                <span class="detail-value">{{ booking.estimated_departure|date:"F d, Y - h:i A" }}</span>
+                <span class="detail-value">
+                    {% if estimated_departure %}
+                        {{ estimated_departure|date:"F d, Y - h:i A" }}
+                    {% else %}
+                        <span class="text-muted">Not calculated</span>
+                    {% endif %}
+                </span>
             </div>
-            {% if booking.slot %}
+            {% if booking.actual_arrival %}
             <div class="detail-row">
-                <span class="detail-label">Assigned Slot</span>
-                <span class="detail-value">Slot {{ booking.slot.slot_number }}</span>
+                <span class="detail-label">Actual Arrival</span>
+                <span class="detail-value text-success">{{ booking.actual_arrival|date:"F d, Y - h:i A" }}</span>
             </div>
             {% endif %}
+        </div>
+
+        <!-- Parking Slot Information -->
+        <div class="detail-card">
+            <h4 class="mb-3"><i class="fas fa-parking"></i> Parking Slot</h4>
+            {% if slot_info %}
+            <div class="detail-row">
+                <span class="detail-label">Slot Number</span>
+                <span class="detail-value fw-bold fs-4">{{ slot_info.slot_id }}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Current Status</span>
+                <span class="detail-value">
+                    {% if slot_info.is_occupied %}
+                        <span class="badge bg-danger">Occupied</span>
+                    {% elif slot_info.is_reserved %}
+                        <span class="badge bg-warning">Reserved</span>
+                    {% else %}
+                        <span class="badge bg-success">Available</span>
+                    {% endif %}
+                </span>
+            </div>
+            {% else %}
+            <div class="alert alert-info mb-0">
+                <i class="fas fa-info-circle"></i> Parking slot will be assigned when you check in
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Fee Information -->
+        <div class="detail-card">
+            <h4 class="mb-3"><i class="fas fa-money-bill-wave"></i> Fee Information</h4>
             <div class="detail-row">
                 <span class="detail-label">Estimated Fee</span>
-                <span class="detail-value text-success fw-bold">₹{{ booking.estimated_fee }}</span>
+                <span class="detail-value text-primary fw-bold fs-5">₹{{ booking.estimated_fee|floatformat:2 }}</span>
             </div>
+            {% if booking.status == 'completed' and actual_fee %}
+            <div class="detail-row">
+                <span class="detail-label">Actual Fee Paid</span>
+                <span class="detail-value text-success fw-bold fs-5">₹{{ actual_fee|floatformat:2 }}</span>
+            </div>
+            {% endif %}
+            {% if booking.status in 'pending,confirmed' %}
+            <div class="alert alert-info mb-0 mt-2">
+                <i class="fas fa-info-circle"></i> Final fee may vary based on actual parking duration
+            </div>
+            {% endif %}
         </div>
 
         <!-- Special Requests -->

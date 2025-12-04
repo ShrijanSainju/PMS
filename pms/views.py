@@ -694,7 +694,8 @@ def slot_status_sync_api(request):
 from django.http import StreamingHttpResponse
 
 def gen_frames():
-    cap = cv2.VideoCapture(3)  # Change to 0 for webcam 1 for droidcam 2 for droidcam2 'parking_lot.mp4' for dummy video
+    cap = cv2.VideoCapture(0
+                           )  # Change to 0 for webcam 1 for droidcam 2 for droidcam2 'parking_lot.mp4' for dummy video
 
     parking_slots = [
         (60, 0, 150, 57), (60, 56, 150, 57), (60, 115, 150, 59),
@@ -1361,6 +1362,8 @@ def unified_parking_management(request):
         all_sessions = None
         vehicle_owner = None
         vehicle_info = None
+        elapsed_time = None
+        current_price = None
 
         if request.method == 'POST' or vehicle_lookup:
             lookup_vehicle = request.POST.get('vehicle_number', vehicle_lookup)
@@ -1382,6 +1385,33 @@ def unified_parking_management(request):
                     .order_by('status_priority', '-start_time')
                     .first()
                 )
+
+                # Calculate elapsed time and price for active session
+                if session and session.status == 'active' and session.start_time:
+                    from .models import SystemSettings
+                    settings = SystemSettings.load()
+                    
+                    # Calculate elapsed time
+                    now = timezone.now()
+                    elapsed = now - session.start_time
+                    hours = int(elapsed.total_seconds() // 3600)
+                    minutes = int((elapsed.total_seconds() % 3600) // 60)
+                    elapsed_time = f"{hours}h {minutes}m" if hours > 0 else f"{minutes}m"
+                    
+                    # Calculate current price
+                    total_minutes = int(elapsed.total_seconds() / 60)
+                    current_price = float(settings.price_per_minute) * total_minutes
+                
+                elif session and session.status == 'completed':
+                    # For completed sessions, show total duration and fee
+                    if session.start_time and session.end_time:
+                        elapsed = session.end_time - session.start_time
+                        hours = int(elapsed.total_seconds() // 3600)
+                        minutes = int((elapsed.total_seconds() % 3600) // 60)
+                        elapsed_time = f"{hours}h {minutes}m" if hours > 0 else f"{minutes}m"
+                    
+                    if session.fee:
+                        current_price = float(session.fee)
 
                 # Get all sessions for history
                 all_sessions = ParkingSession.objects.filter(
@@ -1407,6 +1437,8 @@ def unified_parking_management(request):
             'lookup_all_sessions': all_sessions,
             'lookup_vehicle_owner': vehicle_owner,
             'lookup_vehicle_info': vehicle_info,
+            'lookup_elapsed_time': elapsed_time,
+            'lookup_current_price': current_price,
         })
 
     else:  # action == 'registry' (default)
