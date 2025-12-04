@@ -249,15 +249,39 @@ def update_slot(request):
     if slot.is_reserved and not is_occupied:
         return Response({"message": f"Slot {slot_id} is reserved; ignoring vacancy signal."})
 
-    # Activate session if car has arrived and slot was reserved
+    # Handle camera detection for reserved slots
     if slot.is_reserved and is_occupied:
         session = ParkingSession.objects.filter(slot=slot, status='pending').last()
+        
         if session:
+            # AUTO-ACTIVATE SESSION (same behavior for both walk-in and bookings)
             session.status = 'active'
             if session.start_time is None:
                 session.start_time = timezone.now()
             session.save()
-        slot.is_reserved = False  # Clear reservation
+            
+            # Update slot to occupied
+            slot.is_occupied = True
+            slot.is_reserved = False
+            slot.save()
+            
+            # If this is a booking-related session, update booking camera detection
+            try:
+                booking = Booking.objects.get(parking_session=session, status='active')
+                if not booking.camera_detected:
+                    booking.camera_detected = True
+                    booking.camera_detected_at = timezone.now()
+                    booking.save()
+                    logger.info(f"Camera detected and auto-activated session for booking {booking.booking_id}")
+            except Booking.DoesNotExist:
+                # This is a walk-in session (not from booking)
+                logger.info(f"Camera detected and auto-activated walk-in session {session.session_id}")
+            
+            return Response({
+                "message": f"Vehicle detected in slot {slot_id}. Session {session.session_id} auto-activated.",
+                "session_id": session.session_id,
+                "auto_activated": True
+            })
 
     # Update occupancy
     slot.is_occupied = is_occupied
@@ -460,6 +484,8 @@ def slot_status_api(request):
     
     slots = ParkingSlot.objects.all().order_by('slot_id')
     data = []
+    now = timezone.now()
+    upcoming_window = timedelta(minutes=30)  # Show bookings arriving within 30 minutes
 
     for slot in slots:
         # Check for pending/active session for this slot
@@ -467,6 +493,27 @@ def slot_status_api(request):
         session_status = session.status if session else None
         vehicle_number = session.vehicle_number if session else None
         session_start = session.start_time if session else None
+
+        # Check for upcoming bookings (arriving within 30 minutes)
+        upcoming_booking = Booking.objects.filter(
+            slot=slot,
+            status='confirmed',
+            scheduled_arrival__gte=now,
+            scheduled_arrival__lte=now + upcoming_window
+        ).order_by('scheduled_arrival').first()
+
+        # Calculate when occupied slot will be free
+        estimated_free_time = None
+        if slot.is_occupied and session and session.start_time:
+            # Try to find related booking for duration
+            related_booking = Booking.objects.filter(
+                slot=slot,
+                status='active',
+                parking_session=session
+            ).first()
+            
+            if related_booking and related_booking.expected_duration:
+                estimated_free_time = (session.start_time + timedelta(minutes=related_booking.expected_duration)).isoformat()
 
         # Try to find user information for the vehicle
         user_info = None
@@ -499,6 +546,14 @@ def slot_status_api(request):
             'vehicle_number': vehicle_number,
             'session_start': session_start.isoformat() if session_start else None,
             'timestamp': slot.timestamp.isoformat(),
+            'estimated_free_time': estimated_free_time,
+            'upcoming_booking': {
+                'booking_id': upcoming_booking.booking_id,
+                'scheduled_arrival': upcoming_booking.scheduled_arrival.isoformat(),
+                'vehicle': upcoming_booking.vehicle.plate_number if upcoming_booking.vehicle else None,
+                'customer': upcoming_booking.customer.get_full_name() or upcoming_booking.customer.username,
+                'minutes_until_arrival': int((upcoming_booking.scheduled_arrival - now).total_seconds() / 60)
+            } if upcoming_booking else None,
             'user_info': user_info,
             'vehicle_info': {
                 'make': vehicle_info.make if vehicle_info else None,
@@ -512,6 +567,78 @@ def slot_status_api(request):
         data.append(slot_data)
 
     return JsonResponse(data, safe=False)
+
+
+@login_required
+def check_slot_availability(request):
+    """API endpoint to check if a slot is available for a specific time window"""
+    if request.method != 'GET':
+        return JsonResponse({'error': 'GET method required'}, status=405)
+    
+    slot_id = request.GET.get('slot_id')
+    scheduled_arrival_str = request.GET.get('scheduled_arrival')
+    expected_duration = request.GET.get('expected_duration')
+    
+    # Validate parameters
+    if not all([slot_id, scheduled_arrival_str, expected_duration]):
+        return JsonResponse({
+            'available': False,
+            'error': 'Missing required parameters: slot_id, scheduled_arrival, expected_duration'
+        }, status=400)
+    
+    try:
+        # Parse inputs
+        slot = ParkingSlot.objects.get(id=slot_id)
+        scheduled_arrival = timezone.datetime.fromisoformat(scheduled_arrival_str.replace('Z', '+00:00'))
+        expected_duration = int(expected_duration)
+        scheduled_departure = scheduled_arrival + timedelta(minutes=expected_duration)
+        
+        # Check if slot is currently occupied (for immediate bookings)
+        if slot.is_occupied and scheduled_arrival <= timezone.now():
+            return JsonResponse({
+                'available': False,
+                'reason': 'Slot is currently occupied',
+                'slot_id': slot.slot_id
+            })
+        
+        # Check for time-based conflicts
+        time_conflicts = []
+        for booking in Booking.objects.filter(slot=slot, status__in=['confirmed', 'active']):
+            booking_end = booking.scheduled_arrival + timedelta(minutes=booking.expected_duration)
+            # Check if time windows overlap
+            if not (booking_end <= scheduled_arrival or booking.scheduled_arrival >= scheduled_departure):
+                time_conflicts.append({
+                    'booking_id': booking.id,
+                    'start': booking.scheduled_arrival.isoformat(),
+                    'end': booking_end.isoformat(),
+                    'vehicle': booking.vehicle.plate_number if booking.vehicle else None
+                })
+        
+        if time_conflicts:
+            return JsonResponse({
+                'available': False,
+                'reason': 'Time slot conflict',
+                'conflicts': time_conflicts,
+                'slot_id': slot.slot_id
+            })
+        
+        # Slot is available
+        return JsonResponse({
+            'available': True,
+            'slot_id': slot.slot_id,
+            'message': f'Slot {slot.slot_id} is available from {scheduled_arrival.strftime("%b %d, %I:%M %p")} to {scheduled_departure.strftime("%I:%M %p")}'
+        })
+        
+    except ParkingSlot.DoesNotExist:
+        return JsonResponse({
+            'available': False,
+            'error': 'Slot not found'
+        }, status=404)
+    except (ValueError, TypeError) as e:
+        return JsonResponse({
+            'available': False,
+            'error': f'Invalid parameter format: {str(e)}'
+        }, status=400)
 
 
 @require_approved_user
@@ -567,7 +694,7 @@ def slot_status_sync_api(request):
 from django.http import StreamingHttpResponse
 
 def gen_frames():
-    cap = cv2.VideoCapture('parking_lot.mp4')  # Change to 0 for webcam 1 for droidcam 2 for droidcam2 'parking_lot.mp4' for dummy video
+    cap = cv2.VideoCapture(3)  # Change to 0 for webcam 1 for droidcam 2 for droidcam2 'parking_lot.mp4' for dummy video
 
     parking_slots = [
         (60, 0, 150, 57), (60, 56, 150, 57), (60, 115, 150, 59),
@@ -577,7 +704,7 @@ def gen_frames():
         (212, 295, 150, 59), (212, 355, 150, 59),
     ]
 
-    occupancy_threshold = 0.1 #0.1
+    occupancy_threshold = 0.03 #0.1
     last_update = {}  # Track last update time for each slot to avoid too frequent updates
 
     while True:
@@ -890,6 +1017,74 @@ def end_session(request, slot_id):
         return render(request, 'staff/end_success.html', {'session': session})
     else:
         return render(request, 'staff/end_success.html', {'error': 'No active session found.'})
+
+
+@require_staff_or_manager
+def activate_pending_session(request, session_id):
+    """
+    Manually activate a pending parking session.
+    For walk-in sessions: Used when camera detection fails or for manual override.
+    For booking sessions: Provides dual confirmation (camera + staff) before activation.
+    """
+    from django.shortcuts import get_object_or_404
+    from django.http import JsonResponse
+    
+    session = get_object_or_404(ParkingSession, session_id=session_id, status='pending')
+    
+    # Check if this is a booking-related session
+    try:
+        booking = Booking.objects.get(parking_session=session, status='active')
+        # Booking session - check for dual confirmation
+        if not booking.camera_detected:
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': False,
+                    'error': 'Camera has not detected the vehicle yet. Please wait for camera confirmation.',
+                    'requires_camera': True
+                })
+            else:
+                from django.contrib import messages
+                messages.warning(request, 'Camera has not detected the vehicle yet. Please wait for camera confirmation before activating.')
+                return redirect('staff_bookings_list')
+        
+        # Camera detected AND staff confirming - activate session
+        logger.info(f"Dual confirmation completed for booking {booking.booking_id}. Activating session {session.session_id}.")
+        
+    except Booking.DoesNotExist:
+        # Walk-in session - no dual confirmation required
+        logger.info(f"Manual activation of walk-in session {session.session_id}.")
+        pass
+    
+    # Activate the session
+    session.status = 'active'
+    if session.start_time is None:
+        session.start_time = timezone.now()
+    session.save()
+    
+    # Update slot status
+    session.slot.is_reserved = False
+    session.slot.is_occupied = True
+    session.slot.save()
+    
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        # AJAX request
+        return JsonResponse({
+            'success': True,
+            'message': f'Session {session.session_id} activated successfully',
+            'session_id': session.session_id,
+            'vehicle_number': session.vehicle_number,
+            'slot_id': session.slot.slot_id,
+            'start_time': session.start_time.isoformat()
+        })
+    else:
+        # Regular request - redirect back
+        from django.contrib import messages
+        messages.success(request, f'Session {session.session_id} activated successfully!')
+        try:
+            booking = Booking.objects.get(parking_session=session)
+            return redirect('staff_bookings_list')
+        except Booking.DoesNotExist:
+            return redirect('unified-parking-management')
 
 
 @require_approved_user

@@ -51,10 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 'pms.middleware.SecurityMiddleware',  # DISABLED FOR TESTING
-    # 'pms.middleware.RequestLoggingMiddleware',  # DISABLED FOR TESTING
-    # 'pms.middleware.SessionSecurityMiddleware',  # DISABLED FOR TESTING
-    # 'pms.middleware.IPWhitelistMiddleware',  # Uncomment for IP whitelisting
+    'pms.booking_middleware.AutoReserveBookingSlotsMiddleware',  # Auto-reserve slots when booking window starts
 ]
 
 ROOT_URLCONF = 'mysite.urls'

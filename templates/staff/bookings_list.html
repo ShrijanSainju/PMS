@@ -259,6 +259,16 @@
                     <a href="{% url 'confirm_arrival' booking.id %}" class="btn btn-sm btn-primary">
                         <i class="fas fa-car-side"></i> Check-In
                     </a>
+                    {% elif booking.status == 'active' and booking.parking_session %}
+                        {% if booking.parking_session.status == 'pending' %}
+                            <span class="badge bg-warning">
+                                <i class="fas fa-camera"></i> Waiting for Camera Detection...
+                            </span>
+                        {% elif booking.parking_session.status == 'active' %}
+                            <span class="badge bg-success">
+                                <i class="fas fa-check-circle"></i> Session Active
+                            </span>
+                        {% endif %}
                     {% endif %}
 
                     {% if booking.status in 'pending,confirmed' %}
@@ -271,6 +281,14 @@
                     </form>
                     {% endif %}
                 </div>
+
+                {% if booking.camera_detected and booking.camera_detected_at %}
+                <div class="mt-2 p-2 bg-success bg-opacity-10 rounded border border-success">
+                    <small class="text-success">
+                        <i class="fas fa-video"></i> Camera detected vehicle at {{ booking.camera_detected_at|date:"h:i A" }}
+                    </small>
+                </div>
+                {% endif %}
 
                 {% if booking.notes %}
                 <div class="mt-3 p-2 bg-light rounded">
@@ -295,4 +313,29 @@
         </div>
     {% endif %}
 </div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// Activate booking session with dual confirmation (camera + staff)
+function activateBookingSession(sessionId) {
+    if (!confirm('Activate this parking session? The camera has confirmed vehicle presence.')) {
+        return;
+    }
+    
+    const button = document.getElementById('activate-' + sessionId);
+    const originalHtml = button.innerHTML;
+    button.disabled = true;
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Starting...';
+    
+    fetch(`/staff/activate-session/${sessionId}/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+        }
+    });
+}
+
+// Note: activateBookingSession function removed - sessions now auto-activate via camera
+</script>
 {% endblock %}

@@ -347,7 +347,11 @@
                                    class="btn btn-sm btn-outline-primary">
                                     <i class="fas fa-search"></i> View Sessions
                                 </a>
-                                {% if vehicle_data.current_booking %}
+                                {% if vehicle_data.current_session and vehicle_data.current_session.status == 'pending' %}
+                                <span class="badge bg-warning fs-6">
+                                    <i class="fas fa-camera"></i> Waiting for Camera Detection...
+                                </span>
+                                {% elif vehicle_data.current_booking and vehicle_data.current_booking.status == 'confirmed' and not vehicle_data.current_booking.parking_session %}
                                 <a href="{% url 'confirm_arrival' vehicle_data.current_booking.id %}"
                                    class="btn btn-sm btn-info">
                                     <i class="fas fa-check-circle"></i> Confirm Arrival
@@ -675,6 +679,7 @@
 <!-- Quick Assign Button -->
 <a href="?action=assign" class="btn btn-success quick-assign-btn">
     <i class="fas fa-plus"></i> Quick Assign
+    <img id="liveFeed" src="{% url 'video_feed' %}" class="video-feed" style="display:none;" />
 </a>
 
 <script>
@@ -795,5 +800,45 @@ startAutoRefresh();
 document.getElementById('status')?.addEventListener('change', function() {
     this.form.submit();
 });
+
+// Manual session activation function
+function activateSession(sessionId) {
+    if (!confirm('Manually activate this pending session? The camera has not detected the vehicle yet.')) {
+        return;
+    }
+    
+    const button = document.getElementById('activate-' + sessionId);
+    const originalHtml = button.innerHTML;
+    button.disabled = true;
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Activating...';
+    
+    fetch(`/staff/activate-session/${sessionId}/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+            'X-Requested-With': 'XMLHttpRequest',
+            'Content-Type': 'application/json'
+        },
+        credentials: 'same-origin'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert(`✓ Session activated successfully!\\n\\nVehicle: ${data.vehicle_number}\\nSlot: ${data.slot_id}\\nStart Time: ${new Date(data.start_time).toLocaleString()}`);
+            // Reload the page to show updated status
+            window.location.reload();
+        } else {
+            alert('Failed to activate session: ' + (data.message || 'Unknown error'));
+            button.disabled = false;
+            button.innerHTML = originalHtml;
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error activating session: ' + error.message);
+        button.disabled = false;
+        button.innerHTML = originalHtml;
+    });
+}
 </script>
 {% endblock %}

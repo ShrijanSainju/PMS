@@ -21,6 +21,7 @@ urlpatterns = [
     path('api/update-slot/', update_slot, name='api_update_slot'),
     path('api/slot-status/', views.slot_status_api, name='slot_status_api'),
     path('api/slot-status-sync/', views.slot_status_sync_api, name='slot_status_sync_api'),
+    path('api/check-slot-availability/', views.check_slot_availability, name='check_slot_availability'),
     path('api/dashboard-analytics/', views.dashboard_analytics_api, name='dashboard_analytics_api'),
     path('api/live-stats/', views.live_stats_api, name='live_stats_api'),
     path('api/auto-assign/', views.auto_assign_slot, name='auto_assign_slot'),
@@ -35,6 +36,7 @@ urlpatterns = [
     path('staff/assign/', views.unified_parking_management, name='assign-slot'),
     path('staff/end/<str:slot_id>/', views.end_session, name='end-session'),
     path('staff/end-by-vehicle/', views.end_session_by_vehicle, name='end_session_by_vehicle'),
+    path('staff/activate-session/<str:session_id>/', views.activate_pending_session, name='activate_pending_session'),
 
     # History and unified parking management
     path('history/', views.history_log, name='history-log'),

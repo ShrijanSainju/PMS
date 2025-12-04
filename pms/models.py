@@ -72,6 +72,7 @@ class ParkingSession(models.Model):
     end_time = models.DateTimeField(null=True, blank=True)
     status = models.CharField(max_length=10, choices=SESSION_STATUS, default='pending')
     fee = models.FloatField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)  # Track when session was created
 
     def __str__(self):
         return f"{self.vehicle_number} - {self.slot.slot_id} ({self.status})"
@@ -340,6 +341,10 @@ class Booking(models.Model):
     status = models.CharField(max_length=20, choices=BOOKING_STATUS, default='pending')
     parking_session = models.OneToOneField('ParkingSession', null=True, blank=True, on_delete=models.SET_NULL, related_name='booking')
     
+    # Dual confirmation fields for booking activation
+    camera_detected = models.BooleanField(default=False, help_text="Camera has detected vehicle in slot")
+    camera_detected_at = models.DateTimeField(null=True, blank=True, help_text="When camera first detected vehicle")
+    
     notes = models.TextField(blank=True, null=True, help_text="Additional notes or special requests")
     estimated_fee = models.FloatField(null=True, blank=True)
     
@@ -418,15 +423,23 @@ class Booking(models.Model):
         return "Arrived"
 
     def convert_to_session(self):
-        """Convert booking to active parking session"""
+        """
+        DEPRECATED: This method is no longer the primary way to create sessions from bookings.
+        Sessions are now created as PENDING in confirm_arrival view.
+        This method is kept for backward compatibility only.
+        
+        Convert booking to PENDING parking session (not active yet).
+        Session will auto-activate when camera detects the vehicle.
+        """
         if self.status != 'confirmed':
             return None
 
+        # Create PENDING session (matching assign_slot workflow)
         session = ParkingSession.objects.create(
             vehicle_number=self.vehicle.plate_number,
             slot=self.slot,
-            start_time=timezone.now(),
-            status='active'
+            start_time=None,    # No start time yet - camera will set this
+            status='pending'    # PENDING - waiting for camera detection
         )
 
         self.parking_session = session
@@ -434,10 +447,10 @@ class Booking(models.Model):
         self.actual_arrival = timezone.now()
         self.save()
 
-        # Update slot status
+        # RESERVE the slot (do NOT mark as occupied yet - camera will do this)
         if self.slot:
-            self.slot.is_occupied = True
-            self.slot.is_reserved = False
+            self.slot.is_reserved = True   # RESERVED
+            self.slot.is_occupied = False  # NOT occupied yet
             self.slot.save()
 
         return session
