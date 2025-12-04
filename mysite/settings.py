@@ -207,37 +207,17 @@ MAX_REQUEST_SIZE = 10 * 1024 * 1024
 #     '192.168.1.100',
 # ]
 
-# Logging Configuration
+# Logging Configuration (Console only - file logging disabled)
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {
-        'verbose': {
-            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
-            'style': '{',
-        },
         'simple': {
-            'format': '{levelname} {message}',
+            'format': '{levelname} {asctime} {module} {message}',
             'style': '{',
         },
     },
     'handlers': {
-        'file': {
-            'level': 'INFO',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': 'pms.log',
-            'maxBytes': 1024*1024*10,  # 10MB
-            'backupCount': 5,
-            'formatter': 'verbose',
-        },
-        'security_file': {
-            'level': 'WARNING',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': 'security.log',
-            'maxBytes': 1024*1024*10,  # 10MB
-            'backupCount': 10,
-            'formatter': 'verbose',
-        },
         'console': {
             'level': 'INFO',
             'class': 'logging.StreamHandler',
@@ -246,18 +226,13 @@ LOGGING = {
     },
     'loggers': {
         'django': {
-            'handlers': ['file', 'console'],
+            'handlers': ['console'],
             'level': 'INFO',
             'propagate': True,
         },
-        'pms.security': {
-            'handlers': ['security_file', 'console'],
-            'level': 'WARNING',
-            'propagate': False,
-        },
-        'pms.middleware': {
-            'handlers': ['security_file', 'console'],
-            'level': 'WARNING',
+        'pms': {
+            'handlers': ['console'],
+            'level': 'INFO',
             'propagate': False,
         },
     },
