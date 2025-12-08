@@ -1,0 +1,2941 @@
+[
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$ZdrxRIFBvwJLxqf7OqkcYR$uRa0BoxhGUGeQIKE/hFTLhG4t0uc5hSPv2kwdrNdprE=",
+    "last_login": "2025-12-04T13:29:50.195Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "admin@admin.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-11-18T06:19:51.699Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$PvO4qmSfFf614KWLZOnfTh$4pNw0u4xQxzCgpayzqt7/MSUgHtp/2I5s7IsPZeafqU=",
+    "last_login": "2025-12-04T11:35:59.344Z",
+    "is_superuser": false,
+    "username": "demo_user_1",
+    "first_name": "",
+    "last_name": "",
+    "email": "demouser1@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-11-18T06:32:38.493Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$rrEqeI91LcnPkjKQniuZSl$OV/ws1+/puRl2L5GwRTWQV/4EUKp/hFTpiO9rF00vgs=",
+    "last_login": "2025-12-03T15:06:21.101Z",
+    "is_superuser": false,
+    "username": "demo_staff_1",
+    "first_name": "",
+    "last_name": "",
+    "email": "demostaff1@gmail.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-11-18T06:33:38.547Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$7gBqoumbEdxaUHVnVClXTl$5xgbqam9uO7WoR23uELyFSoLMy7fVmli30SI/hxNAFA=",
+    "last_login": "2025-12-04T09:59:12.368Z",
+    "is_superuser": false,
+    "username": "demo_user_2",
+    "first_name": "",
+    "last_name": "",
+    "email": "demouser2@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-11-19T07:26:54.927Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$h4RwVhYH445wLkME88Clnt$mYpS8Y3iEV5FezaCM1ummHbN6XFqf1L3JmmdCQpMVzs=",
+    "last_login": "2025-11-19T07:27:59.823Z",
+    "is_superuser": false,
+    "username": "demo_staff_2",
+    "first_name": "",
+    "last_name": "",
+    "email": "demostaff2@gmail.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-11-19T07:27:58.788Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$DJftPzKxhzilyLNA5rkN0g$+Qt7cHsWBuwLvq9bfH6zvsfQ3G8ABJYuHO7RRp5PNVE=",
+    "last_login": "2025-12-01T06:04:30.518Z",
+    "is_superuser": false,
+    "username": "demo_staff_3",
+    "first_name": "",
+    "last_name": "",
+    "email": "demostaff3@gmail.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-11-19T07:36:03.507Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$Eh38nM8ZTK3Y7kcH9f2nWn$I0DopzE9IFfQn47JZTNGUlCPDwCrw4jJyUKESoJqDLE=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "demo_user_3",
+    "first_name": "demo_user_3",
+    "last_name": "emester",
+    "email": "demouser3@gmail.com",
+    "is_staff": false,
+    "is_active": false,
+    "date_joined": "2025-12-03T15:53:59.743Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$iWG4YFJqYX8WmJmPUzeDd2$NmRIgDHjibI9Z6xN8rB4WxnId3jJCAwwJzT8TSo0FiU=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "demo_staff_4",
+    "first_name": "",
+    "last_name": "",
+    "email": "demostaff4@gmail.com",
+    "is_staff": true,
+    "is_active": false,
+    "date_joined": "2025-12-03T15:54:38.411Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$GgiRjtcQNgFPxS1QsDVxeN$rX4aCX65QN7NczqsfnZqZPdEfngfL4yJoaKDh7A4vfM=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "demo_user3",
+    "first_name": "",
+    "last_name": "",
+    "email": "demouser3@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-12-03T15:55:20.006Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "pms.systemsettings",
+  "pk": 1,
+  "fields": {
+    "price_per_minute": "5.00",
+    "updated_at": "2025-11-29T17:12:37.608Z",
+    "updated_by": [
+      "admin"
+    ]
+  }
+},
+{
+  "model": "pms.parkingslot",
+  "pk": 1,
+  "fields": {
+    "slot_id": "A1",
+    "is_occupied": false,
+    "is_reserved": false,
+    "timestamp": "2025-12-04T13:30:34.275Z"
+  }
+},
+{
+  "model": "pms.parkingslot",
+  "pk": 2,
+  "fields": {
+    "slot_id": "A2",
+    "is_occupied": false,
+    "is_reserved": false,
+    "timestamp": "2025-12-04T13:01:51.151Z"
+  }
+},
+{
+  "model": "pms.parkingslot",
+  "pk": 3,
+  "fields": {
+    "slot_id": "A3",
+    "is_occupied": false,
+    "is_reserved": false,
+    "timestamp": "2025-12-04T13:00:59.513Z"
+  }
+},
+{
+  "model": "pms.parkingslot",
+  "pk": 4,
+  "fields": {
+    "slot_id": "A4",
+    "is_occupied": false,
+    "is_reserved": false,
+    "timestamp": "2025-12-04T13:01:50.634Z"
+  }
+},
+{
+  "model": "pms.parkingslot",
+  "pk": 5,
+  "fields": {
+    "slot_id": "A5",
+    "is_occupied": false,
+    "is_reserved": false,
+    "timestamp": "2025-12-04T13:10:17.569Z"
+  }
+},
+{
+  "model": "pms.parkingslot",
+  "pk": 6,
+  "fields": {
+    "slot_id": "A6",
+    "is_occupied": false,
+    "is_reserved": false,
+    "timestamp": "2025-12-04T13:36:19.380Z"
+  }
+},
+{
+  "model": "pms.parkingslot",
+  "pk": 7,
+  "fields": {
+    "slot_id": "A7",
+    "is_occupied": true,
+    "is_reserved": false,
+    "timestamp": "2025-12-04T15:58:36.659Z"
+  }
+},
+{
+  "model": "pms.parkingslot",
+  "pk": 8,
+  "fields": {
+    "slot_id": "B1",
+    "is_occupied": false,
+    "is_reserved": false,
+    "timestamp": "2025-12-04T10:51:08.527Z"
+  }
+},
+{
+  "model": "pms.parkingslot",
+  "pk": 9,
+  "fields": {
+    "slot_id": "B2",
+    "is_occupied": false,
+    "is_reserved": false,
+    "timestamp": "2025-12-04T13:21:55.580Z"
+  }
+},
+{
+  "model": "pms.parkingslot",
+  "pk": 10,
+  "fields": {
+    "slot_id": "B3",
+    "is_occupied": false,
+    "is_reserved": false,
+    "timestamp": "2025-12-04T13:01:51.485Z"
+  }
+},
+{
+  "model": "pms.parkingslot",
+  "pk": 11,
+  "fields": {
+    "slot_id": "B4",
+    "is_occupied": true,
+    "is_reserved": false,
+    "timestamp": "2025-12-04T12:59:55.548Z"
+  }
+},
+{
+  "model": "pms.parkingslot",
+  "pk": 12,
+  "fields": {
+    "slot_id": "B5",
+    "is_occupied": true,
+    "is_reserved": false,
+    "timestamp": "2025-12-04T13:01:45.493Z"
+  }
+},
+{
+  "model": "pms.parkingslot",
+  "pk": 13,
+  "fields": {
+    "slot_id": "B6",
+    "is_occupied": true,
+    "is_reserved": false,
+    "timestamp": "2025-12-04T13:01:50.974Z"
+  }
+},
+{
+  "model": "pms.parkingslot",
+  "pk": 14,
+  "fields": {
+    "slot_id": "B7",
+    "is_occupied": true,
+    "is_reserved": false,
+    "timestamp": "2025-12-04T13:35:40.266Z"
+  }
+},
+{
+  "model": "pms.parkingsession",
+  "pk": 1,
+  "fields": {
+    "session_id": "SESS-20251118-0001",
+    "vehicle_number": "789",
+    "slot": 2,
+    "start_time": "2025-11-29T16:30:44.555Z",
+    "end_time": "2025-11-29T16:45:20.897Z",
+    "status": "completed",
+    "fee": 28.0,
+    "created_at": "2025-12-03T12:30:42.308Z"
+  }
+},
+{
+  "model": "pms.parkingsession",
+  "pk": 2,
+  "fields": {
+    "session_id": "SESS-20251118-0002",
+    "vehicle_number": "N167",
+    "slot": 13,
+    "start_time": "2025-11-18T06:39:37.073Z",
+    "end_time": "2025-11-18T06:41:45.883Z",
+    "status": "completed",
+    "fee": 4.0,
+    "created_at": "2025-12-03T12:30:42.308Z"
+  }
+},
+{
+  "model": "pms.parkingsession",
+  "pk": 3,
+  "fields": {
+    "session_id": "SESS-20251130-0001",
+    "vehicle_number": "N167",
+    "slot": 1,
+    "start_time": "2025-11-30T15:31:11.848Z",
+    "end_time": "2025-11-30T15:31:32.111Z",
+    "status": "completed",
+    "fee": 0.0,
+    "created_at": "2025-12-03T12:30:42.308Z"
+  }
+},
+{
+  "model": "pms.parkingsession",
+  "pk": 4,
+  "fields": {
+    "session_id": "SESS-20251130-0002",
+    "vehicle_number": "N167",
+    "slot": 1,
+    "start_time": "2025-11-30T15:58:13.885Z",
+    "end_time": "2025-11-30T15:59:28.726Z",
+    "status": "completed",
+    "fee": 5.0,
+    "created_at": "2025-12-03T12:30:42.308Z"
+  }
+},
+{
+  "model": "pms.parkingsession",
+  "pk": 6,
+  "fields": {
+    "session_id": "SESS-20251202-0001",
+    "vehicle_number": "N167",
+    "slot": 2,
+    "start_time": "2025-12-02T07:02:10.960Z",
+    "end_time": "2025-12-02T07:05:23.192Z",
+    "status": "completed",
+    "fee": 15.0,
+    "created_at": "2025-12-03T12:30:42.308Z"
+  }
+},
+{
+  "model": "pms.parkingsession",
+  "pk": 7,
+  "fields": {
+    "session_id": "SESS-20251202-0002",
+    "vehicle_number": "789",
+    "slot": 2,
+    "start_time": "2025-12-02T07:03:47.741Z",
+    "end_time": "2025-12-02T07:05:39.066Z",
+    "status": "completed",
+    "fee": 5.0,
+    "created_at": "2025-12-03T12:30:42.308Z"
+  }
+},
+{
+  "model": "pms.parkingsession",
+  "pk": 8,
+  "fields": {
+    "session_id": "SESS-20251202-0003",
+    "vehicle_number": "12345",
+    "slot": 13,
+    "start_time": "2025-12-02T07:46:04.338Z",
+    "end_time": "2025-12-03T12:38:16.670Z",
+    "status": "completed",
+    "fee": 8660.0,
+    "created_at": "2025-12-03T12:30:42.308Z"
+  }
+},
+{
+  "model": "pms.parkingsession",
+  "pk": 9,
+  "fields": {
+    "session_id": "SESS-20251202-0004",
+    "vehicle_number": "123",
+    "slot": 2,
+    "start_time": "2025-12-03T12:46:27.299Z",
+    "end_time": "2025-12-03T12:48:41.968Z",
+    "status": "completed",
+    "fee": 10.0,
+    "created_at": "2025-12-03T12:30:42.308Z"
+  }
+},
+{
+  "model": "pms.parkingsession",
+  "pk": 10,
+  "fields": {
+    "session_id": "SESS-20251203-0001",
+    "vehicle_number": "N169",
+    "slot": 2,
+    "start_time": "2025-12-03T12:54:14.420Z",
+    "end_time": "2025-12-03T12:56:42.358Z",
+    "status": "completed",
+    "fee": 10.0,
+    "created_at": "2025-12-03T12:51:12.209Z"
+  }
+},
+{
+  "model": "pms.parkingsession",
+  "pk": 11,
+  "fields": {
+    "session_id": "SESS-20251203-0002",
+    "vehicle_number": "N169",
+    "slot": 1,
+    "start_time": "2025-12-03T14:54:43.473Z",
+    "end_time": "2025-12-03T15:04:01.368Z",
+    "status": "completed",
+    "fee": 45.0,
+    "created_at": "2025-12-03T14:51:02.857Z"
+  }
+},
+{
+  "model": "pms.parkingsession",
+  "pk": 12,
+  "fields": {
+    "session_id": "SESS-20251203-0003",
+    "vehicle_number": "N167",
+    "slot": 6,
+    "start_time": "2025-12-03T14:56:18.487Z",
+    "end_time": "2025-12-03T15:04:06.897Z",
+    "status": "completed",
+    "fee": 35.0,
+    "created_at": "2025-12-03T14:54:18.635Z"
+  }
+},
+{
+  "model": "pms.parkingsession",
+  "pk": 13,
+  "fields": {
+    "session_id": "SESS-20251203-0004",
+    "vehicle_number": "N168",
+    "slot": 1,
+    "start_time": "2025-12-03T15:07:03.828Z",
+    "end_time": "2025-12-04T09:22:39.790Z",
+    "status": "completed",
+    "fee": 5475.0,
+    "created_at": "2025-12-03T15:06:41.560Z"
+  }
+},
+{
+  "model": "pms.parkingsession",
+  "pk": 14,
+  "fields": {
+    "session_id": "SESS-20251203-0005",
+    "vehicle_number": "N167",
+    "slot": 1,
+    "start_time": "2025-12-03T15:07:31.036Z",
+    "end_time": "2025-12-04T09:22:42.198Z",
+    "status": "completed",
+    "fee": 5475.0,
+    "created_at": "2025-12-03T15:07:18.524Z"
+  }
+},
+{
+  "model": "pms.parkingsession",
+  "pk": 15,
+  "fields": {
+    "session_id": "SESS-20251204-0001",
+    "vehicle_number": "N169",
+    "slot": 6,
+    "start_time": "2025-12-04T09:44:31.215Z",
+    "end_time": "2025-12-04T11:27:24.278Z",
+    "status": "completed",
+    "fee": 510.0,
+    "created_at": "2025-12-04T09:43:44.500Z"
+  }
+},
+{
+  "model": "pms.parkingsession",
+  "pk": 16,
+  "fields": {
+    "session_id": "SESS-20251204-0002",
+    "vehicle_number": "N169",
+    "slot": 1,
+    "start_time": "2025-12-04T11:32:21.423Z",
+    "end_time": "2025-12-04T13:00:57.073Z",
+    "status": "completed",
+    "fee": 440.0,
+    "created_at": "2025-12-04T11:31:34.434Z"
+  }
+},
+{
+  "model": "pms.parkingsession",
+  "pk": 17,
+  "fields": {
+    "session_id": "SESS-20251204-0003",
+    "vehicle_number": "N167",
+    "slot": 3,
+    "start_time": "2025-12-04T13:00:42.185Z",
+    "end_time": "2025-12-04T13:00:59.506Z",
+    "status": "completed",
+    "fee": 0.0,
+    "created_at": "2025-12-04T13:00:30.067Z"
+  }
+},
+{
+  "model": "pms.parkingsession",
+  "pk": 18,
+  "fields": {
+    "session_id": "SESS-20251204-0004",
+    "vehicle_number": "1234",
+    "slot": 1,
+    "start_time": "2025-12-04T13:01:43.719Z",
+    "end_time": "2025-12-04T13:30:34.267Z",
+    "status": "completed",
+    "fee": 140.0,
+    "created_at": "2025-12-04T13:01:34.643Z"
+  }
+},
+{
+  "model": "pms.vehicle",
+  "pk": 1,
+  "fields": {
+    "owner": [
+      "demo_user_1"
+    ],
+    "plate_number": "N167",
+    "vehicle_type": "car",
+    "make": null,
+    "model": null,
+    "year": null,
+    "color": null,
+    "is_active": true,
+    "created_at": "2025-11-18T06:40:13.670Z",
+    "updated_at": "2025-11-18T06:40:13.670Z"
+  }
+},
+{
+  "model": "pms.vehicle",
+  "pk": 2,
+  "fields": {
+    "owner": [
+      "demo_user_2"
+    ],
+    "plate_number": "N168",
+    "vehicle_type": "car",
+    "make": "Toyota",
+    "model": "Civic",
+    "year": 2020,
+    "color": "Red",
+    "is_active": true,
+    "created_at": "2025-12-01T06:04:19.278Z",
+    "updated_at": "2025-12-01T06:04:19.278Z"
+  }
+},
+{
+  "model": "pms.vehicle",
+  "pk": 3,
+  "fields": {
+    "owner": [
+      "demo_user_1"
+    ],
+    "plate_number": "N169",
+    "vehicle_type": "car",
+    "make": null,
+    "model": null,
+    "year": null,
+    "color": null,
+    "is_active": true,
+    "created_at": "2025-12-02T06:50:10.755Z",
+    "updated_at": "2025-12-02T06:50:10.755Z"
+  }
+},
+{
+  "model": "pms.vehicle",
+  "pk": 4,
+  "fields": {
+    "owner": [
+      "demo_user_2"
+    ],
+    "plate_number": "N170",
+    "vehicle_type": "car",
+    "make": null,
+    "model": null,
+    "year": null,
+    "color": null,
+    "is_active": true,
+    "created_at": "2025-12-04T09:59:58.106Z",
+    "updated_at": "2025-12-04T09:59:58.106Z"
+  }
+},
+{
+  "model": "pms.userprofile",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "user_type": "manager",
+    "approval_status": "approved",
+    "approved_by": [
+      "admin"
+    ],
+    "approved_at": null,
+    "rejection_reason": "",
+    "phone_number": null,
+    "address": "",
+    "date_of_birth": null,
+    "profile_picture": "",
+    "email_verified": false,
+    "email_verification_token": null,
+    "password_reset_token": null,
+    "password_reset_expires": null,
+    "last_login_ip": "127.0.0.1",
+    "created_at": "2025-11-18T06:19:52.277Z",
+    "updated_at": "2025-12-04T13:29:50.200Z"
+  }
+},
+{
+  "model": "pms.userprofile",
+  "pk": 2,
+  "fields": {
+    "user": [
+      "demo_user_1"
+    ],
+    "user_type": "customer",
+    "approval_status": "approved",
+    "approved_by": [
+      "admin"
+    ],
+    "approved_at": "2025-11-18T06:34:13.164Z",
+    "rejection_reason": null,
+    "phone_number": null,
+    "address": null,
+    "date_of_birth": null,
+    "profile_picture": "",
+    "email_verified": false,
+    "email_verification_token": null,
+    "password_reset_token": null,
+    "password_reset_expires": null,
+    "last_login_ip": "127.0.0.1",
+    "created_at": "2025-11-18T06:32:39.649Z",
+    "updated_at": "2025-12-04T11:35:59.354Z"
+  }
+},
+{
+  "model": "pms.userprofile",
+  "pk": 3,
+  "fields": {
+    "user": [
+      "demo_staff_1"
+    ],
+    "user_type": "staff",
+    "approval_status": "approved",
+    "approved_by": [
+      "admin"
+    ],
+    "approved_at": "2025-11-18T06:34:15Z",
+    "rejection_reason": "",
+    "phone_number": null,
+    "address": "",
+    "date_of_birth": null,
+    "profile_picture": "",
+    "email_verified": false,
+    "email_verification_token": null,
+    "password_reset_token": null,
+    "password_reset_expires": null,
+    "last_login_ip": "127.0.0.1",
+    "created_at": "2025-11-18T06:33:39.457Z",
+    "updated_at": "2025-12-03T15:06:21.111Z"
+  }
+},
+{
+  "model": "pms.userprofile",
+  "pk": 4,
+  "fields": {
+    "user": [
+      "demo_user_2"
+    ],
+    "user_type": "customer",
+    "approval_status": "approved",
+    "approved_by": [
+      "admin"
+    ],
+    "approved_at": "2025-11-19T07:28:30.760Z",
+    "rejection_reason": null,
+    "phone_number": null,
+    "address": null,
+    "date_of_birth": null,
+    "profile_picture": "",
+    "email_verified": false,
+    "email_verification_token": null,
+    "password_reset_token": null,
+    "password_reset_expires": null,
+    "last_login_ip": "127.0.0.1",
+    "created_at": "2025-11-19T07:26:55.959Z",
+    "updated_at": "2025-12-04T09:59:12.385Z"
+  }
+},
+{
+  "model": "pms.userprofile",
+  "pk": 5,
+  "fields": {
+    "user": [
+      "demo_staff_2"
+    ],
+    "user_type": "staff",
+    "approval_status": "approved",
+    "approved_by": [
+      "admin"
+    ],
+    "approved_at": "2025-11-19T07:28:32Z",
+    "rejection_reason": "",
+    "phone_number": null,
+    "address": "",
+    "date_of_birth": null,
+    "profile_picture": "",
+    "email_verified": false,
+    "email_verification_token": null,
+    "password_reset_token": null,
+    "password_reset_expires": null,
+    "last_login_ip": null,
+    "created_at": "2025-11-19T07:27:59.787Z",
+    "updated_at": "2025-11-19T07:28:59.642Z"
+  }
+},
+{
+  "model": "pms.userprofile",
+  "pk": 6,
+  "fields": {
+    "user": [
+      "demo_staff_3"
+    ],
+    "user_type": "staff",
+    "approval_status": "approved",
+    "approved_by": [
+      "admin"
+    ],
+    "approved_at": null,
+    "rejection_reason": "",
+    "phone_number": null,
+    "address": "",
+    "date_of_birth": null,
+    "profile_picture": "",
+    "email_verified": false,
+    "email_verification_token": null,
+    "password_reset_token": null,
+    "password_reset_expires": null,
+    "last_login_ip": "127.0.0.1",
+    "created_at": "2025-11-19T07:36:04.615Z",
+    "updated_at": "2025-12-01T06:04:30.528Z"
+  }
+},
+{
+  "model": "pms.userprofile",
+  "pk": 7,
+  "fields": {
+    "user": [
+      "demo_user_3"
+    ],
+    "user_type": "customer",
+    "approval_status": "rejected",
+    "approved_by": [
+      "admin"
+    ],
+    "approved_at": null,
+    "rejection_reason": "",
+    "phone_number": null,
+    "address": null,
+    "date_of_birth": null,
+    "profile_picture": "",
+    "email_verified": false,
+    "email_verification_token": "dd5b6afc-17c2-44b9-8a1e-583ac7c03f3b",
+    "password_reset_token": null,
+    "password_reset_expires": null,
+    "last_login_ip": null,
+    "created_at": "2025-12-03T15:54:01.069Z",
+    "updated_at": "2025-12-03T15:56:42.292Z"
+  }
+},
+{
+  "model": "pms.userprofile",
+  "pk": 8,
+  "fields": {
+    "user": [
+      "demo_staff_4"
+    ],
+    "user_type": "staff",
+    "approval_status": "rejected",
+    "approved_by": [
+      "admin"
+    ],
+    "approved_at": null,
+    "rejection_reason": "",
+    "phone_number": null,
+    "address": null,
+    "date_of_birth": null,
+    "profile_picture": "",
+    "email_verified": false,
+    "email_verification_token": null,
+    "password_reset_token": null,
+    "password_reset_expires": null,
+    "last_login_ip": null,
+    "created_at": "2025-12-03T15:54:39.715Z",
+    "updated_at": "2025-12-03T15:56:43.804Z"
+  }
+},
+{
+  "model": "pms.userprofile",
+  "pk": 9,
+  "fields": {
+    "user": [
+      "demo_user3"
+    ],
+    "user_type": "customer",
+    "approval_status": "rejected",
+    "approved_by": [
+      "admin"
+    ],
+    "approved_at": null,
+    "rejection_reason": "",
+    "phone_number": null,
+    "address": null,
+    "date_of_birth": null,
+    "profile_picture": "",
+    "email_verified": false,
+    "email_verification_token": null,
+    "password_reset_token": null,
+    "password_reset_expires": null,
+    "last_login_ip": null,
+    "created_at": "2025-12-03T15:55:21.259Z",
+    "updated_at": "2025-12-03T15:56:45.370Z"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 5,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-18T06:21:39.734Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 6,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-18T06:34:09.118Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 7,
+  "fields": {
+    "username": "demo_user_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-18T06:39:49.121Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 8,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-18T06:40:36.234Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 9,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-18T06:56:27.319Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 10,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-19T05:46:41.265Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 11,
+  "fields": {
+    "username": "demo_user_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-19T06:13:49.414Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 12,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-19T06:41:48.519Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 13,
+  "fields": {
+    "username": "demo_user_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-19T06:57:14.848Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 14,
+  "fields": {
+    "username": "demo_user_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-19T06:58:18.285Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 15,
+  "fields": {
+    "username": "demo_staff_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-19T06:58:44.332Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 16,
+  "fields": {
+    "username": "demo_user_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-19T07:26:10.215Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 17,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-19T07:28:23.319Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 18,
+  "fields": {
+    "username": "demo_user_2",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-19T07:30:20.083Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 19,
+  "fields": {
+    "username": "demo_staff_3",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-19T07:38:45.322Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 20,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-19T07:44:08.462Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 21,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-29T05:09:58.460Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 22,
+  "fields": {
+    "username": "demo_user_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-29T05:11:13.116Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 23,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-29T14:53:28.172Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 24,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-29T15:39:34.596Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 25,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-29T15:43:50.419Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 26,
+  "fields": {
+    "username": "demo_user_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-29T16:27:26.626Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 27,
+  "fields": {
+    "username": "demo_user_1",
+    "ip_address": "127.0.0.1",
+    "success": false,
+    "timestamp": "2025-11-29T16:43:51.363Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 28,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-29T16:43:56.919Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 29,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-29T16:57:49.051Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 30,
+  "fields": {
+    "username": "demo_user_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-29T17:17:50.972Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 31,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-29T17:25:10.223Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 32,
+  "fields": {
+    "username": "demo_user_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-29T17:25:26.240Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 33,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-29T17:27:23.345Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 34,
+  "fields": {
+    "username": "demo_user_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-29T17:35:14.982Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 35,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-30T11:25:20.016Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 36,
+  "fields": {
+    "username": "demo_user_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-30T12:21:19.749Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 37,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-30T12:23:46.832Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 38,
+  "fields": {
+    "username": "demo_user_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-30T12:27:24.108Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 39,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-30T12:28:05.894Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 40,
+  "fields": {
+    "username": "demo_user_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-30T12:29:19.063Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 41,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-30T12:32:21.935Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 42,
+  "fields": {
+    "username": "demo_user_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-30T12:32:41.088Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 43,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-30T12:33:07.635Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 44,
+  "fields": {
+    "username": "demo_user_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-30T15:17:38.066Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 45,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-30T15:28:11.558Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 46,
+  "fields": {
+    "username": "demo_user_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-30T15:32:13.217Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 47,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-30T15:55:07.563Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 48,
+  "fields": {
+    "username": "demo_user_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-30T16:09:46.147Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 49,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-30T16:10:11.717Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 50,
+  "fields": {
+    "username": "demo_user_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-30T16:12:52.410Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 51,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-30T16:13:24.392Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 52,
+  "fields": {
+    "username": "demo_user_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-30T16:19:19.934Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 53,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-30T16:19:39.516Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 54,
+  "fields": {
+    "username": "demo_user_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-30T16:36:39.273Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 55,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-30T16:37:43.348Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 56,
+  "fields": {
+    "username": "demo_user_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-30T17:31:43.443Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 57,
+  "fields": {
+    "username": "demo_staff_3",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-30T17:32:37.632Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 58,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-30T17:33:21.667Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 59,
+  "fields": {
+    "username": "demo_staff_3",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-11-30T17:58:32.451Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 60,
+  "fields": {
+    "username": "demo_user_2",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-01T06:03:50.081Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 61,
+  "fields": {
+    "username": "demo_staff_3",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-01T06:04:30.533Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 62,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-02T02:05:47.194Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 63,
+  "fields": {
+    "username": "demo_user_2",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-02T02:27:30.908Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 64,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-02T03:49:43.961Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 65,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-02T04:01:50.906Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 66,
+  "fields": {
+    "username": "demo_staff_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-02T04:15:12.930Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 67,
+  "fields": {
+    "username": "demo_user_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-02T06:44:50.532Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 68,
+  "fields": {
+    "username": "demo_staff_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-02T06:46:22.486Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 69,
+  "fields": {
+    "username": "demo_user_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-02T06:49:44.954Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 70,
+  "fields": {
+    "username": "demo_staff_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-02T06:57:35.109Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 71,
+  "fields": {
+    "username": "demo_staff_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-02T07:00:32.835Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 72,
+  "fields": {
+    "username": "demo_user_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-02T07:00:59.656Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 73,
+  "fields": {
+    "username": "demo_staff_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-02T07:01:28.575Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 74,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-03T12:35:46.085Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 75,
+  "fields": {
+    "username": "demo_user_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-03T12:49:08.617Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 76,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-03T12:49:56.441Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 77,
+  "fields": {
+    "username": "demo_user_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-03T14:47:03.072Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 78,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-03T14:50:15.498Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 79,
+  "fields": {
+    "username": "demo_user_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-03T14:53:12.549Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 80,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-03T14:54:07.818Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 81,
+  "fields": {
+    "username": "demo_user_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-03T14:55:14.128Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 82,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-03T14:55:36.075Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 83,
+  "fields": {
+    "username": "demo_user_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-03T14:59:57.909Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 84,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-03T15:03:57.652Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 85,
+  "fields": {
+    "username": "demo_user_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-03T15:05:13.977Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 86,
+  "fields": {
+    "username": "demo_staff_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-03T15:06:21.115Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 87,
+  "fields": {
+    "username": "demo_user_3",
+    "ip_address": "127.0.0.1",
+    "success": false,
+    "timestamp": "2025-12-03T15:55:27.707Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 88,
+  "fields": {
+    "username": "demo_user_3",
+    "ip_address": "127.0.0.1",
+    "success": false,
+    "timestamp": "2025-12-03T15:55:54.764Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 89,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-03T15:56:30.427Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 90,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-03T16:50:10.411Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 91,
+  "fields": {
+    "username": "demo_user_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-04T09:21:13.770Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 92,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-04T09:22:35.301Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 93,
+  "fields": {
+    "username": "demo_user_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-04T09:25:19.119Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 94,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-04T09:41:46.330Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 95,
+  "fields": {
+    "username": "demo_user_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-04T09:47:18.641Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 96,
+  "fields": {
+    "username": "demo_user_2",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-04T09:49:12.153Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 97,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-04T09:56:53.238Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 98,
+  "fields": {
+    "username": "demo_user_2",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-04T09:59:12.392Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 99,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-04T10:08:21.680Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 100,
+  "fields": {
+    "username": "demo_user_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-04T11:27:09.455Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 101,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-04T11:27:18.341Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 102,
+  "fields": {
+    "username": "demo_user_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-04T11:28:56.318Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 103,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-04T11:29:34.183Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 104,
+  "fields": {
+    "username": "demo_user_1",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-04T11:35:59.363Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 105,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-04T12:59:54.062Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 106,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-04T13:02:55.315Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.loginattempt",
+  "pk": 107,
+  "fields": {
+    "username": "admin",
+    "ip_address": "127.0.0.1",
+    "success": true,
+    "timestamp": "2025-12-04T13:29:50.206Z",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+  }
+},
+{
+  "model": "pms.booking",
+  "pk": 1,
+  "fields": {
+    "booking_id": "BOOK-20251129-0001",
+    "customer": [
+      "demo_user_1"
+    ],
+    "vehicle": 1,
+    "slot": 2,
+    "booking_time": "2025-11-29T17:26:28.617Z",
+    "scheduled_arrival": "2025-11-30T17:25:00Z",
+    "expected_duration": 60,
+    "actual_arrival": null,
+    "actual_departure": null,
+    "status": "cancelled",
+    "parking_session": null,
+    "camera_detected": false,
+    "camera_detected_at": null,
+    "notes": "",
+    "estimated_fee": 300.0,
+    "created_at": "2025-11-29T17:26:28.617Z",
+    "updated_at": "2025-11-29T17:35:47.654Z"
+  }
+},
+{
+  "model": "pms.booking",
+  "pk": 2,
+  "fields": {
+    "booking_id": "BOOK-20251130-0001",
+    "customer": [
+      "demo_user_1"
+    ],
+    "vehicle": 1,
+    "slot": 2,
+    "booking_time": "2025-11-30T11:24:52.031Z",
+    "scheduled_arrival": "2025-11-30T11:25:00Z",
+    "expected_duration": 30,
+    "actual_arrival": null,
+    "actual_departure": null,
+    "status": "cancelled",
+    "parking_session": null,
+    "camera_detected": false,
+    "camera_detected_at": null,
+    "notes": "",
+    "estimated_fee": 150.0,
+    "created_at": "2025-11-30T11:24:52.031Z",
+    "updated_at": "2025-11-30T12:20:36.707Z"
+  }
+},
+{
+  "model": "pms.booking",
+  "pk": 3,
+  "fields": {
+    "booking_id": "BOOK-20251130-0002",
+    "customer": [
+      "demo_user_1"
+    ],
+    "vehicle": 1,
+    "slot": 1,
+    "booking_time": "2025-11-30T12:23:36.750Z",
+    "scheduled_arrival": "2025-11-30T12:25:00Z",
+    "expected_duration": 60,
+    "actual_arrival": null,
+    "actual_departure": null,
+    "status": "cancelled",
+    "parking_session": null,
+    "camera_detected": false,
+    "camera_detected_at": null,
+    "notes": "",
+    "estimated_fee": 300.0,
+    "created_at": "2025-11-30T12:23:36.750Z",
+    "updated_at": "2025-11-30T12:27:17.787Z"
+  }
+},
+{
+  "model": "pms.booking",
+  "pk": 4,
+  "fields": {
+    "booking_id": "BOOK-20251130-0003",
+    "customer": [
+      "demo_user_1"
+    ],
+    "vehicle": 1,
+    "slot": 1,
+    "booking_time": "2025-11-30T12:27:53.708Z",
+    "scheduled_arrival": "2025-11-30T12:29:00Z",
+    "expected_duration": 30,
+    "actual_arrival": null,
+    "actual_departure": null,
+    "status": "cancelled",
+    "parking_session": null,
+    "camera_detected": false,
+    "camera_detected_at": null,
+    "notes": "",
+    "estimated_fee": 150.0,
+    "created_at": "2025-11-30T12:27:53.708Z",
+    "updated_at": "2025-11-30T12:29:13.668Z"
+  }
+},
+{
+  "model": "pms.booking",
+  "pk": 5,
+  "fields": {
+    "booking_id": "BOOK-20251130-0004",
+    "customer": [
+      "demo_user_1"
+    ],
+    "vehicle": 1,
+    "slot": 1,
+    "booking_time": "2025-11-30T12:29:30.202Z",
+    "scheduled_arrival": "2025-11-30T12:31:00Z",
+    "expected_duration": 60,
+    "actual_arrival": null,
+    "actual_departure": null,
+    "status": "cancelled",
+    "parking_session": null,
+    "camera_detected": false,
+    "camera_detected_at": null,
+    "notes": "",
+    "estimated_fee": 300.0,
+    "created_at": "2025-11-30T12:29:30.202Z",
+    "updated_at": "2025-11-30T12:32:32.779Z"
+  }
+},
+{
+  "model": "pms.booking",
+  "pk": 6,
+  "fields": {
+    "booking_id": "BOOK-20251130-0005",
+    "customer": [
+      "demo_user_1"
+    ],
+    "vehicle": 1,
+    "slot": null,
+    "booking_time": "2025-11-30T12:32:53.273Z",
+    "scheduled_arrival": "2025-11-30T12:34:00Z",
+    "expected_duration": 30,
+    "actual_arrival": null,
+    "actual_departure": null,
+    "status": "cancelled",
+    "parking_session": null,
+    "camera_detected": false,
+    "camera_detected_at": null,
+    "notes": "",
+    "estimated_fee": 150.0,
+    "created_at": "2025-11-30T12:32:53.273Z",
+    "updated_at": "2025-11-30T15:06:50.360Z"
+  }
+},
+{
+  "model": "pms.booking",
+  "pk": 7,
+  "fields": {
+    "booking_id": "BOOK-20251130-0006",
+    "customer": [
+      "demo_user_1"
+    ],
+    "vehicle": 1,
+    "slot": 8,
+    "booking_time": "2025-11-30T15:54:47.809Z",
+    "scheduled_arrival": "2025-11-30T15:56:00Z",
+    "expected_duration": 30,
+    "actual_arrival": null,
+    "actual_departure": null,
+    "status": "cancelled",
+    "parking_session": null,
+    "camera_detected": false,
+    "camera_detected_at": null,
+    "notes": "",
+    "estimated_fee": 150.0,
+    "created_at": "2025-11-30T15:54:47.809Z",
+    "updated_at": "2025-11-30T16:07:41.589Z"
+  }
+},
+{
+  "model": "pms.booking",
+  "pk": 8,
+  "fields": {
+    "booking_id": "BOOK-20251130-0007",
+    "customer": [
+      "demo_user_1"
+    ],
+    "vehicle": 1,
+    "slot": 1,
+    "booking_time": "2025-11-30T16:10:05.906Z",
+    "scheduled_arrival": "2025-11-30T16:11:00Z",
+    "expected_duration": 30,
+    "actual_arrival": null,
+    "actual_departure": null,
+    "status": "cancelled",
+    "parking_session": null,
+    "camera_detected": false,
+    "camera_detected_at": null,
+    "notes": "",
+    "estimated_fee": 150.0,
+    "created_at": "2025-11-30T16:10:05.906Z",
+    "updated_at": "2025-11-30T16:12:46.057Z"
+  }
+},
+{
+  "model": "pms.booking",
+  "pk": 9,
+  "fields": {
+    "booking_id": "BOOK-20251130-0008",
+    "customer": [
+      "demo_user_1"
+    ],
+    "vehicle": 1,
+    "slot": 1,
+    "booking_time": "2025-11-30T16:13:12.867Z",
+    "scheduled_arrival": "2025-11-30T16:15:00Z",
+    "expected_duration": 30,
+    "actual_arrival": null,
+    "actual_departure": null,
+    "status": "cancelled",
+    "parking_session": null,
+    "camera_detected": false,
+    "camera_detected_at": null,
+    "notes": "",
+    "estimated_fee": 150.0,
+    "created_at": "2025-11-30T16:13:12.867Z",
+    "updated_at": "2025-11-30T16:19:13.730Z"
+  }
+},
+{
+  "model": "pms.booking",
+  "pk": 10,
+  "fields": {
+    "booking_id": "BOOK-20251130-0009",
+    "customer": [
+      "demo_user_1"
+    ],
+    "vehicle": 1,
+    "slot": 1,
+    "booking_time": "2025-11-30T16:19:33.705Z",
+    "scheduled_arrival": "2025-11-30T16:21:00Z",
+    "expected_duration": 30,
+    "actual_arrival": "2025-11-30T16:26:29.817Z",
+    "actual_departure": "2025-11-30T17:53:23.307Z",
+    "status": "completed",
+    "parking_session": null,
+    "camera_detected": false,
+    "camera_detected_at": null,
+    "notes": "",
+    "estimated_fee": 150.0,
+    "created_at": "2025-11-30T16:19:33.705Z",
+    "updated_at": "2025-11-30T17:53:23.307Z"
+  }
+},
+{
+  "model": "pms.booking",
+  "pk": 11,
+  "fields": {
+    "booking_id": "BOOK-20251202-0001",
+    "customer": [
+      "demo_user_1"
+    ],
+    "vehicle": 1,
+    "slot": 1,
+    "booking_time": "2025-12-02T06:46:12.520Z",
+    "scheduled_arrival": "2025-12-02T06:47:00Z",
+    "expected_duration": 30,
+    "actual_arrival": null,
+    "actual_departure": null,
+    "status": "cancelled",
+    "parking_session": null,
+    "camera_detected": false,
+    "camera_detected_at": null,
+    "notes": "",
+    "estimated_fee": 150.0,
+    "created_at": "2025-12-02T06:46:12.520Z",
+    "updated_at": "2025-12-02T06:49:23.557Z"
+  }
+},
+{
+  "model": "pms.booking",
+  "pk": 12,
+  "fields": {
+    "booking_id": "BOOK-20251202-0002",
+    "customer": [
+      "demo_user_1"
+    ],
+    "vehicle": 3,
+    "slot": 2,
+    "booking_time": "2025-12-02T06:53:49.604Z",
+    "scheduled_arrival": "2025-12-03T06:55:00Z",
+    "expected_duration": 30,
+    "actual_arrival": null,
+    "actual_departure": null,
+    "status": "cancelled",
+    "parking_session": null,
+    "camera_detected": false,
+    "camera_detected_at": null,
+    "notes": "",
+    "estimated_fee": 150.0,
+    "created_at": "2025-12-02T06:53:49.604Z",
+    "updated_at": "2025-12-02T07:00:47.373Z"
+  }
+},
+{
+  "model": "pms.booking",
+  "pk": 13,
+  "fields": {
+    "booking_id": "BOOK-20251202-0003",
+    "customer": [
+      "demo_user_1"
+    ],
+    "vehicle": 1,
+    "slot": 3,
+    "booking_time": "2025-12-02T06:54:18.309Z",
+    "scheduled_arrival": "2025-12-02T06:57:00Z",
+    "expected_duration": 30,
+    "actual_arrival": null,
+    "actual_departure": null,
+    "status": "cancelled",
+    "parking_session": null,
+    "camera_detected": false,
+    "camera_detected_at": null,
+    "notes": "",
+    "estimated_fee": 150.0,
+    "created_at": "2025-12-02T06:54:18.309Z",
+    "updated_at": "2025-12-02T07:00:52.790Z"
+  }
+},
+{
+  "model": "pms.booking",
+  "pk": 14,
+  "fields": {
+    "booking_id": "BOOK-20251202-0004",
+    "customer": [
+      "demo_user_1"
+    ],
+    "vehicle": 3,
+    "slot": 4,
+    "booking_time": "2025-12-02T06:56:21.018Z",
+    "scheduled_arrival": "2025-12-02T06:57:00Z",
+    "expected_duration": 30,
+    "actual_arrival": null,
+    "actual_departure": null,
+    "status": "cancelled",
+    "parking_session": null,
+    "camera_detected": false,
+    "camera_detected_at": null,
+    "notes": "",
+    "estimated_fee": 150.0,
+    "created_at": "2025-12-02T06:56:21.018Z",
+    "updated_at": "2025-12-02T07:00:50.089Z"
+  }
+},
+{
+  "model": "pms.booking",
+  "pk": 15,
+  "fields": {
+    "booking_id": "BOOK-20251202-0005",
+    "customer": [
+      "demo_user_1"
+    ],
+    "vehicle": 1,
+    "slot": 2,
+    "booking_time": "2025-12-02T07:01:19.509Z",
+    "scheduled_arrival": "2025-12-02T07:03:00Z",
+    "expected_duration": 30,
+    "actual_arrival": "2025-12-02T07:02:10.963Z",
+    "actual_departure": "2025-12-02T07:05:23.192Z",
+    "status": "completed",
+    "parking_session": 6,
+    "camera_detected": false,
+    "camera_detected_at": null,
+    "notes": "",
+    "estimated_fee": 150.0,
+    "created_at": "2025-12-02T07:01:19.509Z",
+    "updated_at": "2025-12-02T07:05:23.204Z"
+  }
+},
+{
+  "model": "pms.booking",
+  "pk": 16,
+  "fields": {
+    "booking_id": "BOOK-20251203-0001",
+    "customer": [
+      "demo_user_1"
+    ],
+    "vehicle": 3,
+    "slot": 2,
+    "booking_time": "2025-12-03T12:49:32.787Z",
+    "scheduled_arrival": "2025-12-03T12:51:00Z",
+    "expected_duration": 30,
+    "actual_arrival": "2025-12-03T12:51:12.214Z",
+    "actual_departure": "2025-12-03T12:56:42.358Z",
+    "status": "completed",
+    "parking_session": 10,
+    "camera_detected": true,
+    "camera_detected_at": "2025-12-03T12:53:22.651Z",
+    "notes": "",
+    "estimated_fee": 150.0,
+    "created_at": "2025-12-03T12:49:32.787Z",
+    "updated_at": "2025-12-03T12:56:42.371Z"
+  }
+},
+{
+  "model": "pms.booking",
+  "pk": 17,
+  "fields": {
+    "booking_id": "BOOK-20251203-0002",
+    "customer": [
+      "demo_user_1"
+    ],
+    "vehicle": 3,
+    "slot": 1,
+    "booking_time": "2025-12-03T14:49:21.779Z",
+    "scheduled_arrival": "2025-12-03T14:51:00Z",
+    "expected_duration": 30,
+    "actual_arrival": "2025-12-03T14:51:02.863Z",
+    "actual_departure": "2025-12-03T15:04:01.368Z",
+    "status": "completed",
+    "parking_session": 11,
+    "camera_detected": true,
+    "camera_detected_at": "2025-12-03T14:51:37.367Z",
+    "notes": "",
+    "estimated_fee": 150.0,
+    "created_at": "2025-12-03T14:49:21.780Z",
+    "updated_at": "2025-12-03T15:04:01.381Z"
+  }
+},
+{
+  "model": "pms.booking",
+  "pk": 18,
+  "fields": {
+    "booking_id": "BOOK-20251203-0003",
+    "customer": [
+      "demo_user_1"
+    ],
+    "vehicle": 1,
+    "slot": 6,
+    "booking_time": "2025-12-03T14:53:41.987Z",
+    "scheduled_arrival": "2025-12-03T14:55:00Z",
+    "expected_duration": 30,
+    "actual_arrival": "2025-12-03T14:54:18.641Z",
+    "actual_departure": "2025-12-03T15:04:06.897Z",
+    "status": "completed",
+    "parking_session": 12,
+    "camera_detected": true,
+    "camera_detected_at": "2025-12-03T14:55:03.101Z",
+    "notes": "",
+    "estimated_fee": 150.0,
+    "created_at": "2025-12-03T14:53:41.987Z",
+    "updated_at": "2025-12-03T15:04:06.907Z"
+  }
+},
+{
+  "model": "pms.booking",
+  "pk": 19,
+  "fields": {
+    "booking_id": "BOOK-20251204-0001",
+    "customer": [
+      "demo_user_1"
+    ],
+    "vehicle": 3,
+    "slot": 6,
+    "booking_time": "2025-12-04T09:41:37.103Z",
+    "scheduled_arrival": "2025-12-04T09:43:00Z",
+    "expected_duration": 60,
+    "actual_arrival": "2025-12-04T09:43:44.507Z",
+    "actual_departure": "2025-12-04T11:27:24.278Z",
+    "status": "completed",
+    "parking_session": 15,
+    "camera_detected": true,
+    "camera_detected_at": "2025-12-04T09:43:59.752Z",
+    "notes": "",
+    "estimated_fee": 300.0,
+    "created_at": "2025-12-04T09:41:37.103Z",
+    "updated_at": "2025-12-04T11:27:24.289Z"
+  }
+},
+{
+  "model": "pms.booking",
+  "pk": 20,
+  "fields": {
+    "booking_id": "BOOK-20251204-0002",
+    "customer": [
+      "demo_user_2"
+    ],
+    "vehicle": 2,
+    "slot": 6,
+    "booking_time": "2025-12-04T09:53:31.763Z",
+    "scheduled_arrival": "2025-12-05T10:50:00Z",
+    "expected_duration": 30,
+    "actual_arrival": null,
+    "actual_departure": null,
+    "status": "cancelled",
+    "parking_session": null,
+    "camera_detected": false,
+    "camera_detected_at": null,
+    "notes": "",
+    "estimated_fee": 150.0,
+    "created_at": "2025-12-04T09:53:31.763Z",
+    "updated_at": "2025-12-04T09:53:50.648Z"
+  }
+},
+{
+  "model": "pms.booking",
+  "pk": 21,
+  "fields": {
+    "booking_id": "BOOK-20251204-0003",
+    "customer": [
+      "demo_user_2"
+    ],
+    "vehicle": 2,
+    "slot": 6,
+    "booking_time": "2025-12-04T09:54:13.549Z",
+    "scheduled_arrival": "2025-12-04T10:55:00Z",
+    "expected_duration": 30,
+    "actual_arrival": null,
+    "actual_departure": null,
+    "status": "cancelled",
+    "parking_session": null,
+    "camera_detected": false,
+    "camera_detected_at": null,
+    "notes": "",
+    "estimated_fee": 150.0,
+    "created_at": "2025-12-04T09:54:13.549Z",
+    "updated_at": "2025-12-04T09:54:53.824Z"
+  }
+},
+{
+  "model": "pms.booking",
+  "pk": 22,
+  "fields": {
+    "booking_id": "BOOK-20251204-0004",
+    "customer": [
+      "demo_user_2"
+    ],
+    "vehicle": 2,
+    "slot": 6,
+    "booking_time": "2025-12-04T09:55:23.925Z",
+    "scheduled_arrival": "2025-12-04T10:55:00Z",
+    "expected_duration": 30,
+    "actual_arrival": null,
+    "actual_departure": null,
+    "status": "cancelled",
+    "parking_session": null,
+    "camera_detected": false,
+    "camera_detected_at": null,
+    "notes": "",
+    "estimated_fee": 150.0,
+    "created_at": "2025-12-04T09:55:23.925Z",
+    "updated_at": "2025-12-04T10:08:35.826Z"
+  }
+},
+{
+  "model": "pms.booking",
+  "pk": 23,
+  "fields": {
+    "booking_id": "BOOK-20251204-0005",
+    "customer": [
+      "demo_user_2"
+    ],
+    "vehicle": 4,
+    "slot": 11,
+    "booking_time": "2025-12-04T10:01:19.013Z",
+    "scheduled_arrival": "2025-12-04T11:05:00Z",
+    "expected_duration": 30,
+    "actual_arrival": null,
+    "actual_departure": null,
+    "status": "cancelled",
+    "parking_session": null,
+    "camera_detected": false,
+    "camera_detected_at": null,
+    "notes": "",
+    "estimated_fee": 150.0,
+    "created_at": "2025-12-04T10:01:19.014Z",
+    "updated_at": "2025-12-04T10:08:32.938Z"
+  }
+},
+{
+  "model": "pms.booking",
+  "pk": 24,
+  "fields": {
+    "booking_id": "BOOK-20251204-0006",
+    "customer": [
+      "demo_user_1"
+    ],
+    "vehicle": 3,
+    "slot": 1,
+    "booking_time": "2025-12-04T11:29:25.997Z",
+    "scheduled_arrival": "2025-12-04T11:31:00Z",
+    "expected_duration": 30,
+    "actual_arrival": "2025-12-04T11:31:34.440Z",
+    "actual_departure": "2025-12-04T13:00:57.073Z",
+    "status": "completed",
+    "parking_session": 16,
+    "camera_detected": true,
+    "camera_detected_at": "2025-12-04T11:32:21.431Z",
+    "notes": "",
+    "estimated_fee": 150.0,
+    "created_at": "2025-12-04T11:29:25.998Z",
+    "updated_at": "2025-12-04T13:00:57.087Z"
+  }
+},
+{
+  "model": "pms.booking",
+  "pk": 25,
+  "fields": {
+    "booking_id": "BOOK-20251204-0007",
+    "customer": [
+      "demo_user_1"
+    ],
+    "vehicle": 1,
+    "slot": 3,
+    "booking_time": "2025-12-04T12:54:40.450Z",
+    "scheduled_arrival": "2025-12-04T13:00:00Z",
+    "expected_duration": 30,
+    "actual_arrival": "2025-12-04T13:00:30.074Z",
+    "actual_departure": "2025-12-04T13:00:59.506Z",
+    "status": "completed",
+    "parking_session": 17,
+    "camera_detected": true,
+    "camera_detected_at": "2025-12-04T13:00:42.193Z",
+    "notes": "",
+    "estimated_fee": 150.0,
+    "created_at": "2025-12-04T12:54:40.450Z",
+    "updated_at": "2025-12-04T13:00:59.525Z"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 1,
+  "fields": {
+    "action_time": "2025-11-18T06:20:45.402Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "pms",
+      "userprofile"
+    ],
+    "object_id": "1",
+    "object_repr": "admin - manager (approved)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"User type\", \"Approval status\", \"Approved by\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 2,
+  "fields": {
+    "action_time": "2025-11-18T06:25:40.968Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "pms",
+      "loginattempt"
+    ],
+    "object_id": "4",
+    "object_repr": "admin - Failed - 2025-11-18 06:16:44.871226+00:00",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 3,
+  "fields": {
+    "action_time": "2025-11-18T06:25:40.968Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "pms",
+      "loginattempt"
+    ],
+    "object_id": "3",
+    "object_repr": "admin - Failed - 2025-11-18 06:16:33.328489+00:00",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 4,
+  "fields": {
+    "action_time": "2025-11-18T06:25:40.968Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "pms",
+      "loginattempt"
+    ],
+    "object_id": "2",
+    "object_repr": "admin - Failed - 2025-11-18 06:16:21.329762+00:00",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 5,
+  "fields": {
+    "action_time": "2025-11-18T06:25:40.968Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "pms",
+      "loginattempt"
+    ],
+    "object_id": "1",
+    "object_repr": "demo_staff_1 - Failed - 2025-11-18 06:16:15.183207+00:00",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 6,
+  "fields": {
+    "action_time": "2025-11-18T06:57:14.087Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "pms",
+      "userprofile"
+    ],
+    "object_id": "3",
+    "object_repr": "demo_staff_1 - staff (approved)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"User type\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 7,
+  "fields": {
+    "action_time": "2025-11-19T07:28:59.645Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "pms",
+      "userprofile"
+    ],
+    "object_id": "5",
+    "object_repr": "demo_staff_2 - staff (approved)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"User type\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 8,
+  "fields": {
+    "action_time": "2025-11-29T16:44:38.978Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "pms",
+      "userprofile"
+    ],
+    "object_id": "6",
+    "object_repr": "demo_staff_3 - staff (approved)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Approved by\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 9,
+  "fields": {
+    "action_time": "2025-11-29T17:12:24.752Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "pms",
+      "systemsettings"
+    ],
+    "object_id": "1",
+    "object_repr": "System Settings - Rs. 5.00/min",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Price per minute\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 10,
+  "fields": {
+    "action_time": "2025-11-29T17:12:37.610Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "pms",
+      "systemsettings"
+    ],
+    "object_id": "1",
+    "object_repr": "System Settings - Rs. 5.00/min",
+    "action_flag": 2,
+    "change_message": "[]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 11,
+  "fields": {
+    "action_time": "2025-11-30T17:29:50.434Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "pms",
+      "parkingslot"
+    ],
+    "object_id": "21",
+    "object_repr": "P07 - Empty",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 12,
+  "fields": {
+    "action_time": "2025-11-30T17:29:50.434Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "pms",
+      "parkingslot"
+    ],
+    "object_id": "20",
+    "object_repr": "P06 - Empty",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 13,
+  "fields": {
+    "action_time": "2025-11-30T17:29:50.434Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "pms",
+      "parkingslot"
+    ],
+    "object_id": "19",
+    "object_repr": "P05 - Empty",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 14,
+  "fields": {
+    "action_time": "2025-11-30T17:29:50.434Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "pms",
+      "parkingslot"
+    ],
+    "object_id": "18",
+    "object_repr": "P04 - Empty",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 15,
+  "fields": {
+    "action_time": "2025-11-30T17:29:50.434Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "pms",
+      "parkingslot"
+    ],
+    "object_id": "17",
+    "object_repr": "P03 - Empty",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 16,
+  "fields": {
+    "action_time": "2025-11-30T17:29:50.434Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "pms",
+      "parkingslot"
+    ],
+    "object_id": "16",
+    "object_repr": "P02 - Empty",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 17,
+  "fields": {
+    "action_time": "2025-11-30T17:29:50.434Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "pms",
+      "parkingslot"
+    ],
+    "object_id": "15",
+    "object_repr": "P01 - Empty",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 18,
+  "fields": {
+    "action_time": "2025-11-30T17:39:21.645Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "pms",
+      "parkingsession"
+    ],
+    "object_id": "5",
+    "object_repr": "N167 - A1 (completed)",
+    "action_flag": 3,
+    "change_message": ""
+  }
+}
+]
